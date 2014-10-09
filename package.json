@@ -1,5 +1,5 @@
 {
-  "name": "Plop",
+  "name": "plop",
   "version": "0.1.0",
   "description": "Micro-generator script for doing project specific scaffolding of code structures",
   "main": "plop.js",
