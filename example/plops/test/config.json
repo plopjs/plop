@@ -1,0 +1,16 @@
+{
+	"modify": {
+
+	},
+	"prompts": {
+		"name": {
+			"description": "What is your name?",
+			"message": "Name is required"
+		},
+		"age": {
+			"description": "How old are you?",
+			"pattern": "[0-9]+",
+			"message": "Age must be a number."
+		}
+	}
+}
