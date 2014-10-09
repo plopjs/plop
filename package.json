@@ -1,6 +1,6 @@
 {
   "name": "plop",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Micro-generator script for doing project specific scaffolding of code structures",
   "main": "plop.js",
   "repository": {
@@ -31,5 +31,9 @@
     "prompt": "^0.2.14",
     "q": "~1.0.1",
     "resolve": "^1.0.0"
+  },
+  "preferGlobal": "true",
+  "bin": {
+    "plop" : "plop.js"
   }
 }
