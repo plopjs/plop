@@ -6,6 +6,7 @@ module.exports = (function () {
 
 	var basePath = '',
 		plopFolderName = 'plops',
+		plopConfigFileName = 'plop.json',
 		helpers = {
 			camelCase: changeCase.camel,
 			snakeCase: changeCase.snake,
@@ -18,8 +19,12 @@ module.exports = (function () {
 
 	function addHelper(name, fn) { helpers[name] = fn; }
 	function setBasePath(p) { basePath = p; }
+	function getBasePath() { return basePath; }
 	function setPlopFolder(pf) { plopFolderName = pf; }
 	function getPlopFolder() { return plopFolderName; }
+
+	function setPlopConfigFile(filename) { plopConfigFileName = filename; }
+	function getPlopConfigFile(filename) { return plopConfigFileName; }
 
 	function getPlopFolderPath() { return path.join(basePath, plopFolderName); }
 
@@ -39,8 +44,11 @@ module.exports = (function () {
 		renderString: renderString,
 		helpers: helpers,
 		setBasePath: setBasePath,
+		getBasePath: getBasePath,
 		setPlopFolder: setPlopFolder,
 		getPlopFolder: getPlopFolder,
+		getPlopConfigFile: getPlopConfigFile,
+		setPlopConfigFile: setPlopConfigFile,
 		getPlopFolderPath: getPlopFolderPath,
 		addHelper: addHelper
 	};

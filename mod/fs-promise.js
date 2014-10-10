@@ -21,6 +21,22 @@ module.exports = (function () {
 		return writeFile(path, data, 'utf8');
 	}
 
+	function fileExists(path) {
+		var _d = q.defer();
+
+		console.log(' => exists', path); // REMOVE ME
+		fs.exists(path, function (exists) {
+			console.log(' => fileExists', path, exists); // REMOVE ME
+			if (exists) {
+				_d.resolve(path);
+			} else {
+				_d.reject(path);
+			}
+		});
+
+		return _d.promise;
+	}
+
 	function getJson(path) {
 		return getFile(path).then(function (data) {
 			return JSON.parse(data);
@@ -96,6 +112,7 @@ module.exports = (function () {
 	return {
 		readFile: getFile,
 		writeFile: setFile,
+		fileExists: fileExists,
 		json: getJson,
 		folderList: getFolderList,
 		makeDir: setDir,

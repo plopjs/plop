@@ -10,9 +10,12 @@ module.exports = (function () {
 		fs = require('./fs-promise');
 
 	var genName = '',
+		basePath = '',
 		genPath = '',
 		plopFolderName = '',
-		config = {};
+		plopConfigFileName = '',
+		config = {},
+		sl = '[\\\\/]{1,2}'; // regex slash char
 
 	function getPlopData(gName) {
 		var _d = q.defer(),
@@ -20,8 +23,10 @@ module.exports = (function () {
 
 		genName = gName;
 		genPath = path.join(plop.getPlopFolderPath(), gName);
+		basePath = plop.getBasePath();
 		plopFolderName = plop.getPlopFolder();
-		configPath = path.join(genPath, 'config.json');
+		plopConfigFileName = plop.getPlopConfigFile();
+		configPath = path.join(genPath, plopConfigFileName);
 		
 		fs.json(configPath)
 			.then(function (cfg) {
@@ -52,21 +57,25 @@ module.exports = (function () {
 	function executePlop(data) {
 		var _d = q.defer(),
 			newFiles = [],
+			changedFiles = [],
+			changesFailed = [],
 			progress;
 
 		fs.fileListRecusive(genPath)
 			.then(function (list) {
 				// remove the config file from the list of files to create
 				list = list.filter(function (v, i , a) {
-					return !(new RegExp('[\\\\/]{1,2}' + plopFolderName + '[\\\\/]{1,2}' + genName + '[\\\\/]{1,2}config.json')).test(v);
+					var rx = sl + plopFolderName + sl + genName + sl + plopConfigFileName;
+					return !(new RegExp(rx)).test(v);
 				});
 
 				// keep track of how many files we need to process
 				// so we know when everything is complete
 				progress = list.length;
 				list.forEach(function (filePath) {
+					var rx = new RegExp(sl + plopFolderName + sl + genName + '(' + sl + ')', 'gi');
 					// copy the filePath and remove the generator folder
-					var newFilePath = filePath.replace(new RegExp('[\\\\/]{1}' + plopFolderName + '[\\\\/]{1}' + genName + '([\\\\/]{1})', 'gi'), '$1');
+					var newFilePath = filePath.replace(rx, '$1');
 					// escape bad handlebar stuff in path
 					newFilePath = newFilePath.replace(/\\{{/g, '\\\\{{');
 					// render the template for the filename
@@ -86,8 +95,60 @@ module.exports = (function () {
 				});
 				
 				_d.resolve(list);
-			});
-			// .then();
+			})
+			.then(function () {
+				var _d = q.defer(),
+					fileName, filePath;
+				console.log(' => modify!', config.modify); // REMOVE ME
+
+				if (!config.modify) { _d.resolve(); }
+				progress = Object.keys(config.modify).length;
+				for (fileName in config.modify) {
+					console.log(' => fileName', fileName, config.modify.hasOwnProperty(fileName)); // REMOVE ME
+					if (!config.modify.hasOwnProperty(fileName)) { continue; }
+					filePath = path.join(basePath, fileName);
+					console.log(' => filePath', filePath); // REMOVE ME
+					fs.fileExists(filePath)
+						.then(fs.readFile)
+						.then(function (fileData) {
+							var i = 0,
+								len = config.modify[fileName].length,
+								newFileData = fileData,
+								action;
+
+							for (; i < len; i++) {
+								action = config.modify[fileName][i];
+
+								if (!action.pattern) { continue; }
+								if (action.append) {
+									console.log(' => append ', action.pattern); // REMOVE ME
+									newFileData = newFileData.replace(new RegExp('(' + action.pattern + ')', 'gi'), '$1' + plop.renderString(action.append, data));
+								}
+								if (action.prepend) {
+									console.log(' => prepend ', action.pattern); // REMOVE ME
+									newFileData = newFileData.replace(new RegExp('(' + action.pattern + ')', 'gi'), plop.renderString(action.prepend, data) + '$1');
+								}
+								if (action.replace) {
+									console.log(' => replace ', action.pattern); // REMOVE ME
+									newFileData = newFileData.replace(new RegExp(action.pattern, 'gi'), plop.renderString(action.replace, data));
+								}
+							}
+
+							changedFiles.push(path);
+							if (!--progress) { _d.resolve(); }
+
+							console.log(' => writing file ', filePath, newFileData); // REMOVE ME
+							return fs.writeFile(filePath, newFileData);
+						})
+						.fail(function () {
+							changesFailed.push(filePath);
+							if (!--progress) { _d.resolve(); }
+						});
+				}
+
+				return _d.promise;
+			})
+			.fail(_d.reject);
 
 		return _d.promise;
 	}
