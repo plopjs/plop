@@ -24,9 +24,7 @@ module.exports = (function () {
 	function fileExists(path) {
 		var _d = q.defer();
 
-		console.log(' => exists', path); // REMOVE ME
 		fs.exists(path, function (exists) {
-			console.log(' => fileExists', path, exists); // REMOVE ME
 			if (exists) {
 				_d.resolve(path);
 			} else {

@@ -2,9 +2,7 @@ the modify option in the test plop should add lines below for each run.
 Use modify for things like adding script references to an HTML file.
 
 -- APPEND ITEMS HERE --
-andrew worcester: 32
 
 +++++++++++++++++++++++++++++++++++++++
 
-this is prepended! andrew-worcester: 32
 -- PREPEND ITEMS HERE --

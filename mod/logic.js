@@ -99,15 +99,13 @@ module.exports = (function () {
 			.then(function () {
 				var _d = q.defer(),
 					fileName, filePath;
-				console.log(' => modify!', config.modify); // REMOVE ME
 
 				if (!config.modify) { _d.resolve(); }
 				progress = Object.keys(config.modify).length;
 				for (fileName in config.modify) {
-					console.log(' => fileName', fileName, config.modify.hasOwnProperty(fileName)); // REMOVE ME
+
 					if (!config.modify.hasOwnProperty(fileName)) { continue; }
 					filePath = path.join(basePath, fileName);
-					console.log(' => filePath', filePath); // REMOVE ME
 					fs.fileExists(filePath)
 						.then(fs.readFile)
 						.then(function (fileData) {
@@ -121,15 +119,12 @@ module.exports = (function () {
 
 								if (!action.pattern) { continue; }
 								if (action.append) {
-									console.log(' => append ', action.pattern); // REMOVE ME
 									newFileData = newFileData.replace(new RegExp('(' + action.pattern + ')', 'gi'), '$1' + plop.renderString(action.append, data));
 								}
 								if (action.prepend) {
-									console.log(' => prepend ', action.pattern); // REMOVE ME
 									newFileData = newFileData.replace(new RegExp('(' + action.pattern + ')', 'gi'), plop.renderString(action.prepend, data) + '$1');
 								}
 								if (action.replace) {
-									console.log(' => replace ', action.pattern); // REMOVE ME
 									newFileData = newFileData.replace(new RegExp(action.pattern, 'gi'), plop.renderString(action.replace, data));
 								}
 							}
@@ -137,7 +132,6 @@ module.exports = (function () {
 							changedFiles.push(path);
 							if (!--progress) { _d.resolve(); }
 
-							console.log(' => writing file ', filePath, newFileData); // REMOVE ME
 							return fs.writeFile(filePath, newFileData);
 						})
 						.fail(function () {
