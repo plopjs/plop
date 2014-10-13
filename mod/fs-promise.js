@@ -24,19 +24,14 @@ module.exports = (function () {
 	function fileExists(path) {
 		var _d = q.defer();
 
-		fs.exists(path, function (exists) {
-			if (exists) {
-				_d.resolve(path);
-			} else {
-				_d.reject(path);
-			}
-		});
+		fs.exists(path, _d.resolve);
 
 		return _d.promise;
 	}
 
 	function getJson(path) {
 		return getFile(path).then(function (data) {
+			console.log(' => data', data); // REMOVE ME
 			return JSON.parse(data);
 		});
 	}

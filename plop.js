@@ -4,34 +4,38 @@ var path = require('path'),
 	findup = require('findup-sync');
 
 var plop = require('./mod/plop-base'),
-	out = require('./mod/console-out'),
 	logic = require('./mod/logic'),
-	fs = require('./mod/fs-promise'),
 	args = process.argv.slice(2),
 	generator = args.length && args.shift() || '';
 
 function run(plopfilePath) {
+	var generators;
 	
 	// set the default base path to the plopfile directory
-	plop.setBasePath(path.dirname(plopfilePath));
+	plop.setPlopfilePath(path.dirname(plopfilePath));
 
 	// run the plopfile against the plop object
 	require(plopfilePath)(plop);
 
-	fs.folderList(plop.getPlopFolderPath())
-		.then(function (plopList) {
-			if (!generator || plopList.indexOf(generator) === -1) {
-				return out.listOptions(plopList);
-			} else {
-				return generator;
-			}
-		})
-		.then(logic.getPlopData)
-		.then(logic.executePlop)
-		.fail(function (err) {
-			console.error(err);
-			process.exit(1);
-		});
+	generators = plop.getGeneratorList();
+	if (generators.indexOf(generator) > -1) {
+		logic.getPlopData(generator)
+			.then(logic.executePlop)
+			.then(function (result) {
+				result.changes.forEach(function(line) {
+					console.log('SUCCESS'.green + ':', line.type, line.path);
+				});
+				result.failures.forEach(function(line) {
+					console.log('FAILED'.red + ':', line.type, line.path, line.error);
+				});
+			})
+			.fail(function (err) {
+				console.error('ERROR', err.message, err.stack);
+				process.exit(1);
+			});
+	} else {
+		throw Error('Generator ' + generator + ' not found in plopfile');
+	}	
 }
 
 // locate the plopfile
@@ -39,6 +43,6 @@ try {
 	var plopfilePath = findup('plopfile.js', {nocase: true});
 	run(plopfilePath);
 } catch (e) {
-	console.log(e.message);
+	console.log('CAUGHT!', e.message);
 	process.exit(1);
 }

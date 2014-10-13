@@ -1,12 +1,14 @@
 module.exports = (function () {
 	'use strict';
 	var changeCase = require('change-case'),
-		path = require('path'),
+		// path = require('path'),
 		handlebars = require('handlebars');
 
-	var basePath = '',
-		plopFolderName = 'plops',
-		plopConfigFileName = 'plop.json',
+	// var basePath = '',
+	// 	plopFolderName = 'plops',
+	// 	plopConfigFileName = 'plop.json',
+	var plopfilePath = '',
+		generators = {},
 		helpers = {
 			camelCase: changeCase.camel,
 			snakeCase: changeCase.snake,
@@ -18,15 +20,24 @@ module.exports = (function () {
 
 
 	function addHelper(name, fn) { helpers[name] = fn; }
-	function setBasePath(p) { basePath = p; }
-	function getBasePath() { return basePath; }
-	function setPlopFolder(pf) { plopFolderName = pf; }
-	function getPlopFolder() { return plopFolderName; }
 
-	function setPlopConfigFile(filename) { plopConfigFileName = filename; }
-	function getPlopConfigFile(filename) { return plopConfigFileName; }
+	function setGenerator(name, config) { generators[name] = config; }
+	function getGenerator(name) { return generators[name]; }
+	
+	function setPlopfilePath(path) { plopfilePath = path; }
+	function getPlopfilePath() { return plopfilePath; }
 
-	function getPlopFolderPath() { return path.join(basePath, plopFolderName); }
+	function getGeneratorList() { return Object.keys(generators); }
+	// function setBasePath(p) { basePath = p; }
+	// function getBasePath() { return basePath; }
+
+	// function setPlopFolder(pf) { plopFolderName = pf; }
+	// function getPlopFolder() { return plopFolderName; }
+
+	// function setPlopConfigFile(filename) { plopConfigFileName = filename; }
+	// function getPlopConfigFile(filename) { return plopConfigFileName; }
+
+	// function getPlopFolderPath() { return path.join(basePath, plopFolderName); }
 
 	function renderString(template, data) {
 		var t = template,
@@ -41,15 +52,14 @@ module.exports = (function () {
 	}
 
 	return {
+		addHelper: addHelper,
 		renderString: renderString,
-		helpers: helpers,
-		setBasePath: setBasePath,
-		getBasePath: getBasePath,
-		setPlopFolder: setPlopFolder,
-		getPlopFolder: getPlopFolder,
-		getPlopConfigFile: getPlopConfigFile,
-		setPlopConfigFile: setPlopConfigFile,
-		getPlopFolderPath: getPlopFolderPath,
-		addHelper: addHelper
+		
+		setGenerator: setGenerator,
+		getGenerator: getGenerator,
+		getGeneratorList: getGeneratorList,
+
+		setPlopfilePath: setPlopfilePath,
+		getPlopfilePath: getPlopfilePath
 	};
 })();
