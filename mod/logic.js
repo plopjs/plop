@@ -3,16 +3,19 @@ module.exports = (function () {
 
 	var prompt = require('prompt'),
 		q = require('q'),
+		path = require('path'),
 		colors = require('colors');
 
 	var plop = require('./plop-base'),
 		fs = require('./fs-promise');
 
 	var genName = '',
+		basePath = '',
 		config = {};
 
 	function getPlopData(gName) {
 		genName = gName;
+		basePath = plop.getPlopfilePath();
 		config = plop.getGenerator(gName);
 
 		var _d = q.defer(),
@@ -26,6 +29,10 @@ module.exports = (function () {
 		});
 
 		return _d.promise;
+	}
+
+	function makePath(p) {
+		return path.join(basePath, p);
 	}
 
 	function executePlop(data) {
@@ -42,13 +49,13 @@ module.exports = (function () {
 				var _d = q.defer(),
 					_chain = _d.promise,
 					template = action.template || '',
-					filePath = plop.renderString(action.path || '', data);
+					filePath = makePath(plop.renderString(action.path || '', data));
 				
 				_chain = _chain.then(function () {
 					if (template) {
 						return template;
 					} else if(action.templateFile) {
-						return fs.readFile(action.templateFile);
+						return fs.readFile(makePath(action.templateFile));
 					} else {
 						throw Error('No valid template found for action #' + (idx + 1));
 					}

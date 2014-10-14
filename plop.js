@@ -5,6 +5,7 @@ var path = require('path'),
 
 var plop = require('./mod/plop-base'),
 	logic = require('./mod/logic'),
+	out = require('./mod/console-out'),
 	args = process.argv.slice(2),
 	generator = args.length && args.shift() || '';
 
@@ -18,6 +19,7 @@ function run(plopfilePath) {
 	require(plopfilePath)(plop);
 
 	generators = plop.getGeneratorList();
+	if (!generator) { out.listOptions(generators); }
 	if (generators.indexOf(generator) > -1) {
 		logic.getPlopData(generator)
 			.then(logic.executePlop)
@@ -41,8 +43,12 @@ function run(plopfilePath) {
 // locate the plopfile
 try {
 	var plopfilePath = findup('plopfile.js', {nocase: true});
-	run(plopfilePath);
+	if (plopfilePath) {
+		run(plopfilePath);
+	} else {
+		throw Error('No plopfile found.');
+	}
 } catch (e) {
-	console.log('CAUGHT!', e.message);
+	console.error(e.message);
 	process.exit(1);
 }

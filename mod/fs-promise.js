@@ -3,13 +3,11 @@ module.exports = (function () {
 
 	var q = require('q'),
 		fs = require('fs'),
-		mkdirp = require('mkdirp'),
 		path = require('path');
 
 	var readFile = q.denodeify(fs.readFile),
 		writeFile = q.denodeify(fs.writeFile),
 		readDir = q.denodeify(fs.readdir),
-		makeDir = q.denodeify(mkdirp),
 		stat = q.denodeify(fs.stat);
 
 
@@ -31,13 +29,8 @@ module.exports = (function () {
 
 	function getJson(path) {
 		return getFile(path).then(function (data) {
-			console.log(' => data', data); // REMOVE ME
 			return JSON.parse(data);
 		});
-	}
-
-	function setDir(dir) {
-		return makeDir(dir).then(function () { return dir; });
 	}
 
 	function getFolderList(dir) {
@@ -108,7 +101,6 @@ module.exports = (function () {
 		fileExists: fileExists,
 		json: getJson,
 		folderList: getFolderList,
-		makeDir: setDir,
 		fileListRecusive: fileListRecusive
 	};
 })();
