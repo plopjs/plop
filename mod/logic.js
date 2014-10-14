@@ -68,7 +68,10 @@ module.exports = (function () {
 							if (pathExists) {
 								throw Error('File already exists: ' + filePath);
 							}
-							return fs.writeFile(filePath, plop.renderString(template, data));
+							return fs.makeDir(path.dirname(filePath))
+								.then(function () {
+									return fs.writeFile(filePath, plop.renderString(template, data));
+								});
 						} else if (action.type === 'modify') {
 							return fs.readFile(filePath)
 								.then(function (fileData) {

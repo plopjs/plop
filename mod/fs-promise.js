@@ -3,10 +3,12 @@ module.exports = (function () {
 
 	var q = require('q'),
 		fs = require('fs'),
+		mkdirp = require('mkdirp'),
 		path = require('path');
 
 	var readFile = q.denodeify(fs.readFile),
 		writeFile = q.denodeify(fs.writeFile),
+		makeDir = q.denodeify(mkdirp),
 		readDir = q.denodeify(fs.readdir),
 		stat = q.denodeify(fs.stat);
 
@@ -101,6 +103,7 @@ module.exports = (function () {
 		fileExists: fileExists,
 		json: getJson,
 		folderList: getFolderList,
-		fileListRecusive: fileListRecusive
+		fileListRecusive: fileListRecusive,
+		makeDir: makeDir
 	};
 })();
