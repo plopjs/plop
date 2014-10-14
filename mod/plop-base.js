@@ -11,7 +11,13 @@ module.exports = (function () {
 			dashCase: changeCase.param,
 			dotCase: changeCase.dot,
 			pathCase: changeCase.path,
-			properCase: changeCase.pascalCase
+			properCase: changeCase.pascal,
+			pascalCase: changeCase.pascal,
+			lowerCase: changeCase.lower,
+			sentenceCase: changeCase.sentence,
+			constantCase: changeCase.constant,
+			titleCase: changeCase.title
+
 		};
 
 
