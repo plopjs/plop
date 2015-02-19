@@ -11,7 +11,7 @@ var plop = require('./mod/plop-base'),
 
 function run(plopfilePath) {
 	var generators;
-	
+
 	// set the default base path to the plopfile directory
 	plop.setPlopfilePath(path.dirname(plopfilePath));
 
@@ -37,7 +37,7 @@ function run(plopfilePath) {
 			});
 	} else {
 		throw Error('Generator ' + generator + ' not found in plopfile');
-	}	
+	}
 }
 
 // locate the plopfile

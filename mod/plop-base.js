@@ -25,7 +25,7 @@ module.exports = (function () {
 	function renderString(template, data) {
 		var t = template,
 			h;
-		
+
 		for (h in helpers) {
 			if (!helpers.hasOwnProperty(h)) { continue; }
 			handlebars.registerHelper(h, helpers[h]);
@@ -37,7 +37,7 @@ module.exports = (function () {
 	function setGenerator(name, config) { generators[name] = config; }
 	function getGenerator(name) { return generators[name]; }
 	function getGeneratorList() { return Object.keys(generators); }
-	
+
 	function setPlopfilePath(path) { plopfilePath = path; }
 	function getPlopfilePath() { return plopfilePath; }
 
@@ -45,7 +45,7 @@ module.exports = (function () {
 	return {
 		addHelper: addHelper,
 		renderString: renderString,
-		
+
 		setGenerator: setGenerator,
 		getGenerator: getGenerator,
 		getGeneratorList: getGeneratorList,

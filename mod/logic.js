@@ -20,8 +20,8 @@ module.exports = (function () {
 
 		var _d = q.defer(),
 			prompts = config.prompts;
-		
-		prompt.message = colors.green(gName);
+
+		prompt.message = colors.green(gName.toUpperCase());
 		prompt.start();
 		prompt.get({properties: prompts}, function (err, result) {
 			if (err) { _d.reject(err); }
@@ -50,7 +50,7 @@ module.exports = (function () {
 					_chain = _d.promise,
 					template = action.template || '',
 					filePath = makePath(plop.renderString(action.path || '', data));
-				
+
 				_chain = _chain.then(function () {
 					if (template) {
 						return template;
