@@ -1,2 +1,8 @@
-{{dashAround name}}
-Hi, my name is {{name}} and I am {{age}}.
+{{ dashAround (properCase name) }}
+Hi, my name is {{ properCase name }} and I am {{ age }}.
+
+{{#if toppings}}
+on my pizza I like {{ wordJoin toppings }}
+{{else}}
+I don't like any toppings on my pizza (not human)
+{{/if}}

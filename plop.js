@@ -1,5 +1,7 @@
 #!/usr/bin/env node
+
 'use strict';
+
 var path = require('path'),
 	findup = require('findup-sync');
 
@@ -19,25 +21,30 @@ function run(plopfilePath) {
 	require(plopfilePath)(plop);
 
 	generators = plop.getGeneratorList();
-	if (!generator) { out.listOptions(generators); }
-	if (generators.indexOf(generator) > -1) {
-		logic.getPlopData(generator)
-			.then(logic.executePlop)
-			.then(function (result) {
-				result.changes.forEach(function(line) {
-					console.log('SUCCESS'.green + ':', line.type, line.path);
-				});
-				result.failures.forEach(function(line) {
-					console.log('FAILED'.red + ':', line.type, line.path, line.error);
-				});
-			})
-			.fail(function (err) {
-				console.error('ERROR', err.message, err.stack);
-				process.exit(1);
-			});
+	if (!generator) {
+		out.chooseOptionFromList(generators).then(go);
+	}else if (generators.map(function (v) { return v.name; }).indexOf(generator) > -1) {
+		go(generator);
 	} else {
 		throw Error('Generator ' + generator + ' not found in plopfile');
 	}
+}
+
+function go(generator) {
+	logic.getPlopData(generator)
+		.then(logic.executePlop)
+		.then(function (result) {
+			result.changes.forEach(function(line) {
+				console.log('SUCCESS'.green + ':', line.type, line.path);
+			});
+			result.failures.forEach(function(line) {
+				console.log('FAILED'.red + ':', line.type, line.path, line.error);
+			});
+		})
+		.fail(function (err) {
+			console.error('ERROR', err.message, err.stack);
+			process.exit(1);
+		});
 }
 
 // locate the plopfile

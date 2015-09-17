@@ -36,7 +36,14 @@ module.exports = (function () {
 
 	function setGenerator(name, config) { generators[name] = config; }
 	function getGenerator(name) { return generators[name]; }
-	function getGeneratorList() { return Object.keys(generators); }
+	function getGeneratorList() {
+		return Object.keys(generators).map(function (gName) {
+			return {
+				name: gName,
+				description: generators[gName].description || ''
+			};
+		});
+	}
 
 	function setPlopfilePath(path) { plopfilePath = path; }
 	function getPlopfilePath() { return plopfilePath; }

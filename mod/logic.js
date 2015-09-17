@@ -1,7 +1,7 @@
 module.exports = (function () {
 	'use strict';
 
-	var prompt = require('prompt'),
+	var inquirer = require('inquirer'),
 		q = require('q'),
 		path = require('path'),
 		colors = require('colors');
@@ -19,12 +19,12 @@ module.exports = (function () {
 		config = plop.getGenerator(gName);
 
 		var _d = q.defer(),
-			prompts = config.prompts;
+			prompts = config.prompts.map(function (p) {
+				p.message = colors.green('[' + gName.toUpperCase() + '] ') + p.message;
+				return p;
+			});
 
-		prompt.message = colors.green(gName.toUpperCase());
-		prompt.start();
-		prompt.get({properties: prompts}, function (err, result) {
-			if (err) { _d.reject(err); }
+		inquirer.prompt(prompts, function (result) {
 			_d.resolve(result);
 		});
 

@@ -1,6 +1,6 @@
 {
   "name": "plop",
-  "version": "0.2.4",
+  "version": "1.0.0",
   "description": "Micro-generator script for doing project specific scaffolding of code structures",
   "main": "plop.js",
   "repository": {
@@ -10,6 +10,7 @@
   "keywords": [
     "generator",
     "scaffolding",
+    "yeoman",
     "make",
     "build",
     "generate",
@@ -29,6 +30,7 @@
     "handlebars": "^2.0.0",
     "mkdirp": "^0.5.0",
     "prompt": "^0.2.14",
+    "inquirer": "^0.10.0",
     "q": "~1.0.1"
   },
   "preferGlobal": "true",
