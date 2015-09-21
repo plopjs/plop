@@ -5,10 +5,12 @@ module.exports = (function () {
 
 	var plopfilePath = '',
 		generators = {},
+		pkgJson = {},
 		helpers = {
 			camelCase: changeCase.camel,
 			snakeCase: changeCase.snake,
 			dashCase: changeCase.param,
+			kabobCase: changeCase.param,
 			dotCase: changeCase.dot,
 			pathCase: changeCase.path,
 			properCase: changeCase.pascal,
@@ -16,8 +18,8 @@ module.exports = (function () {
 			lowerCase: changeCase.lower,
 			sentenceCase: changeCase.sentence,
 			constantCase: changeCase.constant,
-			titleCase: changeCase.title
-
+			titleCase: changeCase.title,
+			pkg: function (key) { return pkgJson[key]; }
 		};
 
 
@@ -45,7 +47,13 @@ module.exports = (function () {
 		});
 	}
 
-	function setPlopfilePath(path) { plopfilePath = path; }
+	function setPlopfilePath(path) {
+		try{
+			pkgJson = require(path + '/package.json');
+		} catch(err) {}
+
+		plopfilePath = path;
+	}
 	function getPlopfilePath() { return plopfilePath; }
 
 
