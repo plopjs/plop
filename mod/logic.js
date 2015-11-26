@@ -44,6 +44,10 @@ module.exports = (function () {
 			actions = config.actions,
 			abort = false;
 
+		if(typeof actions === 'function') {
+			actions = actions(data);
+		}
+
 		actions.forEach(function (action, idx) {
 			chain = chain.then(function () {
 				var _d = q.defer(),
