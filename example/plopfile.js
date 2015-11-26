@@ -39,7 +39,7 @@ module.exports = function (plop) {
 			}, {
 				type: 'checkbox',
 				name: 'toppings',
-				message: 'What pizza toppings to you like?',
+				message: 'What pizza toppings do you like?',
 				choices: [
 					{name: 'Cheese', value: 'cheese', checked: true},
 					{name: 'Peperonni', value: 'peperonni'},
