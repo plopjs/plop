@@ -66,6 +66,51 @@ The `add` action is used to (you guessed it) add files to your project. The path
 #### Modify (Action)
 The `modify` action is similar to `add`, but the main difference is that it will use a `pattern` property to find/replace text in the file specified by the `path` property. The `pattern` property should be a RegExp and capture groups can be used in the replacement template using $1, $2, etc. More details on modify can be found in the example folder.
 
+### Using a function
+Alternatively, `actions` can be a function that takes responses `data` in parameter and should return an array of actions.
+
+This allows you to adapt actions to provided answers:
+
+``` javascript
+module.exports = function (plop) {
+    plop.setGenerator('test', {
+		description: 'this is a test',
+		prompts: [{
+			type: 'input',
+			name: 'name',
+			message: 'What is your name?',
+			validate: function (value) {
+				if ((/.+/).test(value)) { return true; }
+				return 'name is required';
+			}
+		},{
+			type: 'confirm',
+			name: 'wantTacos',
+			message: 'Do you want tacos?'
+		}],
+		actions: function(data) {
+			var actions = [];
+
+			if(data.wantTacos) {
+				actions.push({
+					type: 'add',
+					path: 'folder/{{dashCase name}}.txt',
+					templateFile: 'templates/tacos.txt'
+				});
+			} else {
+				actions.push({
+					type: 'add',
+					path: 'folder/{{dashCase name}}.txt',
+					templateFile: 'templates/burritos.txt'
+				});
+			}
+
+			return actions;
+		}
+	});
+};
+```
+
 ## Baked-In Helpers
 There are a few helpers that I have found useful enough to include with plop. They are mostly case modifiers, but here is the complete list.
 

@@ -39,7 +39,7 @@ module.exports = function (plop) {
 			}, {
 				type: 'checkbox',
 				name: 'toppings',
-				message: 'What pizza toppings to you like?',
+				message: 'What pizza toppings do you like?',
 				choices: [
 					{name: 'Cheese', value: 'cheese', checked: true},
 					{name: 'Peperonni', value: 'peperonni'},
@@ -72,5 +72,53 @@ module.exports = function (plop) {
 				template: 'replaced => {{dashCase name}}'
 			}
 		]
+	});
+
+	// test with dynamic actions, regarding responses to prompts
+	plop.setGenerator('test with dynamic actions', {
+		description: 'this is another test',
+		prompts: [
+			{
+				type: 'input',
+				name: 'name',
+				message: 'What is your name?',
+				validate: function (value) {
+					if ((/.+/).test(value)) { return true; }
+					return 'name is required';
+				}
+			}, {
+				type: 'confirm',
+				name: 'hasPotatoes',
+				message: 'Do you want potatoes with your burger?'
+			}
+		],
+		actions: function(data) {
+			var actions = [
+				{
+					type: 'add',
+					path: 'folder/{{dashCase name}}-burger.txt',
+					templateFile: 'templates/burger.txt',
+					abortOnFail: true
+				}
+			];
+
+			if(data.hasPotatoes) {
+				actions = actions.concat([
+					{
+						type: 'add',
+						path: 'folder/{{dashCase name}}-potatoes.txt',
+						templateFile: 'templates/potatoes.txt',
+						abortOnFail: true
+					},{
+						type: 'modify',
+						path: 'folder/{{dashCase name}}-burger.txt',
+						pattern: /(!\n)/gi,
+						template: '$1Your potatoes: {{dashCase name}}-potatoes.txt'
+					}
+				]);
+			}
+
+			return actions;
+		}
 	});
 };
