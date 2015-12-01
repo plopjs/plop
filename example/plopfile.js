@@ -34,7 +34,7 @@ module.exports = function (plop) {
 				validate: function (value) {
 					var digitsOnly = /\d+/;
 					if (digitsOnly.test(value)) { return true; }
-					return 'Invalid age! Must be a number genius!'
+					return 'Invalid age! Must be a number genius!';
 				}
 			}, {
 				type: 'checkbox',
@@ -55,6 +55,26 @@ module.exports = function (plop) {
 				path: 'folder/{{dashCase name}}.txt',
 				templateFile: 'templates/temp.txt',
 				abortOnFail: true
+			},
+			function customAction(answers) {
+				// custom function can be syncronous or async (by returning a promise)
+				var fs = require('fs'),
+					existsMsg = 'psst {{name}}, change-me.txt already exists',
+					copiedMsg = 'hey {{name}}, I copied change-me.txt for you',
+					changeFile = 'change-me.txt';
+
+				// you can use plop.renderString to render templates
+				existsMsg = plop.renderString(existsMsg, answers);
+				copiedMsg = plop.renderString(copiedMsg, answers);
+
+				if (fs.existsSync(changeFile)) {
+					// returned value shows up in the console
+					return existsMsg;
+				} else {
+					// do a syncronous copy via node fs
+					fs.writeFileSync(changeFile, fs.readFileSync('templates/' + changeFile));
+					return copiedMsg;
+				}
 			},{
 				type: 'modify',
 				path: 'change-me.txt',

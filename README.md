@@ -22,7 +22,7 @@ module.exports = function (plop) {};
 The `plop` object offers two main functions (`addHelper`, `setGenerator`). `addHelper` is directly passed through to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](http://handlebarsjs.com/expressions.html#helpers), then you already know how this works.
 ``` javascript
 module.exports = function (plop) {
-    plop.addHelper('upperCase', function (text) {
+	plop.addHelper('upperCase', function (text) {
 		return text.toUpperCase();
 	});
 };
@@ -66,8 +66,18 @@ The `add` action is used to (you guessed it) add files to your project. The path
 #### Modify (Action)
 The `modify` action is similar to `add`, but the main difference is that it will use a `pattern` property to find/replace text in the file specified by the `path` property. The `pattern` property should be a RegExp and capture groups can be used in the replacement template using $1, $2, etc. More details on modify can be found in the example folder.
 
-### Using a function
-Alternatively, `actions` can be a function that takes responses `data` in parameter and should return an array of actions.
+#### Custom (Action Function)
+The `Add` and `Modify` actions will take care of almost every case that plop is designed to handle. However, plop does offer custom actions for the node/js guru. A custom action is a function that is provided in the actions array.
+ - The custom action will be executed with the question responses as its only parameter.
+ - Plop will wait for the custom action to complete before executing the next action.
+ - A custom action can be syncronous or asyncronous (by returning a promise).
+ - A message can be returned from the function and will be reported in the status of the action.
+ - A custom action fails if the promise is rejected, or the function throws an Exception
+
+_See the example plopfile for a sample syncronous custom action._
+
+### Using an Actions Function
+Alternatively, `actions` can be a function that takes responses `data` as a parameter and should return an array of actions.
 
 This allows you to adapt actions to provided answers:
 
