@@ -70,11 +70,11 @@ The `modify` action is similar to `add`, but the main difference is that it will
 The `Add` and `Modify` actions will take care of almost every case that plop is designed to handle. However, plop does offer custom actions for the node/js guru. A custom action is a function that is provided in the actions array.
  - The custom action will be executed with the question responses as its only parameter.
  - Plop will wait for the custom action to complete before executing the next action.
- - A custom action can be syncronous or asyncronous (by returning a promise).
+ - A custom action can be synchronous or asynchronous (by returning a promise).
  - A message can be returned from the function and will be reported in the status of the action.
  - A custom action fails if the promise is rejected, or the function throws an Exception
 
-_See the example plopfile for a sample syncronous custom action._
+_See the [example plopfile](https://github.com/amwmedia/plop/blob/master/example/plopfile.js) for a sample synchronous custom action._
 
 ### Using an Actions Function
 Alternatively, `actions` can be a function that takes responses `data` as a parameter and should return an array of actions.
@@ -147,4 +147,4 @@ Because saving your team (or yourself) 5-15 minutes when creating every route, c
 Because creating a new controller shouldn't mean copying another controller and stripping it of everything that is unique to it.
 
 ## Why Not Yeoman?
-Yeoman is great and it does a fantastic job of scaffolding out an initial codebase for you. However, the initial codebase is just the beginning. I believe the true benefit to generators is not realized by saving a developer 40 hours in the beginning, but by saving a team days of work over the life of the project. Yes, yeoman has sub generators that do a similar job. However, if you're like me, you will continually tweak structure and code throughout the project till the sub generators that came built into your yeoman seed are no longer valid. These structures change as requirements change and code is refactored. So that got me thinking... you know, what I really want is for these generatorsto be part of the codebase. Plop does that for you.
+Yeoman is great and it does a fantastic job of scaffolding out an initial codebase for you. However, the initial codebase is just the beginning. I believe the true benefit to generators is not realized by saving a developer 40 hours in the beginning, but by saving a team days of work over the life of the project. Yes, yeoman has sub generators that do a similar job. However, if you're like me, you will continually tweak structure and code throughout the project till the sub generators that came built into your yeoman seed are no longer valid. These structures change as requirements change and code is refactored. So that got me thinking... you know, what I really want is for these generators to be part of the codebase. Plop does that for you.

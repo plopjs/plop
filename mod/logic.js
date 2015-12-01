@@ -109,7 +109,7 @@ module.exports = (function () {
 					});
 				}
 			);
-		// if we catch a syncronous error, treat it as a failure
+		// if we catch a synchronous error, treat it as a failure
 		} catch (err) {
 			abort = true;
 			failedChanges.push({

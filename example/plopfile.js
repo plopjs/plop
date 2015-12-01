@@ -57,7 +57,7 @@ module.exports = function (plop) {
 				abortOnFail: true
 			},
 			function customAction(answers) {
-				// custom function can be syncronous or async (by returning a promise)
+				// custom function can be synchronous or async (by returning a promise)
 				var fs = require('fs'),
 					existsMsg = 'psst {{name}}, change-me.txt already exists',
 					copiedMsg = 'hey {{name}}, I copied change-me.txt for you',
@@ -71,7 +71,7 @@ module.exports = function (plop) {
 					// returned value shows up in the console
 					return existsMsg;
 				} else {
-					// do a syncronous copy via node fs
+					// do a synchronous copy via node fs
 					fs.writeFileSync(changeFile, fs.readFileSync('templates/' + changeFile));
 					return copiedMsg;
 				}
