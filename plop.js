@@ -2,8 +2,11 @@
 
 'use strict';
 
-var path = require('path'),
-	findup = require('findup-sync');
+var fs = require('fs'),
+	path = require('path'),
+	findup = require('findup-sync'),
+	pkg = require('./package.json'),
+	program = require('commander');
 
 var plop = require('./mod/plop-base'),
 	logic = require('./mod/logic'),
@@ -47,13 +50,35 @@ function go(generator) {
 		});
 }
 
+program
+	.version(pkg.version);
+
+program
+	.command('init')
+	.description('setup a plopfile.js in the current directory')
+	.option("-v, --verbose", "Install the verbose plopfile.js found in examples")
+	.action(function(options) {
+		var plopfile = (options.verbose) ? fs.readFileSync(path.join('example', 'plopfile.js')) : fs.readFileSync(path.join('example', 'plopfile-bare.js'));
+		fs.mkdir('plop-templates');
+		fs.writeFile('plopfile.js', plopfile);
+		console.log('Created plopfile.js and plop-templates directory.');
+	});
+
 // locate the plopfile
+// I think we should refactor this
+// instead it might make more sense to pass plop.getGeneratorList to commander
+// as a series of commands
+// I'll keep working on this
 try {
 	var plopfilePath = findup('plopfile.js', {nocase: true});
 	if (plopfilePath) {
 		run(plopfilePath);
 	} else {
-		throw Error('No plopfile found.');
+		if (!process.argv.slice(2).length) {
+			program.help();
+		} else {
+			program.parse(process.argv);
+		}
 	}
 } catch (e) {
 	console.error(e.message);
