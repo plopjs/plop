@@ -95,7 +95,7 @@ module.exports = function (plop) {
 	});
 
 	// test with dynamic actions, regarding responses to prompts
-	plop.setGenerator('test with dynamic actions', {
+	plop.setGenerator('dynamic', {
 		description: 'this is another test',
 		prompts: [
 			{
