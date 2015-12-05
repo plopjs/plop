@@ -10,11 +10,9 @@ var fs = require('fs'),
 
 var plop = require('./mod/plop-base'),
 	logic = require('./mod/logic'),
-	out = require('./mod/console-out'),
-	args = process.argv.slice(2),
-	generator = args.length && args.shift() || '';
+	out = require('./mod/console-out');
 
-function run(plopfilePath) {
+function run(plopfilePath, generator) {
 	var generators;
 
 	// set the default base path to the plopfile directory
@@ -64,22 +62,35 @@ program
 		console.log('Created plopfile.js and plop-templates directory.');
 	});
 
-// locate the plopfile
-// I think we should refactor this
-// instead it might make more sense to pass plop.getGeneratorList to commander
-// as a series of commands
-// I'll keep working on this
+program
+  .command('*', 'catch error when no generator is found', {noHelp: true})
+  .action(function(generator){
+		console.warn('Generator ' + generator + ' not found in plopfile');
+		program.help();
+  });
+
 try {
 	var plopfilePath = findup('plopfile.js', {nocase: true});
 	if (plopfilePath) {
-		run(plopfilePath);
-	} else {
-		if (!process.argv.slice(2).length) {
-			program.help();
-		} else {
-			program.parse(process.argv);
-		}
+		// set the default base path to the plopfile directory
+		plop.setPlopfilePath(path.dirname(plopfilePath));
+
+		// run the plopfile against the plop object
+		require(plopfilePath)(plop);
+
+		var generators = plop.getGeneratorList();
+		generators.map(function(generator) {
+			program
+				.command(generator.name)
+				.description(generator.description)
+				.action(function(){
+					run(plopfilePath, generator.name);
+				})
+		});
 	}
+	program.parse(process.argv);
+	if (!program.args.length) program.help();
+
 } catch (e) {
 	console.error(e.message);
 	process.exit(1);
