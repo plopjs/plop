@@ -140,13 +140,13 @@ There are a few helpers that I have found useful enough to include with plop. Th
 Once plop is installed, and you have created a generator, you are ready to run plop from the terminal. Running `plop` with no parameters will present you with a list of generators to pick from. You can also run `plop [generatorName]` to trigger a generator directly.
 
 ## Why?
-Because when you create your boilerplate separate from your code, you naturally put more thought into it.
+Because when you create your boilerplate separate from your code, you naturally put more time and thought into it.
 
-Because saving your team (or yourself) 5-15 minutes when creating every route, component, controller, helper, test, view, etc... really adds up.
+Because saving your team (or yourself) 5-15 minutes when creating every route, component, controller, helper, test, view, etc... [really adds up](https://xkcd.com/1205/).
 
-Because creating a new controller shouldn't mean copying another controller and stripping it of everything that is unique to it.
-
-Because [saving time is not the only reason to automate workflows](https://medium.com/@kentcdodds/an-argument-for-automation-fce8394c14e2)
+Because [context switching is expensive](http://www.petrikainulainen.net/software-development/processes/the-cost-of-context-switching/) and [saving time is not the only benefit to automating workflows](https://medium.com/@kentcdodds/an-argument-for-automation-fce8394c14e2)
 
 ## Why Not Yeoman?
-Yeoman is great and it does a fantastic job of scaffolding out an initial codebase for you. However, the initial codebase is just the beginning. I believe the true benefit to generators is not realized by saving a developer 40 hours in the beginning, but by saving a team days of work over the life of the project. Yes, yeoman has sub generators that do a similar job. However, if you're like me, you will continually tweak structure and code throughout the project till the sub generators that came built into your yeoman seed are no longer valid. These structures change as requirements change and code is refactored. So that got me thinking... you know, what I really want is for these generators to be part of the codebase. Plop does that for you.
+Yeoman is great and it does a fantastic job of scaffolding out an initial codebase for you. However, the initial codebase is just the beginning. I believe the true benefit to generators is not realized by saving a developer 40 hours in the beginning, but by saving a team days of work over the life of the project. Yes, yeoman has sub generators that do a similar job. However, if you're like me, you will continually tweak structure and code throughout the project till the sub generators that came built into your yeoman seed are no longer valid. These structures change as requirements change and code is refactored. Plop allows your generator code to live INSIDE your project and be versioned right along with the code it generates.
+
+If you already have another generator that your organization uses and loves, use it :-). If you don't, try plop. It will make your code more consistent, save you lots of time, and (if you've read this far) you already know how to use it.
