@@ -1,15 +1,15 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 
 'use strict';
 
-var path = require('path'),
-	findup = require('findup-sync');
+var path = require('path');
+var findup = require('findup-sync');
 
-var plop = require('./mod/plop-base'),
-	logic = require('./mod/logic'),
-	out = require('./mod/console-out'),
-	args = process.argv.slice(2),
-	generator = args.length && args.shift() || '';
+var plop = require('./mod/plop-base');
+var logic = require('./mod/logic');
+var out = require('./mod/console-out');
+var args = process.argv.slice(2);
+var generator = args.length && args.shift() || '';
 
 function run(plopfilePath) {
 	var generators;

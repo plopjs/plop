@@ -35,7 +35,7 @@
 
 
 	// EcmaScript.
-	"esnext"        : false, // Allow EcmaScript 6 syntax.
+	"esnext"        : true, // Allow EcmaScript 6 syntax.
 	"globalstrict"  : true, // Allow global "use strict" (also enables 'strict').
 	"strict"        : true,  // Require `use strict` pragma  in every file.
 
