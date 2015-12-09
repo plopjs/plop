@@ -12,6 +12,8 @@ Plop is essentially glue code between  [inquirer](https://github.com/SBoudrias/I
 npm install -g plop
 ```
 
+---
+
 ## Setup
 The main parts of a plop generator are the plop file (`plopfile.js`) and the templates. Templates can either be inline, or in separate files.
 
@@ -19,7 +21,15 @@ A basic plop file starts its life as a lowly node module that exports a function
 ``` javascript
 module.exports = function (plop) {};
 ```
-The `plop` object offers two main functions (`addHelper`, `setGenerator`). `addHelper` is directly passed through to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](http://handlebarsjs.com/expressions.html#helpers), then you already know how this works.
+The `plop` object offers three main functions (`addHelper`, `addPartial`, `setGenerator`).
+
+---
+
+## plop.addHelper(name, helper)
+- name {String}
+- helper {Function}
+
+`addHelper` directly corresponds to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](http://handlebarsjs.com/expressions.html#helpers), then you already know how this works.
 ``` javascript
 module.exports = function (plop) {
 	plop.addHelper('upperCase', function (text) {
@@ -27,8 +37,23 @@ module.exports = function (plop) {
 	});
 };
 ```
+
+## plop.addPartial(name, template)
+- name {String}
+- template {String}
+
+`addPartial` directly corresponds to the handlebars method `registerPartial`. So if you are familiar with [handlebars partials](http://handlebarsjs.com/partials.html), then you should be good to go here as well.
+``` javascript
+module.exports = function (plop) {
+	plop.addPartial('fullName', '{{ firstName }} {{ lastName }}');
+};
+```
+
 Next we need to setup a generator using `plop.setGenerator`
-#### plop.setGenerator(name, config);
+
+---
+
+## plop.setGenerator(name, config);
 - name {String}
 - config {Object}
 
@@ -120,6 +145,7 @@ module.exports = function (plop) {
 	});
 };
 ```
+---
 
 ## Baked-In Helpers
 There are a few helpers that I have found useful enough to include with plop. They are mostly case modifiers, but here is the complete list.
@@ -136,8 +162,12 @@ There are a few helpers that I have found useful enough to include with plop. Th
 - **titleCase**: Change Format To This
 - **pkg**: look up a property from a package.json file in the same folder as the plopfile.
 
+---
+
 ## Usage
 Once plop is installed, and you have created a generator, you are ready to run plop from the terminal. Running `plop` with no parameters will present you with a list of generators to pick from. You can also run `plop [generatorName]` to trigger a generator directly.
+
+---
 
 ## Why?
 Because when you create your boilerplate separate from your code, you naturally put more time and thought into it.

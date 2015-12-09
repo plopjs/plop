@@ -1,5 +1,5 @@
 {{ dashAround (properCase name) }}
-Hi, my name is {{ properCase name }} and I am {{ age }}.
+{{> salutation greeting="Hello there" }}
 
 {{#if toppings}}
 on my pizza I like {{ wordJoin toppings }}

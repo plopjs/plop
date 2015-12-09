@@ -1,18 +1,18 @@
 module.exports = (function () {
 	'use strict';
 
-	var inquirer = require('inquirer'),
-		q = require('q'),
-		path = require('path'),
-		colors = require('colors');
+	var inquirer = require('inquirer');
+	var q = require('q');
+	var path = require('path');
+	var colors = require('colors');
 
-	var plop = require('./plop-base'),
-		fs = require('./fs-promise');
+	var plop = require('./plop-base');
+	var fs = require('./fs-promise');
 
-	var genName = '',
-		basePath = '',
-		abort = false,
-		config = {};
+	var genName = '';
+	var basePath = '';
+	var abort = false;
+	var config = {};
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
@@ -21,8 +21,8 @@ module.exports = (function () {
 		basePath = plop.getPlopfilePath();
 		config = plop.getGenerator(gName);
 
-		var _d = q.defer(),
-			prompts = config.prompts.map(function (p) {
+		var _d = q.defer();
+		var prompts = config.prompts.map(function (p) {
 				p.message = colors.green('[' + gName.toUpperCase() + '] ') + p.message;
 				return p;
 			});
@@ -41,12 +41,12 @@ module.exports = (function () {
 
 	// Run the actions for this generator
 	function executePlop(data) {
-		var _d = q.defer(),				// defer for overall plop execution
-			_c = q.defer(),				// defer to track the chain of action
-			chain = _c.promise,			// chain promise
-			changes = [],				// array of changed made by the actions
-			failedChanges = [],			// array of actions that failed
-			actions = config.actions;	// the list of actions to execute
+		var _d = q.defer();				// defer for overall plop execution
+		var _c = q.defer();				// defer to track the chain of action
+		var chain = _c.promise;			// chain promise
+		var changes = [];				// array of changed made by the actions
+		var failedChanges = [];			// array of actions that failed
+		var actions = config.actions;	// the list of actions to execute
 
 		// if action is a function, run it to get our array of actions
 		if(typeof actions === 'function') {
@@ -122,10 +122,10 @@ module.exports = (function () {
 	}
 
 	function executeActionChain(action, idx, data, changes, failedChanges) {
-		var _d = q.defer(),
-			_chain = _d.promise,
-			template = action.template || '',
-			filePath = makePath(plop.renderString(action.path || '', data));
+		var _d = q.defer();
+		var _chain = _d.promise;
+		var template = action.template || '';
+		var filePath = makePath(plop.renderString(action.path || '', data));
 
 		// ------- building the chain of events for this action ------- //
 		// get the template from either template or templateFile

@@ -1,12 +1,13 @@
 module.exports = (function () {
 	'use strict';
-	var changeCase = require('change-case'),
-		handlebars = require('handlebars');
+	var changeCase = require('change-case');
+	var handlebars = require('handlebars');
 
-	var plopfilePath = '',
-		generators = {},
-		pkgJson = {},
-		helpers = {
+	var plopfilePath = '';
+	var generators = {};
+	var pkgJson = {};
+	var partials = {};
+	var helpers = {
 			camelCase: changeCase.camel,
 			snakeCase: changeCase.snake,
 			dashCase: changeCase.param,
@@ -24,13 +25,20 @@ module.exports = (function () {
 
 
 	function addHelper(name, fn) { helpers[name] = fn; }
+	function addPartial(name, str) { partials[name] = str; }
+
 	function renderString(template, data) {
 		var t = template,
-			h;
+			h, p;
 
 		for (h in helpers) {
 			if (!helpers.hasOwnProperty(h)) { continue; }
 			handlebars.registerHelper(h, helpers[h]);
+		}
+
+		for (p in partials) {
+			if (!partials.hasOwnProperty(p)) { continue; }
+			handlebars.registerPartial(p, partials[p]);
 		}
 
 		return handlebars.compile(t)(data);
@@ -59,6 +67,7 @@ module.exports = (function () {
 
 	return {
 		addHelper: addHelper,
+		addPartial: addPartial,
 		renderString: renderString,
 
 		setGenerator: setGenerator,

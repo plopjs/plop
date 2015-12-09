@@ -15,6 +15,9 @@ module.exports = function (plop) {
 		return words.join(', ').replace(/(:?.*),/, '$1, and');
 	});
 
+	// greet the user using a partial
+	plop.addPartial('salutation', '{{ greeting }}, my name is {{ properCase name }} and I am {{ age }}.');
+
 	// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('test', {
 		description: 'this is a test',
@@ -42,10 +45,10 @@ module.exports = function (plop) {
 				message: 'What pizza toppings do you like?',
 				choices: [
 					{name: 'Cheese', value: 'cheese', checked: true},
-					{name: 'Peperonni', value: 'peperonni'},
+					{name: 'Pepperoni', value: 'pepperoni'},
 					{name: 'Pineapple', value: 'pineapple'},
 					{name: 'Mushroom', value: 'mushroom'},
-					{name: 'Bacon', value: 'bacon'}
+					{name: 'Bacon', value: 'bacon', checked: true}
 				]
 			}
 		],
