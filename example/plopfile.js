@@ -5,7 +5,7 @@ module.exports = function (plop) {
 	// available for use in the generator templates
 
 	// adds 4 dashes around some text (yes es6/es2015 is supported)
-	plop.addHelper('dashAround', text => '---- ' + text + ' ----');
+	plop.addHelper('dashAround', (text) => '---- ' + text + ' ----');
 
 	// formats an array of options like you would write
 	// it if you were speaking (one, two, and three)

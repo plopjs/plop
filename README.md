@@ -35,6 +35,9 @@ module.exports = function (plop) {
 	plop.addHelper('upperCase', function (text) {
 		return text.toUpperCase();
 	});
+
+	// or in es6/es2015
+	plop.addHelper('upperCase', (txt) => txt.toUpperCase());
 };
 ```
 
@@ -61,7 +64,7 @@ The config object needs to include `prompts` and `actions` (`description` is opt
 
 ``` javascript
 module.exports = function (plop) {
-    plop.setGenerator('test', {
+	plop.setGenerator('test', {
 		description: 'this is a test',
 		prompts: [{
 			type: 'input',
