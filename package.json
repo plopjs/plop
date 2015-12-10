@@ -36,5 +36,8 @@
   "preferGlobal": "true",
   "bin": {
     "plop": "plop.js"
+  },
+  "devDependencies": {
+    "inquirer-directory": "^1.1.0"
   }
 }

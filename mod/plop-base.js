@@ -1,6 +1,8 @@
+
 module.exports = (function () {
 	'use strict';
-	var changeCase = require('change-case'),
+	var inquirer = require('inquirer'),
+		changeCase = require('change-case'),
 		handlebars = require('handlebars');
 
 	var plopfilePath = '',
@@ -22,6 +24,9 @@ module.exports = (function () {
 			pkg: function (key) { return pkgJson[key]; }
 		};
 
+	function addPrompt(name, Prompt) {
+		inquirer.registerPrompt(name, Prompt);
+	}
 
 	function addHelper(name, fn) { helpers[name] = fn; }
 	function renderString(template, data) {
@@ -59,6 +64,7 @@ module.exports = (function () {
 
 	return {
 		addHelper: addHelper,
+		addPrompt: addPrompt,
 		renderString: renderString,
 
 		setGenerator: setGenerator,
@@ -66,6 +72,9 @@ module.exports = (function () {
 		getGeneratorList: getGeneratorList,
 
 		setPlopfilePath: setPlopfilePath,
-		getPlopfilePath: getPlopfilePath
+		getPlopfilePath: getPlopfilePath,
+
+		inquirer: inquirer,
+		handlebars: handlebars
 	};
 })();

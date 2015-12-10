@@ -15,6 +15,8 @@ module.exports = function (plop) {
 		return words.join(', ').replace(/(:?.*),/, '$1, and');
 	});
 
+	plop.addPrompt('directory', require('inquirer-directory'));
+
 	// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('test', {
 		description: 'this is a test',
@@ -47,12 +49,17 @@ module.exports = function (plop) {
 					{name: 'Mushroom', value: 'mushroom'},
 					{name: 'Bacon', value: 'bacon'}
 				]
+			}, {
+				type: 'directory',
+				name: 'path',
+				message: 'where would you like to put this component?',
+				basePath: './'
 			}
 		],
 		actions: [
 			{
 				type: 'add',
-				path: 'folder/{{dashCase name}}.txt',
+				path: 'folder/{{path}}.txt',
 				templateFile: 'templates/temp.txt',
 				abortOnFail: true
 			},

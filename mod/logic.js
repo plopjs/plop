@@ -1,8 +1,7 @@
 module.exports = (function () {
 	'use strict';
 
-	var inquirer = require('inquirer'),
-		q = require('q'),
+	var q = require('q'),
 		path = require('path'),
 		colors = require('colors');
 
@@ -27,7 +26,7 @@ module.exports = (function () {
 				return p;
 			});
 
-		inquirer.prompt(prompts, function (result) {
+		plop.inquirer.prompt(prompts, function (result) {
 			_d.resolve(result);
 		});
 
