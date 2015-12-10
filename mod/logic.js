@@ -9,6 +9,10 @@ module.exports = (function () {
 	var plop = require('./plop-base'),
 		fs = require('./fs-promise');
 
+	// register a `directory` type prompt that will allow users to ask
+	// where they would like a "plop" to go.
+	inquirer.registerPrompt('directory', require('inquirer-directory'));
+
 	var genName = '',
 		basePath = '',
 		abort = false,

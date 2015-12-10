@@ -47,6 +47,11 @@ module.exports = function (plop) {
 					{name: 'Mushroom', value: 'mushroom'},
 					{name: 'Bacon', value: 'bacon'}
 				]
+			}, {
+				type: 'directory',
+				name: 'templates',
+				message: 'Where is your templates folder?',
+				basePath: './'
 			}
 		],
 		actions: [
