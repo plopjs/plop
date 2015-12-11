@@ -16,6 +16,8 @@ module.exports = function (plop) {
 	// greet the user using a partial
 	plop.addPartial('salutation', '{{ greeting }}, my name is {{ properCase name }} and I am {{ age }}.');
 
+	plop.inquirer.registerPrompt('directory', require('inquirer-directory'));
+
 	// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('test', {
 		description: 'this is a test',
@@ -48,6 +50,11 @@ module.exports = function (plop) {
 					{name: 'Mushroom', value: 'mushroom'},
 					{name: 'Bacon', value: 'bacon', checked: true}
 				]
+			}, {
+				type: 'directory',
+				name: 'path',
+				message: 'where would you like to put this component?',
+				basePath: './'//plop.getPlopfilePath()
 			}
 		],
 		actions: [
@@ -58,6 +65,11 @@ module.exports = function (plop) {
 				abortOnFail: true
 			},
 			function customAction(answers) {
+				// move the current working directory to the plop file path
+				// this allows this action to work even when the generator is
+				// executed from inside a subdirectory
+				process.chdir(plop.getPlopfilePath());
+
 				// custom function can be synchronous or async (by returning a promise)
 				var fs = require('fs'),
 					existsMsg = 'psst {{name}}, change-me.txt already exists',
@@ -96,8 +108,8 @@ module.exports = function (plop) {
 	});
 
 	// test with dynamic actions, regarding responses to prompts
-	plop.setGenerator('test with dynamic actions', {
-		description: 'this is another test',
+	plop.setGenerator('dynamic actions', {
+		description: 'another test using an actions function',
 		prompts: [
 			{
 				type: 'input',

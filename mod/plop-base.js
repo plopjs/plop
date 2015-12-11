@@ -1,7 +1,9 @@
+
 module.exports = (function () {
 	'use strict';
-	var changeCase = require('change-case');
+	var inquirer = require('inquirer');
 	var handlebars = require('handlebars');
+	var changeCase = require('change-case');
 
 	var plopfilePath = '';
 	var generators = {};
@@ -23,6 +25,9 @@ module.exports = (function () {
 			pkg: function (key) { return pkgJson[key]; }
 		};
 
+	function addPrompt(name, prompt) {
+		inquirer.registerPrompt(name, prompt);
+	}
 
 	function addHelper(name, fn) { helpers[name] = fn; }
 	function addPartial(name, str) { partials[name] = str; }
@@ -68,6 +73,7 @@ module.exports = (function () {
 	return {
 		addHelper: addHelper,
 		addPartial: addPartial,
+		addPrompt: addPrompt,
 		renderString: renderString,
 
 		setGenerator: setGenerator,
@@ -75,6 +81,9 @@ module.exports = (function () {
 		getGeneratorList: getGeneratorList,
 
 		setPlopfilePath: setPlopfilePath,
-		getPlopfilePath: getPlopfilePath
+		getPlopfilePath: getPlopfilePath,
+
+		inquirer: inquirer,
+		handlebars: handlebars
 	};
 })();
