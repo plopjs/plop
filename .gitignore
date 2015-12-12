@@ -2,3 +2,4 @@ node_modules/
 *.sublime-*
 example/folder/
 example/change-me.txt
+.idea
