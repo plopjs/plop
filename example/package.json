@@ -1,4 +1,7 @@
 {
-	"name": "plop-example",
-	"version": "1.4.0"
+  "name": "plop-example",
+  "version": "1.4.0",
+  "devDependencies": {
+    "plop": "^1.4.0"
+  }
 }

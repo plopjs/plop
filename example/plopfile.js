@@ -111,7 +111,7 @@ module.exports = function (plop) {
 			{
 				type: 'input',
 				name: 'fileName',
-				message: 'Pick a file name',
+				message: 'Pick a file name:',
 				validate: function (value) {
 					if ((/.+/).test(value)) { return true; }
 					return 'file name is required';
