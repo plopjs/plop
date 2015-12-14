@@ -16,7 +16,6 @@ module.exports = function (plop) {
 	// greet the user using a partial
 	plop.addPartial('salutation', '{{ greeting }}, my name is {{ properCase name }} and I am {{ age }}.');
 
-	plop.inquirer.registerPrompt('directory', require('inquirer-directory'));
 
 	// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('test', {
@@ -50,11 +49,6 @@ module.exports = function (plop) {
 					{name: 'Mushroom', value: 'mushroom'},
 					{name: 'Bacon', value: 'bacon', checked: true}
 				]
-			}, {
-				type: 'directory',
-				name: 'path',
-				message: 'where would you like to put this component?',
-				basePath: './'//plop.getPlopfilePath()
 			}
 		],
 		actions: [
@@ -106,6 +100,38 @@ module.exports = function (plop) {
 			}
 		]
 	});
+
+
+	// adding a custom inquirer prompt type
+	plop.addPrompt('directory', require('inquirer-directory'));
+
+	plop.setGenerator('custom-prompt', {
+		description: 'custom inquirer prompt example',
+		prompts: [
+			{
+				type: 'input',
+				name: 'fileName',
+				message: 'Pick a file name',
+				validate: function (value) {
+					if ((/.+/).test(value)) { return true; }
+					return 'file name is required';
+				}
+			}, {
+				type: 'directory',
+				name: 'path',
+				message: 'where would you like to put this component?',
+				basePath: plop.getPlopfilePath()
+			}
+		],
+		actions: [
+			{
+				type: 'add',
+				path: '{{path}}/{{fileName}}.txt',
+				template: '{{path}}/{{fileName}} plopped!'
+			}
+		]
+	});
+
 
 	// test with dynamic actions, regarding responses to prompts
 	plop.setGenerator('dynamic actions', {

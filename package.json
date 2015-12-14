@@ -1,6 +1,6 @@
 {
 	"name": "plop",
-	"version": "1.3.0",
+	"version": "1.4.0",
 	"description": "Micro-generator script for doing project specific scaffolding of code structures",
 	"main": "plop.js",
 	"repository": {
@@ -33,7 +33,7 @@
 		"q": "~1.0.1"
 	},
 	"devDependencies": {
-		"inquirer-directory": "^1.1.0"
+		"inquirer-directory": "^1.1.1"
 	},
 	"preferGlobal": "true",
 	"bin": {

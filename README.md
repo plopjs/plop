@@ -21,7 +21,7 @@ A basic plop file starts its life as a lowly node module that exports a function
 ``` javascript
 module.exports = function (plop) {};
 ```
-The `plop` object offers three main functions (`addHelper`, `addPartial`, `setGenerator`).
+The `plop` object offers three main functions (`addHelper`, `addPartial`, `addPrompt`, `setGenerator`).
 
 ---
 
@@ -49,6 +49,18 @@ module.exports = function (plop) {
 ``` javascript
 module.exports = function (plop) {
 	plop.addPartial('fullName', '{{ firstName }} {{ lastName }}');
+};
+```
+
+
+## plop.addPrompt(name, inquirerPlugin)
+- name {String}
+- inquirerPlugin {Constructor}
+
+`addPrompt` is a shortcut method to inquirer's `prompt.registerPrompt` function. If inquirer's built in prompt types don't quite cut the mustard for you, you can write your own or look at this [list of custom prompts](https://github.com/amwmedia/plop/blob/master/inquirer-prompts.md) that other plop users have found useful.
+``` javascript
+module.exports = function (plop) {
+	plop.addPrompt('directory', require('inquirer-directory'));
 };
 ```
 
