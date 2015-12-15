@@ -33,9 +33,9 @@ module.exports = (function () {
 		return _d.promise;
 	}
 
-	// make a full path from the basePath (plopfile location)
+	// if not already an absolute path, make an absolute path from the basePath (plopfile location)
 	function makePath(p) {
-		return path.join(basePath, p);
+		return path.isAbsolute(p) ? p : path.join(basePath, p);
 	}
 
 	// Run the actions for this generator
