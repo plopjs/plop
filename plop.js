@@ -1,4 +1,4 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 
 'use strict';
 
@@ -35,10 +35,10 @@ function run(env) {
 	// handle request for version number
 	if (argv.version || argv.v) {
 		if (env.modulePackage.version !== globalPkg.version) {
-			console.log('CLI version', colors.yellow(globalPkg.version));
-			console.log('Local version', colors.yellow(env.modulePackage.version));
+			console.log('CLI version'.yellow, globalPkg.version);
+			console.log('Local version'.yellow, env.modulePackage.version);
 		} else {
-			console.log(colors.yellow(globalPkg.version));
+			console.log(globalPkg.version);
 		}
 		return;
 	}
@@ -46,7 +46,10 @@ function run(env) {
 	// set the default base path to the plopfile directory
 	plopfilePath = env.configPath;
 	// abort if there's no plopfile found
-	if (plopfilePath == null) { console.error(colors.red('No plopfile found')); return; }
+	if (plopfilePath == null) {
+		console.error(colors.red('[PLOP] ') + 'No plopfile found');
+		process.exit(1);
+	}
 	plop.setPlopfilePath(path.dirname(plopfilePath));
 
 	// run the plopfile against the plop object
@@ -58,7 +61,8 @@ function run(env) {
 	}else if (generators.map(function (v) { return v.name; }).indexOf(generator) > -1) {
 		go(generator);
 	} else {
-		console.error(colors.red('Generator "' + generator + '" not found in plopfile'));
+		console.error(colors.red('[PLOP] ') + 'Generator "' + generator + '" not found in plopfile');
+		process.exit(1);
 	}
 }
 
@@ -67,14 +71,14 @@ function go(generator) {
 		.then(logic.executePlop)
 		.then(function (result) {
 			result.changes.forEach(function(line) {
-				console.log('SUCCESS'.green + ':', line.type, line.path);
+				console.log('[SUCCESS]'.green, line.type, line.path);
 			});
 			result.failures.forEach(function(line) {
-				console.log('FAILED'.red + ':', line.type, line.path, line.error);
+				console.log('[FAILED]'.red, line.type, line.path, line.error);
 			});
 		})
 		.fail(function (err) {
-			console.error('ERROR', err.message, err.stack);
+			console.error('[ERROR]'.red, err.message, err.stack);
 			process.exit(1);
 		});
 }

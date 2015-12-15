@@ -7,23 +7,35 @@ Micro-generator framework that makes it easy for an entire team to create files 
 
 Plop is essentially glue code between  [inquirer](https://github.com/SBoudrias/Inquirer.js/) prompts and [handlebar](https://github.com/wycats/handlebars.js/) templates. You can also add your own handlebar helper methods and use them in your templates.
 
-## Install
+# Getting Started
+## 1. Install plop globally
 ```
-npm install -g plop
+$ npm install -g plop
 ```
-
+## 2. Install plop in your project's devDependencies
+```
+$ npm install --save-dev plop
+```
+## 3. Create a plopfile.js at the root of your project
+``` javascript
+module.exports = function (plop) {
+	// create your generators here
+	plop.setGenerator('basics', {
+		description: 'this is a skeleton plopfile',
+		prompts: [],
+		actions: []
+	});
+};
+```
 ---
-
-## Setup
+# Anatomy of a Plop Generator
 The main parts of a plop generator are the plop file (`plopfile.js`) and the templates. Templates can either be inline, or in separate files.
 
 A basic plop file starts its life as a lowly node module that exports a function that accepts the `plop` object.
 ``` javascript
 module.exports = function (plop) {};
 ```
-The `plop` object offers three main functions (`addHelper`, `addPartial`, `addPrompt`, `setGenerator`).
-
----
+The `plop` object offers four main functions (`addHelper`, `addPartial`, `addPrompt`, `setGenerator`).
 
 ## plop.addHelper(name, helper)
 - name {String}
@@ -57,7 +69,7 @@ module.exports = function (plop) {
 - name {String}
 - inquirerPlugin {Constructor}
 
-`addPrompt` is a shortcut method to inquirer's `prompt.registerPrompt` function. If inquirer's built in prompt types don't quite cut the mustard for you, you can write your own or look at this [list of custom prompts](https://github.com/amwmedia/plop/blob/master/inquirer-prompts.md) that other plop users have found useful.
+`addPrompt` is a shortcut method to inquirer's `prompt.registerPrompt` function. If inquirer's built in prompt types don't quite cut the mustard for you, you can write your own or look at [this list of custom prompts](inquirer-prompts.md) that other plop users have found useful.
 ``` javascript
 module.exports = function (plop) {
 	plop.addPrompt('directory', require('inquirer-directory'));
@@ -65,8 +77,6 @@ module.exports = function (plop) {
 ```
 
 Next we need to setup a generator using `plop.setGenerator`
-
----
 
 ## plop.setGenerator(name, config);
 - name {String}
@@ -95,7 +105,8 @@ module.exports = function (plop) {
 	});
 };
 ```
-## Actions Array
+---
+# The Actions Array
 The `plop.setGenerator` config object includes an array of actions to take. There are two types of actions you can include (add and modify). Both types of actions require a path to take action on (all paths are based on the location of the plopfile), and a template to use.
 
 Let's start with the simpler of the 2 actions, `add`.
@@ -162,7 +173,35 @@ module.exports = function (plop) {
 ```
 ---
 
-## Baked-In Helpers
+# Other Plop Methods/Attributes
+These methods and attributes are available off the `plop` object. They are mostly used by plop internally, but some can come in handy when you're doing something a little more custom.
+
+#### plop.renderString(template, data)
+ - template {String}
+ - data {Object}
+
+Renders the handlebars `template` using the `data` passed in. Returns the rendered template.
+
+#### plop.getGenerator(name)
+ - name {String}
+
+Gets a generator config object by name.
+
+#### plop.getGeneratorList()
+Gets an array of generator names and descriptions.
+
+#### plop.getPlopfilePath
+Returns the absolute path to the plopfile in use.
+
+#### plop.inquirer
+The instance of inquirer that plop is using internally.
+
+#### plop.handlebars
+The instance of handlebars that plop is using internally.
+
+---
+
+# Baked-In Helpers
 There are a few helpers that I have found useful enough to include with plop. They are mostly case modifiers, but here is the complete list.
 
 - **camelCase**: changeFormatToThis
@@ -179,19 +218,19 @@ There are a few helpers that I have found useful enough to include with plop. Th
 
 ---
 
-## Usage
+# Usage
 Once plop is installed, and you have created a generator, you are ready to run plop from the terminal. Running `plop` with no parameters will present you with a list of generators to pick from. You can also run `plop [generatorName]` to trigger a generator directly.
 
 ---
 
-## Why?
+# Why?
 Because when you create your boilerplate separate from your code, you naturally put more time and thought into it.
 
 Because saving your team (or yourself) 5-15 minutes when creating every route, component, controller, helper, test, view, etc... [really adds up](https://xkcd.com/1205/).
 
 Because [context switching is expensive](http://www.petrikainulainen.net/software-development/processes/the-cost-of-context-switching/) and [saving time is not the only benefit to automating workflows](https://medium.com/@kentcdodds/an-argument-for-automation-fce8394c14e2)
 
-## Why Not Yeoman?
+### Why Not Yeoman?
 Yeoman is great and it does a fantastic job of scaffolding out an initial codebase for you. However, the initial codebase is just the beginning. I believe the true benefit to generators is not realized by saving a developer 40 hours in the beginning, but by saving a team days of work over the life of the project. Yes, yeoman has sub generators that do a similar job. However, if you're like me, you will continually tweak structure and code throughout the project till the sub generators that came built into your yeoman seed are no longer valid. These structures change as requirements change and code is refactored. Plop allows your generator code to live INSIDE your project and be versioned right along with the code it generates.
 
 If you already have another generator that your organization uses and loves, use it :-). If you don't, try plop. It will make your code more consistent, save you lots of time, and (if you've read this far) you already know how to use it.
