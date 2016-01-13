@@ -32,6 +32,12 @@ Plop.launch({
 function run(env) {
 	var generators, plopfilePath;
 
+	// handle request for usage and options
+	if (argv.help || argv.h) {
+		displayHelpScreen();
+		process.exit(0);
+	}
+
 	// handle request for version number
 	if (argv.version || argv.v) {
 		if (env.modulePackage.version !== globalPkg.version) {
@@ -43,13 +49,15 @@ function run(env) {
 		return;
 	}
 
-	// set the default base path to the plopfile directory
 	plopfilePath = env.configPath;
 	// abort if there's no plopfile found
 	if (plopfilePath == null) {
 		console.error(colors.red('[PLOP] ') + 'No plopfile found');
+		displayHelpScreen();
 		process.exit(1);
 	}
+
+	// set the default base path to the plopfile directory
 	plop.setPlopfilePath(path.dirname(plopfilePath));
 
 	// run the plopfile against the plop object
@@ -64,6 +72,19 @@ function run(env) {
 		console.error(colors.red('[PLOP] ') + 'Generator "' + generator + '" not found in plopfile');
 		process.exit(1);
 	}
+
+	function displayHelpScreen(){
+		console.log('\n' +
+		            '\tUsage\n' +
+		            '\t\t$ plop <name>\t\tRun a generator registered under that name\n' +
+
+		            '\n' +
+		            '\tOptions\n' +
+		            '\t\t-h, --help\t\tShow this help display\n' +
+		            '\t\t-i, --init\t\tGenerate initial plopfile.js\n' +
+		            '\t\t-v, --version\t\tPrint current version\n');
+	}
+
 }
 
 function go(generator) {
