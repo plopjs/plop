@@ -3,6 +3,7 @@
 'use strict';
 
 var path = require('path');
+var fs = require('fs');
 var Liftoff = require('liftoff');
 var argv = require('minimist')(process.argv.slice(2));
 var v8flags = require('v8flags');
@@ -36,6 +37,18 @@ function run(env) {
 	if (argv.help || argv.h) {
 		displayHelpScreen();
 		process.exit(0);
+	}
+	
+	if (argv.init || argv.i) {
+		return createInitPlopfile(function(err){
+			if (err){
+				console.log(err);
+
+				process.exit(1);
+			}
+
+			process.exit(0);
+		});
 	}
 
 	// handle request for version number
@@ -83,6 +96,18 @@ function run(env) {
 		            '\t\t-h, --help\t\tShow this help display\n' +
 		            '\t\t-i, --init\t\tGenerate initial plopfile.js\n' +
 		            '\t\t-v, --version\t\tPrint current version\n');
+	}
+
+	function createInitPlopfile(callback){
+		var initString = 'module.exports = function (plop) {\n\n' +
+		                 '\tplop.setGenerator(\'basics\', {\n' +
+		                 '\t\tdescription: \'this is a skeleton plopfile\',\n' +
+		                 '\t\tprompts: [],\n' +
+		                 '\t\tactions: []\n' +
+		                 '\t});\n\n' +
+		                 '};';
+
+		fs.writeFile(env.cwd + '/plopfile.js', initString, callback);
 	}
 
 }
