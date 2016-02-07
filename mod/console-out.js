@@ -33,12 +33,13 @@ module.exports = (function () {
 		console.log(
 			'\n' +
 			'USAGE:\n' +
+			'  $ plop\t\tSelect from a list of available generators\n' +
 			'  $ plop <name>\t\tRun a generator registered under that name\n' +
 
 			'\n' +
 			'OPTIONS:\n' +
 			'  -h, --help\t\tShow this help display\n' +
-			'  -i, --init\t\tGenerate initial plopfile.js\n' +
+			'  -i, --init\t\tGenerate a basic plopfile.js\n' +
 			'  -v, --version\t\tPrint current version\n'
 		);
 	}
@@ -52,7 +53,7 @@ module.exports = (function () {
 			'\t});\n\n' +
 			'};';
 
-		fs.writeFile( + '/plopfile.js', initString, callback);
+		fs.writeFile(cwd + '/plopfile.js', initString, callback);
 	}
 
 	return {

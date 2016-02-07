@@ -1,6 +1,6 @@
+'use strict';
 
 module.exports = (function () {
-	'use strict';
 	var inquirer = require('inquirer');
 	var handlebars = require('handlebars');
 	var changeCase = require('change-case');

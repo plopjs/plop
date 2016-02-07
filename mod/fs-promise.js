@@ -1,17 +1,16 @@
+'use strict';
+
+var q = require('q');
+var fs = require('fs');
+var mkdirp = require('mkdirp');
+var path = require('path');
+
 module.exports = (function () {
-	'use strict';
-
-	var q = require('q'),
-		fs = require('fs'),
-		mkdirp = require('mkdirp'),
-		path = require('path');
-
-	var readFile = q.denodeify(fs.readFile),
-		writeFile = q.denodeify(fs.writeFile),
-		makeDir = q.denodeify(mkdirp),
-		readDir = q.denodeify(fs.readdir),
-		stat = q.denodeify(fs.stat);
-
+	var readFile = q.denodeify(fs.readFile);
+	var writeFile = q.denodeify(fs.writeFile);
+	var makeDir = q.denodeify(mkdirp);
+	var readDir = q.denodeify(fs.readdir);
+	var stat = q.denodeify(fs.stat);
 
 	function getFile(path) {
 		return readFile(path, 'utf8');
@@ -68,7 +67,7 @@ module.exports = (function () {
 
 		readDir(dir)
 			.then(function(list) {
-			
+
 				var pending = list.length;
 				if (!pending) { _d.resolve(results); return; }
 

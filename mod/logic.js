@@ -1,6 +1,6 @@
-module.exports = (function () {
-	'use strict';
+'use strict';
 
+module.exports = (function () {
 	var q = require('q');
 	var path = require('path');
 	var colors = require('colors');
