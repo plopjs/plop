@@ -3,6 +3,9 @@ Plop
 
 Micro-generator framework that makes it easy for an entire team to create files with a level or uniformity.
 
+[![npm](https://img.shields.io/npm/dm/plop.svg)]()
+[![npm](https://img.shields.io/npm/v/plop.svg)]()
+
 ![plop demo](http://i.imgur.com/penUFkr.gif)
 
 Plop is essentially glue code between  [inquirer](https://github.com/SBoudrias/Inquirer.js/) prompts and [handlebar](https://github.com/wycats/handlebars.js/) templates. You can also add your own handlebar helper methods and use them in your templates.
@@ -127,14 +130,14 @@ The `Add` and `Modify` actions will take care of almost every case that plop is 
 
 _See the [example plopfile](https://github.com/amwmedia/plop/blob/master/example/plopfile.js) for a sample synchronous custom action._
 
-### Using an Actions Function
-Alternatively, `actions` can be a function that takes responses `data` as a parameter and should return an array of actions.
+### Using a Dynamic Action Array
+Alternatively, `actions` can itself be a function that takes responses `data` as a parameter and should return the actions array.
 
 This allows you to adapt actions to provided answers:
 
 ``` javascript
 module.exports = function (plop) {
-    plop.setGenerator('test', {
+	plop.setGenerator('test', {
 		description: 'this is a test',
 		prompts: [{
 			type: 'input',

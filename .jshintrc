@@ -51,7 +51,7 @@
 	"expr"          : false, // Tolerate `ExpressionStatement` as Programs.
 	"forin"         : false, // Tolerate `for in` loops without `hasOwnPrototype`.
 	"immed"         : true,  // Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`
-	"latedef"       : true,  // Prohibit variable use before definition.
+	"latedef"       : "nofunc",  // Prohibit variable use before definition.
 	"laxbreak"      : false, // Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.
 	"loopfunc"      : false, // Allow functions to be defined within loops.
 	"noarg"         : true,  // Prohibit use of `arguments.caller` and `arguments.callee`.

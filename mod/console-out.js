@@ -2,9 +2,11 @@
 
 var colors = require('colors');
 var inquirer = require('inquirer');
+var fs = require('fs');
 var q = require('q');
 
 module.exports = (function () {
+
 	function chooseOptionFromList(plopList) {
 		var _d = q.defer();
 
@@ -27,7 +29,35 @@ module.exports = (function () {
 		return _d.promise;
 	}
 
+	function displayHelpScreen() {
+		console.log(
+			'\n' +
+			'USAGE:\n' +
+			'  $ plop <name>\t\tRun a generator registered under that name\n' +
+
+			'\n' +
+			'OPTIONS:\n' +
+			'  -h, --help\t\tShow this help display\n' +
+			'  -i, --init\t\tGenerate initial plopfile.js\n' +
+			'  -v, --version\t\tPrint current version\n'
+		);
+	}
+
+	function createInitPlopfile(cwd, callback){
+		var initString = 'module.exports = function (plop) {\n\n' +
+			'\tplop.setGenerator(\'basics\', {\n' +
+			'\t\tdescription: \'this is a skeleton plopfile\',\n' +
+			'\t\tprompts: [],\n' +
+			'\t\tactions: []\n' +
+			'\t});\n\n' +
+			'};';
+
+		fs.writeFile( + '/plopfile.js', initString, callback);
+	}
+
 	return {
-		chooseOptionFromList: chooseOptionFromList
+		chooseOptionFromList: chooseOptionFromList,
+		displayHelpScreen: displayHelpScreen,
+		createInitPlopfile: createInitPlopfile
 	};
 })();

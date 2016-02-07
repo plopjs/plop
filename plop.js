@@ -3,7 +3,6 @@
 'use strict';
 
 var path = require('path');
-var fs = require('fs');
 var Liftoff = require('liftoff');
 var argv = require('minimist')(process.argv.slice(2));
 var v8flags = require('v8flags');
@@ -35,18 +34,17 @@ function run(env) {
 
 	// handle request for usage and options
 	if (argv.help || argv.h) {
-		displayHelpScreen();
+		out.displayHelpScreen();
 		process.exit(0);
 	}
-	
+
+	// handle request for initializing a new plopfile
 	if (argv.init || argv.i) {
-		return createInitPlopfile(function(err){
+		return out.createInitPlopfile(env.cwd, function(err){
 			if (err){
 				console.log(err);
-
 				process.exit(1);
 			}
-
 			process.exit(0);
 		});
 	}
@@ -66,7 +64,7 @@ function run(env) {
 	// abort if there's no plopfile found
 	if (plopfilePath == null) {
 		console.error(colors.red('[PLOP] ') + 'No plopfile found');
-		displayHelpScreen();
+		out.displayHelpScreen();
 		process.exit(1);
 	}
 
@@ -78,41 +76,17 @@ function run(env) {
 
 	generators = plop.getGeneratorList();
 	if (!generator) {
-		out.chooseOptionFromList(generators).then(go);
+		out.chooseOptionFromList(generators).then(doThePlop);
 	}else if (generators.map(function (v) { return v.name; }).indexOf(generator) > -1) {
-		go(generator);
+		doThePlop(generator);
 	} else {
 		console.error(colors.red('[PLOP] ') + 'Generator "' + generator + '" not found in plopfile');
 		process.exit(1);
 	}
 
-	function displayHelpScreen(){
-		console.log('\n' +
-		            '\tUsage\n' +
-		            '\t\t$ plop <name>\t\tRun a generator registered under that name\n' +
-
-		            '\n' +
-		            '\tOptions\n' +
-		            '\t\t-h, --help\t\tShow this help display\n' +
-		            '\t\t-i, --init\t\tGenerate initial plopfile.js\n' +
-		            '\t\t-v, --version\t\tPrint current version\n');
-	}
-
-	function createInitPlopfile(callback){
-		var initString = 'module.exports = function (plop) {\n\n' +
-		                 '\tplop.setGenerator(\'basics\', {\n' +
-		                 '\t\tdescription: \'this is a skeleton plopfile\',\n' +
-		                 '\t\tprompts: [],\n' +
-		                 '\t\tactions: []\n' +
-		                 '\t});\n\n' +
-		                 '};';
-
-		fs.writeFile(env.cwd + '/plopfile.js', initString, callback);
-	}
-
 }
 
-function go(generator) {
+function doThePlop(generator) {
 	logic.getPlopData(generator)
 		.then(logic.executePlop)
 		.then(function (result) {
