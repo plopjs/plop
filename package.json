@@ -27,7 +27,7 @@
     "change-case": "^2.1.5",
     "colors": "^1.0.2",
     "handlebars": "^2.0.0",
-    "inquirer": "^0.10.0",
+    "inquirer": "^1.0.2",
     "interpret": "^1.0.0",
     "liftoff": "^2.2.0",
     "minimist": "^1.2.0",
