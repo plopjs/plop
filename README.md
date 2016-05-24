@@ -124,8 +124,7 @@ The `modify` action is similar to `add`, but the main difference is that it will
 The `Add` and `Modify` actions will take care of almost every case that plop is designed to handle. However, plop does offer custom actions for the node/js guru. A custom action is a function that is provided in the actions array.
  - The custom action will be executed with the question responses as its only parameter.
  - Plop will wait for the custom action to complete before executing the next action.
- - A custom action can be synchronous or asynchronous (by returning a promise).
- - A message can be returned from the function and will be reported in the status of the action.
+ - The function must let plop known what’s happening through the return value. If you return a `Promise`, we won’t start other actions until the promise resolves. If you return a message (anything else except `undefined`), we know that the action is done. We’ll report the message in the status of the action.
  - A custom action fails if the promise is rejected, or the function throws an Exception
 
 _See the [example plopfile](https://github.com/amwmedia/plop/blob/master/example/plopfile.js) for a sample synchronous custom action._
