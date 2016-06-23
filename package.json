@@ -4,8 +4,12 @@
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "scripts": {
-    "compile": "babel src --out-dir lib",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf lib",
+    "develop": "npm run clean && npm run compile-watch & npm run test-watch",
+    "compile-watch": "babel src --watch --out-dir lib",
+    "compile": "npm run clean && babel src --out-dir lib",
+    "test": "ava",
+    "test-watch": "ava --watch"
   },
   "repository": {
     "type": "git",
@@ -23,7 +27,29 @@
   },
   "homepage": "https://github.com/amwmedia/node-plop#readme",
   "devDependencies": {
+    "ava": "^0.13.0",
     "babel-cli": "^6.6.5",
-    "babel-preset-es2015": "^6.6.0"
+    "babel-preset-es2015": "^6.6.0",
+    "inquirer-directory": "^2.0.0",
+    "mock-fs": "^3.9.0",
+    "mountfs": "^0.2.1"
+  },
+  "dependencies": {
+    "change-case": "^2.3.1",
+    "colors": "^1.1.2",
+    "core-js": "file:node_modules/core-js",
+    "handlebars": "^4.0.5",
+    "inquirer": "^0.12.0",
+    "q": "^1.4.1"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*.ava.js"
+    ],
+    "source": [
+      "lib/**/*.js"
+    ],
+    "failFast": true,
+    "tap": true
   }
 }

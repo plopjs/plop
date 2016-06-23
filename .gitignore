@@ -15,4 +15,4 @@ node_modules
 .npm
 
 # Compiled src
-lib/**/*
+lib
