@@ -103,7 +103,10 @@ module.exports = function (plop) {
 		actions: [{
 			type: 'add',
 			path: 'folder/{{dashCase name}}.txt',
-			templateFile: 'templates/temp.txt'
+			templateFile: 'templates/temp.txt',
+			data: {
+				someString: 'hello!'
+			}
 		}]
 	});
 };
