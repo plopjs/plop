@@ -7,6 +7,7 @@ module.exports = (function () {
 
 	var plop = require('./plop-base');
 	var fs = require('./fs-promise');
+	var assign = require('object-assign');
 
 	var genName = '';
 	var basePath = '';
@@ -124,7 +125,14 @@ module.exports = (function () {
 		var _d = q.defer();
 		var _chain = _d.promise;
 		var template = action.template || '';
-		var filePath = makePath(plop.renderString(action.path || '', data));
+		var allData;
+		if (action.data) {
+			allData = assign({}, data, action.data);
+		} else {
+			allData = data;
+		}
+
+		var filePath = makePath(plop.renderString(action.path || '', allData));
 
 		// ------- building the chain of events for this action ------- //
 		// get the template from either template or templateFile
@@ -151,12 +159,12 @@ module.exports = (function () {
 					if (pathExists) { throw Error('File already exists: ' + filePath); }
 					return fs.makeDir(path.dirname(filePath))
 						.then(function () {
-							return fs.writeFile(filePath, plop.renderString(template, data));
+							return fs.writeFile(filePath, plop.renderString(template, allData));
 						});
 				} else if (action.type === 'modify') {
 					return fs.readFile(filePath)
 						.then(function (fileData) {
-							fileData = fileData.replace(action.pattern, plop.renderString(template, data));
+							fileData = fileData.replace(action.pattern, plop.renderString(template, allData));
 							return fs.writeFile(filePath, fileData);
 						});
 				} else {
