@@ -192,6 +192,26 @@ Gets a generator config object by name.
 #### plop.getGeneratorList()
 Gets an array of generator names and descriptions.
 
+#### plop.loadPlops()
+- plopsFolder {String}
+
+Loops through the JavaScript files contained within `plopsFolder`, requiring each one and passing
+the exported method the `plop` instance. This allows for better organization of plop files.
+
+```
+// plopfile.js
+module.exports = function(plop) {
+	plop.loadPlops('./plops');
+};
+
+// ./plops/my-generator.js
+module.exports = function(plop) {
+	plop.setGenerator('my-generator', {
+		// ...
+	});
+};
+```
+
 #### plop.getPlopfilePath
 Returns the absolute path to the plopfile in use.
 
