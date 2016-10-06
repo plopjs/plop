@@ -26,12 +26,12 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: 'temp/{{dashCase name}}.txt',
+				path: 'src/{{dashCase name}}.txt',
 				templateFile: 'plop-templates/add.txt',
 				abortOnFail: true
 			}, {
 				type: 'add',
-				path: 'temp/_{{constantCase name}}.txt',
+				path: 'src/_{{constantCase name}}.txt',
 				template: 'inline template: {{name}}',
 				abortOnFail: true
 			}//,

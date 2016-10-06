@@ -16,3 +16,6 @@ node_modules
 
 # Compiled src
 lib
+
+# Test mocks
+tests/mock-src/src

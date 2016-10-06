@@ -1,0 +1,1 @@
+require('del').sync('./lib');
