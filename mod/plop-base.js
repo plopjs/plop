@@ -4,7 +4,10 @@ module.exports = (function () {
 	var inquirer = require('inquirer');
 	var handlebars = require('handlebars');
 	var changeCase = require('change-case');
+	var path = require('path');
+    var glob = require('glob');
 
+    var api;
 	var plopfilePath = '';
 	var generators = {};
 	var pkgJson = {};
@@ -69,8 +72,22 @@ module.exports = (function () {
 	}
 	function getPlopfilePath() { return plopfilePath; }
 
+	function loadPlops(plopsDir) {
+	    plopsDir = path.resolve(getPlopfilePath(), plopsDir);
+//         var plops = fs.readdirSync(plopsDir);
+        var plops = glob.sync('*.js', {
+            'cwd': plopsDir
+        });
+        plops.forEach(function(plop) {
+            plop = path.resolve(plopsDir, plop);
+            plop = require(plop);
+            if (typeof plop === 'function') {
+                plop(api);
+            }
+        });
+	}
 
-	return {
+	api = {
 		addHelper: addHelper,
 		addPartial: addPartial,
 		addPrompt: addPrompt,
@@ -83,7 +100,12 @@ module.exports = (function () {
 		setPlopfilePath: setPlopfilePath,
 		getPlopfilePath: getPlopfilePath,
 
+		loadPlops: loadPlops,
+
 		inquirer: inquirer,
 		handlebars: handlebars
 	};
+
+	return api;
+
 })();
