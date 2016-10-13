@@ -1,7 +1,7 @@
 Plop
 ======
 
-Micro-generator framework that makes it easy for an entire team to create files with a level or uniformity.
+Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity.
 
 [![npm](https://img.shields.io/npm/dm/plop.svg)]()
 [![npm](https://img.shields.io/npm/v/plop.svg)]()
