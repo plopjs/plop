@@ -21,12 +21,8 @@ module.exports = (function () {
 		config = plop.getGenerator(gName);
 
 		var _d = q.defer();
-		var prompts = config.prompts.map(function (p) {
-				p.message = colors.green('[' + gName.toUpperCase() + '] ') + p.message;
-				return p;
-			});
 
-		plop.inquirer.prompt(prompts, function (result) {
+		plop.inquirer.prompt(config.prompts, function (result) {
 			_d.resolve(result);
 		});
 
