@@ -14,10 +14,11 @@ module.exports = function (plopfilePath) {
 	const plop = plopBase();
 	const runner = generatorRunner(plop);
 
-	plopfilePath = path.resolve(plopfilePath);
-
-	plop.setPlopfilePath(plopfilePath);
-	require(plopfilePath)(plop);
+	if (plopfilePath) {
+		plopfilePath = path.resolve(plopfilePath);
+		plop.setPlopfilePath(plopfilePath);
+		require(plopfilePath)(plop);
+	}
 
 	/////
 	// external API for node-plop
@@ -31,6 +32,7 @@ module.exports = function (plopfilePath) {
 				runPrompts: () => runner.runGeneratorPrompts(genObject)
 			});
 		},
+		setGenerator: plop.setGenerator,
 		runActions: runner.runGeneratorActions,
 		runPrompts: runner.runGeneratorPrompts
 	};
