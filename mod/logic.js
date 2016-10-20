@@ -15,7 +15,7 @@ module.exports = (function () {
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
-	function getPlopData(gName) {
+	function getPlopData(gName, gArgs) {
 		genName = gName;
 		basePath = plop.getPlopfilePath();
 		config = plop.getGenerator(gName);
@@ -26,9 +26,18 @@ module.exports = (function () {
 				return p;
 			});
 
-		plop.inquirer.prompt(prompts, function (result) {
-			_d.resolve(result);
-		});
+		if (!gArgs.length) {
+			plop.inquirer.prompt(prompts, function (result) {
+				_d.resolve(result);
+			});
+		} else { 
+			var result = {};
+			prompts.forEach((prompt, index) => {
+				result[prompt.name] = gArgs[index];
+
+				_d.resolve(result);
+			});
+		}
 
 		return _d.promise;
 	}
