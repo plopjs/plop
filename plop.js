@@ -14,6 +14,7 @@ var logic = require('./mod/logic');
 var out = require('./mod/console-out');
 var globalPkg = require('./package.json');
 var generator = argv._[0] || null;
+var generatorArgs = argv._.slice(1);
 
 var Plop = new Liftoff({
 	name: 'plop',
@@ -78,7 +79,7 @@ function run(env) {
 	if (!generator) {
 		out.chooseOptionFromList(generators).then(doThePlop);
 	}else if (generators.map(function (v) { return v.name; }).indexOf(generator) > -1) {
-		doThePlop(generator);
+		doThePlop(generator, generatorArgs);
 	} else {
 		console.error(colors.red('[PLOP] ') + 'Generator "' + generator + '" not found in plopfile');
 		process.exit(1);
@@ -86,8 +87,8 @@ function run(env) {
 
 }
 
-function doThePlop(generator) {
-	logic.getPlopData(generator)
+function doThePlop(generator, generatorArgs) {
+	logic.getPlopData(generator, generatorArgs)
 		.then(logic.executePlop)
 		.then(function (result) {
 			result.changes.forEach(function(line) {
