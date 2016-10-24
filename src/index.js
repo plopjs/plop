@@ -14,6 +14,7 @@ module.exports = function (plopfilePath) {
 	const plop = plopBase();
 	const runner = generatorRunner(plop);
 
+	// run the plopfile setup if a plopfile path was provided
 	if (plopfilePath) {
 		plopfilePath = path.resolve(plopfilePath);
 		plop.setPlopfilePath(plopfilePath);
@@ -24,7 +25,11 @@ module.exports = function (plopfilePath) {
 	// external API for node-plop
 	//
 	return {
-		getGeneratorList: plop.getGeneratorList,
+		// node-plop higher level api
+		runPrompts: runner.runGeneratorPrompts,
+		runActions: runner.runGeneratorActions,
+
+		// enhanced base api
 		getGenerator: function (genName) {
 			const genObject = plop.getGenerator(genName);
 			return Object.assign(genObject, {
@@ -32,9 +37,21 @@ module.exports = function (plopfilePath) {
 				runPrompts: () => runner.runGeneratorPrompts(genObject)
 			});
 		},
+
+		// base api pass-through
 		setGenerator: plop.setGenerator,
-		runActions: runner.runGeneratorActions,
-		runPrompts: runner.runGeneratorPrompts
+		getGeneratorList: plop.getGeneratorList,
+		renderString: plop.renderString,
+
+		setPlopfilePath: plop.setPlopfilePath,
+		getPlopfilePath: plop.getPlopfilePath,
+
+		addHelper: plop.addHelper,
+		addPartial: plop.addPartial,
+		addPrompt: plop.addPrompt,
+
+		inquirer: plop.inquirer,
+		handlebars: plop.handlebars,
 	};
 
 };
