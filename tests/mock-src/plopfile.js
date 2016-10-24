@@ -23,6 +23,26 @@ module.exports = function (plop) {
 	// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('basic-add', {
 		description: 'adds a file using a template',
+		prompts: [
+			{
+				type: 'input',
+				name: 'name',
+				message: 'What is your name?',
+				validate: function (value) {
+					if ((/.+/).test(value)) { return true; }
+					return 'name is required';
+				}
+			}, {
+				type: 'input',
+				name: 'age',
+				message: 'How old are you?',
+				validate: function (value) {
+					var digitsOnly = /\d+/;
+					if (digitsOnly.test(value)) { return true; }
+					return 'Invalid age! Must be a number genius!';
+				}
+			}
+		],
 		actions: [
 			{
 				type: 'add',

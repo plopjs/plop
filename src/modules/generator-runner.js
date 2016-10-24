@@ -1,33 +1,19 @@
 'use strict';
 
-var q = require('q');
-var path = require('path');
-var colors = require('colors');
-var fs = require('./fs-promise');
+const q = require('q');
+const path = require('path');
+const colors = require('colors');
+const fs = require('./fs-promise');
 
 module.exports = function (plop) {
 	var abort, basePath;
 
 	// if not already an absolute path, make an absolute path from the basePath (plopfile location)
-	function makePath(p) {
-		return path.isAbsolute(p) ? p : path.join(basePath, p);
-	}
+	const makePath = p => path.isAbsolute(p) ? p : path.join(basePath, p);
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
-	function runGeneratorPrompts(genObject) {
-		var _d = q.defer();
-		var prompts = genObject.prompts.map(function (p) {
-				p.message = colors.green('[' + genObject.name.toUpperCase() + '] ') + p.message;
-				return p;
-			});
-
-		plop.inquirer.prompt(prompts, function (result) {
-			_d.resolve(result);
-		});
-
-		return _d.promise;
-	}
+	const runGeneratorPrompts = genObject => plop.inquirer.prompt(genObject.prompts);
 
 	// Run the actions for this generator
 	function runGeneratorActions(genObject, data) {
