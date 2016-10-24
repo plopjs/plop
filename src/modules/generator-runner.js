@@ -49,7 +49,6 @@ module.exports = function (plop) {
 		// setup the chain of actions for this generator
 		actions.forEach(function (action, idx) {
 			chain = chain.then(function () {
-				console.log('running action', idx);
 				if (typeof action === 'function') {
 					return executeCustomAction(action, idx, data, changes, failedChanges);
 				} else {
@@ -120,8 +119,6 @@ module.exports = function (plop) {
 		var template = action.template || '';
 		var filePath = makePath(plop.renderString(action.path || '', data));
 
-		console.log('running action chain', action, idx, data);
-
 		// ------- building the chain of events for this action ------- //
 		// get the template from either template or templateFile
 		_chain = _chain.then(function () {
@@ -137,14 +134,11 @@ module.exports = function (plop) {
 			// save template content outside of the promise function scope
 			template = templateContent;
 
-			console.log('template for action', idx, template);
-
 			// resolve the file path existence for the next link in the chain
 			return fs.fileExists(filePath);
 
 		// do the actual action work
 		}).then(function (pathExists) {
-			console.log('path exists for action', idx, pathExists);
 			if (filePath) {
 				if (action.type === 'add') {
 					if (pathExists) { throw Error('File already exists: ' + filePath); }
