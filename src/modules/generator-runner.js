@@ -1,9 +1,10 @@
 'use strict';
 
+const co = require('co');
 const q = require('q');
 const path = require('path');
 const colors = require('colors');
-const fs = require('./fs-promise');
+const fspp = require('./fs-promise-proxy');
 
 module.exports = function (plop) {
 	var abort, basePath;
@@ -16,155 +17,140 @@ module.exports = function (plop) {
 	const runGeneratorPrompts = genObject => plop.inquirer.prompt(genObject.prompts);
 
 	// Run the actions for this generator
-	function runGeneratorActions(genObject, data) {
-		var _d = q.defer();					// defer for overall plop execution
-		var _c = q.defer();					// defer to track the chain of action
-		var chain = _c.promise;				// chain promise
+	const runGeneratorActions = co.wrap(function* (genObject, data) {
 		var changes = [];					// array of changed made by the actions
-		var failedChanges = [];				// array of actions that failed
-		var actions = genObject.actions;	// the list of actions to execute
-		basePath = genObject.basePath;		// the path that contains this generator's plopfile
+		var failures = [];				// array of actions that failed
+		var {actions} = genObject; // the list of actions to execute
 
+		basePath = genObject.basePath;		// the path that contains this generator's plopfile
 		abort = false;
 
 		// if action is a function, run it to get our array of actions
-		if(typeof actions === 'function') {
-			actions = actions(data);
-		}
+		if(typeof actions === 'function') { actions = actions(data); }
 
-		// setup the chain of actions for this generator
-		actions.forEach(function (action, idx) {
-			chain = chain.then(function () {
+		for (let action of actions) {
+			// bail out if a previous action aborted
+			if (abort) {
+				failures.push({
+					type: action.type || '',
+					path: action.path || '',
+					error: `Aborted due to previous action failure`
+				});
+				continue;
+			}
+
+			const actionInterfaceTest = testActionInterface(action);
+			if (actionInterfaceTest !== true) {
+				failures.push(actionInterfaceTest);
+				continue;
+			}
+
+			try {
+				let result;
 				if (typeof action === 'function') {
-					return executeCustomAction(action, idx, data, changes, failedChanges);
+					result = yield executeCustomAction(action, data);
 				} else {
-					return executeActionChain(action, idx, data, changes, failedChanges);
+					result = yield executeAction(action, data);
 				}
-			});
-		});
-
-		// add the final step to the chain (reporting the status)
-		chain = chain.then(function () {
-			_d.resolve({
-				changes: changes,
-				failures: failedChanges
-			});
-		});
-
-		_c.resolve();
-
-		return _d.promise;
-	}
-
-	function executeCustomAction(action, idx, data, changes, failedChanges) {
-		// bail out if a previous action aborted
-		if (abort) {
-			failedChanges.push({
-				type: action.name || 'function',
-				path: '',
-				error: 'Aborted due to previous action failure'
-			});
-			return q.resolve();
+				changes.push(result);
+			} catch(failure) {
+				failures.push(failure);
+			}
 		}
+
+		return { changes, failures };
+	});
+
+	const executeCustomAction = co.wrap(function* (action, data) {
+		const failure = makeErrorLogger(action.type || 'function', '', action.abortOnFail);
+
 		// convert any returned data into a promise to
 		// return and wait on
+		return yield Promise.resolve(action(data)).then(
+			// show the resolved value in the console
+			result => ({
+				type: action.type || 'function',
+				path: colors.blue(result.toString())
+			}),
+			// a rejected promise is treated as a failure
+			function (err) {
+				throw failure(err.message || err.toString());
+			}
+		);
+	});
+
+	const executeAction = co.wrap(function* (action, data) {
+		var {template} = action;
+		const filePath = makePath(plop.renderString(action.path || '', data));
+		const failure = makeErrorLogger(action.type, filePath, action.abortOnFail);
+
 		try {
-			return q(action(data)).then(
-				// show the resolved value in the console
-				function (result) {
-					changes.push({
-						type: action.name || 'function',
-						path: colors.blue(result.toString())
-					});
-				},
-				// a rejected promise is treated as a failure
-				function (err) {
-					abort = true;
-					failedChanges.push({
-						type: action.name || 'function',
-						path: '',
-						error: err.message || err.toString()
-					});
-				}
-			);
-		// if we catch a synchronous error, treat it as a failure
-		} catch (err) {
-			abort = true;
-			failedChanges.push({
-				type: action.name || 'function',
-				path: '',
-				error: err.message
-			});
-			return q.resolve();
-		}
-	}
-
-	function executeActionChain(action, idx, data, changes, failedChanges) {
-		var _d = q.defer();
-		var _chain = _d.promise;
-		var template = action.template || '';
-		var filePath = makePath(plop.renderString(action.path || '', data));
-
-		// ------- building the chain of events for this action ------- //
-		// get the template from either template or templateFile
-		_chain = _chain.then(function () {
-			if (template) {
-				return template;
-			} else if(action.templateFile) {
-				return fs.readFile(makePath(action.templateFile));
-			} else {
-				throw Error('No valid template found for action #' + (idx + 1));
+			if (action.templateFile) {
+				template = yield fspp.readFile(makePath(action.templateFile));
 			}
+			if (template == null) { template = ''; }
 
-		}).then(function (templateContent) {
-			// save template content outside of the promise function scope
-			template = templateContent;
+			// check path
+			const pathExists = yield fspp.fileExists(filePath);
 
-			// resolve the file path existence for the next link in the chain
-			return fs.fileExists(filePath);
-
-		// do the actual action work
-		}).then(function (pathExists) {
-			if (filePath) {
-				if (action.type === 'add') {
-					if (pathExists) { throw Error('File already exists: ' + filePath); }
-					return fs.makeDir(path.dirname(filePath))
-						.then(function () {
-							return fs.writeFile(filePath, plop.renderString(template, data));
-						});
-				} else if (action.type === 'modify') {
-					return fs.readFile(filePath)
-						.then(function (fileData) {
-							fileData = fileData.replace(action.pattern, plop.renderString(template, data));
-							return fs.writeFile(filePath, fileData);
-						});
+			// handle type
+			if (action.type === 'add') {
+				if (pathExists) {
+					throw failure(`File already exists: ${filePath}`);
 				} else {
-					throw Error('Invalid action type: ' + action.type);
+					yield fspp.makeDir(path.dirname(filePath));
+					yield fspp.writeFile(filePath, plop.renderString(template, data));
+				}
+			} else if (action.type === 'modify') {
+				if (!pathExists) {
+					throw failure(`File does not exists: ${filePath}`);
+				} else {
+					var fileData = yield fspp.readFile(filePath);
+					fileData = fileData.replace(action.pattern, plop.renderString(template, data));
+					yield fspp.writeFile(filePath, fileData);
 				}
 			} else {
-				throw Error('No valid path provided for action #' + (idx + 1));
+				throw failure(`Invalid action type: ${action.type}`);
 			}
-		}).then(function () {
-			changes.push({
+
+			return {
 				type: action.type,
 				path: filePath
-			});
-		}).fail(function (err) {
-			failedChanges.push({
-				type: action.type,
-				path: filePath,
-				error: err.message
-			});
-			if (action.abortOnFail) { abort = true; }
-		});
+			};
+		} catch(err) {
+			throw failure(JSON.stringify(err));
+		}
+	});
 
-		if (!abort) {
-			_d.resolve();
-		} else {
-			_d.reject(Error('Aborted on Failure'));
+	function testActionInterface(action) {
+		// action functions are valid, end of story
+		if (typeof action === 'function') { return true; }
+
+		// it's not even an object, you fail!
+		if (typeof action !== 'object') {
+			return {type: '', path: '', error: `Invalid action object: ${JSON.stringify(action)}`};
 		}
 
-		return _chain;
+		var {type, path, template, templateFile, pattern, abortOnFail} = action;
+		const failure = makeErrorLogger(type, path, abortOnFail);
+
+		const validActionTypes = ['add', 'modify'];
+		if (!validActionTypes.includes(type)) {
+			return failure(`Invalid action type "${type}"`);
+		}
+
+		if (typeof path !== 'string' || path.length === 0) {
+			return failure(`Invalid path "${path}"`);
+		}
+
+		return true;
+	}
+
+	function makeErrorLogger(type, path, abortOnFail) {
+		return function (error) {
+			if (abortOnFail !== false) { abort = true; }
+			return { type, path, error };
+		};
 	}
 
 	return {
