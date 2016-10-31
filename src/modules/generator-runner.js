@@ -61,6 +61,11 @@ module.exports = function (plop) {
 		return { changes, failures };
 	});
 
+	/////
+	// action handlers
+	//
+
+	// custom action functions
 	const executeCustomAction = co.wrap(function* (action, data) {
 		const failure = makeErrorLogger(action.type || 'function', '', action.abortOnFail);
 
@@ -79,6 +84,7 @@ module.exports = function (plop) {
 		);
 	});
 
+	// basic function objects
 	const executeAction = co.wrap(function* (action, data) {
 		var {template} = action;
 		const filePath = makePath(plop.renderString(action.path || '', data));

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "clean": "node ./build-scripts/clean",
-    "develop": "npm run compile && npm run compile-watch & npm run test-watch",
+    "develop": "npm run compile && (npm run compile-watch & npm run test-watch)",
     "compile-watch": "babel src --watch --out-dir lib",
     "compile": "npm run clean && babel src --out-dir lib",
     "test": "ava",
