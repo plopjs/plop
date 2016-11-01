@@ -1,7 +1,6 @@
 'use strict';
 
 const co = require('co');
-const q = require('q');
 const path = require('path');
 const colors = require('colors');
 const fspp = require('./fs-promise-proxy');
