@@ -1,11 +1,11 @@
 'use strict';
 
-const co = require('co');
-const path = require('path');
-const colors = require('colors');
-const fspp = require('./fs-promise-proxy');
+import co from 'co';
+import path from 'path';
+import colors from 'colors';
+import * as fspp from './fs-promise-proxy';
 
-module.exports = function (plop) {
+export default function (plop) {
 	var abort, basePath;
 
 	// if not already an absolute path, make an absolute path from the basePath (plopfile location)
@@ -177,4 +177,4 @@ module.exports = function (plop) {
 		runGeneratorActions,
 		runGeneratorPrompts
 	};
-};
+}

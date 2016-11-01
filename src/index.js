@@ -1,7 +1,7 @@
-require('core-js'); // es2015 polyfill
-var path = require('path');
-var plopBase = require('./modules/plop-base');
-var generatorRunner = require('./modules/generator-runner');
+import 'core-js'; // es2015 polyfill
+import path from 'path';
+import plopBase from './modules/plop-base';
+import generatorRunner from './modules/generator-runner';
 
 /**
  * Main node-plop module

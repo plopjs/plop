@@ -1,24 +1,12 @@
-'use strict';
+import pify from 'pify';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
 
-const pify = require('pify');
-const fs = require('fs');
-const mkdirp = require('mkdirp');
+const _readFile = pify(fs.readFile);
+const _writeFile = pify(fs.writeFile);
+const _access = pify(fs.access);
 
-module.exports = (function () {
-	const readFile = pify(fs.readFile);
-	const writeFile = pify(fs.writeFile);
-	const makeDir = pify(mkdirp);
-	const readDir = pify(fs.readdir);
-	const access = pify(fs.access);
-
-	const getFile = path => readFile(path, 'utf8');
-	const setFile = (path, data) => writeFile(path, data, 'utf8');
-	const fileExists = path => access(path).then(() => true, () => false);
-
-	return {
-		readFile: getFile,
-		writeFile: setFile,
-		fileExists: fileExists,
-		makeDir: makeDir
-	};
-})();
+export const makeDir = pify(mkdirp);
+export const readFile = path => _readFile(path, 'utf8');
+export const writeFile = (path, data) => _writeFile(path, data, 'utf8');
+export const fileExists = path => _access(path).then(() => true, () => false);
