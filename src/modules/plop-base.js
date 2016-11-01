@@ -50,6 +50,10 @@ module.exports = function () {
 	}
 
 	function setGenerator(name, config) {
+		// if no name is provided, use a default
+		if (typeof name !== 'string' || name.length === 0) {
+			name = `generator-${Object.keys(generators).length + 1}`;
+		}
 		generators[name] = Object.assign(config, {
 			name: name,
 			basePath: plopfilePath

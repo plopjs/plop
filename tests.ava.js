@@ -30,3 +30,4 @@ test('add action failure (file already exists)', require('./tests/add-action-fai
 test('add action with no template', require('./tests/add-action-no-template'));
 test('missing action path', require('./tests/missing-action-path'));
 test('abort on fail', require('./tests/abort-on-fail'));
+test('generator name and prompts', require('./tests/generator-name-and-prompts'));

@@ -13,7 +13,12 @@ module.exports = function (plop) {
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
-	const runGeneratorPrompts = genObject => plop.inquirer.prompt(genObject.prompts);
+	const runGeneratorPrompts = co.wrap(function* (genObject) {
+		if (genObject.prompts == null) {
+			throw Error(`${genObject.name} does no have prompts.`);
+		}
+		return yield plop.inquirer.prompt(genObject.prompts);
+	});
 
 	// Run the actions for this generator
 	const runGeneratorActions = co.wrap(function* (genObject, data) {
@@ -26,6 +31,16 @@ module.exports = function (plop) {
 
 		// if action is a function, run it to get our array of actions
 		if(typeof actions === 'function') { actions = actions(data); }
+
+		// if actions are not defined... we cannot proceed.
+		if (actions == null) {
+			throw Error(`${genObject.name} does no have actions.`);
+		}
+
+		// if actions are not an array, invalid!
+		if (!(actions instanceof Array)) {
+			throw Error(`${genObject.name} does has invalid actions.`);
+		}
 
 		for (let action of actions) {
 			// bail out if a previous action aborted
