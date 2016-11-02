@@ -15,7 +15,7 @@ import generatorNameAndPrompts from './tests/generator-name-and-prompts';
 const clear = () => {
 	const srcPath = path.resolve(__dirname, 'tests/mock/src');
 	del.sync(srcPath);
-}
+};
 
 // clean out the /src dir when done
 test.before(clear);
