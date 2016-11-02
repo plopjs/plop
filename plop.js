@@ -2,15 +2,13 @@
 
 'use strict';
 
-var path = require('path');
 var Liftoff = require('liftoff');
 var argv = require('minimist')(process.argv.slice(2));
 var v8flags = require('v8flags');
 var interpret = require('interpret');
-var colors = require('colors');
+var chalk = require('chalk');
 
-var plop = require('./mod/plop-base');
-var logic = require('./mod/logic');
+var nodePlop = require('node-plop');
 var out = require('./mod/console-out');
 var globalPkg = require('./package.json');
 var generator = argv._[0] || null;
@@ -30,7 +28,7 @@ Plop.launch({
 }, run);
 
 function run(env) {
-	var generators, plopfilePath;
+	var generators, plopfilePath, plop;
 
 	// handle request for usage and options
 	if (argv.help || argv.h) {
@@ -52,8 +50,8 @@ function run(env) {
 	// handle request for version number
 	if (argv.version || argv.v) {
 		if (env.modulePackage.version !== globalPkg.version) {
-			console.log('CLI version'.yellow, globalPkg.version);
-			console.log('Local version'.yellow, env.modulePackage.version);
+			console.log(chalk.yellow('CLI version'), globalPkg.version);
+			console.log(chalk.yellow('Local version'), env.modulePackage.version);
 		} else {
 			console.log(globalPkg.version);
 		}
@@ -63,42 +61,42 @@ function run(env) {
 	plopfilePath = env.configPath;
 	// abort if there's no plopfile found
 	if (plopfilePath == null) {
-		console.error(colors.red('[PLOP] ') + 'No plopfile found');
+		console.error(chalk.red('[PLOP] ') + 'No plopfile found');
 		out.displayHelpScreen();
 		process.exit(1);
 	}
 
 	// set the default base path to the plopfile directory
-	plop.setPlopfilePath(path.dirname(plopfilePath));
-
-	// run the plopfile against the plop object
-	require(plopfilePath)(plop);
-
+	plop = nodePlop(plopfilePath);
 	generators = plop.getGeneratorList();
 	if (!generator) {
-		out.chooseOptionFromList(generators).then(doThePlop);
-	}else if (generators.map(function (v) { return v.name; }).indexOf(generator) > -1) {
-		doThePlop(generator);
+		out.chooseOptionFromList(generators).then(function (generatorName) {
+			doThePlop(plop.getGenerator(generatorName));
+		});
+	} else if (generators.map(function (v) { return v.name; }).indexOf(generator) > -1) {
+		doThePlop(plop.getGenerator(generator));
 	} else {
-		console.error(colors.red('[PLOP] ') + 'Generator "' + generator + '" not found in plopfile');
+		console.error(chalk.red('[PLOP] ') + 'Generator "' + generator + '" not found in plopfile');
 		process.exit(1);
 	}
 
 }
 
+/////
+// everybody to the plop!
+//
 function doThePlop(generator) {
-	logic.getPlopData(generator)
-		.then(logic.executePlop)
+	generator.runPrompts().then(generator.runActions)
 		.then(function (result) {
 			result.changes.forEach(function(line) {
-				console.log('[SUCCESS]'.green, line.type, line.path);
+				console.log(chalk.green('[SUCCESS]'), line.type, line.path);
 			});
 			result.failures.forEach(function(line) {
-				console.log('[FAILED]'.red, line.type, line.path, line.error);
+				console.log(chalk.red('[FAILED]'), line.type, line.path, line.error);
 			});
 		})
-		.fail(function (err) {
-			console.error('[ERROR]'.red, err.message, err.stack);
+		.catch(function (err) {
+			console.error(chalk.red('[ERROR]'), err.message, err.stack);
 			process.exit(1);
 		});
 }

@@ -1,32 +1,24 @@
 'use strict';
 
-var colors = require('colors');
+var chalk = require('chalk');
 var inquirer = require('inquirer');
 var fs = require('fs');
-var q = require('q');
 
 module.exports = (function () {
 
 	function chooseOptionFromList(plopList) {
-		var _d = q.defer();
-
-		inquirer.prompt([
-			{
-				type: 'list',
-				name: 'generator',
-				message: '[PLOP]'.blue + ' Please choose a generator.',
-				choices: plopList.map(function (p) {
-					return {
-						name: p.name + colors.gray(!!p.description ? ' - ' + p.description : ''),
-						value: p.name
-					};
-				})
-			}
-		], function (results) {
-			_d.resolve(results.generator);
-		});
-
-		return _d.promise;
+		return inquirer.prompt([{
+			type: 'list',
+			name: 'generator',
+			message: '[PLOP]'.blue + ' Please choose a generator.',
+			choices: plopList.map(function (p) {
+				return {
+					name: p.name + chalk.gray(!!p.description ? ' - ' + p.description : ''),
+					value: p.name
+				};
+			})
+		}])
+		.then(function (results) { return results.generator; });
 	}
 
 	function displayHelpScreen() {

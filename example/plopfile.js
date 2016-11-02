@@ -1,6 +1,6 @@
-module.exports = function (plop) {
-	'use strict';
+'use strict';
 
+module.exports = function (plop) {
 	// helpers are passed through to handlebars and made
 	// available for use in the generator templates
 
@@ -65,36 +65,37 @@ module.exports = function (plop) {
 				process.chdir(plop.getPlopfilePath());
 
 				// custom function can be synchronous or async (by returning a promise)
-				var fs = require('fs'),
-					existsMsg = 'psst {{name}}, change-me.txt already exists',
-					copiedMsg = 'hey {{name}}, I copied change-me.txt for you',
-					changeFile = 'change-me.txt';
+				var fs = require('fs');
+				var existsMsg = 'psst {{name}}, change-me.txt already exists';
+				var copiedMsg = 'hey {{name}}, I copied change-me.txt for you';
+				var changeFileName = 'change-me.txt';
+				var changeFilePath = 'folder/' + changeFileName;
 
 				// you can use plop.renderString to render templates
 				existsMsg = plop.renderString(existsMsg, answers);
 				copiedMsg = plop.renderString(copiedMsg, answers);
 
-				if (fs.existsSync(changeFile)) {
+				if (fs.existsSync(changeFilePath)) {
 					// returned value shows up in the console
 					return existsMsg;
 				} else {
 					// do a synchronous copy via node fs
-					fs.writeFileSync(changeFile, fs.readFileSync('templates/' + changeFile));
+					fs.writeFileSync(changeFilePath, fs.readFileSync('templates/' + changeFileName));
 					return copiedMsg;
 				}
 			},{
 				type: 'modify',
-				path: 'change-me.txt',
+				path: 'folder/change-me.txt',
 				pattern: /(-- APPEND ITEMS HERE --)/gi,
 				template: '$1\r\n{{name}}: {{age}}'
 			},{
 				type: 'modify',
-				path: 'change-me.txt',
+				path: 'folder/change-me.txt',
 				pattern: /(-- PREPEND ITEMS HERE --)/gi,
 				templateFile: 'templates/part.txt'
 			},{
 				type: 'modify',
-				path: 'change-me.txt',
+				path: 'folder/change-me.txt',
 				pattern: /## replace name here ##/gi,
 				template: 'replaced => {{dashCase name}}'
 			}
