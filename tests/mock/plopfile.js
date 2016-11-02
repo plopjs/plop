@@ -46,12 +46,12 @@ module.exports = function (plop) {
 		actions: [
 			{
 				type: 'add',
-				path: 'src/{{dashCase name}}.txt',
+				path: 'src/basic-plopfile/{{dashCase name}}.txt',
 				templateFile: 'plop-templates/add.txt',
 				abortOnFail: true
 			}, {
 				type: 'add',
-				path: 'src/_{{constantCase name}}.txt',
+				path: 'src/basic-plopfile/_{{constantCase name}}.txt',
 				template: 'inline template: {{name}}',
 				abortOnFail: true
 			},
@@ -76,22 +76,22 @@ module.exports = function (plop) {
 					return existsMsg;
 				} else {
 					// do a synchronous copy via node fs
-					fs.writeFileSync(`src/${changeFile}`, fs.readFileSync(`plop-templates/${changeFile}`));
+					fs.writeFileSync(`src/basic-plopfile/${changeFile}`, fs.readFileSync(`plop-templates/${changeFile}`));
 					return copiedMsg;
 				}
 			},{
 				type: 'modify',
-				path: 'src/change-me.txt',
+				path: 'src/basic-plopfile/change-me.txt',
 				pattern: /(-- APPEND ITEMS HERE --)/gi,
 				template: '$1\r\n{{name}}: {{age}}'
 			},{
 				type: 'modify',
-				path: 'src/change-me.txt',
+				path: 'src/basic-plopfile/change-me.txt',
 				pattern: /(-- PREPEND ITEMS HERE --)/gi,
 				templateFile: 'plop-templates/part.txt'
 			},{
 				type: 'modify',
-				path: 'src/change-me.txt',
+				path: 'src/basic-plopfile/change-me.txt',
 				pattern: /## replace name here ##/gi,
 				template: 'replaced => {{dashCase name}}'
 			}
