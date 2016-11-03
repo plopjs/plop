@@ -9,7 +9,7 @@ const testSrcPath = `${mockPath}/src/basic-no-plopfile`;
 const plop = nodePlop();
 const clear = () => {
 	del.sync(testSrcPath);
-}
+};
 
 test.before( () => {
 	const name = 'basic test name';
