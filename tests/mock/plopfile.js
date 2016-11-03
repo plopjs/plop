@@ -120,7 +120,7 @@ module.exports = function (plop) {
 			var actions = [
 				{
 					type: 'add',
-					path: 'src/{{dashCase name}}-burger.txt',
+					path: 'src/dynamic-actions/{{dashCase name}}-burger.txt',
 					templateFile: 'plop-templates/burger.txt',
 					abortOnFail: true
 				}
@@ -129,7 +129,7 @@ module.exports = function (plop) {
 			if(data.yesPotatoes) {
 				actions.push({
 					type: 'add',
-					path: 'src/{{dashCase name}}-potatoes.txt',
+					path: 'src/dynamic-actions/{{dashCase name}}-potatoes.txt',
 					templateFile: 'plop-templates/potatoes.txt',
 					abortOnFail: true
 				});

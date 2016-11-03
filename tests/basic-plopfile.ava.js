@@ -12,7 +12,9 @@ const clear = () => {
 	del.sync(testSrcPath);
 }
 
-test.before(() => basicAdd.runActions({name: 'this is a test', age: '21'}));
+test.before( () => {
+	return basicAdd.runActions({name: 'this is a test', age: '21'});
+});
 test.after(clear);
 
 
