@@ -1,15 +1,11 @@
 import test from 'ava';
 import fs from 'fs';
 import path from 'path';
-import del from 'del';
 import nodePlop from '../lib/index.js';
 
 const mockPath = path.resolve(__dirname, 'mock');
 const testSrcPath = `${mockPath}/src/missing-action-path`;
 const plop = nodePlop();
-const clear = () => {
-	del.sync(testSrcPath);
-}
 
 test.beforeEach( async t => {
 	const name = 'no path';
