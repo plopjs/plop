@@ -52,7 +52,8 @@
     "babel-plugin-transform-es2015-sticky-regex": "^6.8.0",
     "babel-plugin-transform-es2015-template-literals": "^6.8.0",
     "babel-plugin-transform-es2015-typeof-symbol": "^6.8.0",
-    "babel-plugin-transform-es2015-unicode-regex": "^6.8.0"
+    "babel-plugin-transform-es2015-unicode-regex": "^6.8.0",
+    "babel-register": "6.18.0"
   },
   "dependencies": {
     "change-case": "^2.3.1",
@@ -72,6 +73,9 @@
     "source": [
       "tests/**/plopfile.js",
       "lib/**/*.js"
+    ],
+    "require": [
+      "babel-register"
     ],
     "failFast": true,
     "tap": true
