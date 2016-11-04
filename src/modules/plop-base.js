@@ -1,102 +1,83 @@
-'use strict';
+import path from 'path';
+import inquirer from 'inquirer';
+import handlebars from 'handlebars';
+import changeCase from 'change-case';
 
-var path = require('path');
-
-module.exports = function () {
-	var inquirer = require('inquirer');
-	var handlebars = require('handlebars');
-	var changeCase = require('change-case');
+export default function () {
 
 	var plopfilePath = '';
-	var generators = {};
 	var pkgJson = {};
-	var partials = {};
-	var helpers = {
-			camelCase: changeCase.camel,
-			snakeCase: changeCase.snake,
-			dashCase: changeCase.param,
-			kabobCase: changeCase.param,
-			dotCase: changeCase.dot,
-			pathCase: changeCase.path,
-			properCase: changeCase.pascal,
-			pascalCase: changeCase.pascal,
-			lowerCase: changeCase.lower,
-			sentenceCase: changeCase.sentence,
-			constantCase: changeCase.constant,
-			titleCase: changeCase.title,
-			pkg: function (key) { return pkgJson[key]; }
-		};
 
-	var addPrompt = inquirer.registerPrompt;
+	const generators = {};
+	const partials = {};
+	const helpers = {
+		camelCase: changeCase.camel,
+		snakeCase: changeCase.snake,
+		dashCase: changeCase.param,
+		kabobCase: changeCase.param,
+		dotCase: changeCase.dot,
+		pathCase: changeCase.path,
+		properCase: changeCase.pascal,
+		pascalCase: changeCase.pascal,
+		lowerCase: changeCase.lower,
+		sentenceCase: changeCase.sentence,
+		constantCase: changeCase.constant,
+		titleCase: changeCase.title,
+		pkg: function (key) { return pkgJson[key]; }
+	};
 
-	function addHelper(name, fn) { helpers[name] = fn; }
-	function addPartial(name, str) { partials[name] = str; }
+	const addPrompt = inquirer.registerPrompt;
+	const addHelper = (name, fn) => { helpers[name] = fn; };
+	const addPartial = (name, str) => { partials[name] = str; };
 
 	function renderString(template, data) {
-		var t = template,
-			h, p;
-
-		for (h in helpers) {
+		for (let h in helpers) {
 			if (!helpers.hasOwnProperty(h)) { continue; }
 			handlebars.registerHelper(h, helpers[h]);
 		}
 
-		for (p in partials) {
+		for (let p in partials) {
 			if (!partials.hasOwnProperty(p)) { continue; }
 			handlebars.registerPartial(p, partials[p]);
 		}
 
-		return handlebars.compile(t)(data);
+		return handlebars.compile(template)(data);
 	}
 
-	function setGenerator(name, config) {
+	const getGenerator = (name) => generators[name];
+	function setGenerator(name = '', config = {}) {
 		// if no name is provided, use a default
-		if (typeof name !== 'string' || name.length === 0) {
-			name = `generator-${Object.keys(generators).length + 1}`;
-		}
+		name = name || `generator-${Object.keys(generators).length + 1}`;
+
+		// add the generator to this context
 		generators[name] = Object.assign(config, {
 			name: name,
 			basePath: plopfilePath
 		});
 	}
-	function getGenerator(name) { return generators[name]; }
 	function getGeneratorList() {
-		return Object.keys(generators).map(function (gName) {
-			return {
-				name: gName,
-				description: generators[gName].description || ''
-			};
-		});
+		return Object.keys(generators).map(name => ({
+			name,
+			description: generators[gName].description || ''
+		}));
 	}
 
+	const getPlopfilePath = () => plopfilePath;
 	function setPlopfilePath(filePath) {
-		filePath = path.dirname(filePath);
+		plopfilePath = path.dirname(filePath);
 
-		try{
-			pkgJson = require(filePath + '/package.json');
+		try {
+			pkgJson = require(plopfilePath + '/package.json');
 		} catch(err) {}
-
-		plopfilePath = filePath;
 	}
-	function getPlopfilePath() { return plopfilePath; }
 
 	/////
 	// the plop object API that is exposed to the plopfile when executed
 	//
 	return {
-		addHelper: addHelper,
-		addPartial: addPartial,
-		addPrompt: addPrompt,
-		renderString: renderString,
-
-		setGenerator: setGenerator,
-		getGenerator: getGenerator,
-		getGeneratorList: getGeneratorList,
-
-		setPlopfilePath: setPlopfilePath,
-		getPlopfilePath: getPlopfilePath,
-
-		inquirer: inquirer,
-		handlebars: handlebars
+		addHelper, addPartial, addPrompt, renderString,
+		setGenerator, getGenerator, getGeneratorList,
+		setPlopfilePath, getPlopfilePath,
+		inquirer, handlebars
 	};
-};
+}
