@@ -12,7 +12,26 @@ import generatorRunner from './modules/generator-runner';
 module.exports = function (plopfilePath) {
 
 	const plop = plopBase();
+	const {
+		getGeneratorList, renderString,
+		setPlopfilePath, getPlopfilePath,
+		addHelper, addPartial, addPrompt,
+		inquirer, handlebars
+	} = plop;
 	const runner = generatorRunner(plop);
+
+	function getGenerator(name) {
+		const generator = plop.getGenerator(name);
+		return Object.assign({}, generator, {
+			runActions: (data) => runner.runGeneratorActions(generator, data),
+			runPrompts: () => runner.runGeneratorPrompts(generator)
+		});
+	}
+
+	function setGenerator(name, config) {
+		plop.setGenerator(name, config);
+		return getGenerator(name);
+	}
 
 	// run the plopfile setup if a plopfile path was provided
 	if (plopfilePath) {
@@ -25,33 +44,14 @@ module.exports = function (plopfilePath) {
 	// external API for node-plop
 	//
 	return {
-		// node-plop higher level api
-		runPrompts: runner.runGeneratorPrompts,
-		runActions: runner.runGeneratorActions,
-
 		// enhanced base api
-		getGenerator: function (genName) {
-			const genObject = plop.getGenerator(genName);
-			return Object.assign(genObject, {
-				runActions: (data) => runner.runGeneratorActions(genObject, data),
-				runPrompts: () => runner.runGeneratorPrompts(genObject)
-			});
-		},
+		getGenerator, setGenerator,
 
 		// base api pass-through
-		setGenerator: plop.setGenerator,
-		getGeneratorList: plop.getGeneratorList,
-		renderString: plop.renderString,
-
-		setPlopfilePath: plop.setPlopfilePath,
-		getPlopfilePath: plop.getPlopfilePath,
-
-		addHelper: plop.addHelper,
-		addPartial: plop.addPartial,
-		addPrompt: plop.addPrompt,
-
-		inquirer: plop.inquirer,
-		handlebars: plop.handlebars,
+		getGeneratorList, renderString,
+		setPlopfilePath, getPlopfilePath,
+		addHelper, addPartial, addPrompt,
+		inquirer, handlebars
 	};
 
 };
