@@ -50,7 +50,7 @@ export default function () {
 		name = name || `generator-${Object.keys(generators).length + 1}`;
 
 		// add the generator to this context
-		generators[name] = Object.assign(config, {
+		return generators[name] = Object.assign(config, {
 			name: name,
 			basePath: plopfilePath
 		});

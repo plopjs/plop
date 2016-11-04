@@ -29,8 +29,8 @@ module.exports = function (plopfilePath) {
 	}
 
 	function setGenerator(name, config) {
-		plop.setGenerator(name, config);
-		return getGenerator(name);
+		const g = plop.setGenerator(name, config);
+		return getGenerator(g.name);
 	}
 
 	// run the plopfile setup if a plopfile path was provided
