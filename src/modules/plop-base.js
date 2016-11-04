@@ -58,7 +58,7 @@ export default function () {
 	function getGeneratorList() {
 		return Object.keys(generators).map(name => ({
 			name,
-			description: generators[gName].description || ''
+			description: generators[name].description || ''
 		}));
 	}
 
