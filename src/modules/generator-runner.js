@@ -48,7 +48,7 @@ export default function (plop) {
 				failures.push({
 					type: action.type || '',
 					path: action.path || '',
-					error: `Aborted due to previous action failure`
+					error: 'Aborted due to previous action failure'
 				});
 				continue;
 			}
@@ -151,7 +151,7 @@ export default function (plop) {
 			return {type: '', path: '', error: `Invalid action object: ${JSON.stringify(action)}`};
 		}
 
-		var {type, path, template, templateFile, pattern, abortOnFail} = action;
+		var {type, path, abortOnFail} = action;
 		const failure = makeErrorLogger(type, path, abortOnFail);
 
 		const validActionTypes = ['add', 'modify'];

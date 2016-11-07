@@ -1,3 +1,4 @@
+/* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
 import path from 'path';
 import inquirer from 'inquirer';
 import handlebars from 'handlebars';
@@ -68,7 +69,9 @@ export default function () {
 
 		try {
 			pkgJson = require(plopfilePath + '/package.json');
-		} catch(err) {}
+		}catch(error){
+
+		}
 	}
 
 	/////
