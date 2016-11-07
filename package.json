@@ -4,8 +4,9 @@
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "scripts": {
+    "eslint": "./node_modules/.bin/eslint src/",
     "clean": "node ./build-scripts/clean",
-    "develop": "npm run compile && (npm run compile-watch & npm run test-watch)",
+    "develop": "npm run eslint && npm run compile && (npm run compile-watch & npm run test-watch)",
     "compile-watch": "babel src --watch --out-dir lib",
     "compile": "npm run clean && babel src --out-dir lib",
     "test": "ava",
@@ -34,7 +35,11 @@
     "ava": "^0.16.0",
     "babel-cli": "^6.16.0",
     "babel-preset-es2015-node": "6.1.1",
-    "babel-register": "6.18.0"
+    "babel-register": "6.18.0",
+    "eslint": "3.9.1",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.3.1",
+    "eslint-plugin-standard": "^2.0.1"
   },
   "dependencies": {
     "change-case": "^2.3.1",
