@@ -1,11 +1,11 @@
 {
   "name": "node-plop",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "scripts": {
     "clean": "node ./build-scripts/clean",
-    "eslint": "./node_modules/.bin/eslint src/",
+    "eslint": "eslint src/",
     "test": "ava",
     "test-watch": "ava --watch",
     "compile": "npm run clean && babel src --out-dir lib",

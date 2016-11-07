@@ -17,7 +17,7 @@ module.exports = function (plop) {
 	});
 
 	// greet the user using a partial
-	plop.addPartial('salutation', '{{ greeting }}, my name is {{ properCase name }} and I am {{ age }}.');
+	plop.addPartial('salutation', 'my name is {{ properCase name }} and I am {{ age }}.');
 
 
 	// setGenerator creates a generator that can be run with "plop generatorName"
