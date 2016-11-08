@@ -1,10 +1,11 @@
-const ava = require('ava');
-const path = require('path');
-const del = require('del');
-const fs = require('fs');
-const nodePlop = require('../lib/index.js');
+import ava from 'ava';
+import path from 'path';
+import del from 'del';
+import fs from 'fs';
+import nodePlop from '../lib/index.js';
 
-module.exports = class AvaTest {
+class AvaTest {
+	
 	constructor(testFile) {
 		this.testName = path.basename(testFile).split('.')[0];
 		this.mockPath = path.resolve(__dirname, this.testName + '-mock');
@@ -28,3 +29,5 @@ module.exports = class AvaTest {
 		}
 	}
 };
+
+export default AvaTest;
