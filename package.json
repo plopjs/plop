@@ -4,14 +4,14 @@
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "scripts": {
-    "eslint": "./node_modules/.bin/eslint src/",
     "clean": "node ./build-scripts/clean",
-    "develop": "npm run eslint && npm run compile && (npm run compile-watch & npm run test-watch)",
-    "compile-watch": "babel src --watch --out-dir lib",
-    "compile": "npm run clean && babel src --out-dir lib",
+    "eslint": "./node_modules/.bin/eslint src/",
     "test": "ava",
     "test-watch": "ava --watch",
-    "prepublish": "npm run compile"
+    "compile": "npm run clean && babel src --out-dir lib",
+    "compile-watch": "babel src --watch --out-dir lib",
+    "prepublish": "npm run compile",
+    "develop": "npm run clean && npm run eslint && (npm run compile-watch & npm run test-watch)"
   },
   "repository": {
     "type": "git",
