@@ -11,9 +11,10 @@
     "compile": "npm run clean && babel src --out-dir lib",
     "compile-watch": "babel src --watch --out-dir lib",
     "prepublish": "npm run compile",
-    "develop": "npm run clean && npm run eslint && (npm run compile-watch & npm run test-watch)"
+    "develop": "npm run clean && (npm run compile-watch & npm run test-watch)"
   },
   "pre-commit": [
+    "eslint",
     "test"
   ],
   "repository": {
