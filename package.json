@@ -11,8 +11,12 @@
     "compile": "npm run clean && babel src --out-dir lib",
     "compile-watch": "babel src --watch --out-dir lib",
     "prepublish": "npm run compile",
-    "develop": "npm run clean && npm run eslint && (npm run compile-watch & npm run test-watch)"
+    "develop": "npm run clean && (npm run compile-watch & npm run test-watch)"
   },
+  "pre-commit": [
+    "eslint",
+    "test"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amwmedia/node-plop.git"
@@ -39,7 +43,8 @@
     "eslint": "3.9.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.3.1",
-    "eslint-plugin-standard": "^2.0.1"
+    "eslint-plugin-standard": "^2.0.1",
+    "pre-commit": "1.1.3"
   },
   "dependencies": {
     "change-case": "^2.3.1",
