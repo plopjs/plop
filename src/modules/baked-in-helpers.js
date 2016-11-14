@@ -3,14 +3,18 @@ import changeCase from 'change-case';
 export default {
 	camelCase: changeCase.camel,
 	snakeCase: changeCase.snake,
-	dashCase: changeCase.param,
-	kabobCase: changeCase.param,
 	dotCase: changeCase.dot,
 	pathCase: changeCase.path,
-	properCase: changeCase.pascal,
-	pascalCase: changeCase.pascal,
 	lowerCase: changeCase.lower,
+	upperCase: changeCase.upper,
 	sentenceCase: changeCase.sentence,
 	constantCase: changeCase.constant,
-	titleCase: changeCase.title
+	titleCase: changeCase.title,
+
+	dashCase: changeCase.param,
+	kabobCase: changeCase.param,
+	kebabCase: changeCase.param,
+
+	properCase: changeCase.pascal,
+	pascalCase: changeCase.pascal
 };
