@@ -16,6 +16,7 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 		pkg: function (key) { return pkgJson[key] || ''; },
 		cfg: function (key) { return plopCfg[key] || ''; }
 	}, bakedInHelpers);
+	const baseHelpers = Object.keys(helpers);
 
 	const addPrompt = inquirer.registerPrompt;
 	const addHelper = (name, fn) => { helpers[name] = fn; };
@@ -27,7 +28,9 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 		return handlebars.compile(template)(data);
 	}
 
-	const getGenerator = (name) => generators[name];
+	const getHelper = name => helpers[name];
+	const getPartial = name => partials[name];
+	const getGenerator = name => generators[name];
 	function setGenerator(name = '', config = {}) {
 		// if no name is provided, use a default
 		name = name || `generator-${Object.keys(generators).length + 1}`;
@@ -40,6 +43,9 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 
 		return generators[name];
 	}
+
+	const getHelperList = () => Object.keys(helpers).filter(h => !baseHelpers.includes(h));
+	const getPartialList = () => Object.keys(partials);
 	function getGeneratorList() {
 		return Object.keys(generators).map(function (name) {
 			const {description} = generators[name];
@@ -51,21 +57,51 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 	const getPlopfilePath = () => plopfilePath;
 	const setPlopfilePath = filePath => plopfilePath = path.dirname(filePath);
 
-	function load(files, loadCfg = {}, includeCfg = {}) {
+	function load(targets, loadCfg = {}, includeCfg = {generators:true}) {
+		if (typeof targets === 'string') { targets = [targets]; }
 		const config = Object.assign({
 			destBasePath: getDestBasePath()
 		}, loadCfg);
+
 		const include = Object.assign({
-			generators: true,
+			generators: false,
 			helpers: false,
-			prompts: false,
 			partials: false
 		}, includeCfg);
 
-		const proxy = plopBase(path.resolve(getPlopfilePath(), files), config);
+		targets.forEach(function (target) {
+			var targetPath;
 
-		if (include.generators) {
-			proxy.getGeneratorList().forEach(g => setGenerator(g.name, {proxy}));
+			try {
+				targetPath = require.resolve(target);
+			} catch (err) {
+				targetPath = path.resolve(getPlopfilePath(), target);
+			}
+
+			const proxy = plopBase(targetPath, config);
+
+			const genNameList = proxy.getGeneratorList().map(g => g.name);
+			loadAsset(genNameList, include.generators, setGenerator, proxyName => ({proxyName, proxy}));
+			loadAsset(proxy.getPartialList(), include.partials, addPartial, getPartial);
+			loadAsset(proxy.getHelperList(), include.helpers, addHelper, getHelper);
+		});
+	}
+
+	function loadAsset(nameList, include, addFunc, getFunc) {
+		var incArr;
+		if (include === true) { incArr = nameList; }
+		if (include instanceof Array) {
+			incArr = include.filter(n => typeof n === 'string');
+		}
+		if (incArr != null) {
+			include = incArr.reduce(function (inc, name) {
+				inc[name] = name;
+				return inc;
+			}, {});
+		}
+
+		if (include instanceof Object) {
+			Object.keys(include).forEach(i => addFunc(include[i], getFunc(i)));
 		}
 	}
 
@@ -93,7 +129,9 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 
 			// if this generator was loaded from an external plopfile, proxy the
 			// generator request through to the external plop instance
-			if (generator.proxy) { return generator.proxy.getGenerator(name); }
+			if (generator.proxy) {
+				return generator.proxy.getGenerator(generator.proxyName);
+			}
 
 			return Object.assign({}, generator, {
 				runActions: (data) => runner.runGeneratorActions(generator, data),
@@ -103,14 +141,16 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 		setGenerator(name, config) {
 			const g = plopApi.setGenerator(name, config);
 			return this.getGenerator(g.name);
-		}
+		},
+		getPartialList, getPartial,
+		getHelperList, getHelper
 	});
 
 	if (plopfilePath) {
 		plopfilePath = path.resolve(plopfilePath);
 		const plopFileName = path.posix.basename(plopfilePath);
 		setPlopfilePath(plopfilePath);
-		require(path.resolve(plopfilePath, plopFileName))(plopApi);
+		require(path.join(plopfilePath, plopFileName))(plopApi, plopCfg);
 	}
 
 	return nodePlopApi;
