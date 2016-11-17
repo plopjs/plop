@@ -5,16 +5,16 @@ import handlebars from 'handlebars';
 import bakedInHelpers from './baked-in-helpers';
 import generatorRunner from './generator-runner';
 
-function plopBase(plopfilePath = '', plopCfg = {}) {
+function nodePlop(plopfilePath = '', plopCfg = {}) {
 
 	var pkgJson = {};
+	var defaultInclude = {generators: true};
 
 	const {destBasePath} = plopCfg;
 	const generators = {};
 	const partials = {};
 	const helpers = Object.assign({
-		pkg: function (key) { return pkgJson[key] || ''; },
-		cfg: function (key) { return plopCfg[key] || ''; }
+		pkg: (key) => pkgJson[key] || ''
 	}, bakedInHelpers);
 	const baseHelpers = Object.keys(helpers);
 
@@ -53,21 +53,17 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 		});
 	}
 
+	const setDefaultInclude = inc => defaultInclude = inc;
+	const getDefaultInclude = () => defaultInclude;
 	const getDestBasePath = () => destBasePath || plopfilePath;
 	const getPlopfilePath = () => plopfilePath;
 	const setPlopfilePath = filePath => plopfilePath = path.dirname(filePath);
 
-	function load(targets, loadCfg = {}, includeCfg = {generators:true}) {
+	function load(targets, loadCfg = {}, includeOverride) {
 		if (typeof targets === 'string') { targets = [targets]; }
 		const config = Object.assign({
 			destBasePath: getDestBasePath()
 		}, loadCfg);
-
-		const include = Object.assign({
-			generators: false,
-			helpers: false,
-			partials: false
-		}, includeCfg);
 
 		targets.forEach(function (target) {
 			var targetPath;
@@ -78,7 +74,14 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 				targetPath = path.resolve(getPlopfilePath(), target);
 			}
 
-			const proxy = plopBase(targetPath, config);
+			const proxy = nodePlop(targetPath, config);
+			const proxyDefaultInclude = proxy.getDefaultInclude() || {};
+			const includeCfg = includeOverride || proxyDefaultInclude;
+			const include = Object.assign({
+				generators: false,
+				helpers: false,
+				partials: false
+			}, includeCfg);
 
 			const genNameList = proxy.getGeneratorList().map(g => g.name);
 			loadAsset(genNameList, include.generators, setGenerator, proxyName => ({proxyName, proxy}));
@@ -118,6 +121,7 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 		addHelper, addPartial, addPrompt, renderString,
 		setGenerator, getGenerator, getGeneratorList,
 		setPlopfilePath, getPlopfilePath, getDestBasePath, load,
+		setDefaultInclude,
 		inquirer, handlebars
 	};
 
@@ -143,7 +147,8 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 			return this.getGenerator(g.name);
 		},
 		getPartialList, getPartial,
-		getHelperList, getHelper
+		getHelperList, getHelper,
+		getDefaultInclude
 	});
 
 	if (plopfilePath) {
@@ -156,4 +161,4 @@ function plopBase(plopfilePath = '', plopCfg = {}) {
 	return nodePlopApi;
 }
 
-export default plopBase;
+export default nodePlop;
