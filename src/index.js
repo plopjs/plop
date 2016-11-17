@@ -1,5 +1,5 @@
 import 'core-js'; // es2015 polyfill
-import nodePlop from './modules/plop-base';
+import nodePlop from './modules/node-plop';
 
 /**
  * Main node-plop module
