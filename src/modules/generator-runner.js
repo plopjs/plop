@@ -6,10 +6,12 @@ import colors from 'colors';
 import * as fspp from './fs-promise-proxy';
 
 export default function (plop) {
-	var abort, basePath;
+	if (plop.proxy != null) { plop = plop.proxy; }
+	var abort;
 
 	// if not already an absolute path, make an absolute path from the basePath (plopfile location)
-	const makePath = p => path.isAbsolute(p) ? p : path.join(basePath, p);
+	const makeTmplPath = p => path.resolve(plop.getPlopfilePath(), p);
+	const makeDestPath = p => path.resolve(plop.getDestBasePath(), p);
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
@@ -26,7 +28,6 @@ export default function (plop) {
 		var failures = [];				// array of actions that failed
 		var {actions} = genObject; // the list of actions to execute
 
-		basePath = genObject.basePath;		// the path that contains this generator's plopfile
 		abort = false;
 
 		// if action is a function, run it to get our array of actions
@@ -101,33 +102,33 @@ export default function (plop) {
 	// basic function objects
 	const executeAction = co.wrap(function* (action, data) {
 		var {template} = action;
-		const filePath = makePath(plop.renderString(action.path || '', data));
-		const failure = makeErrorLogger(action.type, filePath, action.abortOnFail);
+		const fileDestPath = makeDestPath(plop.renderString(action.path || '', data));
+		const failure = makeErrorLogger(action.type, fileDestPath, action.abortOnFail);
 
 		try {
 			if (action.templateFile) {
-				template = yield fspp.readFile(makePath(action.templateFile));
+				template = yield fspp.readFile(makeTmplPath(action.templateFile));
 			}
 			if (template == null) { template = ''; }
 
 			// check path
-			const pathExists = yield fspp.fileExists(filePath);
+			const pathExists = yield fspp.fileExists(fileDestPath);
 
 			// handle type
 			if (action.type === 'add') {
 				if (pathExists) {
-					throw failure(`File already exists: ${filePath}`);
+					throw failure(`File already exists: ${fileDestPath}`);
 				} else {
-					yield fspp.makeDir(path.dirname(filePath));
-					yield fspp.writeFile(filePath, plop.renderString(template, data));
+					yield fspp.makeDir(path.dirname(fileDestPath));
+					yield fspp.writeFile(fileDestPath, plop.renderString(template, data));
 				}
 			} else if (action.type === 'modify') {
 				if (!pathExists) {
-					throw failure(`File does not exists: ${filePath}`);
+					throw failure(`File does not exists: ${fileDestPath}`);
 				} else {
-					var fileData = yield fspp.readFile(filePath);
+					var fileData = yield fspp.readFile(fileDestPath);
 					fileData = fileData.replace(action.pattern, plop.renderString(template, data));
-					yield fspp.writeFile(filePath, fileData);
+					yield fspp.writeFile(fileDestPath, fileData);
 				}
 			} else {
 				throw failure(`Invalid action type: ${action.type}`);
@@ -135,7 +136,7 @@ export default function (plop) {
 
 			return {
 				type: action.type,
-				path: filePath
+				path: fileDestPath
 			};
 		} catch(err) {
 			throw failure(JSON.stringify(err));
