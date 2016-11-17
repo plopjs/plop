@@ -85,8 +85,8 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 
 			const genNameList = proxy.getGeneratorList().map(g => g.name);
 			loadAsset(genNameList, include.generators, setGenerator, proxyName => ({proxyName, proxy}));
-			loadAsset(proxy.getPartialList(), include.partials, addPartial, getPartial);
-			loadAsset(proxy.getHelperList(), include.helpers, addHelper, getHelper);
+			loadAsset(proxy.getPartialList(), include.partials, addPartial, proxy.getPartial);
+			loadAsset(proxy.getHelperList(), include.helpers, addHelper, proxy.getHelper);
 		});
 	}
 
