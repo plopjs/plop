@@ -1,6 +1,6 @@
 {
   "name": "plop",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity",
   "main": "plop.js",
   "repository": {
@@ -23,7 +23,8 @@
     "url": "https://github.com/amwmedia/plop/issues"
   },
   "devDependencies": {
-    "inquirer-directory": "^2.0.0"
+    "inquirer-directory": "^2.1.0",
+    "plop-pack-fancy-comments": "^0.2.0"
   },
   "homepage": "https://github.com/amwmedia/plop",
   "dependencies": {
@@ -31,7 +32,7 @@
     "interpret": "^1.0.0",
     "liftoff": "^2.2.0",
     "minimist": "^1.2.0",
-    "node-plop": "0.4.1",
+    "node-plop": "~0.5.0",
     "v8flags": "^2.0.10"
   },
   "preferGlobal": "true",
