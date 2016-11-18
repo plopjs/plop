@@ -215,7 +215,7 @@ There are a few helpers that I have found useful enough to include with plop. Th
 
 - **camelCase**: changeFormatToThis
 - **snakeCase**: change_format_to_this
-- **dashCase/kabobCase**: change-format-to-this
+- **dashCase/kebabCase**: change-format-to-this
 - **dotCase**: change.format.to.this
 - **pathCase**: change/format/to/this
 - **properCase/pascalCase**: ChangeFormatToThis
