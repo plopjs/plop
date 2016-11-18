@@ -42,8 +42,8 @@ plop.load
 ```
 *load via a path with a limited include*
 ```javascript
-	// loads only the "header" helper, no generators or partials (even if they exist)
-	plop.load('./plopfiles/component.js', {}, { helpers: ['header'] });
+	// loads only the "js-header" helper, no generators or partials (even if they exist)
+	plop.load('./plopfiles/component.js', {}, { helpers: ['js-header'] });
 ```
 *load via a path with config object*
 ```javascript
@@ -63,7 +63,7 @@ plop.load
 *load via npm module with a renaming include config*
 ```javascript
 	// loads only the header helper, no generators or partials (even if they exist)
-	// within the plopfile and templates, the "header" helper is referenced as "title"
+	// within the plopfile and templates, the "js-header" helper is referenced as "titleComment"
 	plop.load('plop-pack-fancy-comments', {}, { helpers: {'js-header': 'titleComment'} });
 ```
 *load via npm module AND path*
