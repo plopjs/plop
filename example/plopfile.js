@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 
 module.exports = function (plop) {
 	// helpers are passed through to handlebars and made
@@ -13,9 +14,20 @@ module.exports = function (plop) {
 		return words.join(', ').replace(/(:?.*),/, '$1, and');
 	});
 
+	plop.addHelper('absPath', function (p) {
+		return path.resolve(plop.getPlopfilePath(), p);
+	});
+
 	// greet the user using a partial
 	plop.addPartial('salutation', '{{ greeting }}, my name is {{ properCase name }} and I am {{ age }}.');
 
+	// load some additional helpers from a module I "npm install"ed
+	plop.load('plop-pack-fancy-comments', {
+		prefix: '',
+		upperCaseHeaders: true,
+		commentStart: '',
+		commentEnd: ''
+	});
 
 	// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('test', {
@@ -125,10 +137,13 @@ module.exports = function (plop) {
 			}
 		],
 		actions: [
-			{
+			function(data) {
+				console.log(data);
+				return 'yay';
+			}, {
 				type: 'add',
-				path: '{{path}}/{{fileName}}.txt',
-				template: '{{path}}/{{fileName}} plopped!'
+				path: '{{absPath path}}/{{fileName}}.txt',
+				template: '{{absPath path}}/{{fileName}} plopped!'
 			}
 		]
 	});
