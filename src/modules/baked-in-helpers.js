@@ -16,7 +16,5 @@ export default {
 	kebabCase: changeCase.param,
 
 	properCase: changeCase.pascal,
-	pascalCase: changeCase.pascal,
-
-	stringConcat: (...args) => args.filter(a => typeof a === 'string').join('')
+	pascalCase: changeCase.pascal
 };
