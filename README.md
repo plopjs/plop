@@ -178,6 +178,13 @@ module.exports = function (plop) {
 # Other Plop Methods/Attributes
 These methods and attributes are available off the `plop` object. They are mostly used by plop internally, but some can come in handy when you're doing something a little more custom.
 
+#### plop.load(targets, [config], [include]) - [see details](plop-load.md)
+- targets {String | Array<String>}
+- config {Object}
+- include {Object}
+
+loads generators, helpers and/or partials from another plopfile or npm module
+
 #### plop.renderString(template, data)
  - template {String}
  - data {Object}
@@ -192,7 +199,7 @@ Gets a generator config object by name.
 #### plop.getGeneratorList()
 Gets an array of generator names and descriptions.
 
-#### plop.getPlopfilePath
+#### plop.getPlopfilePath()
 Returns the absolute path to the plopfile in use.
 
 #### plop.inquirer
