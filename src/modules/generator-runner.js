@@ -117,14 +117,14 @@ export default function (plop) {
 			// handle type
 			if (action.type === 'add') {
 				if (pathExists) {
-					throw failure(`File already exists: ${fileDestPath}`);
+					throw failure('File already exists');
 				} else {
 					yield fspp.makeDir(path.dirname(fileDestPath));
 					yield fspp.writeFile(fileDestPath, plop.renderString(template, data));
 				}
 			} else if (action.type === 'modify') {
 				if (!pathExists) {
-					throw failure(`File does not exists: ${fileDestPath}`);
+					throw failure('File does not exists');
 				} else {
 					var fileData = yield fspp.readFile(fileDestPath);
 					fileData = fileData.replace(action.pattern, plop.renderString(template, data));
@@ -139,7 +139,7 @@ export default function (plop) {
 				path: fileDestPath
 			};
 		} catch(err) {
-			throw failure(JSON.stringify(err));
+			throw failure(err.error || err.message || JSON.stringify(err));
 		}
 	});
 
