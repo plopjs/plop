@@ -19,3 +19,6 @@ lib
 
 # Test mocks
 tests/*-mock/src
+
+# IDE files
+.idea

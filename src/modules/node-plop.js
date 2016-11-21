@@ -153,7 +153,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 
 	if (plopfilePath) {
 		plopfilePath = path.resolve(plopfilePath);
-		const plopFileName = path.posix.basename(plopfilePath);
+		const plopFileName = path.basename(plopfilePath);
 		setPlopfilePath(plopfilePath);
 		require(path.join(plopfilePath, plopFileName))(plopApi, plopCfg);
 	}
