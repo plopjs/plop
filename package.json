@@ -35,6 +35,9 @@
     "node-plop": "~0.5.2",
     "v8flags": "^2.0.10"
   },
+  "engines": {
+    "node": ">=4.0"
+  },
   "preferGlobal": "true",
   "bin": {
     "plop": "plop.js"
