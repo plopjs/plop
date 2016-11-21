@@ -1,8 +1,6 @@
-import fs from 'fs';
 import co from 'co';
-import path from 'path';
 import AvaTest from './_base-ava-test';
-const {test, mockPath, testSrcPath, nodePlop} = new AvaTest(__filename);
+const {test, nodePlop} = (new AvaTest(__filename));
 
 const plop = nodePlop();
 

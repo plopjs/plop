@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import AvaTest from './_base-ava-test';
-const {test, mockPath, testSrcPath, nodePlop} = new AvaTest(__filename);
+const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 const plop = nodePlop(`${mockPath}/plopfile.js`);
 const dynamicActions = plop.getGenerator('dynamic-actions');

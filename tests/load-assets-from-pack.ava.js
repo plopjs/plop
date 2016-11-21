@@ -1,6 +1,6 @@
 import path from 'path';
 import AvaTest from './_base-ava-test';
-const {test, mockPath, nodePlop} = new AvaTest(__filename);
+const {test, mockPath, nodePlop} = (new AvaTest(__filename));
 const packModuleName = 'plop-pack-fancy-comments';
 const plopfilePath = path.join(mockPath, 'plopfile.js');
 

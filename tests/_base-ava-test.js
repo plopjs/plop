@@ -5,11 +5,11 @@ import fs from 'fs';
 import nodePlop from '../lib/index.js';
 
 class AvaTest {
-	
+
 	constructor(testFile) {
 		this.testName = path.basename(testFile).split('.')[0];
 		this.mockPath = path.resolve(__dirname, this.testName + '-mock');
-		this.testSrcPath = this.mockPath + '/src';
+		this.testSrcPath = path.resolve(this.mockPath, 'src');
 		this.test = ava.test;
 		this.nodePlop = nodePlop;
 
