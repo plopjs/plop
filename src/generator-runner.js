@@ -5,13 +5,13 @@ import path from 'path';
 import colors from 'colors';
 import * as fspp from './fs-promise-proxy';
 
-export default function (plop) {
-	if (plop.proxy != null) { plop = plop.proxy; }
+export default function (plopfileApi, actionTypes) {
+	const bakedInActionTypes = ['add', 'modify'];
 	var abort;
 
 	// if not already an absolute path, make an absolute path from the basePath (plopfile location)
-	const makeTmplPath = p => path.resolve(plop.getPlopfilePath(), p);
-	const makeDestPath = p => path.resolve(plop.getDestBasePath(), p);
+	const makeTmplPath = p => path.resolve(plopfileApi.getPlopfilePath(), p);
+	const makeDestPath = p => path.resolve(plopfileApi.getDestBasePath(), p);
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
@@ -19,19 +19,19 @@ export default function (plop) {
 		if (genObject.prompts == null) {
 			throw Error(`${genObject.name} does no have prompts.`);
 		}
-		return yield plop.inquirer.prompt(genObject.prompts);
+		return yield plopfileApi.inquirer.prompt(genObject.prompts);
 	});
 
 	// Run the actions for this generator
 	const runGeneratorActions = co.wrap(function* (genObject, data) {
-		var changes = [];					// array of changed made by the actions
-		var failures = [];				// array of actions that failed
+		var changes = [];          // array of changed made by the actions
+		var failures = [];         // array of actions that failed
 		var {actions} = genObject; // the list of actions to execute
 
 		abort = false;
 
 		// if action is a function, run it to get our array of actions
-		if(typeof actions === 'function') { actions = actions(data); }
+		if (typeof actions === 'function') { actions = actions(data); }
 
 		// if actions are not defined... we cannot proceed.
 		if (actions == null) {
@@ -54,6 +54,13 @@ export default function (plop) {
 				continue;
 			}
 
+			const actionCfg = (typeof action === 'function' ? {} : action);
+
+			// handle imported actions
+			if (!bakedInActionTypes.includes(actionCfg.type) && actionCfg.type in actionTypes) {
+				action = actionTypes[actionCfg.type];
+			}
+
 			const actionInterfaceTest = testActionInterface(action);
 			if (actionInterfaceTest !== true) {
 				failures.push(actionInterfaceTest);
@@ -63,7 +70,7 @@ export default function (plop) {
 			try {
 				let result;
 				if (typeof action === 'function') {
-					result = yield executeCustomAction(action, data);
+					result = yield executeCustomAction(action, actionCfg, data);
 				} else {
 					result = yield executeAction(action, data);
 				}
@@ -81,15 +88,15 @@ export default function (plop) {
 	//
 
 	// custom action functions
-	const executeCustomAction = co.wrap(function* (action, data) {
-		const failure = makeErrorLogger(action.type || 'function', '', action.abortOnFail);
+	const executeCustomAction = co.wrap(function* (action, cfg, data) {
+		const failure = makeErrorLogger(cfg.type || 'function', '', cfg.abortOnFail);
 
 		// convert any returned data into a promise to
 		// return and wait on
-		return yield Promise.resolve(action(data)).then(
+		return yield Promise.resolve(action(data, cfg, plopfileApi)).then(
 			// show the resolved value in the console
 			result => ({
-				type: action.type || 'function',
+				type: cfg.type || 'function',
 				path: colors.blue(result.toString())
 			}),
 			// a rejected promise is treated as a failure
@@ -102,7 +109,7 @@ export default function (plop) {
 	// basic function objects
 	const executeAction = co.wrap(function* (action, data) {
 		var {template} = action;
-		const fileDestPath = makeDestPath(plop.renderString(action.path || '', data));
+		const fileDestPath = makeDestPath(plopfileApi.renderString(action.path || '', data));
 		const failure = makeErrorLogger(action.type, fileDestPath, action.abortOnFail);
 
 		try {
@@ -120,14 +127,14 @@ export default function (plop) {
 					throw failure('File already exists');
 				} else {
 					yield fspp.makeDir(path.dirname(fileDestPath));
-					yield fspp.writeFile(fileDestPath, plop.renderString(template, data));
+					yield fspp.writeFile(fileDestPath, plopfileApi.renderString(template, data));
 				}
 			} else if (action.type === 'modify') {
 				if (!pathExists) {
 					throw failure('File does not exists');
 				} else {
 					var fileData = yield fspp.readFile(fileDestPath);
-					fileData = fileData.replace(action.pattern, plop.renderString(template, data));
+					fileData = fileData.replace(action.pattern, plopfileApi.renderString(template, data));
 					yield fspp.writeFile(fileDestPath, fileData);
 				}
 			} else {
@@ -155,8 +162,7 @@ export default function (plop) {
 		var {type, path, abortOnFail} = action;
 		const failure = makeErrorLogger(type, path, abortOnFail);
 
-		const validActionTypes = ['add', 'modify'];
-		if (!validActionTypes.includes(type)) {
+		if (!bakedInActionTypes.includes(type)) {
 			return failure(`Invalid action type "${type}"`);
 		}
 
