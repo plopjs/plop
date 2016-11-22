@@ -24,7 +24,10 @@
   },
   "keywords": [
     "plop",
+    "generator",
+    "scaffolding",
     "node",
+    "programmatic",
     "automation"
   ],
   "author": "Andrew Worcester <andrew@amwmedia.com> (http://amwmedia.com)",
