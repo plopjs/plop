@@ -19,10 +19,10 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	}, bakedInHelpers);
 	const baseHelpers = Object.keys(helpers);
 
-	const addPrompt = inquirer.registerPrompt;
-	const addHelper = (name, fn) => { helpers[name] = fn; };
-	const addPartial = (name, str) => { partials[name] = str; };
-	const addActionType = (name, fn) => { actionTypes[name] = fn; };
+	const setPrompt = inquirer.registerPrompt;
+	const setHelper = (name, fn) => { helpers[name] = fn; };
+	const setPartial = (name, str) => { partials[name] = str; };
+	const setActionType = (name, fn) => { actionTypes[name] = fn; };
 
 	function renderString(template, data) {
 		Object.keys(helpers).forEach(h => handlebars.registerHelper(h, helpers[h]));
@@ -90,9 +90,9 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 
 			const genNameList = proxy.getGeneratorList().map(g => g.name);
 			loadAsset(genNameList, include.generators, setGenerator, proxyName => ({proxyName, proxy}));
-			loadAsset(proxy.getPartialList(), include.partials, addPartial, proxy.getPartial);
-			loadAsset(proxy.getHelperList(), include.helpers, addHelper, proxy.getHelper);
-			loadAsset(proxy.getActionTypeList(), include.actionTypes, addActionType, proxy.getActionType);
+			loadAsset(proxy.getPartialList(), include.partials, setPartial, proxy.getPartial);
+			loadAsset(proxy.getHelperList(), include.helpers, setHelper, proxy.getHelper);
+			loadAsset(proxy.getActionTypeList(), include.actionTypes, setActionType, proxy.getActionType);
 		});
 	}
 
@@ -124,11 +124,18 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	// generator runner methods
 	//
 	const plopfileApi = {
-		addHelper, addPartial, addPrompt, addActionType, renderString,
+		setPrompt, renderString, inquirer, handlebars,
 		setGenerator, getGenerator, getGeneratorList,
 		setPlopfilePath, getPlopfilePath, getDestBasePath, load,
-		setDefaultInclude,
-		inquirer, handlebars
+		setPartial, getPartialList, getPartial,
+		setHelper, getHelperList, getHelper,
+		setActionType, getActionTypeList, getActionType,
+		setDefaultInclude, getDefaultInclude,
+		// for backward compatibility
+		addPrompt: setPrompt,
+		addPartial: setPartial,
+		addHelper: setHelper,
+		addActionType: setActionType
 	};
 
 	// the runner for this instance of the nodePlop api
@@ -151,11 +158,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		setGenerator(name, config) {
 			const g = plopfileApi.setGenerator(name, config);
 			return this.getGenerator(g.name);
-		},
-		getPartialList, getPartial,
-		getHelperList, getHelper,
-		getActionTypeList, getActionType,
-		getDefaultInclude
+		}
 	});
 
 	if (plopfilePath) {

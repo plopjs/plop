@@ -12,7 +12,7 @@ const customAction = require(path.resolve(mockPath, 'custom-action.js'));
 test('imported custom action should execute correctly', co.wrap(function* (t) {
 	const plop = nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test.txt');
-	plop.addActionType('custom-del', customAction);
+	plop.setActionType('custom-del', customAction);
 
 	// add the file
 	const addTestFile = { type: 'add', path: testFilePath };
@@ -37,7 +37,7 @@ test('imported custom action should execute correctly', co.wrap(function* (t) {
 test('imported custom action can throw errors', co.wrap(function* (t) {
 	const plop = nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test2.txt');
-	plop.addActionType('custom-del', customAction);
+	plop.setActionType('custom-del', customAction);
 
 	// remove the file
 	const deleteTestFile = { type: 'custom-del', path: testFilePath };

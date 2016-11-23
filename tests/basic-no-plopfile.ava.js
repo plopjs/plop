@@ -7,7 +7,7 @@ const plop = nodePlop();
 
 test.before(() => {
 	const name = 'basic test name';
-	plop.addHelper('uCase', txt => txt.toUpperCase());
+	plop.setHelper('uCase', txt => txt.toUpperCase());
 	plop.setGenerator('basic-add-no-plopfile', {
 		description: 'adds a file using a template',
 		prompts: [
