@@ -1,7 +1,8 @@
 import ava from 'ava';
 import path from 'path';
 import del from 'del';
-import fs from 'fs';
+import co from 'co';
+import * as fspp from '../lib/fs-promise-proxy.js';
 import nodePlop from '../lib/index.js';
 
 class AvaTest {
@@ -18,16 +19,19 @@ class AvaTest {
 	}
 
 	clean() {
-		// remove the src folder
-		del.sync(this.testSrcPath);
+		const ctx = this;
+		return co(function* () {
+			// remove the src folder
+			yield del([ctx.testSrcPath]);
 
-		// if there were no supporting mock files, remove the full mock directory
-		const mockExists = fs.existsSync(this.mockPath);
-		const mockIsEmpty = mockExists && fs.readdirSync(this.mockPath).length === 0;
-		if (mockExists && mockIsEmpty) {
-			del.sync(this.mockPath);
-		}
+			try {
+				const mockIsEmpty = (yield fspp.readdir(ctx.mockPath)).length === 0;
+				if (mockIsEmpty) { yield del([ctx.mockPath]); }
+			} catch (err) {
+				// there was no mock directory to remove
+			}
+		});
 	}
-};
+}
 
 export default AvaTest;
