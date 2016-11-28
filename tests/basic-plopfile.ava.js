@@ -28,6 +28,7 @@ test('Test the content of the rendered file _THIS_IS_A_TEST.txt', t => {
 	const content = fs.readFileSync(filePath).toString();
 
 	t.true(content.includes('inline template: this is a test'));
+	t.true(content.includes('test: basic-plopfile-test'));
 });
 
 test('Test the content of the rendered file change-me.txt', t => {
