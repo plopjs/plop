@@ -114,9 +114,11 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		}
 	}
 
-	// look for a package.json file to use for the "pkg" helper
-	try { pkgJson = require(path.join(getDestBasePath(), 'package.json')); }
-	catch(error) { pkgJson = {}; }
+	function loadPackageJson() {
+		// look for a package.json file to use for the "pkg" helper
+		try { pkgJson = require(path.join(getDestBasePath(), 'package.json')); }
+		catch(error) { pkgJson = {}; }
+	}
 
 	/////////
 	// the API that is exposed to the plopfile when it is executed
@@ -165,8 +167,14 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		plopfilePath = path.resolve(plopfilePath);
 		const plopFileName = path.basename(plopfilePath);
 		setPlopfilePath(plopfilePath);
+		loadPackageJson();
+		
 		require(path.join(plopfilePath, plopFileName))(plopfileApi, plopCfg);
+	} else {
+		setPlopfilePath(process.cwd());
+		loadPackageJson();
 	}
+
 
 	return nodePlopApi;
 }
