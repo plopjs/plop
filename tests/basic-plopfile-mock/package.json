@@ -1,3 +1,4 @@
 {
-	"name": "basic-plopfile-test"
+	"name": "basic-plopfile-test",
+	"private": true
 }
