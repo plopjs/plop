@@ -52,7 +52,7 @@ module.exports = function (plop) {
 			}, {
 				type: 'add',
 				path: 'src/_{{constantCase name}}.txt',
-				template: 'inline template: {{name}}',
+				template: 'test: {{pkg "name"}}\ninline template: {{name}}',
 				abortOnFail: true
 			},
 			function customAction(answers) {
