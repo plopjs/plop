@@ -9,8 +9,8 @@ var interpret = require('interpret');
 var chalk = require('chalk');
 
 var nodePlop = require('node-plop');
-var out = require('./mod/console-out');
-var globalPkg = require('./package.json');
+var out = require('./console-out');
+var globalPkg = require('../package.json');
 var generator = argv._.join(' ') || null;
 
 var Plop = new Liftoff({
