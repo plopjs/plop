@@ -26,7 +26,7 @@ test('generator should not be able to run promps if it has none', co.wrap(functi
 		yield generatorOne.runPrompts();
 		t.fail();
 	} catch(err) {
-		t.is(err.message, 'generator-1 does no have prompts.');
+		t.is(err.message, 'generator-1 has no prompts');
 	}
 }));
 
@@ -38,7 +38,7 @@ test('generator should not be able to run actions if it has none', co.wrap(funct
 		yield generatorOne.runActions();
 		t.fail();
 	} catch(err) {
-		t.is(err.message, 'generator-1 does no have actions.');
+		t.is(err.message, 'generator-1 has no actions');
 	}
 }));
 
@@ -49,6 +49,6 @@ test('generator should not be able to run invalid actions data', co.wrap(functio
 		yield generatorBadActions.runActions();
 		t.fail();
 	}catch(err){
-		t.is(err.message, 'bad-actions-function does no have actions.');
+		t.is(err.message, 'bad-actions-function has no actions');
 	}
 }));

@@ -1,23 +1,18 @@
 'use strict';
 
 import co from 'co';
-import path from 'path';
 import colors from 'colors';
-import * as fspp from './fs-promise-proxy';
+import add from './actions/add';
+import modify from './actions/modify';
 
-export default function (plopfileApi, actionTypes) {
-	const bakedInActionTypes = ['add', 'modify'];
+export default function (plopfileApi) {
 	var abort;
-
-	// if not already an absolute path, make an absolute path from the basePath (plopfile location)
-	const makeTmplPath = p => path.resolve(plopfileApi.getPlopfilePath(), p);
-	const makeDestPath = p => path.resolve(plopfileApi.getDestBasePath(), p);
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
 	const runGeneratorPrompts = co.wrap(function* (genObject) {
 		if (genObject.prompts == null) {
-			throw Error(`${genObject.name} does no have prompts.`);
+			throw Error(`${genObject.name} has no prompts`);
 		}
 		return yield plopfileApi.inquirer.prompt(genObject.prompts);
 	});
@@ -27,6 +22,9 @@ export default function (plopfileApi, actionTypes) {
 		var changes = [];          // array of changed made by the actions
 		var failures = [];         // array of actions that failed
 		var {actions} = genObject; // the list of actions to execute
+		const customActionTypes = getCustomActionTypes();
+		const buildInActions = { add, modify };
+		const actionTypes = Object.assign({}, customActionTypes, buildInActions);
 
 		abort = false;
 
@@ -35,15 +33,15 @@ export default function (plopfileApi, actionTypes) {
 
 		// if actions are not defined... we cannot proceed.
 		if (actions == null) {
-			throw Error(`${genObject.name} does no have actions.`);
+			throw Error(`${genObject.name} has no actions`);
 		}
 
 		// if actions are not an array, invalid!
 		if (!(actions instanceof Array)) {
-			throw Error(`${genObject.name} does has invalid actions.`);
+			throw Error(`${genObject.name} has invalid actions`);
 		}
 
-		for (let action of actions) {
+		for (let [actionIdx, action] of actions.entries()) {
 			// bail out if a previous action aborted
 			if (abort) {
 				failures.push({
@@ -54,27 +52,23 @@ export default function (plopfileApi, actionTypes) {
 				continue;
 			}
 
-			const actionCfg = (typeof action === 'function' ? {} : action);
+			const actionIsFunction = typeof action === 'function';
+			const actionCfg = (actionIsFunction ? {} : action);
+			const actionLogic = (actionIsFunction ? action : actionTypes[actionCfg.type]);
 
-			// handle imported actions
-			if (!bakedInActionTypes.includes(actionCfg.type) && actionCfg.type in actionTypes) {
-				action = actionTypes[actionCfg.type];
-			}
-
-			const actionInterfaceTest = testActionInterface(action);
-			if (actionInterfaceTest !== true) {
-				failures.push(actionInterfaceTest);
+			if (typeof actionLogic !== 'function') {
+				if (actionCfg.abortOnFail !== false) { abort = true; }
+				failures.push({
+					type: action.type || '',
+					path: action.path || '',
+					error: `Invalid action (#${actionIdx + 1})`
+				});
 				continue;
 			}
 
 			try {
-				let result;
-				if (typeof action === 'function') {
-					result = yield executeCustomAction(action, actionCfg, data);
-				} else {
-					result = yield executeAction(action, data);
-				}
-				changes.push(result);
+				const actionResult = yield executeActionLogic(actionLogic, actionCfg, data);
+				changes.push(actionResult);
 			} catch(failure) {
 				failures.push(failure);
 			}
@@ -83,12 +77,8 @@ export default function (plopfileApi, actionTypes) {
 		return { changes, failures };
 	});
 
-	/////
-	// action handlers
-	//
-
-	// custom action functions
-	const executeCustomAction = co.wrap(function* (action, cfg, data) {
+	// handle action logic
+	const executeActionLogic = co.wrap(function* (action, cfg, data) {
 		const failure = makeErrorLogger(cfg.type || 'function', '', cfg.abortOnFail);
 
 		// convert any returned data into a promise to
@@ -106,73 +96,16 @@ export default function (plopfileApi, actionTypes) {
 		);
 	});
 
-	// basic function objects
-	const executeAction = co.wrap(function* (action, data) {
-		var {template} = action;
-		const fileDestPath = makeDestPath(plopfileApi.renderString(action.path || '', data));
-		const failure = makeErrorLogger(action.type, fileDestPath, action.abortOnFail);
-
-		try {
-			if (action.templateFile) {
-				template = yield fspp.readFile(makeTmplPath(action.templateFile));
-			}
-			if (template == null) { template = ''; }
-
-			// check path
-			const pathExists = yield fspp.fileExists(fileDestPath);
-
-			// handle type
-			if (action.type === 'add') {
-				if (pathExists) {
-					throw failure('File already exists');
-				} else {
-					yield fspp.makeDir(path.dirname(fileDestPath));
-					yield fspp.writeFile(fileDestPath, plopfileApi.renderString(template, data));
-				}
-			} else if (action.type === 'modify') {
-				if (!pathExists) {
-					throw failure('File does not exists');
-				} else {
-					var fileData = yield fspp.readFile(fileDestPath);
-					fileData = fileData.replace(action.pattern, plopfileApi.renderString(template, data));
-					yield fspp.writeFile(fileDestPath, fileData);
-				}
-			} else {
-				throw failure(`Invalid action type: ${action.type}`);
-			}
-
-			return {
-				type: action.type,
-				path: fileDestPath
-			};
-		} catch(err) {
-			throw failure(err.error || err.message || JSON.stringify(err));
-		}
-	});
-
-	function testActionInterface(action) {
-		// action functions are valid, end of story
-		if (typeof action === 'function') { return true; }
-
-		// it's not even an object, you fail!
-		if (typeof action !== 'object') {
-			return {type: '', path: '', error: `Invalid action object: ${JSON.stringify(action)}`};
-		}
-
-		var {type, path, abortOnFail} = action;
-		const failure = makeErrorLogger(type, path, abortOnFail);
-
-		if (!bakedInActionTypes.includes(type)) {
-			return failure(`Invalid action type "${type}"`);
-		}
-
-		if (typeof path !== 'string' || path.length === 0) {
-			return failure(`Invalid path "${path}"`);
-		}
-
-		return true;
+	// request the list of custom actions from the plopfile
+	function getCustomActionTypes() {
+		return plopfileApi.getActionTypeList()
+			.reduce(function (types, name) {
+				types[name] = plopfileApi.getActionType(name);
+				return types;
+			}, {});
 	}
 
+	// provide a function to handle action errors in a uniform way
 	function makeErrorLogger(type, path, abortOnFail) {
 		return function (error) {
 			if (abortOnFail !== false) { abort = true; }

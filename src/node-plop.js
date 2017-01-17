@@ -141,7 +141,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	};
 
 	// the runner for this instance of the nodePlop api
-	const runner = generatorRunner(plopfileApi, actionTypes);
+	const runner = generatorRunner(plopfileApi);
 	const nodePlopApi = Object.assign({}, plopfileApi, {
 		getGenerator(name) {
 			var generator = plopfileApi.getGenerator(name);
@@ -168,13 +168,12 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		const plopFileName = path.basename(plopfilePath);
 		setPlopfilePath(plopfilePath);
 		loadPackageJson();
-		
+
 		require(path.join(plopfilePath, plopFileName))(plopfileApi, plopCfg);
 	} else {
 		setPlopfilePath(process.cwd());
 		loadPackageJson();
 	}
-
 
 	return nodePlopApi;
 }
