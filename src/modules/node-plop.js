@@ -1,6 +1,7 @@
 import path from 'path';
 import inquirer from 'inquirer';
 import handlebars from 'handlebars';
+import _get from 'lodash.get';
 
 import bakedInHelpers from './baked-in-helpers';
 import generatorRunner from './generator-runner';
@@ -14,7 +15,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	const generators = {};
 	const partials = {};
 	const helpers = Object.assign({
-		pkg: (key) => pkgJson[key] || ''
+		pkg: (propertyPath) => _get(pkgJson, propertyPath, '')
 	}, bakedInHelpers);
 	const baseHelpers = Object.keys(helpers);
 

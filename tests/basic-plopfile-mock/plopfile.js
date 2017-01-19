@@ -52,7 +52,7 @@ module.exports = function (plop) {
 			}, {
 				type: 'add',
 				path: 'src/_{{constantCase name}}.txt',
-				template: 'test: {{pkg "name"}}\ninline template: {{name}}',
+				template: 'test: {{pkg "name"}}\npropertyPathTest: {{pkg "config.nested[1]"}}\ninline template: {{name}}',
 				abortOnFail: true
 			},
 			function customAction(answers) {
