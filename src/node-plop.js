@@ -1,6 +1,8 @@
 import path from 'path';
 import inquirer from 'inquirer';
 import handlebars from 'handlebars';
+import _get from 'lodash.get';
+import resolve from 'resolve';
 
 import bakedInHelpers from './baked-in-helpers';
 import generatorRunner from './generator-runner';
@@ -15,7 +17,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	const partials = {};
 	const actionTypes = {};
 	const helpers = Object.assign({
-		pkg: (key) => pkgJson[key] || ''
+		pkg: (propertyPath) => _get(pkgJson, propertyPath, '')
 	}, bakedInHelpers);
 	const baseHelpers = Object.keys(helpers);
 
@@ -70,14 +72,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		}, loadCfg);
 
 		targets.forEach(function (target) {
-			var targetPath;
-
-			try {
-				targetPath = require.resolve(target);
-			} catch (err) {
-				targetPath = path.resolve(getPlopfilePath(), target);
-			}
-
+			const targetPath = resolve.sync(target, {basedir: getPlopfilePath()});
 			const proxy = nodePlop(targetPath, config);
 			const proxyDefaultInclude = proxy.getDefaultInclude() || {};
 			const includeCfg = includeOverride || proxyDefaultInclude;
