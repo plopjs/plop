@@ -91,8 +91,15 @@ function doThePlop(generator) {
 			result.changes.forEach(function(line) {
 				console.log(chalk.green('[SUCCESS]'), line.type, line.path);
 			});
-			result.failures.forEach(function(line) {
-				console.log(chalk.red('[FAILED]'), line.type, line.path, line.error);
+			result.failures.forEach(function (line) {
+				var logs = [chalk.red('[FAILED]')];
+				if (line.type) { logs.push(line.type) };
+				if (line.path) { logs.push(line.path) };
+				
+				var error = line.error || line.message;
+				logs.push(chalk.red(error));
+
+				console.log.apply(console, logs);
 			});
 		})
 		.catch(function (err) {
