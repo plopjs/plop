@@ -3,3 +3,4 @@ node_modules/
 example/folder/
 example/change-me.txt
 .idea
+.vscode
