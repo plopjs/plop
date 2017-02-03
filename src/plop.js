@@ -93,9 +93,9 @@ function doThePlop(generator) {
 			});
 			result.failures.forEach(function (line) {
 				var logs = [chalk.red('[FAILED]')];
-				if (line.type) { logs.push(line.type) };
-				if (line.path) { logs.push(line.path) };
-				
+				if (line.type) { logs.push(line.type); }
+				if (line.path) { logs.push(line.path); }
+
 				var error = line.error || line.message;
 				logs.push(chalk.red(error));
 
