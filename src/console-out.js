@@ -35,7 +35,11 @@ module.exports = (function () {
 			'OPTIONS:\n' +
 			'  -h, --help\t\tShow this help display\n' +
 			'  -i, --init\t\tGenerate a basic plopfile.js\n' +
-			'  -v, --version\t\tPrint current version\n'
+			'  -v, --version\t\tPrint current version\n' +
+			'  --plopfile\t\tPath to the plopfile\n' +
+			'  --completion\t\tMethod to handle bash/zsh/whatever completions\n' +
+			'  --cwd\t\t\tDirectory from which relative paths are calculated against\n' +
+			'  --require\t\tString or array of modules to require before running plop\n'
 		);
 	}
 
