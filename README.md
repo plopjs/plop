@@ -8,7 +8,7 @@ Micro-generator framework that makes it easy for an entire team to create files 
 
 ![plop demo](http://i.imgur.com/penUFkr.gif)
 
-Plop is essentially glue code between  [inquirer](https://github.com/SBoudrias/Inquirer.js/) prompts and [handlebar](https://github.com/wycats/handlebars.js/) templates. You can also add your own handlebar helper methods and use them in your templates.
+Plop is essentially glue code between [inquirer](https://github.com/SBoudrias/Inquirer.js/) prompts and [handlebar](https://github.com/wycats/handlebars.js/) templates. You can also add your own handlebar helper methods and use them in your templates.
 
 # Getting Started
 ## 1. Install plop globally
@@ -229,6 +229,8 @@ There are a few helpers that I have found useful enough to include with plop. Th
 
 # Usage
 Once plop is installed, and you have created a generator, you are ready to run plop from the terminal. Running `plop` with no parameters will present you with a list of generators to pick from. You can also run `plop [generatorName]` to trigger a generator directly.
+
+Run `plop --help` to display the manual of different options you can pass to plop, e.g., specify a custom path to the plopfile.
 
 ---
 

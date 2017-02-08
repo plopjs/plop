@@ -23,8 +23,7 @@ Plop.launch({
 	cwd: argv.cwd,
 	configPath: argv.plopfile,
 	require: argv.require,
-	completion: argv.completion,
-	verbose: argv.verbose
+	completion: argv.completion
 }, run);
 
 function run(env) {
