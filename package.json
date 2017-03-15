@@ -57,6 +57,7 @@
     "colors": "^1.1.2",
     "core-js": "^2.4.1",
     "del": "^2.2.1",
+    "globby": "^6.1.0",
     "handlebars": "^4.0.5",
     "inquirer": "^1.2.0",
     "lodash.get": "^4.4.2",

@@ -3,6 +3,7 @@
 import co from 'co';
 import colors from 'colors';
 import add from './actions/add';
+import addMany from './actions/addMany';
 import modify from './actions/modify';
 
 export default function (plopfileApi) {
@@ -23,7 +24,7 @@ export default function (plopfileApi) {
 		var failures = [];         // array of actions that failed
 		var {actions} = genObject; // the list of actions to execute
 		const customActionTypes = getCustomActionTypes();
-		const buildInActions = { add, modify };
+		const buildInActions = { add, addMany, modify };
 		const actionTypes = Object.assign({}, customActionTypes, buildInActions);
 
 		abort = false;
