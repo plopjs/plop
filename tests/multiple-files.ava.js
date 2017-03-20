@@ -15,7 +15,8 @@ test('Check that all files have been created', t => {
 		'john-doe/add.txt',
 		'john-doe/another-add.txt',
 		'john-doe/nested-folder/a-nested-add.txt',
-		'john-doe/nested-folder/another-nested-add.txt'
+		'john-doe/nested-folder/another-nested-add.txt',
+		'john-doe/nested-folder/my-name-is-john-doe.txt'
 	];
 	expectedFiles.map((file) => {
 		const filePath = path.resolve(testSrcPath, file);
