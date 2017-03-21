@@ -24,6 +24,18 @@ test('Check that all files have been created', t => {
 	});
 });
 
+test('Check that the base path is chopped from templateFiles path', t => {
+	const expectedFiles = [
+		'base-john-doe/a-nested-add.txt',
+		'base-john-doe/another-nested-add.txt',
+		'base-john-doe/my-name-is-john-doe.txt'
+	];
+	expectedFiles.map((file) => {
+		const filePath = path.resolve(testSrcPath, file);
+		t.true(fs.existsSync(filePath), `Can't resolve ${filePath}`);
+	});
+});
+
 test('Test the content of the rendered file add.txt', t => {
 	const filePath = path.resolve(testSrcPath, 'john-doe/add.txt');
 	const content = fs.readFileSync(filePath).toString();

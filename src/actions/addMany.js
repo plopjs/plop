@@ -13,7 +13,7 @@ export default co.wrap(function* (data, cfg, plop) {
 
 	for(let templateFile of resolveTemplateFiles(cfg.templateFiles, plop)) {
 		const fileCfg = Object.assign({}, cfg, {
-			path: resolvePath(cfg.destination, templateFile),
+			path: resolvePath(cfg.destination, templateFile, cfg.base),
 			templateFile: templateFile
 		});
 
@@ -25,8 +25,12 @@ function resolveTemplateFiles(templateFilesGlob, plop) {
 	return globby.sync([templateFilesGlob], {cwd: plop.getPlopfilePath()});
 }
 
-function resolvePath(destination, file) {
-	return path.join(destination, dropFileRootFolder(file)) ;
+function resolvePath(destination, file, rootPath) {
+	return path.join(destination, dropFileRootPath(file, rootPath)) ;
+}
+
+function dropFileRootPath(file, rootPath) {
+	return (rootPath) ? file.replace(rootPath, '') : dropFileRootFolder(file);
 }
 
 function dropFileRootFolder(file) {

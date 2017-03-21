@@ -21,6 +21,13 @@ module.exports = function (plop) {
 				destination: 'src/{{dashCase name}}/',
 				templateFiles: 'plop-templates/**/*.txt',
 				abortOnFail: true
+			},
+			{
+				type: 'addMany',
+				destination: 'src/base-{{dashCase name}}/',
+				templateFiles: 'plop-templates/**/*.txt',
+				base: 'plop-templates/nested-folder/',
+				abortOnFail: true
 			}
 		]
 	});
