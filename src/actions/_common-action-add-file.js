@@ -25,7 +25,9 @@ export default function* addFile(data, cfg, plop) {
 			yield fspp.writeFile(fileDestPath, plop.renderString(template, data));
 		}
 
-		return fileDestPath;
+		// return the added file path (relative to the destination path)
+		return fileDestPath.replace(path.resolve(plop.getDestBasePath()), '');
+
 	} catch(err) {
 		if (typeof err === 'string') {
 			throw err;

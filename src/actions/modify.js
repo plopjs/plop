@@ -31,7 +31,8 @@ export default co.wrap(function* (data, cfg, plop) {
 			yield fspp.writeFile(fileDestPath, fileData);
 		}
 
-		return fileDestPath;
+		// return the modified file path (relative to the destination path)
+		return fileDestPath.replace(path.resolve(plop.getDestBasePath()), '');
 	} catch(err) {
 		if (typeof err === 'string') {
 			throw err;
