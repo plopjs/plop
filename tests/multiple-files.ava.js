@@ -5,9 +5,12 @@ const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 const plop = nodePlop(`${mockPath}/plopfile.js`);
 const multipleAdds = plop.getGenerator('multiple-adds');
+var multipleAddsResult;
 
 test.before(() => {
-	return multipleAdds.runActions({name: 'John Doe'});
+	return multipleAdds.runActions({name: 'John Doe'}).then(function(res) {
+		multipleAddsResult = res;
+	});
 });
 
 test('Check that all files have been created', t => {
@@ -22,6 +25,8 @@ test('Check that all files have been created', t => {
 		const filePath = path.resolve(testSrcPath, file);
 		t.true(fs.existsSync(filePath), `Can't resolve ${filePath}`);
 	});
+
+	t.true(multipleAddsResult.changes[0].path.includes(`${expectedFiles.length} files added`));
 });
 
 test('Check that the base path is chopped from templateFiles path', t => {

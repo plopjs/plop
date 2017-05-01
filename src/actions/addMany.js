@@ -11,14 +11,19 @@ export default co.wrap(function* (data, cfg, plop) {
 	const interfaceTestResult = actionInterfaceTest(cfgWithCommonInterface);
 	if (interfaceTestResult !== true) { throw interfaceTestResult; }
 
-	for(let templateFile of resolveTemplateFiles(cfg.templateFiles, plop)) {
+	const templateFiles = resolveTemplateFiles(cfg.templateFiles, plop);
+	const filesAdded = [];
+	for(let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
 			path: resolvePath(cfg.destination, templateFile, cfg.base),
 			templateFile: templateFile
 		});
 
-		yield addFile(data, fileCfg, plop);
+		const addedPath = yield addFile(data, fileCfg, plop);
+		filesAdded.push(addedPath);
 	}
+
+	return `${filesAdded.length} files added\n\t - ${filesAdded.join('\n\t - ')}`;
 });
 
 function resolveTemplateFiles(templateFilesGlob, plop) {
