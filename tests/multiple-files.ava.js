@@ -1,14 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import AvaTest from './_base-ava-test';
-const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
+const { test, mockPath, testSrcPath, nodePlop } = (new AvaTest(__filename));
 
 const plop = nodePlop(`${mockPath}/plopfile.js`);
 const multipleAdds = plop.getGenerator('multiple-adds');
 var multipleAddsResult;
 
 test.before(() => {
-	return multipleAdds.runActions({name: 'John Doe'}).then(function(res) {
+	return multipleAdds.runActions({ name: 'John Doe' }).then(function (res) {
 		multipleAddsResult = res;
 	});
 });
@@ -54,3 +54,25 @@ test('Test the content of the rendered file in nested folder', t => {
 
 	t.true(content.includes('constant name: JOHN_DOE'));
 });
+
+test('Test the base value is used to decide which files are created', t => {
+	const expectedCreatedFiles = [
+		'components/john-doe-ctrl.js',
+		'components/john-doe-tmpl.html'
+	];
+	expectedCreatedFiles.map((file) => {
+		const filePath = path.resolve(testSrcPath, file);
+		t.true(fs.existsSync(filePath), `Can't resolve ${filePath}`);
+	});
+
+	const expectedNotCreatedFiles = [
+		'components/logic/john-doe-ctrl.js',
+		'components/logic/john-doe-tmpl.html',
+		'components/tests/john-doe.spec.js',
+		'components/john-doe.spec.js'
+	];
+	expectedNotCreatedFiles.map((file) => {
+		const filePath = path.resolve(testSrcPath, file);
+		t.false(fs.existsSync(filePath), `Shouldn't resolve ${filePath}`);
+	});
+})

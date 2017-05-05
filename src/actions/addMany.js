@@ -13,7 +13,7 @@ export default co.wrap(function* (data, cfg, plop) {
 
 	const templateFiles = resolveTemplateFiles(cfg.templateFiles, plop);
 	const filesAdded = [];
-	for(let templateFile of templateFiles) {
+	for (let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
 			path: resolvePath(cfg.destination, templateFile, cfg.base),
 			templateFile: templateFile
@@ -27,11 +27,20 @@ export default co.wrap(function* (data, cfg, plop) {
 });
 
 function resolveTemplateFiles(templateFilesGlob, plop) {
-	return globby.sync([templateFilesGlob], {cwd: plop.getPlopfilePath()});
+	return globby.sync([templateFilesGlob], { cwd: plop.getPlopfilePath() })
+		.filter(isFile);
+}
+
+function isFile(file) {
+	const fileParts = file.split(path.sep);
+	const lastFilePart = fileParts[fileParts.length - 1];
+	const hasExtension = !!(lastFilePart.split('.')[1]);
+
+	return hasExtension;
 }
 
 function resolvePath(destination, file, rootPath) {
-	return path.join(destination, dropFileRootPath(file, rootPath)) ;
+	return path.join(destination, dropFileRootPath(file, rootPath));
 }
 
 function dropFileRootPath(file, rootPath) {

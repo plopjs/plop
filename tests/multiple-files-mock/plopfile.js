@@ -28,6 +28,13 @@ module.exports = function (plop) {
 				templateFiles: 'plop-templates/**/*.txt',
 				base: 'plop-templates/nested-folder/',
 				abortOnFail: true
+			},
+			{
+				type: 'addMany',
+				destination: 'src/components',
+				templateFiles: 'plop-templates/components/**/*',
+				base: 'plop-templates/components/logic',
+				abortOnFail: true
 			}
 		]
 	});
