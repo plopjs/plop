@@ -39,6 +39,17 @@ test('Check that the base path is chopped from templateFiles path', t => {
 		const filePath = path.resolve(testSrcPath, file);
 		t.true(fs.existsSync(filePath), `Can't resolve ${filePath}`);
 	});
+
+	const expectedNotCreatedFiles = [
+		'base-john-doe/add.txt',
+		'base-john-doe/another-add.txt',
+		'base-john-doe/plop-templates/add.txt',
+		'base-john-doe/plop-templates/another-add.txt',
+	];
+	expectedNotCreatedFiles.map((file) => {
+		const filePath = path.resolve(testSrcPath, file);
+		t.false(fs.existsSync(filePath), `Shouldn't resolve ${filePath}`);
+	});
 });
 
 test('Test the content of the rendered file add.txt', t => {

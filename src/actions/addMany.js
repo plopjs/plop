@@ -11,7 +11,7 @@ export default co.wrap(function* (data, cfg, plop) {
 	const interfaceTestResult = actionInterfaceTest(cfgWithCommonInterface);
 	if (interfaceTestResult !== true) { throw interfaceTestResult; }
 
-	const templateFiles = resolveTemplateFiles(cfg.templateFiles, plop);
+	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, plop);
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
@@ -26,8 +26,9 @@ export default co.wrap(function* (data, cfg, plop) {
 	return `${filesAdded.length} files added\n\t - ${filesAdded.join('\n\t - ')}`;
 });
 
-function resolveTemplateFiles(templateFilesGlob, plop) {
+function resolveTemplateFiles(templateFilesGlob, basePath, plop) {
 	return globby.sync([templateFilesGlob], { cwd: plop.getPlopfilePath() })
+		.filter(isUnder(basePath))
 		.filter(isFile);
 }
 
@@ -37,6 +38,10 @@ function isFile(file) {
 	const hasExtension = !!(lastFilePart.split('.')[1]);
 
 	return hasExtension;
+}
+
+function isUnder(basePath = '') {
+	return (path) => path.startsWith(basePath);
 }
 
 function resolvePath(destination, file, rootPath) {
