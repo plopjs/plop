@@ -1,6 +1,6 @@
 {
   "name": "node-plop",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "scripts": {
@@ -48,6 +48,7 @@
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.3.1",
     "eslint-plugin-standard": "^2.0.1",
+    "plop": "^1.7.4",
     "plop-pack-fancy-comments": "^0.2.1",
     "pre-commit": "^1.1.3"
   },
