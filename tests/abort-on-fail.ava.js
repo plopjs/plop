@@ -18,6 +18,7 @@ test('Check that abortOnFail:true prevents future actions', co.wrap(function* (t
 
 	t.is(changes.length, 0);
 	t.is(failures.length, 2);
+	t.is(failures[0].error, 'Invalid action (#1)');
 	t.is(failures[1].error, 'Aborted due to previous action failure');
 }));
 

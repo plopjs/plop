@@ -15,14 +15,16 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	const {destBasePath} = plopCfg;
 	const generators = {};
 	const partials = {};
+	const actionTypes = {};
 	const helpers = Object.assign({
 		pkg: (propertyPath) => _get(pkgJson, propertyPath, '')
 	}, bakedInHelpers);
 	const baseHelpers = Object.keys(helpers);
 
-	const addPrompt = inquirer.registerPrompt;
-	const addHelper = (name, fn) => { helpers[name] = fn; };
-	const addPartial = (name, str) => { partials[name] = str; };
+	const setPrompt = inquirer.registerPrompt;
+	const setHelper = (name, fn) => { helpers[name] = fn; };
+	const setPartial = (name, str) => { partials[name] = str; };
+	const setActionType = (name, fn) => { actionTypes[name] = fn; };
 
 	function renderString(template, data) {
 		Object.keys(helpers).forEach(h => handlebars.registerHelper(h, helpers[h]));
@@ -32,6 +34,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 
 	const getHelper = name => helpers[name];
 	const getPartial = name => partials[name];
+	const getActionType = name => actionTypes[name];
 	const getGenerator = name => generators[name];
 	function setGenerator(name = '', config = {}) {
 		// if no name is provided, use a default
@@ -48,6 +51,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 
 	const getHelperList = () => Object.keys(helpers).filter(h => !baseHelpers.includes(h));
 	const getPartialList = () => Object.keys(partials);
+	const getActionTypeList = () => Object.keys(actionTypes);
 	function getGeneratorList() {
 		return Object.keys(generators).map(function (name) {
 			const {description} = generators[name];
@@ -75,13 +79,15 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 			const include = Object.assign({
 				generators: false,
 				helpers: false,
-				partials: false
+				partials: false,
+				actionTypes: false
 			}, includeCfg);
 
 			const genNameList = proxy.getGeneratorList().map(g => g.name);
 			loadAsset(genNameList, include.generators, setGenerator, proxyName => ({proxyName, proxy}));
-			loadAsset(proxy.getPartialList(), include.partials, addPartial, proxy.getPartial);
-			loadAsset(proxy.getHelperList(), include.helpers, addHelper, proxy.getHelper);
+			loadAsset(proxy.getPartialList(), include.partials, setPartial, proxy.getPartial);
+			loadAsset(proxy.getHelperList(), include.helpers, setHelper, proxy.getHelper);
+			loadAsset(proxy.getActionTypeList(), include.actionTypes, setActionType, proxy.getActionType);
 		});
 	}
 
@@ -110,23 +116,30 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	}
 
 	/////////
-	// the plop object API that is exposed to the plopfile when executed
+	// the API that is exposed to the plopfile when it is executed
 	// it differs from the nodePlopApi in that it does not include the
 	// generator runner methods
 	//
-	const plopApi = {
-		addHelper, addPartial, addPrompt, renderString,
+	const plopfileApi = {
+		setPrompt, renderString, inquirer, handlebars,
 		setGenerator, getGenerator, getGeneratorList,
 		setPlopfilePath, getPlopfilePath, getDestBasePath, load,
-		setDefaultInclude,
-		inquirer, handlebars
+		setPartial, getPartialList, getPartial,
+		setHelper, getHelperList, getHelper,
+		setActionType, getActionTypeList, getActionType,
+		setDefaultInclude, getDefaultInclude,
+		// for backward compatibility
+		addPrompt: setPrompt,
+		addPartial: setPartial,
+		addHelper: setHelper,
+		addActionType: setActionType
 	};
 
 	// the runner for this instance of the nodePlop api
-	const runner = generatorRunner(plopApi);
-	const nodePlopApi = Object.assign({}, plopApi, {
+	const runner = generatorRunner(plopfileApi);
+	const nodePlopApi = Object.assign({}, plopfileApi, {
 		getGenerator(name) {
-			var generator = plopApi.getGenerator(name);
+			var generator = plopfileApi.getGenerator(name);
 
 			// if this generator was loaded from an external plopfile, proxy the
 			// generator request through to the external plop instance
@@ -140,12 +153,9 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 			});
 		},
 		setGenerator(name, config) {
-			const g = plopApi.setGenerator(name, config);
+			const g = plopfileApi.setGenerator(name, config);
 			return this.getGenerator(g.name);
-		},
-		getPartialList, getPartial,
-		getHelperList, getHelper,
-		getDefaultInclude
+		}
 	});
 
 	if (plopfilePath) {
@@ -153,13 +163,12 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		const plopFileName = path.basename(plopfilePath);
 		setPlopfilePath(plopfilePath);
 		loadPackageJson();
-		
-		require(path.join(plopfilePath, plopFileName))(plopApi, plopCfg);
+
+		require(path.join(plopfilePath, plopFileName))(plopfileApi, plopCfg);
 	} else {
 		setPlopfilePath(process.cwd());
 		loadPackageJson();
 	}
-
 
 	return nodePlopApi;
 }
