@@ -23,7 +23,7 @@ export default co.wrap(function* (data, cfg, plop) {
 		filesAdded.push(addedPath);
 	}
 
-	return `${filesAdded.length} files added\n\t - ${filesAdded.join('\n\t - ')}`;
+	return `${filesAdded.length} files added\n -> ${filesAdded.join('\n -> ')}`;
 });
 
 function resolveTemplateFiles(templateFilesGlob, basePath, plop) {
