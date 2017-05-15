@@ -19,3 +19,5 @@
 ---
 
 #### [inquirer-select-line](https://github.com/adam-golab/inquirer-select-line) ([adam-golab](https://github.com/adam-golab))
+
+![inquirer-select-line gif](https://media.giphy.com/media/xUA7b1MxpngddUvdHW/giphy.gif)
