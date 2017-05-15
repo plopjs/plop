@@ -12,10 +12,17 @@ export default function (plopfileApi) {
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
 	const runGeneratorPrompts = co.wrap(function* (genObject) {
-		if (genObject.prompts == null) {
+		const prompts = genObject.prompts;
+
+		if (prompts == null) {
 			throw Error(`${genObject.name} has no prompts`);
 		}
-		return yield plopfileApi.inquirer.prompt(genObject.prompts);
+
+		if (typeof prompts === 'function') {
+			return yield prompts(plopfileApi.inquirer);
+		}
+
+		return yield plopfileApi.inquirer.prompt(prompts);
 	});
 
 	// Run the actions for this generator
