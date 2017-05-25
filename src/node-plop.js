@@ -121,18 +121,30 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	// generator runner methods
 	//
 	const plopfileApi = {
-		setPrompt, renderString, inquirer, handlebars,
+		// main methods for setting and getting plop context things
+		setPrompt,
 		setGenerator, getGenerator, getGeneratorList,
-		setPlopfilePath, getPlopfilePath, getDestBasePath, load,
-		setPartial, getPartialList, getPartial,
-		setHelper, getHelperList, getHelper,
-		setActionType, getActionTypeList, getActionType,
-		setDefaultInclude, getDefaultInclude,
-		// for backward compatibility
+		setPartial, getPartial, getPartialList,
+		setHelper, getHelper, getHelperList,
+		setActionType, getActionType, getActionTypeList,
+
+		// path context methods
+		setPlopfilePath, getPlopfilePath,
+		getDestBasePath,
+
+		// plop.load functionality
+		load, setDefaultInclude, getDefaultInclude,
+
+		// render a handlebars template
+		renderString,
+
+		// passthrough properties
+		inquirer, handlebars,
+
+		// passthroughs for backward compatibility
 		addPrompt: setPrompt,
 		addPartial: setPartial,
-		addHelper: setHelper,
-		addActionType: setActionType
+		addHelper: setHelper
 	};
 
 	// the runner for this instance of the nodePlop api
