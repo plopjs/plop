@@ -5,6 +5,7 @@ Micro-generator framework that makes it easy for an entire team to create files 
 
 [![npm](https://img.shields.io/npm/dm/plop.svg)]()
 [![npm](https://img.shields.io/npm/v/plop.svg)]()
+[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/plopjs)
 
 ![plop demo](http://i.imgur.com/penUFkr.gif)
 
