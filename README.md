@@ -3,9 +3,9 @@ Plop
 
 Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity.
 
-[![npm](https://img.shields.io/npm/dm/plop.svg)]()
-[![npm](https://img.shields.io/npm/v/plop.svg)]()
-[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/plopjs)
+[![npm](https://img.shields.io/npm/dm/plop.svg)](https://www.npmjs.com/package/plop)
+[![npm](https://img.shields.io/npm/v/plop.svg)](https://www.npmjs.com/package/plop)
+[![plop on slack](https://plopjs-slack-ofhdlhmvql.now.sh/badge.svg)](https://plopjs-slack-ofhdlhmvql.now.sh/)
 
 ![plop demo](http://i.imgur.com/penUFkr.gif)
 
