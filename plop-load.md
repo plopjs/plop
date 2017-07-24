@@ -19,10 +19,10 @@ plop.load
 
 #### include
 - **type:** `Object`
-- **default:** `{ generators:true, helpers:false, partials:false }`
+- **default:** `{ generators:true, helpers:false, partials:false, actionTypes:false }`
 - **optional**
 
-`include` is an object that can contain 3 properties (`generators`, `helpers` and `partials`). Each of these properties should have an [`IncludeDefinition`](#IncludeDefinition) as its value. Most of the time this object is not needed because the plopfile or `plop-pack` is able to specify a default [`IncludeDefinition`](#IncludeDefinition) to be used.
+`include` is an object that can contain 4 properties (`generators`, `helpers`, `partials`, and `actionTypes`). Each of these properties should have an [`IncludeDefinition`](#IncludeDefinition) as its value. Most of the time this object is not needed because the plopfile or `plop-pack` is able to specify a default [`IncludeDefinition`](#IncludeDefinition) to be used.
 
 #### Interface `IncludeDefinition`
 - **Boolean:** `true` will include all assets, `false` will include non of them.
@@ -32,17 +32,17 @@ plop.load
 ## Examples
 *load via a path*
 ```javascript
-	// loads all 5 generators, no helpers or partials (even if they exist)
+	// loads all 5 generators, no helpers, actionTypes or partials (even if they exist)
 	plop.load('./plopfiles/component.js');
 ```
 *load via a path with a custom include config*
 ```javascript
-	// loads all helpers, no generators or partials (even if they exist)
+	// loads all helpers, no generators, actionTypes or partials (even if they exist)
 	plop.load('./plopfiles/component.js', {}, { helpers: true });
 ```
 *load via a path with a limited include*
 ```javascript
-	// loads only the "js-header" helper, no generators or partials (even if they exist)
+	// loads only the "js-header" helper, no generators, actionTypes or partials (even if they exist)
 	plop.load('./plopfiles/component.js', {}, { helpers: ['js-header'] });
 ```
 *load via a path with config object*
@@ -62,7 +62,7 @@ plop.load
 ```
 *load via npm module with a renaming include config*
 ```javascript
-	// loads only the header helper, no generators or partials (even if they exist)
+	// loads only the header helper, no generators, actionTypes or partials (even if they exist)
 	// within the plopfile and templates, the "js-header" helper is referenced as "titleComment"
 	plop.load('plop-pack-fancy-comments', {}, { helpers: {'js-header': 'titleComment'} });
 ```
