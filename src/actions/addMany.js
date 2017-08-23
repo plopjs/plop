@@ -27,7 +27,7 @@ export default co.wrap(function* (data, cfg, plop) {
 });
 
 function resolveTemplateFiles(templateFilesGlob, basePath, plop) {
-	return globby.sync([templateFilesGlob], { cwd: plop.getPlopfilePath() })
+	return globby.sync(templateFilesGlob, { cwd: plop.getPlopfilePath() })
 		.filter(isUnder(basePath))
 		.filter(isFile);
 }

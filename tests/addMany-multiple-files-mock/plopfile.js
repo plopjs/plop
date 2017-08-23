@@ -21,19 +21,26 @@ module.exports = function (plop) {
 				destination: 'src/{{dashCase name}}/',
 				templateFiles: 'plop-templates/**/*.txt',
 				abortOnFail: true
-			},
-			{
+			}, {
 				type: 'addMany',
 				destination: 'src/base-{{dashCase name}}/',
 				templateFiles: 'plop-templates/**/*.txt',
 				base: 'plop-templates/nested-folder/',
 				abortOnFail: true
-			},
-			{
+			}, {
 				type: 'addMany',
 				destination: 'src/components',
 				templateFiles: 'plop-templates/components/**/*',
 				base: 'plop-templates/components/logic',
+				abortOnFail: true
+			}, {
+				type: 'addMany',
+				destination: 'src/array-{{dashCase name}}/',
+				templateFiles: [
+					'plop-templates/*.txt',
+					'plop-templates/nested-folder/*.txt'
+				],
+				base: 'plop-templates/',
 				abortOnFail: true
 			}
 		]
