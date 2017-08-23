@@ -29,6 +29,22 @@ test('Check that all files have been created', t => {
 	t.true(multipleAddsResult.changes[0].path.includes(`${expectedFiles.length} files added`));
 });
 
+test('Check that all files have been when using a templateFiles array', t => {
+	const expectedFiles = [
+		'array-john-doe/add.txt',
+		'array-john-doe/another-add.txt',
+		'array-john-doe/nested-folder/a-nested-add.txt',
+		'array-john-doe/nested-folder/another-nested-add.txt',
+		'array-john-doe/nested-folder/my-name-is-john-doe.txt'
+	];
+	expectedFiles.map((file) => {
+		const filePath = path.resolve(testSrcPath, file);
+		t.true(fs.existsSync(filePath), `Can't resolve ${filePath}`);
+	});
+
+	t.true(multipleAddsResult.changes[0].path.includes(`${expectedFiles.length} files added`));
+});
+
 test('Check that the base path is chopped from templateFiles path', t => {
 	const expectedFiles = [
 		'base-john-doe/a-nested-add.txt',
