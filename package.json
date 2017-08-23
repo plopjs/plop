@@ -1,6 +1,6 @@
 {
   "name": "plop",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity",
   "main": "./src/plop.js",
   "repository": {
@@ -32,7 +32,7 @@
     "interpret": "^1.0.0",
     "liftoff": "^2.2.0",
     "minimist": "^1.2.0",
-    "node-plop": "=0.7.0",
+    "node-plop": "=0.7.1",
     "v8flags": "^2.0.10"
   },
   "engines": {
