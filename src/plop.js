@@ -69,9 +69,22 @@ function run(env) {
 	plop = nodePlop(plopfilePath);
 	generators = plop.getGeneratorList();
 	if (!generator) {
-		out.chooseOptionFromList(generators).then(function (generatorName) {
-			doThePlop(plop.getGenerator(generatorName));
-		});
+		switch (generators.length) {
+			case 0:
+				console.error(chalk.red('[PLOP] ') + 'No generator found in plopfile');
+				process.exit(1);
+				break;
+
+			case 1:
+				doThePlop(plop.getGenerator(generators[0].name));
+				break;
+
+			default:
+				out.chooseOptionFromList(generators).then(function (generatorName) {
+					doThePlop(plop.getGenerator(generatorName));
+				});
+				break;
+		}
 	} else if (generators.map(function (v) { return v.name; }).indexOf(generator) > -1) {
 		doThePlop(plop.getGenerator(generator));
 	} else {
