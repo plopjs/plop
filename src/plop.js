@@ -80,9 +80,10 @@ function run(env) {
 				break;
 
 			default:
-				out.chooseOptionFromList(generators).then(function (generatorName) {
-					doThePlop(plop.getGenerator(generatorName));
-				});
+				out.chooseOptionFromList(generators, plop.getStartingPrompt())
+					.then(function (generatorName) {
+						doThePlop(plop.getGenerator(generatorName));
+					});
 				break;
 		}
 	} else if (generators.map(function (v) { return v.name; }).indexOf(generator) > -1) {
