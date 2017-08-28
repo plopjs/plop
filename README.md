@@ -192,6 +192,11 @@ loads generators, helpers and/or partials from another plopfile or npm module
 
 Renders the handlebars `template` using the `data` passed in. Returns the rendered template.
 
+### plop.setStartingPrompt(message)
+ - message {String}
+
+Customizes the displayed message that asks you to choose a generator when you run `plop`.
+
 #### plop.getGenerator(name)
  - name {String}
 
