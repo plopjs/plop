@@ -12,7 +12,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	var pkgJson = {};
 	var defaultInclude = {generators: true};
 
-	let startingPrompt;
+	let welcomeMessage;
 	const {destBasePath} = plopCfg;
 	const generators = {};
 	const partials = {};
@@ -23,7 +23,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	const baseHelpers = Object.keys(helpers);
 
 	const setPrompt = inquirer.registerPrompt;
-	const setStartingPrompt = (message) => { startingPrompt = message; };
+	const setWelcomeMessage = (message) => { welcomeMessage = message; };
 	const setHelper = (name, fn) => { helpers[name] = fn; };
 	const setPartial = (name, str) => { partials[name] = str; };
 	const setActionType = (name, fn) => { actionTypes[name] = fn; };
@@ -34,7 +34,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		return handlebars.compile(template)(data);
 	}
 
-	const getStartingPrompt = () => startingPrompt;
+	const getWelcomeMessage = () => welcomeMessage;
 	const getHelper = name => helpers[name];
 	const getPartial = name => partials[name];
 	const getActionType = name => actionTypes[name];
@@ -126,7 +126,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	const plopfileApi = {
 		// main methods for setting and getting plop context things
 		setPrompt,
-		setStartingPrompt, getStartingPrompt,
+		setWelcomeMessage, getWelcomeMessage,
 		setGenerator, getGenerator, getGeneratorList,
 		setPartial, getPartial, getPartialList,
 		setHelper, getHelper, getHelperList,
