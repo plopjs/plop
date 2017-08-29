@@ -80,7 +80,7 @@ function run(env) {
 				break;
 
 			default:
-				out.chooseOptionFromList(generators, plop.getStartingPrompt())
+				out.chooseOptionFromList(generators, plop.getWelcomeMessage())
 					.then(function (generatorName) {
 						doThePlop(plop.getGenerator(generatorName));
 					});

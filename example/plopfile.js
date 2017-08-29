@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = function (plop) {
 	// starting prompt can be customize to display what you want
-	// plop.setStartingPrompt('[CUSTOM]'.yellow + ' What can I do for you?');
+	// plop.setWelcomeMessage('[CUSTOM]'.yellow + ' What can I do for you?');
 
 	// helpers are passed through to handlebars and made
 	// available for use in the generator templates
