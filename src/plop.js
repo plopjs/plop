@@ -65,8 +65,13 @@ function run(env) {
 		process.exit(1);
 	}
 
-	// set the default base path to the plopfile directory
-	plop = nodePlop(plopfilePath);
+	// set options
+	var options = {}
+	if (argv.destBasePath) {
+		options.destBasePath = argv.destBasePath
+	}
+	// initiate nodePlop
+	plop = nodePlop(plopfilePath, options);
 	generators = plop.getGeneratorList();
 	if (!generator) {
 		switch (generators.length) {
