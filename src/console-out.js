@@ -39,6 +39,7 @@ module.exports = (function () {
 			'  --plopfile\t\tPath to the plopfile\n' +
 			'  --completion\t\tMethod to handle bash/zsh/whatever completions\n' +
 			'  --cwd\t\t\tDirectory from which relative paths are calculated against\n' +
+			'  --destBasePath\tDirectory to take as base when calculating the destination of files\n' +
 			'  --require\t\tString or array of modules to require before running plop\n'
 		);
 	}
