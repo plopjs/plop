@@ -15,7 +15,7 @@ export default co.wrap(function* (data, cfg, plop) {
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
-			path: resolvePath(cfg.destination, templateFile, cfg.base),
+			path: toUnix(resolvePath(cfg.destination, templateFile, cfg.base)),
 			templateFile: templateFile
 		});
 
@@ -25,6 +25,14 @@ export default co.wrap(function* (data, cfg, plop) {
 
 	return `${filesAdded.length} files added\n -> ${filesAdded.join('\n -> ')}`;
 });
+
+/**
+ * This function converts a non POSIX/UNIX path to it
+ * @param {string} path The path to convert to POSIX/UNIX format 
+ */
+function toUnix(path) {
+	return !path.sep || path.sep === '\\'  ? path.replace(/\\/g, '/') : path;
+}
 
 function resolveTemplateFiles(templateFilesGlob, basePath, plop) {
 	return globby.sync(templateFilesGlob, { cwd: plop.getPlopfilePath() })
@@ -53,7 +61,7 @@ function dropFileRootPath(file, rootPath) {
 }
 
 function dropFileRootFolder(file) {
-	const fileParts = file.split(path.sep);
+	const fileParts = path.normalize(file).split(path.sep);
 	fileParts.shift();
 
 	return fileParts.join(path.sep);
