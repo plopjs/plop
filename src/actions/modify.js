@@ -16,7 +16,8 @@ export default co.wrap(function* (data, cfg, plop) {
 
 	try {
 		if (cfg.templateFile) {
-			template = yield fspp.readFile(makeTmplPath(cfg.templateFile));
+			const templateFile = plop.renderString(cfg.templateFile, data);
+			template = yield fspp.readFile(makeTmplPath(templateFile));
 		}
 		if (template == null) { template = ''; }
 
