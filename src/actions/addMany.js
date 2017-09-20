@@ -11,6 +11,15 @@ export default co.wrap(function* (data, cfg, plop) {
 	const interfaceTestResult = actionInterfaceTest(cfgWithCommonInterface);
 	if (interfaceTestResult !== true) { throw interfaceTestResult; }
 
+	cfg.templateFiles = []
+		// Ensure `cfg.templateFiles` is an array, even if a string is passed.
+		.concat(cfg.templateFiles)
+		.map((file) => plop.renderString(file, data));
+
+	if (cfg.base) {
+		cfg.base = plop.renderString(cfg.base, data);
+	}
+
 	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, plop);
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
