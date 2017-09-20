@@ -17,8 +17,9 @@ test.before(() => {
 
 test('Check that all files have been created', t => {
 	const expectedFiles = [
-		'john-doe-bar-chart/john-doe-ctrl.js',
-		'john-doe-bar-chart/john-doe-tmpl.html'
+		'john-doe-bar-chart/john-doe-bar-ctrl.js',
+		'john-doe-bar-chart/john-doe-bar-tmpl.html',
+		'john-doe-bar-chart/helpers/john-doe.js'
 	];
 	expectedFiles.map((file) => {
 		const filePath = path.resolve(testSrcPath, file);
@@ -29,9 +30,8 @@ test('Check that all files have been created', t => {
 });
 
 test('Test the content of the rendered file', t => {
-	const filePath = path.resolve(testSrcPath, 'john-doe-bar-chart/john-doe-tmpl.html');
+	const filePath = path.resolve(testSrcPath, 'john-doe-bar-chart/john-doe-bar-tmpl.html');
 	const content = fs.readFileSync(filePath).toString();
 
 	t.true(content.includes('name: John Doe'));
 });
-

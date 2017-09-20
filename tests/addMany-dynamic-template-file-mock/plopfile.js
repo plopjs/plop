@@ -24,7 +24,10 @@ module.exports = function (plop) {
 			{
 				type: 'addMany',
 				destination: 'src/{{dashCase name}}-{{dashCase kind}}/',
-				templateFiles: 'plop-templates/{{dashCase kind}}/*',
+				templateFiles: [
+					'plop-templates/{{dashCase kind}}/*',
+					'plop-templates/{{dashCase kind}}/helpers/\\{{dashCase name}}.js'
+				],
 				base: 'plop-templates/{{dashCase kind}}',
 				abortOnFail: true
 			}
