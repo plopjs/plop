@@ -11,11 +11,20 @@ export default co.wrap(function* (data, cfg, plop) {
 	const interfaceTestResult = actionInterfaceTest(cfgWithCommonInterface);
 	if (interfaceTestResult !== true) { throw interfaceTestResult; }
 
+	cfg.templateFiles = []
+		// Ensure `cfg.templateFiles` is an array, even if a string is passed.
+		.concat(cfg.templateFiles)
+		.map((file) => plop.renderString(file, data));
+
+	if (cfg.base) {
+		cfg.base = plop.renderString(cfg.base, data);
+	}
+
 	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, plop);
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
-			path: toUnix(resolvePath(cfg.destination, templateFile, cfg.base)),
+			path: resolvePath(cfg.destination, templateFile, cfg.base),
 			templateFile: templateFile
 		});
 
@@ -25,14 +34,6 @@ export default co.wrap(function* (data, cfg, plop) {
 
 	return `${filesAdded.length} files added\n -> ${filesAdded.join('\n -> ')}`;
 });
-
-/**
- * This function converts a non POSIX/UNIX path to it
- * @param {string} path The path to convert to POSIX/UNIX format 
- */
-function toUnix(path) {
-	return !path.sep || path.sep === '\\'  ? path.replace(/\\/g, '/') : path;
-}
 
 function resolveTemplateFiles(templateFilesGlob, basePath, plop) {
 	return globby.sync(templateFilesGlob, { cwd: plop.getPlopfilePath() })
@@ -53,7 +54,11 @@ function isUnder(basePath = '') {
 }
 
 function resolvePath(destination, file, rootPath) {
-	return path.join(destination, dropFileRootPath(file, rootPath));
+	return toUnix(path.join(destination, dropFileRootPath(file, rootPath)));
+}
+
+function toUnix(path) {
+	return !path.sep || path.sep === '\\'  ? path.replace(/\\/g, '/') : path;
 }
 
 function dropFileRootPath(file, rootPath) {
