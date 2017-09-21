@@ -46,6 +46,9 @@ test('verify good bypass input', function (t) {
 	
 	const [, byIndexNameNoValue] = promptBypass(prompts, ['4'], plop);
 	t.is(byIndexNameNoValue.list, 'e');
+	
+	const [, byIndexNumber] = promptBypass(prompts, [4], plop);
+	t.is(byIndexNumber.list, 'e');
 });
 
 test('verify bad bypass input', function (t) {

@@ -109,7 +109,7 @@ export default function (prompts, bypassArr, plop) {
 	const bypassedPrompts = prompts.filter(function (p, idx) {
 		// if the user didn't provide value for this prompt, skip it
 		if (idx >= bypassArr.length) { return false; }
-		const val = bypassArr[idx];
+		const val = bypassArr[idx].toString();
 		
 		// if the user asked to be given this prompt, skip it
 		if (flag.isPrompt(val)) { return false; }
