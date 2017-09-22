@@ -4,15 +4,17 @@ var chalk = require('chalk');
 var nodePlop = require('node-plop');
 var fs = require('fs');
 
+var defaultChoosingMessage = '[PLOP]'.blue + ' Please choose a generator.';
+
 module.exports = (function () {
 
-	function chooseOptionFromList(plopList) {
+	function chooseOptionFromList(plopList, message = defaultChoosingMessage) {
 		const plop = nodePlop();
 		const generator = plop.setGenerator('choose', {
 			prompts: [{
 				type: 'list',
 				name: 'generator',
-				message: '[PLOP]'.blue + ' Please choose a generator.',
+				message,
 				choices: plopList.map(function (p) {
 					return {
 						name: p.name + chalk.gray(!!p.description ? ' - ' + p.description : ''),
