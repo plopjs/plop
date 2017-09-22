@@ -1,10 +1,10 @@
 'use strict';
 
-var chalk = require('chalk');
-var nodePlop = require('node-plop');
-var fs = require('fs');
+const chalk = require('chalk');
+const nodePlop = require('node-plop');
+const fs = require('fs');
 
-var defaultChoosingMessage = '[PLOP]'.blue + ' Please choose a generator.';
+const defaultChoosingMessage = chalk.blue('[PLOP]') + ' Please choose a generator.';
 
 module.exports = (function () {
 
@@ -27,22 +27,28 @@ module.exports = (function () {
 	}
 
 	function displayHelpScreen() {
-		console.log(
-			'\n' +
-			'USAGE:\n' +
-			'  $ plop\t\tSelect from a list of available generators\n' +
-			'  $ plop <name>\t\tRun a generator registered under that name\n' +
-
-			'\n' +
-			'OPTIONS:\n' +
-			'  -h, --help\t\tShow this help display\n' +
-			'  -i, --init\t\tGenerate a basic plopfile.js\n' +
-			'  -v, --version\t\tPrint current version\n' +
-			'  --plopfile\t\tPath to the plopfile\n' +
-			'  --completion\t\tMethod to handle bash/zsh/whatever completions\n' +
-			'  --cwd\t\t\tDirectory from which relative paths are calculated against\n' +
-			'  --require\t\tString or array of modules to require before running plop\n'
-		);
+		console.log([
+			'',
+			chalk.bold('Usage:'),
+			'  $ plop                 ' + chalk.dim('Select from a list of available generators'),
+			'  $ plop <name>          ' + chalk.dim('Run a generator registered under that name'),
+			'  $ plop <name> [input]  ' + chalk.dim('Run the generator with input data to bypass prompts'),
+			'',
+			chalk.bold('Options:'),
+			'  -h, --help             ' + chalk.dim('Show this help display'),
+			'  -i, --init             ' + chalk.dim('Generate a basic plopfile.js'),
+			'  -v, --version          ' + chalk.dim('Print current version'),
+			'  --plopfile             ' + chalk.dim('Path to the plopfile'),
+			'  --completion           ' + chalk.dim('Method to handle bash/zsh/whatever completions'),
+			'  --cwd                  ' + chalk.dim('Directory from which relative paths are calculated against'),
+			'  --require              ' + chalk.dim('String or array of modules to require before running plop'),
+			'',
+			chalk.bold('Examples:'),
+			'  $ ' + chalk.blue('plop'),
+			'  $ ' + chalk.blue('plop component'),
+			'  $ ' + chalk.blue('plop component "name of component"'),
+			'',
+		].join('\n'));
 	}
 
 	function createInitPlopfile(cwd, callback){
