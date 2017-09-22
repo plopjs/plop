@@ -2,6 +2,7 @@
 
 import co from 'co';
 import colors from 'colors';
+import promptBypass from './prompt-bypass';
 import add from './actions/add';
 import addMany from './actions/addMany';
 import modify from './actions/modify';
@@ -11,8 +12,8 @@ export default function (plopfileApi) {
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
-	const runGeneratorPrompts = co.wrap(function* (genObject) {
-		const prompts = genObject.prompts;
+	const runGeneratorPrompts = co.wrap(function* (genObject, bypassArr = []) {
+		const {prompts} = genObject;
 
 		if (prompts == null) {
 			throw Error(`${genObject.name} has no prompts`);
@@ -21,8 +22,13 @@ export default function (plopfileApi) {
 		if (typeof prompts === 'function') {
 			return yield prompts(plopfileApi.inquirer);
 		}
-
-		return yield plopfileApi.inquirer.prompt(prompts);
+		
+		// handle bypass data when provided
+		const [promptsAfterBypass, bypassAnswers] = promptBypass(prompts, bypassArr, plopfileApi);
+		
+		return yield plopfileApi.inquirer
+			.prompt(promptsAfterBypass)
+			.then(answers => Object.assign(answers, bypassAnswers));
 	});
 
 	// Run the actions for this generator

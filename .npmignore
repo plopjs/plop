@@ -2,3 +2,5 @@ src
 tests
 .*rc
 build-scripts
+plopfile.js
+plop-templates
