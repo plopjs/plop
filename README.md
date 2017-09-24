@@ -14,7 +14,7 @@ Micro-generator framework that makes it easy for an entire team to create files 
 [![plop on slack](https://plopjs-slack-rjjmojauhb.now.sh/badge.svg)](https://plopjs-slack-rjjmojauhb.now.sh/)
 
 ## What is Plop?
-Plop is a what I like to call a "micro-generator framework." Now, I call it that because it is a small tool that gives you a simple way to generate code or any other type of flat text files in a consistent way. You see, we all create structures and patterns in our code (routes, controllers, components, helpers, etc). These patterns change and improve over time so when you need to create a NEW *insert-name-of-pattern-here*, it's not always easy to locate the files in your codebase that represent the current "best practice." That's where plop saves you. With plop, you have your "best practice" method of creating any given pattern in CODE. Code that you can be easily run from the terminal by simply typing `plop`. Not only does this save you from hunting around in your codebase for the right files to copy, but it also turns "the right way" into "the easiest way" to make new files.
+Plop is what I like to call a "micro-generator framework." Now, I call it that because it is a small tool that gives you a simple way to generate code or any other type of flat text files in a consistent way. You see, we all create structures and patterns in our code (routes, controllers, components, helpers, etc). These patterns change and improve over time so when you need to create a NEW *insert-name-of-pattern-here*, it's not always easy to locate the files in your codebase that represent the current "best practice." That's where plop saves you. With plop, you have your "best practice" method of creating any given pattern in CODE. Code that can easily be run from the terminal by typing `plop`. Not only does this save you from hunting around in your codebase for the right files to copy, but it also turns "the right way" into "the easiest way" to make new files.
 
 If you boil plop down to its core, it is basically glue code between  [inquirer](https://github.com/SBoudrias/Inquirer.js/) prompts and [handlebar](https://github.com/wycats/handlebars.js/) templates.
 
@@ -42,7 +42,7 @@ module.exports = function (plop) {
 ```
 
 ## Your First Plopfile
-A plopfile starts its life as a lowly node module that exports a function that accepts the `plop` object as its first parameter.
+A plopfile starts its life as a lowly node module that exports a function which accepts the `plop` object as its first parameter.
 
 ``` javascript
 module.exports = function (plop) {};
@@ -77,7 +77,7 @@ The *controlller* generator we created above will ask us 1 question, and create 
 Once plop is installed, and you have created a generator, you are ready to run plop from the terminal. Running `plop` with no parameters will present you with a list of generators to pick from. You can also run `plop [generatorName]` to trigger a generator directly. If you did not install plop globally, you will need to setup an npm script to run plop for you.
 
 ### Bypassing Prompts
-Once you get to know a project (and its generators) well, you may want to provide  answers to the prompts when you run the generator. If I have (for instance) a `component` generator that has one prompt (name), I can run that generator using `plop component "some component name"` and it will immediately execute as though I had typed "some component name" into the prompt. If that same generator had a second prompt, the same input would have resulted in the user being prompted for the second value.
+Once you get to know a project (and its generators) well, you may want to provide answers to the prompts when you run the generator. If I have (for instance) a `component` generator that has one prompt (name), I can run that generator using `plop component "some component name"` and it will immediately execute as though I had typed "some component name" into the prompt. If that same generator had a second prompt, the same input would have resulted in the user being prompted for the second value.
 
 Prompts like `confirm` and `list` try to make sense of your input as best they can. For instance entering "y", "yes", "t", or "true" for a confirm prompt will result in a boolean `true` value. You can select items from a list using their value, index, key, or name. Checkbox prompts can accept a comma separated list of values in order to select multiples.
 
@@ -301,10 +301,10 @@ There are a few helpers that I have found useful enough to include with plop. Th
 
 # Taking it Further
 
-There is not a lot needed to get up and running on some basic generators. However, if you want to take your plop-fu futher, read on young padawan.
+There is not a lot needed to get up and running on some basic generators. However, if you want to take your plop-fu further, read on young padawan.
 
 ## Using a Dynamic Actions Array
-Alternatively, the `actions` property of the [GeneratorConfig](#-interface-generatorconfig-) can itself be a function that takes the answers data as a parameter and return the actions array.
+Alternatively, the `actions` property of the [GeneratorConfig](#-interface-generatorconfig-) can itself be a function that takes the answers data as a parameter and returns the actions array.
 
 This allows you to adapt the actions array based on provided answers:
 
