@@ -2,7 +2,6 @@ Node-Plop
 ======
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/amwmedia/node-plop.svg)](https://greenkeeper.io/)
-
 [![CircleCI](https://circleci.com/gh/amwmedia/node-plop/tree/master.svg?style=svg)](https://circleci.com/gh/amwmedia/node-plop/tree/master)
 
 This is an early publication of the plop core logic being removed from the CLI tool. Main purpose for this is to make it easier for others to automate code generation through processes and tools OTHER than the command line. This also makes it easier to test the code functionality of PLOP without needing to test via the CLI interface.
