@@ -81,6 +81,8 @@ Once you get to know a project (and its generators) well, you may want to provid
 
 Prompts like `confirm` and `list` try to make sense of your input as best they can. For instance entering "y", "yes", "t", or "true" for a confirm prompt will result in a boolean `true` value. You can select items from a list using their value, index, key, or name. Checkbox prompts can accept a comma separated list of values in order to select multiples.
 
+![plop bypass demo](https://media.giphy.com/media/3ov9jQ38ypmX4SuT60/giphy.gif)
+
 > If you want to provide bypass input for the second prompt but not the first, you can use an underscore "\_" to skip the bypass (ie `plop component _ "input for second prompt"`).
 
 Plop comes with bypass logic built-in for standard inquirer prompts, but there are also ways to provide custom logic for how to handle user input for a specific prompt.
@@ -340,7 +342,7 @@ module.exports = function (plop) {
 ```
 
 ## 3rd Party Prompt Bypass
-If you have written an inquirer prompt plugin and want to support plop's bypass functionality, the process is pretty simple. The plugin object that your prompt exports should have a `bypass` function. This `bypass` function will be run by plop with the user's input as the first parameter and the prompt config object as the second parameter. The function should return the value that should be added to the answer data object for that prompt.
+If you have written an inquirer prompt plugin and want to support plop's bypass functionality, the process is pretty simple. The plugin object that your prompt exports should have a `bypass` function. This `bypass` function will be run by plop with the user's input as the first parameter and the prompt config object as the second parameter. The value that this function returns will be added to the answer data object for that prompt.
 
 ``` javascript
 // My confirmation inquirer plugin
@@ -352,13 +354,13 @@ function MyConfirmPluginConstructor() {
 		const trueValues = ['t', 'true', 'y', 'yes'];
 		const falseValues = ['f', 'false', 'n', 'no'];
 		if (trueValues.includes(lowerVal)) return true;
-		if (trueValues.includes(lowerVal)) return false;
+		if (falseValues.includes(lowerVal)) return false;
 		throw Error(`"${rawValue}" is not a valid ${promptConfig.type} value`);
 	};
 	return this;
 }
 ```
-> For the above example, the bypass function takes the users text input and turns it into a `Boolean` value that will be used as the prompt answer data.
+> For the above example, the bypass function takes the user's text input and turns it into a `Boolean` value that will be used as the prompt answer data.
 
 ### Adding Bypass Support to Your Plopfile
 If the 3rd party prompt plugin you are using does not support bypass by default, you can add the `bypass` function above to your prompt's config object and plop will use it for handling bypass data for that prompt.
