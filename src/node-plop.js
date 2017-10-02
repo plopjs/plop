@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import inquirer from 'inquirer';
 import handlebars from 'handlebars';
@@ -66,7 +67,14 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	const getDefaultInclude = () => defaultInclude;
 	const getDestBasePath = () => destBasePath || plopfilePath;
 	const getPlopfilePath = () => plopfilePath;
-	const setPlopfilePath = filePath => plopfilePath = path.dirname(filePath);
+	const setPlopfilePath = filePath => {
+		const pathStats = fs.statSync(filePath);
+		if (pathStats.isFile()) {
+			plopfilePath = path.dirname(filePath);
+		} else {
+			plopfilePath = filePath;
+		}
+	};
 
 	function load(targets, loadCfg = {}, includeOverride) {
 		if (typeof targets === 'string') { targets = [targets]; }
