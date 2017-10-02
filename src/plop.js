@@ -2,18 +2,18 @@
 
 'use strict';
 
-var Liftoff = require('liftoff');
-var argv = require('minimist')(process.argv.slice(2));
-var v8flags = require('v8flags');
-var interpret = require('interpret');
-var chalk = require('chalk');
+const Liftoff = require('liftoff');
+const args = process.argv.slice(2);
+const argv = require('minimist')(args);
+const v8flags = require('v8flags');
+const interpret = require('interpret');
+const chalk = require('chalk');
 
-var nodePlop = require('node-plop');
-var out = require('./console-out');
-var globalPkg = require('../package.json');
-var generator = argv._.join(' ') || null;
+const nodePlop = require('node-plop');
+const out = require('./console-out');
+const globalPkg = require('../package.json');
 
-var Plop = new Liftoff({
+const Plop = new Liftoff({
 	name: 'plop',
 	extensions: interpret.jsVariants,
 	v8flags: v8flags
@@ -27,7 +27,7 @@ Plop.launch({
 }, run);
 
 function run(env) {
-	var generators, plopfilePath, plop;
+	const plopfilePath = env.configPath;
 
 	// handle request for usage and options
 	if (argv.help || argv.h) {
@@ -57,7 +57,6 @@ function run(env) {
 		return;
 	}
 
-	plopfilePath = env.configPath;
 	// abort if there's no plopfile found
 	if (plopfilePath == null) {
 		console.error(chalk.red('[PLOP] ') + 'No plopfile found');
@@ -66,30 +65,46 @@ function run(env) {
 	}
 
 	// set the default base path to the plopfile directory
-	plop = nodePlop(plopfilePath);
-	generators = plop.getGeneratorList();
-	if (!generator) {
-		switch (generators.length) {
-			case 0:
-				console.error(chalk.red('[PLOP] ') + 'No generator found in plopfile');
-				process.exit(1);
-				break;
-
-			case 1:
-				doThePlop(plop.getGenerator(generators[0].name));
-				break;
-
-			default:
-				out.chooseOptionFromList(generators, plop.getWelcomeMessage())
-					.then(function (generatorName) {
-						doThePlop(plop.getGenerator(generatorName));
-					});
-				break;
+	const plop = nodePlop(plopfilePath);
+	const generators = plop.getGeneratorList();
+	const generatorNames = generators.map(function (v) { return v.name; });
+	
+	// locate the generator name based on input and take the rest of the
+	// user's input as prompt bypass data to be passed into the generator
+	let generatorName = '';
+	let bypassArr = [];
+	for (let i=0; i < argv._.length; i++) {
+		const nameTest = (generatorName.length ? generatorName + ' ' : '') + argv._[i];
+		if (listHasOptionThatStartsWith(generatorNames, nameTest)) {
+			generatorName = nameTest;
+		} else {
+			bypassArr = argv._.slice(i);
+			break;
 		}
-	} else if (generators.map(function (v) { return v.name; }).indexOf(generator) > -1) {
-		doThePlop(plop.getGenerator(generator));
+	}
+	
+	// hmmmm, couldn't identify a generator in the user's input
+	if (!generatorName && !generators.length) {
+		// no generators?! there's clearly something wrong here
+		console.error(chalk.red('[PLOP] ') + 'No generator found in plopfile');
+		process.exit(1);
+	} else if (!generatorName && generators.length === 1) {
+		// only one generator in this plopfile... let's assume they
+		// want to run that one!
+		doThePlop(plop.getGenerator(generatorNames[0]), bypassArr);
+	} else if (!generatorName && generators.length > 1 && !bypassArr.length) {
+		// more than one generator? we'll have to ask the user which
+		// one they want to run.
+		out.chooseOptionFromList(generators, plop.getWelcomeMessage()).then(function (generatorName) {
+			doThePlop(plop.getGenerator(generatorName));
+		});
+	} else if (generatorNames.indexOf(generatorName) >= 0) {
+		// we have found the generator, run it!
+		doThePlop(plop.getGenerator(generatorName), bypassArr);
 	} else {
-		console.error(chalk.red('[PLOP] ') + 'Generator "' + generator + '" not found in plopfile');
+		// we just can't make sense of your input... sorry :-(
+		const fuzyGenName = (generatorName + ' ' + bypassArr.join(' ')).trim();
+		console.error(chalk.red('[PLOP] ') + 'Could not find a generator for "' + fuzyGenName + '"');
 		process.exit(1);
 	}
 
@@ -98,25 +113,32 @@ function run(env) {
 /////
 // everybody to the plop!
 //
-function doThePlop(generator) {
-	generator.runPrompts().then(generator.runActions)
+function doThePlop(generator, bypassArr) {
+	generator.runPrompts(bypassArr)
+		.then(generator.runActions)
 		.then(function (result) {
 			result.changes.forEach(function(line) {
 				console.log(chalk.green('[SUCCESS]'), line.type, line.path);
 			});
 			result.failures.forEach(function (line) {
-				var logs = [chalk.red('[FAILED]')];
+				const logs = [chalk.red('[FAILED]')];
 				if (line.type) { logs.push(line.type); }
 				if (line.path) { logs.push(line.path); }
 
-				var error = line.error || line.message;
+				const error = line.error || line.message;
 				logs.push(chalk.red(error));
 
 				console.log.apply(console, logs);
 			});
 		})
 		.catch(function (err) {
-			console.error(chalk.red('[ERROR]'), err.message, err.stack);
+			console.error(chalk.red('[ERROR]'), err.message);
 			process.exit(1);
 		});
+}
+
+function listHasOptionThatStartsWith(list, prefix) {
+	return list.some(function (txt) {
+		return txt.indexOf(prefix) === 0;
+	});
 }
