@@ -65,7 +65,9 @@ function run(env) {
 	}
 
 	// set the default base path to the plopfile directory
-	const plop = nodePlop(plopfilePath);
+	const plop = nodePlop(plopfilePath, {
+		force: argv.force || argv.f
+	});
 	const generators = plop.getGeneratorList();
 	const generatorNames = generators.map(function (v) { return v.name; });
 	
