@@ -8,13 +8,14 @@ import resolve from 'resolve';
 import bakedInHelpers from './baked-in-helpers';
 import generatorRunner from './generator-runner';
 
-function nodePlop(plopfilePath = '', plopCfg = {}) {
+function nodePlop(plopfilePath = '', plopCfg = {force: false}) {
 
 	var pkgJson = {};
 	var defaultInclude = {generators: true};
 
 	let welcomeMessage;
 	const {destBasePath} = plopCfg;
+	var {force} = plopCfg;
 	const generators = {};
 	const partials = {};
 	const actionTypes = {};
@@ -62,6 +63,9 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 			return {name, description};
 		});
 	}
+
+	const getForce = () => force;
+	const setForce = f => force = f;
 
 	const setDefaultInclude = inc => defaultInclude = inc;
 	const getDefaultInclude = () => defaultInclude;
@@ -139,6 +143,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		setPartial, getPartial, getPartialList,
 		setHelper, getHelper, getHelperList,
 		setActionType, getActionType, getActionTypeList,
+		getForce, setForce,
 
 		// path context methods
 		setPlopfilePath, getPlopfilePath,

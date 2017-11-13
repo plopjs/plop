@@ -17,8 +17,8 @@ export default function* addFile(data, cfg, plop) {
 
 		// check path
 		const pathExists = yield fspp.fileExists(fileDestPath);
-
-		if (pathExists) {
+		
+		if(!plop.getForce() && pathExists){
 			throw `File already exists\n -> ${fileDestPath}`;
 		} else {
 			yield fspp.makeDir(path.dirname(fileDestPath));
