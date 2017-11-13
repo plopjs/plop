@@ -7,6 +7,7 @@ export default function* addFile(data, cfg, plop) {
 	const makeDestPath = p => path.resolve(plop.getDestBasePath(), p);
 
 	var {template} = cfg;
+	const {overwrite} = cfg;
 	const fileDestPath = makeDestPath(plop.renderString(cfg.path || '', data));
 
 	try {
@@ -18,7 +19,7 @@ export default function* addFile(data, cfg, plop) {
 		// check path
 		const pathExists = yield fspp.fileExists(fileDestPath);
 		
-		if(!plop.getForce() && pathExists){
+		if(!plop.getForce() && !overwrite && pathExists){
 			throw `File already exists\n -> ${fileDestPath}`;
 		} else {
 			yield fspp.makeDir(path.dirname(fileDestPath));
