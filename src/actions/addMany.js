@@ -1,5 +1,6 @@
 import co from 'co';
 import path from 'path';
+import fs from 'fs';
 import globby from 'globby';
 import actionInterfaceTest from './_common-action-interface-check';
 import addFile from './_common-action-add-file';
@@ -11,23 +12,34 @@ export default co.wrap(function* (data, cfg, plop) {
 	const interfaceTestResult = actionInterfaceTest(cfgWithCommonInterface);
 	if (interfaceTestResult !== true) { throw interfaceTestResult; }
 
-	cfg.templateFiles = []
-		// Ensure `cfg.templateFiles` is an array, even if a string is passed.
-		.concat(cfg.templateFiles)
-		.map((file) => plop.renderString(file, data));
-
 	if (cfg.base) {
 		cfg.base = plop.renderString(cfg.base, data);
 	}
-
-	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, plop);
+	let templateFiles = [];
+	if(typeof cfg.templateFiles === 'function'){
+		templateFiles = cfg.templateFiles(
+			// Only allow the sync function to be called
+			(patterns,options)=> {				
+				patterns = [].concat(patterns).map(file=> plop.renderString(file,data));				
+				return globby.sync(patterns,Object.assign({},options,{cwd:plop.getPlopfilePath()}));
+			},data,cfg,plop
+		);
+	}
+	else{
+		cfg.templateFiles = []
+			// Ensure `cfg.templateFiles` is an array, even if a string is passed.
+			.concat(cfg.templateFiles)
+			.map((file) => plop.renderString(file, data));
+		templateFiles = resolveTemplateFiles(cfg.templateFiles, plop);
+	}
+	templateFiles = filterTemplateFiles(templateFiles, cfg.base, plop.getPlopfilePath());
+    
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
 			path: resolvePath(cfg.destination, templateFile, cfg.base),
 			templateFile: templateFile
 		});
-
 		const addedPath = yield addFile(data, fileCfg, plop);
 		filesAdded.push(addedPath);
 	}
@@ -35,18 +47,17 @@ export default co.wrap(function* (data, cfg, plop) {
 	return `${filesAdded.length} files added\n -> ${filesAdded.join('\n -> ')}`;
 });
 
-function resolveTemplateFiles(templateFilesGlob, basePath, plop) {
-	return globby.sync(templateFilesGlob, { cwd: plop.getPlopfilePath() })
-		.filter(isUnder(basePath))
-		.filter(isFile);
+function resolveTemplateFiles(templateFilesGlob, plop) {
+	return globby.sync(templateFilesGlob, { cwd: plop.getPlopfilePath() });
 }
-
-function isFile(file) {
-	const fileParts = file.split(path.sep);
-	const lastFilePart = fileParts[fileParts.length - 1];
-	const hasExtension = !!(lastFilePart.split('.')[1]);
-
-	return hasExtension;
+function filterTemplateFiles(templateFiles,basePath, plopWorkingDir) {
+	return templateFiles
+		.filter(isUnder(basePath))
+		.filter(isAbsoluteOrRelativeFileTo(plopWorkingDir));
+}
+function isAbsoluteOrRelativeFileTo(relativePath) {
+	const isFile = file => fs.existsSync(file) && fs.lstatSync(file).isFile();
+	return file => isFile(file) || isFile(path.join(relativePath,file));
 }
 
 function isUnder(basePath = '') {

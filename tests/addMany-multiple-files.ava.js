@@ -102,4 +102,17 @@ test('Test the base value is used to decide which files are created', t => {
 		const filePath = path.resolve(testSrcPath, file);
 		t.false(fs.existsSync(filePath), `Shouldn't resolve ${filePath}`);
 	});
-})
+});
+
+test('Check that all files including dot have been created', t => {
+	const expectedFiles = [
+		'john-doe-dot/.gitignore',
+		'john-doe-dot/add.txt',
+		'john-doe-dot/another-add.txt'
+	];
+	expectedFiles.map((file) => {
+		const filePath = path.resolve(testSrcPath, file);
+		t.true(fs.existsSync(filePath), `Can't resolve ${filePath}`);
+	});
+	t.true(multipleAddsResult.changes[4].path.includes(`${expectedFiles.length} files added`));
+});
