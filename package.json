@@ -1,12 +1,12 @@
 {
   "name": "node-plop",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "scripts": {
     "clean": "node ./build-scripts/clean",
     "eslint": "eslint src/",
-    "test": "ava",
+    "test": "npm run compile && ava",
     "test-watch": "ava --watch",
     "compile": "npm run clean && babel src --out-dir lib",
     "compile-watch": "babel src --watch --out-dir lib",
@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/amwmedia/node-plop#readme",
   "engines": {
-    "node": ">=4.8.4"
+    "node": ">=6.12.0"
   },
   "devDependencies": {
     "ava": "^0.23.0",
@@ -60,7 +60,7 @@
     "del": "^3.0.0",
     "globby": "^7.0.0",
     "handlebars": "^4.0.5",
-    "inquirer": "^3.3.0",
+    "inquirer": "^4.0.0",
     "lodash.get": "^4.4.2",
     "mkdirp": "^0.5.1",
     "pify": "^3.0.0",
