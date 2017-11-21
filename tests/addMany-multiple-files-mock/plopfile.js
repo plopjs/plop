@@ -46,7 +46,8 @@ module.exports = function (plop) {
 			{
 				type: 'addMany',
 				destination: 'src/{{dashCase name}}-dot/',
-				templateFiles: globSync => globSync('plop-templates/*',{dot:true}),
+				templateFiles: ()=> 'plop-templates/*',
+				globbyOptions: {dot:true},
 				abortOnFail: true
 			}
 		]

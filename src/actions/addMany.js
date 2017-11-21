@@ -15,25 +15,16 @@ export default co.wrap(function* (data, cfg, plop) {
 	if (cfg.base) {
 		cfg.base = plop.renderString(cfg.base, data);
 	}
-	let templateFiles = [];
 	if(typeof cfg.templateFiles === 'function'){
-		templateFiles = cfg.templateFiles(
-			// Only allow the sync function to be called
-			(patterns,options)=> {				
-				patterns = [].concat(patterns).map(file=> plop.renderString(file,data));				
-				return globby.sync(patterns,Object.assign({},options,{cwd:plop.getPlopfilePath()}));
-			},data,cfg,plop
-		);
+		cfg.templateFiles = cfg.templateFiles();
 	}
-	else{
-		cfg.templateFiles = []
-			// Ensure `cfg.templateFiles` is an array, even if a string is passed.
-			.concat(cfg.templateFiles)
-			.map((file) => plop.renderString(file, data));
-		templateFiles = resolveTemplateFiles(cfg.templateFiles, plop);
-	}
-	templateFiles = filterTemplateFiles(templateFiles, cfg.base, plop.getPlopfilePath());
-    
+	cfg.templateFiles = []
+		// Ensure `cfg.templateFiles` is an array, even if a string is passed.
+		.concat(cfg.templateFiles)
+		.map((file) => plop.renderString(file, data));
+
+	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, cfg.globbyOptions, plop);
+   
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
@@ -47,13 +38,11 @@ export default co.wrap(function* (data, cfg, plop) {
 	return `${filesAdded.length} files added\n -> ${filesAdded.join('\n -> ')}`;
 });
 
-function resolveTemplateFiles(templateFilesGlob, plop) {
-	return globby.sync(templateFilesGlob, { cwd: plop.getPlopfilePath() });
-}
-function filterTemplateFiles(templateFiles,basePath, plopWorkingDir) {
-	return templateFiles
+function resolveTemplateFiles(templateFilesGlob, basePath,globbyOptions, plop) {
+	globbyOptions = Object.assign({ cwd: plop.getPlopfilePath() },globbyOptions);
+	return globby.sync(templateFilesGlob, globbyOptions)
 		.filter(isUnder(basePath))
-		.filter(isAbsoluteOrRelativeFileTo(plopWorkingDir));
+		.filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
 }
 function isAbsoluteOrRelativeFileTo(relativePath) {
 	const isFile = file => fs.existsSync(file) && fs.lstatSync(file).isFile();
