@@ -6,25 +6,27 @@ import actionInterfaceTest from './_common-action-interface-check';
 import addFile from './_common-action-add-file';
 
 export default co.wrap(function* (data, cfg, plop) {
-	const cfgWithCommonInterface = Object.assign({}, cfg, {
-		path: cfg.destination
-	});
-	const interfaceTestResult = actionInterfaceTest(cfgWithCommonInterface);
+	// check the common action interface attributes. skip path check because it's NA
+	const interfaceTestResult = actionInterfaceTest(cfg, {checkPath: false});
 	if (interfaceTestResult !== true) { throw interfaceTestResult; }
+	// check that destination (instead of path) is a string value
+	const dest = cfg.destination;
+	if (typeof dest !== 'string' || dest.length === 0) { throw `Invalid destination "${dest}"`; }
 
 	if (cfg.base) {
 		cfg.base = plop.renderString(cfg.base, data);
 	}
+
 	if(typeof cfg.templateFiles === 'function'){
 		cfg.templateFiles = cfg.templateFiles();
 	}
+
 	cfg.templateFiles = []
-		// Ensure `cfg.templateFiles` is an array, even if a string is passed.
-		.concat(cfg.templateFiles)
-		.map((file) => plop.renderString(file, data));
+		.concat(cfg.templateFiles) // Ensure `cfg.templateFiles` is an array, even if a string is passed.
+		.map((file) => plop.renderString(file, data)); // render the paths as hbs templates
 
 	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, cfg.globbyOptions, plop);
-   
+
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
