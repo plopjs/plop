@@ -8,14 +8,14 @@ import resolve from 'resolve';
 import bakedInHelpers from './baked-in-helpers';
 import generatorRunner from './generator-runner';
 
-function nodePlop(plopfilePath = '', plopCfg = {force: false}) {
+function nodePlop(plopfilePath = '', plopCfg = {}) {
 
-	var pkgJson = {};
-	var defaultInclude = {generators: true};
+	let pkgJson = {};
+	let defaultInclude = {generators: true};
 
 	let welcomeMessage;
 	const {destBasePath} = plopCfg;
-	var {force} = plopCfg;
+	let {force = false} = plopCfg;
 	const generators = {};
 	const partials = {};
 	const actionTypes = {};
