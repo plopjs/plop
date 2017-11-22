@@ -1,33 +1,38 @@
 import co from 'co';
 import path from 'path';
+import fs from 'fs';
 import globby from 'globby';
 import actionInterfaceTest from './_common-action-interface-check';
 import addFile from './_common-action-add-file';
 
 export default co.wrap(function* (data, cfg, plop) {
-	const cfgWithCommonInterface = Object.assign({}, cfg, {
-		path: cfg.destination
-	});
-	const interfaceTestResult = actionInterfaceTest(cfgWithCommonInterface);
+	// check the common action interface attributes. skip path check because it's NA
+	const interfaceTestResult = actionInterfaceTest(cfg, {checkPath: false});
 	if (interfaceTestResult !== true) { throw interfaceTestResult; }
-
-	cfg.templateFiles = []
-		// Ensure `cfg.templateFiles` is an array, even if a string is passed.
-		.concat(cfg.templateFiles)
-		.map((file) => plop.renderString(file, data));
+	// check that destination (instead of path) is a string value
+	const dest = cfg.destination;
+	if (typeof dest !== 'string' || dest.length === 0) { throw `Invalid destination "${dest}"`; }
 
 	if (cfg.base) {
 		cfg.base = plop.renderString(cfg.base, data);
 	}
 
-	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, plop);
+	if(typeof cfg.templateFiles === 'function'){
+		cfg.templateFiles = cfg.templateFiles();
+	}
+
+	cfg.templateFiles = []
+		.concat(cfg.templateFiles) // Ensure `cfg.templateFiles` is an array, even if a string is passed.
+		.map((file) => plop.renderString(file, data)); // render the paths as hbs templates
+
+	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, cfg.globbyOptions, plop);
+
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
 			path: resolvePath(cfg.destination, templateFile, cfg.base),
 			templateFile: templateFile
 		});
-
 		const addedPath = yield addFile(data, fileCfg, plop);
 		filesAdded.push(addedPath);
 	}
@@ -35,18 +40,15 @@ export default co.wrap(function* (data, cfg, plop) {
 	return `${filesAdded.length} files added\n -> ${filesAdded.join('\n -> ')}`;
 });
 
-function resolveTemplateFiles(templateFilesGlob, basePath, plop) {
-	return globby.sync(templateFilesGlob, { cwd: plop.getPlopfilePath() })
+function resolveTemplateFiles(templateFilesGlob, basePath,globbyOptions, plop) {
+	globbyOptions = Object.assign({ cwd: plop.getPlopfilePath() },globbyOptions);
+	return globby.sync(templateFilesGlob, globbyOptions)
 		.filter(isUnder(basePath))
-		.filter(isFile);
+		.filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
 }
-
-function isFile(file) {
-	const fileParts = file.split(path.sep);
-	const lastFilePart = fileParts[fileParts.length - 1];
-	const hasExtension = !!(lastFilePart.split('.')[1]);
-
-	return hasExtension;
+function isAbsoluteOrRelativeFileTo(relativePath) {
+	const isFile = file => fs.existsSync(file) && fs.lstatSync(file).isFile();
+	return file => isFile(file) || isFile(path.join(relativePath,file));
 }
 
 function isUnder(basePath = '') {
