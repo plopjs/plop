@@ -8,13 +8,13 @@ const defaultChoosingMessage = chalk.blue('[PLOP]') + ' Please choose a generato
 
 module.exports = (function () {
 
-	function chooseOptionFromList(plopList, message = defaultChoosingMessage) {
+	function chooseOptionFromList(plopList, message) {
 		const plop = nodePlop();
 		const generator = plop.setGenerator('choose', {
 			prompts: [{
 				type: 'list',
 				name: 'generator',
-				message,
+				message: message || defaultChoosingMessage,
 				choices: plopList.map(function (p) {
 					return {
 						name: p.name + chalk.gray(!!p.description ? ' - ' + p.description : ''),
