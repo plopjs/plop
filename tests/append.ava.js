@@ -48,3 +48,16 @@ test('Check if duplicates are kept, if allowed', async (t) => {
 	t.is((content.match(/Marco/g) || []).length, 2);
 	t.is((content.match(/Polo/g) || []).length, 1);
 });
+
+test('Check if duplicates are only removed below the pattern', async (t) => {
+	await makeList.runActions({listName: 'list4'});
+
+	await appendToList.runActions({listName: 'list4', name: 'Plop', allowDuplicates: false});
+	await appendToList.runActions({listName: 'list4', name: 'Polo', allowDuplicates: false});
+	await appendToList.runActions({listName: 'list4', name: 'Plop', allowDuplicates: false});
+	const filePath = path.resolve(testSrcPath, 'list4.txt');
+	const content = fs.readFileSync(filePath).toString();
+
+	t.is((content.match(/Plop/g) || []).length, 2);
+	t.is((content.match(/Polo/g) || []).length, 1);
+});

@@ -14,10 +14,20 @@ const doAppend = function*(data, cfg, plop, fileData) {
 	// if the appended string should be unique (default),
 	// remove any occurence of it (but only if pattern would match)
 	if (cfg.unique !== false && new RegExp(cfg.pattern).test(fileData)) {
+		// only remove after "pattern", so that we remove not too much accidentally
+		const patternRegexString =
+			cfg.pattern instanceof RegExp ? cfg.pattern.source : cfg.pattern;
+		const duplicateRegex = new RegExp(
+			'((' + patternRegexString + ')(\\s|.)*?)(' + stringToAppend + '\\s?)+',
+			'g'
+		);
 
-		fileData = fileData.replace(new RegExp(stringToAppend, 'g'), '');
+		fileData = fileData.replace(
+			duplicateRegex,
+			'$1'
+		);
 	}
-	const {separator = '\n'} = cfg;
+	const { separator = '\n' } = cfg;
 	return fileData.replace(cfg.pattern, '$&' + separator + stringToAppend);
 };
 
