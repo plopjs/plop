@@ -14,6 +14,7 @@ const doAppend = function*(data, cfg, plop, fileData) {
 	// if the appended string should be unique (default),
 	// remove any occurence of it (but only if pattern would match)
 	if (cfg.unique !== false && new RegExp(cfg.pattern).test(fileData)) {
+
 		fileData = fileData.replace(new RegExp(stringToAppend, 'g'), '');
 	}
 	const {separator = '\n'} = cfg;

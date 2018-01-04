@@ -34,6 +34,7 @@ export default co.wrap(function* (data, cfg, plop) {
 			templateFile: templateFile
 		});
 		const addedPath = yield addFile(data, fileCfg, plop);
+
 		filesAdded.push(addedPath);
 	}
 

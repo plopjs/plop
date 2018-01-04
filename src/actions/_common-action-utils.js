@@ -10,7 +10,10 @@ export function* getTemplate(data, cfg, plop) {
 	let { template } = cfg;
 
 	if (cfg.templateFile) {
-		const templateFile = plop.renderString(cfg.templateFile, data);
+		const isDynamicTemplatePathAllowed = cfg.type !== 'addMany';
+		const templateFile = isDynamicTemplatePathAllowed
+			? plop.renderString(cfg.templateFile, data)
+			: cfg.templateFile;
 		template = yield fspp.readFile(makeTmplPath(templateFile));
 	}
 	if (template == null) {
