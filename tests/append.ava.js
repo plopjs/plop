@@ -12,7 +12,7 @@ test('Check if list has been created', co.wrap(function* (t) {
 	yield makeList.runActions({listName: 'test'});
 	const filePath = path.resolve(testSrcPath, 'test.txt');
 	t.true(fs.existsSync(filePath), filePath);
-});
+}));
 
 test('Check if entry will be appended', co.wrap(function* (t) {
 	yield makeList.runActions({listName: 'list1'});
@@ -23,7 +23,7 @@ test('Check if entry will be appended', co.wrap(function* (t) {
 
 	t.is((content.match(/Marco/g) || []).length, 1);
 	t.is((content.match(/Polo/g) || []).length, 1);
-});
+}));
 
 test('Check if duplicates get filtered', co.wrap(function* (t) {
 	yield makeList.runActions({listName: 'list2'});
@@ -36,7 +36,7 @@ test('Check if duplicates get filtered', co.wrap(function* (t) {
 
 	t.is((content.match(/Marco/g) || []).length, 1);
 	t.is((content.match(/Polo/g) || []).length, 1);
-});
+}));
 
 test('Check if duplicates are kept, if allowed', co.wrap(function* (t) {
 	yield makeList.runActions({listName: 'list3'});
@@ -48,7 +48,7 @@ test('Check if duplicates are kept, if allowed', co.wrap(function* (t) {
 
 	t.is((content.match(/Marco/g) || []).length, 2);
 	t.is((content.match(/Polo/g) || []).length, 1);
-});
+}));
 
 test('Check if duplicates are only removed below the pattern', co.wrap(function* (t) {
 	yield makeList.runActions({listName: 'list4'});
@@ -61,4 +61,4 @@ test('Check if duplicates are only removed below the pattern', co.wrap(function*
 
 	t.is((content.match(/Plop/g) || []).length, 2);
 	t.is((content.match(/Polo/g) || []).length, 1);
-});
+}));
