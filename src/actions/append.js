@@ -1,5 +1,6 @@
 import co from 'co';
 import * as fspp from '../fs-promise-proxy';
+
 import {
 	getRenderedTemplate,
 	makeDestPath,
@@ -13,20 +14,18 @@ const doAppend = function*(data, cfg, plop, fileData) {
 	const stringToAppend = yield getRenderedTemplate(data, cfg, plop);
 	// if the appended string should be unique (default),
 	// remove any occurence of it (but only if pattern would match)
+
 	if (cfg.unique !== false && new RegExp(cfg.pattern).test(fileData)) {
 		// only remove after "pattern", so that we remove not too much accidentally
-		const patternRegexString =
-			cfg.pattern instanceof RegExp ? cfg.pattern.source : cfg.pattern;
-		const duplicateRegex = new RegExp(
-			'((' + patternRegexString + ')(\\s|.)*?)(' + stringToAppend + '\\s?)+',
-			'g'
+		const parts = fileData.split(cfg.pattern);
+		const lastPart = parts[parts.length - 1];
+		const lastPartWithoutDuplicates = lastPart.replace(
+			new RegExp(stringToAppend, 'g'),
+			''
 		);
-
-		fileData = fileData.replace(
-			duplicateRegex,
-			'$1'
-		);
+		fileData = fileData.replace(lastPart, lastPartWithoutDuplicates);
 	}
+
 	const { separator = '\n' } = cfg;
 	return fileData.replace(cfg.pattern, '$&' + separator + stringToAppend);
 };
