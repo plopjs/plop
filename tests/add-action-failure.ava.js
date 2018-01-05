@@ -2,7 +2,7 @@ import fs from 'fs';
 import co from 'co';
 import path from 'path';
 import AvaTest from './_base-ava-test';
-const {test, testSrcPath, nodePlop, clean} = (new AvaTest(__filename));
+const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 const plop = nodePlop();
 
@@ -51,7 +51,6 @@ test.serial('Check that the file has been created', co.wrap(function*(t) {
 test.serial('If run twice, should fail due to file already exists', co.wrap(function*(t){
 	const actionAdd = plop.getGenerator('add-action-failure');
 	const result = yield actionAdd.runActions({name: 'test2'});
-	console.log(result);
 	t.is(result.changes.length, 1);
 	t.is(result.failures.length, 0);
 	const filePath = path.resolve(testSrcPath, 'test2.txt');
