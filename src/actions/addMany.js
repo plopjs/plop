@@ -25,7 +25,7 @@ export default co.wrap(function* (data, cfg, plop) {
 		.concat(cfg.templateFiles) // Ensure `cfg.templateFiles` is an array, even if a string is passed.
 		.map((file) => plop.renderString(file, data)); // render the paths as hbs templates
 
-	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, cfg.globbyOptions, plop);
+	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, cfg.globOptions, plop);
 
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
@@ -40,15 +40,15 @@ export default co.wrap(function* (data, cfg, plop) {
 	return `${filesAdded.length} files added\n -> ${filesAdded.join('\n -> ')}`;
 });
 
-function resolveTemplateFiles(templateFilesGlob, basePath,globbyOptions, plop) {
-	globbyOptions = Object.assign({ cwd: plop.getPlopfilePath() },globbyOptions);
-	return globby.sync(templateFilesGlob, globbyOptions)
+function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
+	globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);
+	return globby.sync(templateFilesGlob, globOptions)
 		.filter(isUnder(basePath))
 		.filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
 }
 function isAbsoluteOrRelativeFileTo(relativePath) {
 	const isFile = file => fs.existsSync(file) && fs.lstatSync(file).isFile();
-	return file => isFile(file) || isFile(path.join(relativePath,file));
+	return file => isFile(file) || isFile(path.join(relativePath, file));
 }
 
 function isUnder(basePath = '') {
