@@ -1,4 +1,5 @@
 import path from 'path';
+import del from 'del';
 import * as fspp from '../fs-promise-proxy';
 
 export default function* addFile(data, cfg, plop) {
@@ -6,18 +7,26 @@ export default function* addFile(data, cfg, plop) {
 	const makeTmplPath = p => path.resolve(plop.getPlopfilePath(), p);
 	const makeDestPath = p => path.resolve(plop.getDestBasePath(), p);
 
-	var {template} = cfg;
+	let {template} = cfg;
+	const {force, templateFile} = cfg;
 	const fileDestPath = makeDestPath(plop.renderString(cfg.path || '', data));
 
 	try {
-		if (cfg.templateFile) {
-			template = yield fspp.readFile(makeTmplPath(cfg.templateFile));
+		if (templateFile) {
+			template = yield fspp.readFile(makeTmplPath(templateFile));
 		}
 		if (template == null) { template = ''; }
 
 		// check path
-		const pathExists = yield fspp.fileExists(fileDestPath);
+		let pathExists = yield fspp.fileExists(fileDestPath);
 
+		// if we are forcing and the file already exists, delete the file
+		if (force === true && pathExists) {
+			yield del([fileDestPath]);
+			pathExists = false;
+		}
+
+		// we can't create files where one already exists
 		if (pathExists) {
 			throw `File already exists\n -> ${fileDestPath}`;
 		} else {

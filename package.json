@@ -1,6 +1,6 @@
 {
   "name": "node-plop",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "scripts": {
@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/amwmedia/node-plop#readme",
   "engines": {
-    "node": ">=6.12.0"
+    "node": ">=8.9.4"
   },
   "devDependencies": {
     "ava": "^0.24.0",
