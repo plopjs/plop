@@ -14,8 +14,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	let defaultInclude = {generators: true};
 
 	let welcomeMessage;
-	const {destBasePath} = plopCfg;
-	let {force = false} = plopCfg;
+	const {destBasePath, force} = plopCfg;
 	const generators = {};
 	const partials = {};
 	const actionTypes = {};
@@ -63,9 +62,6 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 			return {name, description};
 		});
 	}
-
-	const getForce = () => force;
-	const setForce = f => force = f;
 
 	const setDefaultInclude = inc => defaultInclude = inc;
 	const getDefaultInclude = () => defaultInclude;
@@ -143,7 +139,6 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		setPartial, getPartial, getPartialList,
 		setHelper, getHelper, getHelperList,
 		setActionType, getActionType, getActionTypeList,
-		getForce, setForce,
 
 		// path context methods
 		setPlopfilePath, getPlopfilePath,
@@ -165,7 +160,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	};
 
 	// the runner for this instance of the nodePlop api
-	const runner = generatorRunner(plopfileApi);
+	const runner = generatorRunner(plopfileApi, {force});
 	const nodePlopApi = Object.assign({}, plopfileApi, {
 		getGenerator(name) {
 			var generator = plopfileApi.getGenerator(name);
