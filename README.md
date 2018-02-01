@@ -89,6 +89,9 @@ Plop comes with bypass logic built-in for standard inquirer prompts, but there a
 
 If you have published a 3rd party inquirer prompt plugin and would like to support bypass functionality for plop users out of the box, that is covered in [another section of this documentation](#3rd-party-prompt-bypass).
 
+### Force File Overwrite
+By default Plop keeps your files safe by not overwriting destination files when running [`add`](#add) actions. If you're absolutely certain that you'd like to overwrite a files, you can append `--force` when running Plop from the terminal. If there are specific [`add`](#add) actions that you'd like to have the ability to always overwrite, set the `overwrite` property on that action to true.
+
 ## Why Generators?
 Because when you create your boilerplate separate from your code, you naturally put more time and thought into it.
 
@@ -236,6 +239,8 @@ Method | Parameters | Returns | Description
 **setPlopfilePath** | String | | set the `plopfilePath` value which is used internally to locate resources like template files
 **getPlopfilePath** | | *String* | returns the absolute path to the plopfile in use
 **getDestBasePath** | | *String* | returns the base path that is used when creating files
+**setForce** | | *Boolean* | a way to set the value of `force` (useful for *[CustomAction](#-functionsignature-custom-action)*)
+**getForce** | | *Boolean* | returns whether the [`--force`](#force-file-overwrite) flag was set or not
 **setDefaultInclude** | *Object* | *Object* | sets the default config that will be used for this plopfile if it is consumed by another plopfile using `plop.load()`
 **getDefaultInclude** | *String* | *Object* | gets the default config that will be used for this plopfile if it is consumed by another plopfile using `plop.load()`
 **renderString** | String, Object | *String* | Runs the first parameter (*String*) through the handlebars template renderer using the second parameter (*Object*) as the data. Returns the rendered template.
@@ -251,6 +256,7 @@ Property | Type | Default | Description
 **path** | *String* | | a handlebars template that (when rendered) is the path of the new file
 **template** | *String* | | a handlebars template that should be used to build the new file
 **templateFile** | *String* | | a path a file containing the `template`
+**overwrite** | *Boolean* | false | overwrite if the file already exists
 **abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
 
 ## AddMany
@@ -261,6 +267,7 @@ Property | Type | Default | Description
 **destination** | *String* | | a handlebars template that (when rendered) is the destination folder for the new files
 **base** | *String* | | the section of the path that should be excluded when adding files to the `destination` folder
 **templateFiles** | *[Glob](https://github.com/sindresorhus/globby#globbing-patterns)* | | glob pattern that matches multiple template files to be added
+**overwrite** | *Boolean* | false | overwrite if the file already exists
 **abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
 
 ## Modify
