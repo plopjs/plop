@@ -107,12 +107,12 @@ These are the methods you will commonly use when creating a plopfile. Other meth
 
 Method | Parameters | Returns | Description
 ------ | ---------- | ------- | -----------
-[**setGenerator**](#setgenerator) | String, [GeneratorConfig](#-interface-generatorconfig-) | *[GeneratorConfig](#-interface-generatorconfig-)* | setup a generator
-[**setHelper**](#sethelper) | String, Function | | setup handlebars helper
-[**setPartial**](#setpartial) | String, String | | setup a handlebars partial
-[**setActionType**](#setactiontype) | String, [CustomAction](#-functionsignature-custom-action) | | register a custom action type
-[**setPrompt**](#setprompt) | String, InquirerPrompt | | registers a custom prompt type with inquirer
-[**load**](https://github.com/amwmedia/plop/blob/master/plop-load.md) | Array[String], Object, Object | | loads generators, helpers and/or partials from another plopfile or npm module
+[**setGenerator**](#setgenerator) | *String, [GeneratorConfig](#-interface-generatorconfig-)* | *[GeneratorConfig](#-interface-generatorconfig-)* | setup a generator
+[**setHelper**](#sethelper) | *String, Function* | | setup handlebars helper
+[**setPartial**](#setpartial) | *String, String* | | setup a handlebars partial
+[**setActionType**](#setactiontype) | *String, [CustomAction](#-functionsignature-custom-action)* | | register a custom action type
+[**setPrompt**](#setprompt) | *String, InquirerPrompt* | | registers a custom prompt type with inquirer
+[**load**](https://github.com/amwmedia/plop/blob/master/plop-load.md) | *Array[String], Object, Object* | | loads generators, helpers and/or partials from another plopfile or npm module
 
 ## setHelper
 `setHelper` directly corresponds to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](http://handlebarsjs.com/expressions.html#helpers), then you already know how this works.
@@ -144,9 +144,9 @@ module.exports = function (plop) {
 ### *FunctionSignature* Custom Action
 Parameters | Type | Description
 ---------- | ---- | -----------
-1) answers | Object | Answers to the generator prompts
-2) config | [ActionConfig](#-interface-actionconfig-) | The object in the "actions" array for the generator
-3) plop | [PlopfileApi](#plopfile-api) | The plop api for the plopfile where this action is being run
+1) **answers** | *Object* | Answers to the generator prompts
+2) **config** | *[ActionConfig](#-interface-actionconfig-)* | The object in the "actions" array for the generator
+3) **plop** | *[PlopfileApi](#plopfile-api)* | The plop api for the plopfile where this action is being run
 
 ``` javascript
 module.exports = function (plop) {
@@ -208,9 +208,9 @@ The config object needs to include `prompts` and `actions` (`description` is opt
 ### *Interface* `GeneratorConfig`
 Property | Type | Default | Description
 -------- | ---- | ------- | -----------
-**description** | [String] | | short description of what this generator does
-**prompts** | Array[[InquirerQuestion](https://github.com/SBoudrias/Inquirer.js/#question)] | | questions to ask the user
-**actions** | Array[[ActionConfig](#-interface-actionconfig-)] | | actions to perform
+**description** | *[String]* | | short description of what this generator does
+**prompts** | *Array[[InquirerQuestion](https://github.com/SBoudrias/Inquirer.js/#question)]* | | questions to ask the user
+**actions** | *Array[[ActionConfig](#-interface-actionconfig-)]* | | actions to perform
 
 > If your list of actions needs to be dynamic, take a look at [using a dynamic actions array.](#using-a-dynamic-actions-array)
 
@@ -219,30 +219,31 @@ The following properties are the standard properties that plop handles internall
 
 Property | Type | Default | Description
 -------- | ---- | ------- | -----------
-**type** | String | | the type of action ([`add`](#add), [`modify`](#modify), [`addMany`](#addmany), [etc](#setactiontype))
-**force** | Boolean | *false* | performs the action forcefully (means different things depending on the action)
-**abortOnFail** | Boolean | *true* | if this action fails for any reason abort all future actions
+**type** | *String* | | the type of action ([`add`](#add), [`modify`](#modify), [`addMany`](#addmany), [etc](#setactiontype))
+**force** | *Boolean* | `false` | performs the action [forcefully](#running-a-generator-forcefully) (means different things depending on the action)
+**data** | *Object* | `{}` | specifies data that should be mixed with user prompt answers when running this action
+**abortOnFail** | *Boolean* | `true` | if this action fails for any reason abort all future actions
 
 > Instead of an Action Object, a [function can also be used](#custom-action-function-)
 
 ## Other Methods
 Method | Parameters | Returns | Description
 ------ | ---------- | ------- | -----------
-**getHelper** | String | *Function* | get the helper function
+**getHelper** | *String* | *Function* | get the helper function
 **getHelperList** | | *Array[String]* | get a list of helper names
-**getPartial** | String | *String* | get a handlebars partial by name
+**getPartial** | *String* | *String* | get a handlebars partial by name
 **getPartialList** | | *Array[String]* | get a list of partial names
-**getActionType** | String | *[CustomAction](#-functionsignature-custom-action)* | get an actionType by name
+**getActionType** | *String* | *[CustomAction](#-functionsignature-custom-action)* | get an actionType by name
 **getActionTypeList** | | *Array[String]* | get a list of actionType names
-**setWelcomeMessage** | String | | Customizes the displayed message that asks you to choose a generator when you run `plop`.
-**getGenerator** | String | *[GeneratorConfig](#-interface-generatorconfig-)* | get the [GeneratorConfig](#-interface-generatorconfig-) by name
+**setWelcomeMessage** | *String* | | Customizes the displayed message that asks you to choose a generator when you run `plop`.
+**getGenerator** | *String* | *[GeneratorConfig](#-interface-generatorconfig-)* | get the [GeneratorConfig](#-interface-generatorconfig-) by name
 **getGeneratorList** | | *Array[Object]* | gets an array of generator names and descriptions
-**setPlopfilePath** | String | | set the `plopfilePath` value which is used internally to locate resources like template files
+**setPlopfilePath** | *String* | | set the `plopfilePath` value which is used internally to locate resources like template files
 **getPlopfilePath** | | *String* | returns the absolute path to the plopfile in use
 **getDestBasePath** | | *String* | returns the base path that is used when creating files
 **setDefaultInclude** | *Object* | *Object* | sets the default config that will be used for this plopfile if it is consumed by another plopfile using `plop.load()`
 **getDefaultInclude** | *String* | *Object* | gets the default config that will be used for this plopfile if it is consumed by another plopfile using `plop.load()`
-**renderString** | String, Object | *String* | Runs the first parameter (*String*) through the handlebars template renderer using the second parameter (*Object*) as the data. Returns the rendered template.
+**renderString** | *String, Object* | *String* | Runs the first parameter (*String*) through the handlebars template renderer using the second parameter (*Object*) as the data. Returns the rendered template.
 
 # Built-In Actions
 There are several types of built-in actions you can use in your [GeneratorConfig](#-interface-generatorconfig-). You specify which `type` of action  (all paths are based on the location of the plopfile), and a template to use.
@@ -255,8 +256,9 @@ Property | Type | Default | Description
 **path** | *String* | | a handlebars template that (when rendered) is the path of the new file
 **template** | *String* | | a handlebars template that should be used to build the new file
 **templateFile** | *String* | | a path a file containing the `template`
-**force** | *Boolean* | false | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
-**abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
+**force** | *Boolean* | `false` | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
+**data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
+**abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#-interface-actionconfig-)*
 
 ## AddMany
 The `addMany` action can be used to add multiple files to your project with a single action. The `destination` property is a handlebars template that will be used to identify the folder that the generated files should go into. The `base` property  can be used to alter what section of the template paths should be omitted when creating files. The paths located by the `templateFiles` glob can use handlebars syntax in their file/folder names if you'd like the added file names to be unique (example: `{{ dashCase name }}.spec.js`).
@@ -266,8 +268,9 @@ Property | Type | Default | Description
 **destination** | *String* | | a handlebars template that (when rendered) is the destination folder for the new files
 **base** | *String* | | the section of the path that should be excluded when adding files to the `destination` folder
 **templateFiles** | *[Glob](https://github.com/sindresorhus/globby#globbing-patterns)* | | glob pattern that matches multiple template files to be added
-**force** | *Boolean* | false | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
-**abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
+**force** | *Boolean* | `false` | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
+**data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
+**abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#-interface-actionconfig-)*
 
 ## Modify
 The `modify` action will use a `pattern` property to find/replace text in the file located at the `path` specified. More details on modify can be found in the example folder.
@@ -278,7 +281,8 @@ Property | Type | Default | Description
 **pattern** | *RegExp* | | regular expression used to match text that should be replaced
 **template** | *String* | | handlebars template that should replace what was matched by the `pattern`. capture groups are available as $1, $2, etc
 **templateFile** | *String* | | path a file containing the `template`
-**abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
+**data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
+**abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#-interface-actionconfig-)*
 
 ## Append
 The `append` action is a commonly used subset of `modify`. It is used to append data in a file at a particular location.
@@ -286,12 +290,13 @@ The `append` action is a commonly used subset of `modify`. It is used to append 
 Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **path** | *String* | | handlebars template that (when rendered) is the path of the file to be modified
-**pattern** | *RegExp* OR *String* | | regular expression used to match text where the append should happen
+**pattern** | *RegExp, String* | | regular expression used to match text where the append should happen
 **unique** | *Boolean* | true | whether identical entries should be removed
 **separator** | *String* | `new line` | the value that separates entries
 **template** | *String* | | handlebars template to be used for the entry
 **templateFile** | *String* | | path a file containing the `template`
-**abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
+**data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
+**abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#-interface-actionconfig-)*
 
 ## Custom (Action Function)
 The `Add` and `Modify` actions will take care of almost every case that plop is designed to handle. However, plop does offer custom action functions for the node/js guru. A custom action function is a function that is provided in the actions array.
