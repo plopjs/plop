@@ -3,9 +3,8 @@
 import co from 'co';
 import colors from 'colors';
 import promptBypass from './prompt-bypass';
-import add from './actions/add';
-import addMany from './actions/addMany';
-import modify from './actions/modify';
+import * as buildInActions from './actions';
+
 
 export default function (plopfileApi, flags) {
 	let abort;
@@ -37,7 +36,6 @@ export default function (plopfileApi, flags) {
 		var failures = [];         // array of actions that failed
 		var {actions} = genObject; // the list of actions to execute
 		const customActionTypes = getCustomActionTypes();
-		const buildInActions = { add, addMany, modify };
 		const actionTypes = Object.assign({}, customActionTypes, buildInActions);
 
 		abort = false;
