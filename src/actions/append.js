@@ -1,5 +1,6 @@
 import co from 'co';
 import * as fspp from '../fs-promise-proxy';
+
 import {
 	getRenderedTemplate,
 	makeDestPath,
@@ -8,6 +9,26 @@ import {
 } from './_common-action-utils';
 
 import actionInterfaceTest from './_common-action-interface-check';
+
+const doAppend = function*(data, cfg, plop, fileData) {
+	const stringToAppend = yield getRenderedTemplate(data, cfg, plop);
+	// if the appended string should be unique (default),
+	// remove any occurence of it (but only if pattern would match)
+
+	if (cfg.unique !== false && new RegExp(cfg.pattern).test(fileData)) {
+		// only remove after "pattern", so that we remove not too much accidentally
+		const parts = fileData.split(cfg.pattern);
+		const lastPart = parts[parts.length - 1];
+		const lastPartWithoutDuplicates = lastPart.replace(
+			new RegExp(stringToAppend, 'g'),
+			''
+		);
+		fileData = fileData.replace(lastPart, lastPartWithoutDuplicates);
+	}
+
+	const { separator = '\n' } = cfg;
+	return fileData.replace(cfg.pattern, '$&' + separator + stringToAppend);
+};
 
 export default co.wrap(function*(data, cfg, plop) {
 	const interfaceTestResult = actionInterfaceTest(cfg);
@@ -18,13 +39,11 @@ export default co.wrap(function*(data, cfg, plop) {
 	try {
 		// check path
 		const pathExists = yield fspp.fileExists(fileDestPath);
-
 		if (!pathExists) {
 			throw 'File does not exists';
 		} else {
 			let fileData = yield fspp.readFile(fileDestPath);
-			const replacement = yield getRenderedTemplate(data, cfg, plop);
-			fileData = fileData.replace(cfg.pattern, replacement);
+			fileData = yield doAppend(data, cfg, plop, fileData);
 			yield fspp.writeFile(fileDestPath, fileData);
 		}
 		return getRelativeToBasePath(fileDestPath, plop);
