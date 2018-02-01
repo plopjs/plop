@@ -220,6 +220,7 @@ The following properties are the standard properties that plop handles internall
 Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **type** | String | | the type of action ([`add`](#add), [`modify`](#modify), [`addMany`](#addmany), [etc](#setactiontype))
+**force** | Boolean | *false* | performs the action forcefully (means different things depending on the action)
 **abortOnFail** | Boolean | *true* | if this action fails for any reason abort all future actions
 
 > Instead of an Action Object, a [function can also be used](#custom-action-function-)
@@ -239,8 +240,6 @@ Method | Parameters | Returns | Description
 **setPlopfilePath** | String | | set the `plopfilePath` value which is used internally to locate resources like template files
 **getPlopfilePath** | | *String* | returns the absolute path to the plopfile in use
 **getDestBasePath** | | *String* | returns the base path that is used when creating files
-**setForce** | | *Boolean* | a way to set the value of `force` (useful for *[CustomAction](#-functionsignature-custom-action)*)
-**getForce** | | *Boolean* | returns whether the [`--force`](#force-file-overwrite) flag was set or not
 **setDefaultInclude** | *Object* | *Object* | sets the default config that will be used for this plopfile if it is consumed by another plopfile using `plop.load()`
 **getDefaultInclude** | *String* | *Object* | gets the default config that will be used for this plopfile if it is consumed by another plopfile using `plop.load()`
 **renderString** | String, Object | *String* | Runs the first parameter (*String*) through the handlebars template renderer using the second parameter (*Object*) as the data. Returns the rendered template.
@@ -256,7 +255,7 @@ Property | Type | Default | Description
 **path** | *String* | | a handlebars template that (when rendered) is the path of the new file
 **template** | *String* | | a handlebars template that should be used to build the new file
 **templateFile** | *String* | | a path a file containing the `template`
-**overwrite** | *Boolean* | false | overwrite if the file already exists
+**force** | *Boolean* | false | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
 **abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
 
 ## AddMany
@@ -267,7 +266,7 @@ Property | Type | Default | Description
 **destination** | *String* | | a handlebars template that (when rendered) is the destination folder for the new files
 **base** | *String* | | the section of the path that should be excluded when adding files to the `destination` folder
 **templateFiles** | *[Glob](https://github.com/sindresorhus/globby#globbing-patterns)* | | glob pattern that matches multiple template files to be added
-**overwrite** | *Boolean* | false | overwrite if the file already exists
+**force** | *Boolean* | false | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
 **abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
 
 ## Modify
@@ -278,6 +277,19 @@ Property | Type | Default | Description
 **path** | *String* | | handlebars template that (when rendered) is the path of the file to be modified
 **pattern** | *RegExp* | | regular expression used to match text that should be replaced
 **template** | *String* | | handlebars template that should replace what was matched by the `pattern`. capture groups are available as $1, $2, etc
+**templateFile** | *String* | | path a file containing the `template`
+**abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
+
+## Append
+The `append` action is a commonly used subset of `modify`. It is used to append data in a file at a particular location.
+
+Property | Type | Default | Description
+-------- | ---- | ------- | -----------
+**path** | *String* | | handlebars template that (when rendered) is the path of the file to be modified
+**pattern** | *RegExp* OR *String* | | regular expression used to match text where the append should happen
+**unique** | *Boolean* | true | whether identical entries should be removed
+**separator** | *String* | `new line` | the value that separates entries
+**template** | *String* | | handlebars template to be used for the entry
 **templateFile** | *String* | | path a file containing the `template`
 **abortOnFail** | | | *inherited from [ActionConfig](#-interface-actionconfig-)*
 
