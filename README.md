@@ -89,8 +89,8 @@ Plop comes with bypass logic built-in for standard inquirer prompts, but there a
 
 If you have published a 3rd party inquirer prompt plugin and would like to support bypass functionality for plop users out of the box, that is covered in [another section of this documentation](#3rd-party-prompt-bypass).
 
-### Force File Overwrite
-By default Plop keeps your files safe by not overwriting destination files when running [`add`](#add) actions. If you're absolutely certain that you'd like to overwrite a files, you can append `--force` when running Plop from the terminal. If there are specific [`add`](#add) actions that you'd like to have the ability to always overwrite, set the `overwrite` property on that action to true.
+### Running a Generator Forcefully
+By default Plop actions keep your files safe by failing when things look fishy. The most obvious example of this is not allowing an [`add`](#add) action to overwrite a file that already exists. Plop actions individually support the `force` property but you can also use the `--force` flag when running Plop from the terminal. Using the `--force` flag will tell every action to run forcefully. With great power...🕷
 
 ## Why Generators?
 Because when you create your boilerplate separate from your code, you naturally put more time and thought into it.

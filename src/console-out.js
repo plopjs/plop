@@ -38,6 +38,7 @@ module.exports = (function () {
 			'  -h, --help             ' + chalk.dim('Show this help display'),
 			'  -i, --init             ' + chalk.dim('Generate a basic plopfile.js'),
 			'  -v, --version          ' + chalk.dim('Print current version'),
+			'  -f, --force            ' + chalk.dim('Run the generator forcefully'),
 			'  --plopfile             ' + chalk.dim('Path to the plopfile'),
 			'  --completion           ' + chalk.dim('Method to handle bash/zsh/whatever completions'),
 			'  --cwd                  ' + chalk.dim('Directory from which relative paths are calculated against'),
