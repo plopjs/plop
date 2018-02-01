@@ -97,7 +97,8 @@ export default function (plopfileApi, flags) {
 
 		// convert any returned data into a promise to
 		// return and wait on
-		return yield Promise.resolve(action(data, cfg, plopfileApi)).then(
+		const fullData = Object.assign({}, cfg.data, data);
+		return yield Promise.resolve(action(fullData, cfg, plopfileApi)).then(
 			// show the resolved value in the console
 			result => ({
 				type: cfg.type || 'function',
