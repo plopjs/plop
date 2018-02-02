@@ -256,6 +256,7 @@ Property | Type | Default | Description
 **path** | *String* | | a handlebars template that (when rendered) is the path of the new file
 **template** | *String* | | a handlebars template that should be used to build the new file
 **templateFile** | *String* | | a path a file containing the `template`
+**skipIfExists** | *Boolean* | `false` | skips a file if it already exists (instead of failing)
 **force** | *Boolean* | `false` | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#-interface-actionconfig-)*
@@ -268,6 +269,7 @@ Property | Type | Default | Description
 **destination** | *String* | | a handlebars template that (when rendered) is the destination folder for the new files
 **base** | *String* | | the section of the path that should be excluded when adding files to the `destination` folder
 **templateFiles** | *[Glob](https://github.com/sindresorhus/globby#globbing-patterns)* | | glob pattern that matches multiple template files to be added
+**skipIfExists** | *Boolean* | `false` | skips a file if it already exists (instead of failing)
 **force** | *Boolean* | `false` | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#-interface-actionconfig-)*
