@@ -40,7 +40,7 @@
     "node": ">=8.9.4"
   },
   "devDependencies": {
-    "ava": "^0.24.0",
+    "ava": "^0.25.0",
     "babel-cli": "^6.16.0",
     "babel-preset-es2015-node4": "^2.1.0",
     "babel-register": "^6.18.0",
