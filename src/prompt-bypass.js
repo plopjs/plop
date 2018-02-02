@@ -131,7 +131,11 @@ export default function (prompts, bypassArr, plop) {
 			// to the answer data object
 			const bypassIsFunc = typeof bypass === 'function';
 			const value = (bypassIsFunc ? bypass.call(null, val, p) : val);
-			answers[p.name] = value;
+
+			// if inquirer prompt has a filter function - call it
+			const answer = p.filter ? p.filter(value) : value;
+
+			answers[p.name] = answer; 
 		} catch(err) {
 			// if we encounter an error above... assume the bypass value was invalid
 			bypassFailures.push(`The "${p.name}" prompt did not recognize "${val}" as a valid ${p.type} value (ERROR: ${err.message})`);

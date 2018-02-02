@@ -1,6 +1,6 @@
 {
   "name": "node-plop",
-  "version": "0.10.2",
+  "version": "0.12.0",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "scripts": {
@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/amwmedia/node-plop#readme",
   "engines": {
-    "node": ">=6.12.0"
+    "node": ">=8.9.4"
   },
   "devDependencies": {
     "ava": "^0.25.0",
@@ -62,7 +62,7 @@
     "del": "^3.0.0",
     "globby": "^7.1.1",
     "handlebars": "^4.0.5",
-    "inquirer": "^4.0.0",
+    "inquirer": "^5.0.0",
     "lodash.get": "^4.4.2",
     "mkdirp": "^0.5.1",
     "pify": "^3.0.0",
