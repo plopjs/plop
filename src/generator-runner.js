@@ -3,12 +3,11 @@
 import co from 'co';
 import colors from 'colors';
 import promptBypass from './prompt-bypass';
-import add from './actions/add';
-import addMany from './actions/addMany';
-import modify from './actions/modify';
+import * as buildInActions from './actions';
 
-export default function (plopfileApi) {
-	var abort;
+
+export default function (plopfileApi, flags) {
+	let abort;
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
@@ -22,10 +21,10 @@ export default function (plopfileApi) {
 		if (typeof prompts === 'function') {
 			return yield prompts(plopfileApi.inquirer);
 		}
-		
+
 		// handle bypass data when provided
 		const [promptsAfterBypass, bypassAnswers] = promptBypass(prompts, bypassArr, plopfileApi);
-		
+
 		return yield plopfileApi.inquirer
 			.prompt(promptsAfterBypass)
 			.then(answers => Object.assign(answers, bypassAnswers));
@@ -37,7 +36,6 @@ export default function (plopfileApi) {
 		var failures = [];         // array of actions that failed
 		var {actions} = genObject; // the list of actions to execute
 		const customActionTypes = getCustomActionTypes();
-		const buildInActions = { add, addMany, modify };
 		const actionTypes = Object.assign({}, customActionTypes, buildInActions);
 
 		abort = false;
@@ -65,6 +63,8 @@ export default function (plopfileApi) {
 				});
 				continue;
 			}
+
+			action.force = (flags.force === true || action.force === true);
 
 			const actionIsFunction = typeof action === 'function';
 			const actionCfg = (actionIsFunction ? {} : action);
@@ -97,7 +97,8 @@ export default function (plopfileApi) {
 
 		// convert any returned data into a promise to
 		// return and wait on
-		return yield Promise.resolve(action(data, cfg, plopfileApi)).then(
+		const fullData = Object.assign({}, cfg.data, data);
+		return yield Promise.resolve(action(fullData, cfg, plopfileApi)).then(
 			// show the resolved value in the console
 			result => ({
 				type: cfg.type || 'function',

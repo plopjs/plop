@@ -6,33 +6,46 @@ const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 const plop = nodePlop();
 
-test.beforeEach(co.wrap(function* (t) {
-	const name = 'add action failure';
-	plop.setGenerator('add-action-failure', {
-		description: 'adds a file using a template',
-		actions: [{
-			type: 'add',
-			path: `${testSrcPath}/{{dashCase name}}.txt`,
-			template: '{{name}}'
-		}]
-	});
+const baseAction = { type: 'add', template: '{{name}}', path: `${testSrcPath}/{{name}}.txt` };
+const actionAdd = plop.setGenerator('add-action', {
+	actions: [baseAction]
+});
+const actionAddWithSkip = plop.setGenerator('add-action-skip-exists-true', {
+	actions: [Object.assign({}, baseAction, {skipIfExists: true})]
+});
 
-	const actionAdd = plop.getGenerator('add-action-failure');
-	t.context = yield actionAdd.runActions({name});
-}));
-
-test.serial('Check that the file has been created', t => {
-	const result = t.context;
-	const filePath = path.resolve(testSrcPath, 'add-action-failure.txt');
-
+test('Check that the file is created', co.wrap(function*(t) {
+	const filePath = path.resolve(testSrcPath, 'test1.txt');
+	const result = yield actionAdd.runActions({name: 'test1'});
 	t.is(result.changes.length, 1);
 	t.is(result.failures.length, 0);
 	t.true(fs.existsSync(filePath));
-});
+}));
 
-test.serial('Run the add again, should fail due to file already exists', t => {
-	const result = t.context;
+test('If run twice, should fail due to file already exists', co.wrap(function*(t){
+	const filePath = path.resolve(testSrcPath, 'test2.txt');
+	// add the test file
+	const result = yield actionAdd.runActions({name: 'test2'});
+	t.is(result.changes.length, 1);
+	t.is(result.failures.length, 0);
+	t.true(fs.existsSync(filePath));
+	// try to add it again
+	const result2 = yield actionAdd.runActions({name: 'test2'});
+	t.is(result2.changes.length, 0);
+	t.is(result2.failures.length, 1);
+	t.true(fs.existsSync(filePath));
+}));
 
-	t.is(result.changes.length, 0);
-	t.is(result.failures.length, 1);
-});
+test('If skipIfExists is true, it should not fail', co.wrap(function*(t){
+	const filePath = path.resolve(testSrcPath, 'test3.txt');
+	// add the test file
+	const result = yield actionAdd.runActions({name: 'test3'});
+	t.is(result.changes.length, 1);
+	t.is(result.failures.length, 0);
+	t.true(fs.existsSync(filePath));
+	// try to add it again
+	const result2 = yield actionAddWithSkip.runActions({name: 'test3'});
+	t.is(result2.changes.length, 1);
+	t.is(result2.failures.length, 0);
+	t.true(fs.existsSync(filePath));
+}));

@@ -10,11 +10,11 @@ import generatorRunner from './generator-runner';
 
 function nodePlop(plopfilePath = '', plopCfg = {}) {
 
-	var pkgJson = {};
-	var defaultInclude = {generators: true};
+	let pkgJson = {};
+	let defaultInclude = {generators: true};
 
 	let welcomeMessage;
-	const {destBasePath} = plopCfg;
+	const {destBasePath, force} = plopCfg;
 	const generators = {};
 	const partials = {};
 	const actionTypes = {};
@@ -160,7 +160,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 	};
 
 	// the runner for this instance of the nodePlop api
-	const runner = generatorRunner(plopfileApi);
+	const runner = generatorRunner(plopfileApi, {force});
 	const nodePlopApi = Object.assign({}, plopfileApi, {
 		getGenerator(name) {
 			var generator = plopfileApi.getGenerator(name);

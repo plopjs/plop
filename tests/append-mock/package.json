@@ -1,0 +1,10 @@
+{
+	"name": "basic-plopfile-test",
+	"private": true,
+	"config": {
+		"nested": [
+			"basic-plopfile-test-propertyPath-value-index-0",
+			"basic-plopfile-test-propertyPath-value-index-1"
+		]
+	}
+}

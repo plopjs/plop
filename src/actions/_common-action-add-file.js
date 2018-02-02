@@ -1,38 +1,39 @@
 import path from 'path';
+import del from 'del';
+import {
+	getRenderedTemplate,
+	makeDestPath,
+	throwStringifiedError,
+	getRelativeToBasePath
+} from './_common-action-utils';
 import * as fspp from '../fs-promise-proxy';
 
 export default function* addFile(data, cfg, plop) {
-	// if not already an absolute path, make an absolute path from the basePath (plopfile location)
-	const makeTmplPath = p => path.resolve(plop.getPlopfilePath(), p);
-	const makeDestPath = p => path.resolve(plop.getDestBasePath(), p);
-
-	var {template} = cfg;
-	const fileDestPath = makeDestPath(plop.renderString(cfg.path || '', data));
-
+	const fileDestPath = makeDestPath(data, cfg, plop);
+	const { force, skipIfExists = false } = cfg;
 	try {
-		if (cfg.templateFile) {
-			template = yield fspp.readFile(makeTmplPath(cfg.templateFile));
-		}
-		if (template == null) { template = ''; }
-
 		// check path
-		const pathExists = yield fspp.fileExists(fileDestPath);
+		let pathExists = yield fspp.fileExists(fileDestPath);
 
+		// if we are forcing and the file already exists, delete the file
+		if (force === true && pathExists) {
+			yield del([fileDestPath]);
+			pathExists = false;
+		}
+
+		// we can't create files where one already exists
 		if (pathExists) {
+			if (skipIfExists) { return `[SKIPPED] ${fileDestPath} (exists)`; }
 			throw `File already exists\n -> ${fileDestPath}`;
 		} else {
 			yield fspp.makeDir(path.dirname(fileDestPath));
-			yield fspp.writeFile(fileDestPath, plop.renderString(template, data));
+			const renderedTemplate = yield getRenderedTemplate(data, cfg, plop);
+			yield fspp.writeFile(fileDestPath, renderedTemplate);
 		}
 
 		// return the added file path (relative to the destination path)
-		return fileDestPath.replace(path.resolve(plop.getDestBasePath()), '');
-
-	} catch(err) {
-		if (typeof err === 'string') {
-			throw err;
-		} else {
-			throw err.message || JSON.stringify(err);
-		}
+		return getRelativeToBasePath(fileDestPath, plop);
+	} catch (err) {
+		throwStringifiedError(err);
 	}
 }
