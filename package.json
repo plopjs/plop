@@ -45,7 +45,7 @@
     "babel-preset-es2015-node4": "^2.1.0",
     "babel-register": "^6.18.0",
     "eslint": "^4.7.2",
-    "eslint-config-standard": "^10.2.1",
+    "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.3.1",
