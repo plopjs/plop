@@ -3,6 +3,7 @@
   "version": "0.12.0",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "clean": "node ./build-scripts/clean",
     "eslint": "eslint src/",
@@ -40,6 +41,7 @@
     "node": ">=8.9.4"
   },
   "devDependencies": {
+    "@types/inquirer": "0.0.36",
     "ava": "^0.25.0",
     "babel-cli": "^6.16.0",
     "babel-preset-es2015-node4": "^2.1.0",
