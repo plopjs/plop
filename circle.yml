@@ -41,7 +41,6 @@ jobs:
     # This is based on your 1.0 configuration file or project settings
     - run:
         working_directory: ~/amwmedia/node-plop
-        command: nvm install 8.9.4 && nvm alias default 8.9.4
     # Dependencies
     #   This would typically go in either a build or a build-and-test job when using workflows
     # Restore the dependency cache
