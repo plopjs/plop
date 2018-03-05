@@ -25,7 +25,7 @@ export default co.wrap(function* (data, cfg, plop) {
 	cfg.templateFiles = []
 		.concat(cfg.templateFiles) // Ensure `cfg.templateFiles` is an array, even if a string is passed.
 		.map((file) => plop.renderString(file, data)); // render the paths as hbs templates
-
+	
 	const templateFiles = resolveTemplateFiles(cfg.templateFiles, cfg.base, cfg.globOptions, plop);
 
 	const filesAdded = [];
@@ -44,7 +44,7 @@ export default co.wrap(function* (data, cfg, plop) {
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
 	globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);
-	return globby.sync(templateFilesGlob, globOptions)
+	return globby.sync(templateFilesGlob, Object.assign({nobrace: true}, globOptions))
 		.filter(isUnder(basePath))
 		.filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
 }
