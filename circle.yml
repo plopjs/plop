@@ -27,7 +27,7 @@ jobs:
     # To see the list of pre-built images that CircleCI provides for most common languages see
     # https://circleci.com/docs/2.0/circleci-images/
     docker:
-    - image: circleci/node:latest
+    - image: circleci/node:8.9.4-browsers
       command: /sbin/init
     steps:
     # Machine Setup
