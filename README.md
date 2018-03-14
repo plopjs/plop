@@ -269,11 +269,11 @@ Property | Type | Default | Description
 **destination** | *String* | | a handlebars template that (when rendered) is the destination folder for the new files
 **base** | *String* | | the section of the path that should be excluded when adding files to the `destination` folder
 **templateFiles** | *[Glob](https://github.com/sindresorhus/globby#globbing-patterns)* | | glob pattern that matches multiple template files to be added
-**skipIfExists** | *Boolean* | `false` | skips a file if it already exists (instead of failing)
+**globOptions** | *[Object](https://github.com/sindresorhus/globby#options)* | | glob options that change how to match to the template files to be added
+**skipIfExists** | *Boolean* | `false` | *inherited from [Add](#add)* (skips a file if it already exists)
 **force** | *Boolean* | `false` | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#-interface-actionconfig-)*
-**globOptions** | *[Object](https://github.com/sindresorhus/globby#options)* | | glob options that change how to match to the template files to be added
 
 ## Modify
 The `modify` action will use a `pattern` property to find/replace text in the file located at the `path` specified. More details on modify can be found in the example folder.
