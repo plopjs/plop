@@ -273,6 +273,7 @@ Property | Type | Default | Description
 **force** | *Boolean* | `false` | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#-interface-actionconfig-)*
+**globOptions** | *[Object](https://github.com/sindresorhus/globby#options)* | | glob options that change how to match to the template files to be added
 
 ## Modify
 The `modify` action will use a `pattern` property to find/replace text in the file located at the `path` specified. More details on modify can be found in the example folder.
