@@ -8,6 +8,19 @@ const defaultChoosingMessage = chalk.blue('[PLOP]') + ' Please choose a generato
 
 module.exports = (function () {
 
+	function getHelpMessage(generator) {
+		const maxLen = Math.max(...generator.prompts.map(prompt => prompt.name.length));
+		console.log([
+			'',
+			chalk.bold('Options:'),
+			...generator.prompts.map(prompt =>
+				'  --' + prompt.name +
+				' '.repeat(maxLen - prompt.name.length + 2) +
+				chalk.dim(prompt.help ? prompt.help : prompt.message)
+			)
+		].join('\n'));
+	}
+
 	function chooseOptionFromList(plopList, message) {
 		const plop = nodePlop();
 		const generator = plop.setGenerator('choose', {
@@ -67,6 +80,7 @@ module.exports = (function () {
 	return {
 		chooseOptionFromList: chooseOptionFromList,
 		displayHelpScreen: displayHelpScreen,
-		createInitPlopfile: createInitPlopfile
+		createInitPlopfile: createInitPlopfile,
+		getHelpMessage: getHelpMessage
 	};
 })();

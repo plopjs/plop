@@ -141,6 +141,7 @@ function run(env) {
 	// Check if bypassArr is too long for promptNames
 	if (bypassArr.length > promptNames.length) {
 		console.error(chalk.red('[PLOP] ') + 'Too many bypass arguments passed for "' + generator.name + '"');
+		out.getHelpMessage(generator);
 		process.exit(1);
 	}
 
@@ -154,9 +155,9 @@ function run(env) {
 			}
 		});
 		if (errors) {
+			out.getHelpMessage(generator);
 			process.exit(1);
 		}
-		console.log(plopArgV);
 		const namedBypassArr = promptNames.map(name => plopArgV[name] ? plopArgV[name] : undefined);
 		const bypass = mergeArrays(bypassArr, namedBypassArr);
 		doThePlop(generator, bypass);
