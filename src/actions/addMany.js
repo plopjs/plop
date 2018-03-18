@@ -18,7 +18,7 @@ export default co.wrap(function* (data, cfg, plop) {
 		cfg.base = plop.renderString(cfg.base, data);
 	}
 
-	if(typeof cfg.templateFiles === 'function'){
+	if (typeof cfg.templateFiles === 'function'){
 		cfg.templateFiles = cfg.templateFiles();
 	}
 
@@ -32,7 +32,8 @@ export default co.wrap(function* (data, cfg, plop) {
 	for (let templateFile of templateFiles) {
 		const fileCfg = Object.assign({}, cfg, {
 			path: resolvePath(cfg.destination, templateFile, cfg.base),
-			template: yield readFile(path.resolve(plop.getPlopfilePath(), templateFile))
+			template: yield readFile(path.resolve(plop.getPlopfilePath(), templateFile)),
+			templateFile: templateFile
 		});
 		const addedPath = yield addFile(data, fileCfg, plop);
 

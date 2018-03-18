@@ -6,6 +6,7 @@ import {
 	throwStringifiedError,
 	getRelativeToBasePath
 } from './_common-action-utils';
+import isBinary from 'isbinaryfile';
 import * as fspp from '../fs-promise-proxy';
 
 export default function* addFile(data, cfg, plop) {
@@ -27,8 +28,13 @@ export default function* addFile(data, cfg, plop) {
 			throw `File already exists\n -> ${fileDestPath}`;
 		} else {
 			yield fspp.makeDir(path.dirname(fileDestPath));
-			const renderedTemplate = yield getRenderedTemplate(data, cfg, plop);
-			yield fspp.writeFile(fileDestPath, renderedTemplate);
+			if (isBinary.sync(cfg.templateFile)) {
+				const rawTemplate = yield fspp.readFileRaw(cfg.templateFile);
+				yield fspp.writeFileRaw(fileDestPath, rawTemplate);
+			} else {
+				const renderedTemplate = yield getRenderedTemplate(data, cfg, plop);
+				yield fspp.writeFile(fileDestPath, renderedTemplate);
+			}
 		}
 
 		// return the added file path (relative to the destination path)
