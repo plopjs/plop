@@ -1,7 +1,7 @@
 plop.load
 =========
 
-`plop.load` can be used to load generators, helpers, and partials from a other plopfiles that are in your project or on NPM (`plop-pack`). Example code below.
+`plop.load` can be used to load generators, actionTypes, helpers, and partials from a other plopfiles that are in your project or on NPM (`plop-pack`). Example code below.
 
 ### plop.load([targets](#targets), [[config](#config)], [[include](#include)])
 
