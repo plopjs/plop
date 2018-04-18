@@ -27,6 +27,17 @@ const doAppend = function*(data, cfg, plop, fileData) {
 	}
 
 	const { separator = '\n' } = cfg;
+
+	// add the appended string to the end of the "fileData" if "pattern"
+	// was not provided, i.e. null or false
+	if (!cfg.pattern) {
+		// make sure to add a "separator" if "fileData" is not empty
+		if (fileData.length > 0) {
+			fileData += separator;
+		}
+		return fileData + stringToAppend;
+	}
+
 	return fileData.replace(cfg.pattern, '$&' + separator + stringToAppend);
 };
 

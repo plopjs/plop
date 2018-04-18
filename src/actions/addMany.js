@@ -1,8 +1,9 @@
 import co from 'co';
 import path from 'path';
 import fs from 'fs';
-import {readFile} from '../fs-promise-proxy';
 import globby from 'globby';
+import isBinary from 'isbinaryfile';
+import {readFile} from '../fs-promise-proxy';
 import actionInterfaceTest from './_common-action-interface-check';
 import addFile from './_common-action-add-file';
 
@@ -18,7 +19,7 @@ export default co.wrap(function* (data, cfg, plop) {
 		cfg.base = plop.renderString(cfg.base, data);
 	}
 
-	if(typeof cfg.templateFiles === 'function'){
+	if (typeof cfg.templateFiles === 'function'){
 		cfg.templateFiles = cfg.templateFiles();
 	}
 
@@ -30,12 +31,16 @@ export default co.wrap(function* (data, cfg, plop) {
 
 	const filesAdded = [];
 	for (let templateFile of templateFiles) {
+		const absTemplatePath = path.resolve(plop.getPlopfilePath(), templateFile);
 		const fileCfg = Object.assign({}, cfg, {
-			path: resolvePath(cfg.destination, templateFile, cfg.base),
-			template: yield readFile(path.resolve(plop.getPlopfilePath(), templateFile))
+			path: resolvePath(cfg.destination, templateFile, cfg.base)
 		});
+		Object.assign(fileCfg, (
+			isBinary.sync(absTemplatePath)
+				? { templateFile: absTemplatePath }
+				: { template: yield readFile(absTemplatePath) }
+		));
 		const addedPath = yield addFile(data, fileCfg, plop);
-
 		filesAdded.push(addedPath);
 	}
 
@@ -44,7 +49,7 @@ export default co.wrap(function* (data, cfg, plop) {
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
 	globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);
-	return globby.sync(templateFilesGlob, globOptions)
+	return globby.sync(templateFilesGlob, Object.assign({nobrace: true}, globOptions))
 		.filter(isUnder(basePath))
 		.filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
 }
