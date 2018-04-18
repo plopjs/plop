@@ -85,7 +85,8 @@ test('Test the content of the rendered file in nested folder', t => {
 test('Test the base value is used to decide which files are created', t => {
 	const expectedCreatedFiles = [
 		'components/john-doe-ctrl.js',
-		'components/john-doe-tmpl.html'
+		'components/john-doe-tmpl.html',
+		'components/john-doe-plop-logo.png'
 	];
 	expectedCreatedFiles.map((file) => {
 		const filePath = path.resolve(testSrcPath, file);

@@ -6,6 +6,7 @@ import {
 	throwStringifiedError,
 	getRelativeToBasePath
 } from './_common-action-utils';
+import isBinary from 'isbinaryfile';
 import * as fspp from '../fs-promise-proxy';
 
 export default function* addFile(data, cfg, plop) {
@@ -13,22 +14,32 @@ export default function* addFile(data, cfg, plop) {
 	const { force, skipIfExists = false } = cfg;
 	try {
 		// check path
-		let pathExists = yield fspp.fileExists(fileDestPath);
+		let destExists = yield fspp.fileExists(fileDestPath);
 
 		// if we are forcing and the file already exists, delete the file
-		if (force === true && pathExists) {
+		if (force === true && destExists) {
 			yield del([fileDestPath]);
-			pathExists = false;
+			destExists = false;
 		}
 
 		// we can't create files where one already exists
-		if (pathExists) {
+		if (destExists) {
 			if (skipIfExists) { return `[SKIPPED] ${fileDestPath} (exists)`; }
 			throw `File already exists\n -> ${fileDestPath}`;
 		} else {
 			yield fspp.makeDir(path.dirname(fileDestPath));
-			const renderedTemplate = yield getRenderedTemplate(data, cfg, plop);
-			yield fspp.writeFile(fileDestPath, renderedTemplate);
+
+			const absTemplatePath = cfg.templateFile
+				&& path.resolve(plop.getPlopfilePath(), cfg.templateFile)
+				|| null;
+
+			if (absTemplatePath != null && isBinary.sync(absTemplatePath)) {
+				const rawTemplate = yield fspp.readFileRaw(cfg.templateFile);
+				yield fspp.writeFileRaw(fileDestPath, rawTemplate);
+			} else {
+				const renderedTemplate = yield getRenderedTemplate(data, cfg, plop);
+				yield fspp.writeFile(fileDestPath, renderedTemplate);
+			}
 		}
 
 		// return the added file path (relative to the destination path)
