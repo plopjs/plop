@@ -2198,7 +2198,7 @@ ini@^1.3.4, ini@~1.3.0:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
 
-inquirer@^3.0.6, inquirer@^3.3.0:
+inquirer@^3.0.6:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-3.3.0.tgz#9dd2f2ad765dcab1ff0443b491442a20ba227dc9"
   dependencies:
@@ -2560,6 +2560,10 @@ is-windows@^1.0.2:
 isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
+
+isbinaryfile@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/isbinaryfile/-/isbinaryfile-3.0.2.tgz#4a3e974ec0cba9004d3fc6cde7209ea69368a621"
 
 isexe@^2.0.0:
   version "2.0.0"
@@ -3049,18 +3053,18 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
-node-plop@=0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/node-plop/-/node-plop-0.9.0.tgz#d24796c9b5f37441308cfb3184f574dca0355aa6"
+node-plop@=0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/node-plop/-/node-plop-0.13.0.tgz#124804fab1456037aad51ecc3a4ea65bd835d674"
   dependencies:
     change-case "^3.0.1"
     co "^4.6.0"
     colors "^1.1.2"
     core-js "^2.4.1"
     del "^3.0.0"
-    globby "^6.1.0"
+    globby "^8.0.0"
     handlebars "^4.0.5"
-    inquirer "^3.3.0"
+    inquirer "^5.0.0"
     lodash.get "^4.4.2"
     mkdirp "^0.5.1"
     pify "^3.0.0"
@@ -3459,15 +3463,15 @@ plop-pack-fancy-comments@^0.2.1:
   dependencies:
     handlebars "^4.0.5"
 
-plop@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/plop/-/plop-1.9.0.tgz#7a5abc572023929ccb8de151b0aeae75a4ed5a92"
+plop@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/plop/-/plop-2.0.0.tgz#b5d9efc75c8bd018e9a8156d532cbea3fd0a32a0"
   dependencies:
     chalk "^1.1.3"
     interpret "^1.0.0"
     liftoff "^2.2.0"
     minimist "^1.2.0"
-    node-plop "=0.9.0"
+    node-plop "=0.13.0"
     v8flags "^2.0.10"
 
 plur@^2.0.0, plur@^2.1.2:
