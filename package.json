@@ -43,7 +43,7 @@
     "ava": "^0.25.0",
     "babel-cli": "^6.16.0",
     "babel-preset-node8": "^1.2.0",
-    "eslint": "^4.7.2",
+    "eslint": "^5.0.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^6.0.0",
