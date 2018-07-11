@@ -61,7 +61,7 @@
     "del": "^3.0.0",
     "globby": "^8.0.0",
     "handlebars": "^4.0.5",
-    "inquirer": "^5.0.0",
+    "inquirer": "^6.0.0",
     "isbinaryfile": "^3.0.2",
     "lodash.get": "^4.4.2",
     "mkdirp": "^0.5.1",

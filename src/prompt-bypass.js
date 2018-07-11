@@ -135,6 +135,16 @@ export default function (prompts, bypassArr, plop) {
 			// if inquirer prompt has a filter function - call it
 			const answer = p.filter ? p.filter(value) : value;
 
+			// if inquirer prompt has a validate function - call it
+			if (p.validate) {
+				const validation = p.validate(value);
+				if (validation !== true) {
+					// if validation failed return validation error
+					bypassFailures.push(validation);
+					return false;
+				}
+			}
+
 			answers[p.name] = answer; 
 		} catch(err) {
 			// if we encounter an error above... assume the bypass value was invalid
