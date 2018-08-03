@@ -18,6 +18,14 @@ module.exports = function (plop) {
 					name: 'Frodo',
 					otherName: 'Gandalf'
 				}
+			}, function (data) {
+				data.subject = 'world';
+				return 'custom action added data';
+			}, {
+				type: 'add',
+				path: 'src/{{greeting}}-{{subject}}.txt',
+				templateFile: 'plop-templates/who-loves-who.txt',
+				data: () => ({greeting: 'hola'})
 			}
 		]
 	});
