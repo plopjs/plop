@@ -1,8 +1,9 @@
 {
   "name": "node-plop",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "clean": "node ./build-scripts/clean",
     "eslint": "eslint src/",
@@ -40,6 +41,7 @@
     "node": ">=8.9.4"
   },
   "devDependencies": {
+    "@types/inquirer": "0.0.36",
     "ava": "^0.25.0",
     "babel-cli": "^6.16.0",
     "babel-preset-node8": "^1.2.0",
