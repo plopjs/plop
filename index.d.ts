@@ -14,7 +14,7 @@ interface NodePlopAPI{
     setHelper(name:string,fn:Function):void;
     getHelper(name:string):Function;
     getHelperList():string[];
-    setActionType(name:string, fn:Function);
+    setActionType(name:string, fn:Function):Function;
     getActionType(name:string):Function;
     getActionTypeList():string[];
 
@@ -27,10 +27,10 @@ interface NodePlopAPI{
     setDefaultInclude(inc:object):void;
     getDefaultInclude():object;
 
-    renderString(template:string, data:any);//set to any matching handlebars declaration
+    renderString(template:string, data:any):String;//set to any matching handlebars declaration
 
     // passthroughs for backward compatibility
-    addPrompt(name: string, prompt: inquirer.PromptModule): void;
+    addPrompt(name:string, prompt:inquirer.PromptModule): void;
     addPartial(name:string, str:string):void;
     addHelper(name:string,fn:Function):void;
 }
@@ -42,6 +42,8 @@ interface PlopGenerator{
 }
 interface ActionConfig{
     type:string;
+    force:boolean;
+    data:object;
     abortOnFail:boolean;
 }
 
