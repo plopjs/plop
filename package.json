@@ -67,7 +67,7 @@
     "isbinaryfile": "^3.0.2",
     "lodash.get": "^4.4.2",
     "mkdirp": "^0.5.1",
-    "pify": "^3.0.0",
+    "pify": "^4.0.0",
     "resolve": "^1.2.0"
   },
   "ava": {
