@@ -224,6 +224,8 @@ Property | Type | Default | Description
 **data** | *Object* | `{}` | specifies data that should be mixed with user prompt answers when running this action
 **abortOnFail** | *Boolean* | `true` | if this action fails for any reason abort all future actions
 
+> The `data` property on any `ActionConfig` can also be a `Function` that returns an `Object` or a `Function` that returns a `Promise` that resolves with an `Object`.
+
 > Instead of an Action Object, a [function can also be used](#custom-action-function-)
 
 ## Other Methods
@@ -281,7 +283,7 @@ The `modify` action will use a `pattern` property to find/replace text in the fi
 Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **path** | *String* | | handlebars template that (when rendered) is the path of the file to be modified
-**pattern** | *RegExp* | | regular expression used to match text that should be replaced
+**pattern** | *RegExp* | _end&#x2011;of&#x2011;file_ | regular expression used to match text that should be replaced
 **template** | *String* | | handlebars template that should replace what was matched by the `pattern`. capture groups are available as $1, $2, etc
 **templateFile** | *String* | | path a file containing the `template`
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
