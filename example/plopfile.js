@@ -2,17 +2,17 @@
 const path = require('path');
 
 module.exports = function (plop) {
-	// starting prompt can be customize to display what you want
+	// starting prompt can be customized to display what you want
 	// plop.setWelcomeMessage('[CUSTOM]'.yellow + ' What can I do for you?');
 
-	// helpers are passed through to handlebars and made
+	// helpers are passed through handlebars syntax and made
 	// available for use in the generator templates
 
 	// adds 4 dashes around some text (yes es6/es2015 is supported)
 	plop.addHelper('dashAround', (text) => '---- ' + text + ' ----');
 
 	// formats an array of options like you would write
-	// it if you were speaking (one, two, and three)
+	// it, if you were speaking (one, two, and three)
 	plop.addHelper('wordJoin', function (words) {
 		return words.join(', ').replace(/(:?.*),/, '$1, and');
 	});
@@ -24,7 +24,7 @@ module.exports = function (plop) {
 	// greet the user using a partial
 	plop.addPartial('salutation', '{{ greeting }}, my name is {{ properCase name }} and I am {{ age }}.');
 
-	// load some additional helpers from a module I "npm install"ed
+	// load some additional helpers from a module installed using npm
 	plop.load('plop-pack-fancy-comments', {
 		prefix: '',
 		upperCaseHeaders: true,
