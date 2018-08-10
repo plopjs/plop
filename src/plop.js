@@ -70,7 +70,7 @@ function run(env) {
 	});
 	const generators = plop.getGeneratorList();
 	const generatorNames = generators.map(function (v) { return v.name; });
-	
+
 	// locate the generator name based on input and take the rest of the
 	// user's input as prompt bypass data to be passed into the generator
 	let generatorName = '';
@@ -84,7 +84,7 @@ function run(env) {
 			break;
 		}
 	}
-	
+
 	// hmmmm, couldn't identify a generator in the user's input
 	if (!generatorName && !generators.length) {
 		// no generators?! there's clearly something wrong here
@@ -120,7 +120,9 @@ function doThePlop(generator, bypassArr) {
 		.then(generator.runActions)
 		.then(function (result) {
 			result.changes.forEach(function(line) {
-				console.log(chalk.green('[SUCCESS]'), line.type, line.path);
+				const logs = [chalk.green('[SUCCESS]'), line.path];
+				if(line.type !== 'function') { logs.splice(1,0,line.type); }
+				console.log.apply(console, logs);
 			});
 			result.failures.forEach(function (line) {
 				const logs = [chalk.red('[FAILED]')];
