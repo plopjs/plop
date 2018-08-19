@@ -4,7 +4,8 @@ import {
 	getRenderedTemplate,
 	makeDestPath,
 	throwStringifiedError,
-	getRelativeToBasePath
+	getRelativeToBasePath,
+	getRenderedTemplatePath
 } from './_common-action-utils';
 
 import actionInterfaceTest from './_common-action-interface-check';
@@ -23,6 +24,7 @@ export default co.wrap(function*(data, cfg, plop) {
 			throw 'File does not exists';
 		} else {
 			let fileData = yield fspp.readFile(fileDestPath);
+			cfg.templateFile = getRenderedTemplatePath(data, cfg, plop);
 			const replacement = yield getRenderedTemplate(data, cfg, plop);
 			fileData = fileData.replace(cfg.pattern, replacement);
 			yield fspp.writeFile(fileDestPath, fileData);
