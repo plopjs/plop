@@ -172,7 +172,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 			}
 
 			return Object.assign({}, generator, {
-				runActions: (data) => runner.runGeneratorActions(generator, data),
+				runActions: (data, onSuccess, onFailure) => runner.runGeneratorActions(generator, data, onSuccess, onFailure),
 				runPrompts: (bypassArr = []) => runner.runGeneratorPrompts(generator, bypassArr)
 			});
 		},

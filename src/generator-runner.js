@@ -31,7 +31,7 @@ export default function (plopfileApi, flags) {
 	});
 
 	// Run the actions for this generator
-	const runGeneratorActions = co.wrap(function* (genObject, data) {
+	const runGeneratorActions = co.wrap(function* (genObject, data, onSuccess = () => {}, onFailure = () => {}) {
 		var changes = [];          // array of changed made by the actions
 		var failures = [];         // array of actions that failed
 		var {actions} = genObject; // the list of actions to execute
@@ -56,11 +56,13 @@ export default function (plopfileApi, flags) {
 		for (let [actionIdx, action] of actions.entries()) {
 			// bail out if a previous action aborted
 			if (abort) {
-				failures.push({
+				const failure = {
 					type: action.type || '',
 					path: action.path || '',
 					error: 'Aborted due to previous action failure'
-				});
+				};
+				onFailure(failure);
+				failures.push(failure);
 				continue;
 			}
 
@@ -72,18 +74,22 @@ export default function (plopfileApi, flags) {
 
 			if (typeof actionLogic !== 'function') {
 				if (actionCfg.abortOnFail !== false) { abort = true; }
-				failures.push({
+				const failure = {
 					type: action.type || '',
 					path: action.path || '',
 					error: `Invalid action (#${actionIdx + 1})`
-				});
+				};
+				onFailure(failure);
+				failures.push(failure);
 				continue;
 			}
 
 			try {
 				const actionResult = yield executeActionLogic(actionLogic, actionCfg, data);
+				onSuccess(actionResult);
 				changes.push(actionResult);
 			} catch(failure) {
+				onFailure(failure);
 				failures.push(failure);
 			}
 		}
