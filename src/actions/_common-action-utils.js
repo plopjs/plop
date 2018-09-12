@@ -8,17 +8,21 @@ export const makeDestPath = (data, cfg, plop) =>
 		plop.renderString(cfg.path || '', getFullData(data, cfg))
 	);
 
+export function getRenderedTemplatePath(data, cfg, plop) {
+	if (cfg.templateFile) {
+		const absTemplatePath = path.resolve(plop.getPlopfilePath(), cfg.templateFile);
+		return plop.renderString(absTemplatePath, getFullData(data, cfg));
+	}
+	return null;
+}
+
 export function* getTemplate(data, cfg, plop) {
 	const makeTmplPath = p => path.resolve(plop.getPlopfilePath(), p);
 
 	let { template } = cfg;
 
 	if (cfg.templateFile) {
-		const templateFile = plop.renderString(
-			cfg.templateFile,
-			getFullData(data, cfg)
-		);
-		template = yield fspp.readFile(makeTmplPath(templateFile));
+		template = yield fspp.readFile(makeTmplPath(cfg.templateFile));
 	}
 	if (template == null) {
 		template = '';
