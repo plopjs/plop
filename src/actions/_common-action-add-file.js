@@ -40,6 +40,16 @@ export default function* addFile(data, cfg, plop) {
 				const renderedTemplate = yield getRenderedTemplate(data, cfg, plop);
 				yield fspp.writeFile(fileDestPath, renderedTemplate);
 			}
+
+			// keep the executable flags
+			if (absTemplatePath != null) {
+				const sourceStats = yield fspp.stat(absTemplatePath);
+				const destStats = yield fspp.stat(fileDestPath);
+				const executableFlags = sourceStats.mode & (
+					fspp.constants.S_IXUSR | fspp.constants.S_IXGRP | fspp.constants.S_IXOTH
+				);
+				yield fspp.chmod(fileDestPath, destStats.mode | executableFlags);
+			}
 		}
 
 		// return the added file path (relative to the destination path)

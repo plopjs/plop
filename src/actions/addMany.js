@@ -2,8 +2,6 @@ import co from 'co';
 import path from 'path';
 import fs from 'fs';
 import globby from 'globby';
-import isBinary from 'isbinaryfile';
-import {readFile} from '../fs-promise-proxy';
 import actionInterfaceTest from './_common-action-interface-check';
 import addFile from './_common-action-add-file';
 
@@ -33,13 +31,9 @@ export default co.wrap(function* (data, cfg, plop) {
 	for (let templateFile of templateFiles) {
 		const absTemplatePath = path.resolve(plop.getPlopfilePath(), templateFile);
 		const fileCfg = Object.assign({}, cfg, {
-			path: resolvePath(cfg.destination, templateFile, cfg.base)
+			path: resolvePath(cfg.destination, templateFile, cfg.base),
+			templateFile: absTemplatePath
 		});
-		Object.assign(fileCfg, (
-			isBinary.sync(absTemplatePath)
-				? { templateFile: absTemplatePath }
-				: { template: yield readFile(absTemplatePath) }
-		));
 		const addedPath = yield addFile(data, fileCfg, plop);
 		filesAdded.push(addedPath);
 	}

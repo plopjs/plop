@@ -8,8 +8,12 @@ const _access = pify(fs.access);
 
 export const makeDir = pify(mkdirp);
 export const readdir = pify(fs.readdir);
+export const stat = pify(fs.stat);
+export const chmod = pify(fs.chmod);
 export const readFile = path => _readFile(path, 'utf8');
 export const writeFile = (path, data) => _writeFile(path, data, 'utf8');
 export const readFileRaw = path => _readFile(path, null);
 export const writeFileRaw = (path, data) => _writeFile(path, data, null);
 export const fileExists = path => _access(path).then(() => true, () => false);
+
+export const constants = fs.constants;
