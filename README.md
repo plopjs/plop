@@ -224,6 +224,8 @@ Property | Type | Default | Description
 **data** | *Object* | `{}` | specifies data that should be mixed with user prompt answers when running this action
 **abortOnFail** | *Boolean* | `true` | if this action fails for any reason abort all future actions
 
+> The `data` property on any `ActionConfig` can also be a `Function` that returns an `Object` or a `Function` that returns a `Promise` that resolves with an `Object`.
+
 > Instead of an Action Object, a [function can also be used](#custom-action-function-)
 
 ## Other Methods
@@ -269,11 +271,11 @@ Property | Type | Default | Description
 **destination** | *String* | | a handlebars template that (when rendered) is the destination folder for the new files
 **base** | *String* | | the section of the path that should be excluded when adding files to the `destination` folder
 **templateFiles** | *[Glob](https://github.com/sindresorhus/globby#globbing-patterns)* | | glob pattern that matches multiple template files to be added
-**skipIfExists** | *Boolean* | `false` | skips a file if it already exists (instead of failing)
+**globOptions** | *[Object](https://github.com/sindresorhus/globby#options)* | | glob options that change how to match to the template files to be added
+**skipIfExists** | *Boolean* | `false` | *inherited from [Add](#add)* (skips a file if it already exists)
 **force** | *Boolean* | `false` | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#-interface-actionconfig-)*
-**globOptions** | *[Object](https://github.com/sindresorhus/globby#options)* | | glob options that change how to match to the template files to be added
 
 ## Modify
 The `modify` action will use a `pattern` property to find/replace text in the file located at the `path` specified. More details on modify can be found in the example folder.
@@ -281,7 +283,7 @@ The `modify` action will use a `pattern` property to find/replace text in the fi
 Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **path** | *String* | | handlebars template that (when rendered) is the path of the file to be modified
-**pattern** | *RegExp* | | regular expression used to match text that should be replaced
+**pattern** | *RegExp* | _end&#x2011;of&#x2011;file_ | regular expression used to match text that should be replaced
 **template** | *String* | | handlebars template that should replace what was matched by the `pattern`. capture groups are available as $1, $2, etc
 **templateFile** | *String* | | path a file containing the `template`
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
