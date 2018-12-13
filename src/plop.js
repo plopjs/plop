@@ -109,17 +109,7 @@ function run(env) {
 		console.error(chalk.red('[PLOP] ') + 'Could not find a generator for "' + fuzyGenName + '"');
 		process.exit(1);
 	}
-
 }
-
-const typeDisplay = {
-	'function': chalk.yellow('->'),
-	'add': chalk.green('+ '),
-	'addMany': chalk.green('++'),
-	'modify': `${chalk.green('+')}${chalk.red('-')}`,
-	'append': chalk.green('_+')
-};
-const typeMap = t => typeDisplay[t] || t;
 
 /////
 // everybody to the plop!
@@ -127,25 +117,21 @@ const typeMap = t => typeDisplay[t] || t;
 function doThePlop(generator, bypassArr) {
 	generator.runPrompts(bypassArr)
 		.then(answers => {
+			const onComment = (msg) => console.log(msg);
 			const onSuccess = (change) => {
 				const logs = [chalk.green('[SUCCESS]')];
-				if (change.type) {
-					logs.push(typeMap(change.type));
-				}
+				if (change.type) { logs.push(out.typeMap(change.type)); }
 				if (change.path) { logs.push(change.path); }
 				console.log.apply(console, logs);
 			};
 			const onFailure = (failure) => {
 				const logs = [chalk.red('[FAILED]')];
-				if (failure.type) { logs.push(typeMap(failure.type)); }
+				if (failure.type) { logs.push(out.typeMap(failure.type)); }
 				if (failure.path) { logs.push(failure.path); }
-
-				const error = failure.error || failure.message;
-				logs.push(chalk.red(error));
-
+				logs.push(chalk.red(failure.error || failure.message));
 				console.log.apply(console, logs);
 			};
-			return generator.runActions(answers, {onSuccess, onFailure});
+			return generator.runActions(answers, {onSuccess, onFailure, onComment});
 		})
 		.catch(function (err) {
 			console.error(chalk.red('[ERROR]'), err.message);

@@ -77,6 +77,8 @@ module.exports = function (plop) {
 				templateFile: 'templates/temp.txt',
 				abortOnFail: true
 			},
+			`this is a comment`,
+			'this is another comment',
 			delayLog('delayed successful thing'),
 			function customAction(answers) {
 				// move the current working directory to the plop file path

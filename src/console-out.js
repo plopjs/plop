@@ -64,9 +64,19 @@ module.exports = (function () {
 		fs.writeFile(cwd + '/plopfile.js', initString, callback);
 	}
 
+	const typeDisplay = {
+		'function': chalk.yellow('->'),
+		'add': chalk.green('++'),
+		'addMany': chalk.green('+!'),
+		'modify': `${chalk.green('+')}${chalk.red('-')}`,
+		'append': chalk.green('_+')
+	};
+	const typeMap = t => typeDisplay[t] || t;
+
 	return {
-		chooseOptionFromList: chooseOptionFromList,
-		displayHelpScreen: displayHelpScreen,
-		createInitPlopfile: createInitPlopfile
+		chooseOptionFromList,
+		displayHelpScreen,
+		createInitPlopfile,
+		typeMap
 	};
 })();
