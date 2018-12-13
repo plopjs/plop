@@ -272,6 +272,7 @@ Property | Type | Default | Description
 **base** | *String* | | the section of the path that should be excluded when adding files to the `destination` folder
 **templateFiles** | *[Glob](https://github.com/sindresorhus/globby#globbing-patterns)* | | glob pattern that matches multiple template files to be added
 **globOptions** | *[Object](https://github.com/sindresorhus/globby#options)* | | glob options that change how to match to the template files to be added
+**verbose** | *Boolean* | `true` | print each successfully added file path
 **skipIfExists** | *Boolean* | `false` | *inherited from [Add](#add)* (skips a file if it already exists)
 **force** | *Boolean* | `false` | *inherited from [ActionConfig](#-interface-actionconfig-)* (overwrites files if they exist)
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#-interface-actionconfig-)*
