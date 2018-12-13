@@ -46,3 +46,20 @@ test('Lifecycle hooks negative scenario test (onFailure)', co.wrap(function* (t)
 	t.is(onSuccess.called, 2);
 	t.is(onFailure.called, 0);
 }));
+
+test('Lifecycle hook test (onComment)', co.wrap(function* (t) {
+	const onSuccess = () => onSuccess.called++;
+	onSuccess.called = 0;
+	const onFailure = () => onFailure.called++;
+	onFailure.called = 0;
+	const onComment = () => onComment.called++;
+	onComment.called = 0;
+
+	yield plop
+		.setGenerator('onSuccess', {actions: ['yes', 'yes', () => 'yes', () => {}]})
+		.runActions({}, {onSuccess, onFailure, onComment});
+
+	t.is(onSuccess.called, 1);
+	t.is(onFailure.called, 1);
+	t.is(onComment.called, 2);
+}));
