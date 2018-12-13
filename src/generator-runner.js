@@ -123,7 +123,10 @@ export default function (plopfileApi, flags) {
 		return yield Promise.resolve(action(data, cfg, plopfileApi)).then(
 			// show the resolved value in the console
 			result => ({
-				type, path: colors.blue(JSON.stringify(result))
+				type, path: colors.blue((typeof result === 'string'
+					? result
+					: JSON.stringify(result)
+				))
 			}),
 			// a rejected promise is treated as a failure
 			function (err) {
