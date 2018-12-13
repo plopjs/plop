@@ -4,6 +4,8 @@ const {test, nodePlop} = (new AvaTest(__filename));
 
 const plop = nodePlop();
 
+const errAction = () => {throw Error('');};
+
 // onSuccess and onFailure Lifecycle hooks
 test('Lifecycle hooks test (onSuccess, onFailure)', co.wrap(function* (t) {
 	const onSuccess = () => onSuccess.called++;
@@ -12,7 +14,7 @@ test('Lifecycle hooks test (onSuccess, onFailure)', co.wrap(function* (t) {
 	onFailure.called = 0;
 
 	yield plop
-		.setGenerator('onSuccess', {actions: [() => 'success', () => {}]})
+		.setGenerator('onSuccess', {actions: [() => 'yes', errAction]})
 		.runActions({}, {onSuccess, onFailure});
 
 	t.is(onSuccess.called, 1);
@@ -26,7 +28,7 @@ test('Lifecycle hooks negative scenario test (onSuccess)', co.wrap(function* (t)
 	onFailure.called = 0;
 
 	yield plop
-		.setGenerator('onSuccess', {actions: [() => {}, () => {}]})
+		.setGenerator('onSuccess', {actions: [errAction, errAction]})
 		.runActions({}, {onSuccess, onFailure});
 
 	t.is(onSuccess.called, 0);
@@ -56,7 +58,7 @@ test('Lifecycle hook test (onComment)', co.wrap(function* (t) {
 	onComment.called = 0;
 
 	yield plop
-		.setGenerator('onSuccess', {actions: ['yes', 'yes', () => 'yes', () => {}]})
+		.setGenerator('onSuccess', {actions: ['yes', 'yes', () => 'yes', errAction]})
 		.runActions({}, {onSuccess, onFailure, onComment});
 
 	t.is(onSuccess.called, 1);

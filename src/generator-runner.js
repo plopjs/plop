@@ -122,7 +122,7 @@ export default function (plopfileApi, flags) {
 			// show the resolved value in the console
 			result => ({
 				type: cfg.type || 'function',
-				path: colors.blue(result.toString())
+				path: colors.blue(JSON.stringify(result))
 			}),
 			// a rejected promise is treated as a failure
 			function (err) {
