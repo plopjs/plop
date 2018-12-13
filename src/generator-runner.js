@@ -31,10 +31,15 @@ export default function (plopfileApi, flags) {
 	});
 
 	// Run the actions for this generator
-	const runGeneratorActions = co.wrap(function* (genObject, data, onSuccess = () => {}, onFailure = () => {}) {
-		var changes = [];          // array of changed made by the actions
-		var failures = [];         // array of actions that failed
-		var {actions} = genObject; // the list of actions to execute
+	const runGeneratorActions = co.wrap(function* (genObject, data, hooks={}) {
+		const noop = () => {};
+		const {
+			onSuccess=noop,            // runs after each successful action
+			onFailure=noop             // runs after each failed action
+		} = hooks;
+		const changes = [];          // array of changed made by the actions
+		const failures = [];         // array of actions that failed
+		let {actions} = genObject;   // the list of actions to execute
 		const customActionTypes = getCustomActionTypes();
 		const actionTypes = Object.assign({}, customActionTypes, buildInActions);
 
