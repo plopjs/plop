@@ -73,6 +73,9 @@ module.exports = function (plop) {
 
 The *controlller* generator we created above will ask us 1 question, and create 1 file. This can be expanded to ask as many questions as needed, and create as many files as needed. There are also additional actions that can be used to alter our codebase in different ways.
 
+## Using Prompts
+Plop uses the [inquirer.js](https://github.com/SBoudrias/Inquirer.js) library to gather user data. A list of [prompt types can be found on the inquirer official website](https://github.com/SBoudrias/Inquirer.js/#prompt-types).
+
 ## CLI Usage
 Once plop is installed, and you have created a generator, you are ready to run plop from the terminal. Running `plop` with no parameters will present you with a list of generators to pick from. You can also run `plop [generatorName]` to trigger a generator directly. If you did not install plop globally, you will need to setup an npm script to run plop for you.
 
@@ -312,6 +315,9 @@ The `Add` and `Modify` actions will take care of almost every case that plop is 
 - A custom action fails if the promise is rejected, or the function throws an `Exception`
 
 _See the [example plopfile](https://github.com/amwmedia/plop/blob/master/example/plopfile.js) for a sample synchronous custom action._
+
+## Comments
+Comment lines can be added to the actions array by adding a string in place of an action config object. Comments are printed to the screen when plop comes to them and have no functionality of their own.
 
 # Built-In Helpers
 There are a few helpers that I have found useful enough to include with plop. They are mostly case modifiers, but here is the complete list.
