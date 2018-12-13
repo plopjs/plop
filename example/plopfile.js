@@ -32,6 +32,10 @@ module.exports = function (plop) {
 		commentEnd: ''
 	});
 
+	const delayLog = msg => answers => new Promise((resolve) => {
+		setTimeout(() => resolve(msg), 2000);
+	});
+
 	// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('test', {
 		description: 'this is a test',
@@ -73,6 +77,7 @@ module.exports = function (plop) {
 				templateFile: 'templates/temp.txt',
 				abortOnFail: true
 			},
+			delayLog('delayed successful thing'),
 			function customAction(answers) {
 				// move the current working directory to the plop file path
 				// this allows this action to work even when the generator is

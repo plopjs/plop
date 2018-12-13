@@ -70,7 +70,7 @@ function run(env) {
 	});
 	const generators = plop.getGeneratorList();
 	const generatorNames = generators.map(function (v) { return v.name; });
-	
+
 	// locate the generator name based on input and take the rest of the
 	// user's input as prompt bypass data to be passed into the generator
 	let generatorName = '';
@@ -84,7 +84,7 @@ function run(env) {
 			break;
 		}
 	}
-	
+
 	// hmmmm, couldn't identify a generator in the user's input
 	if (!generatorName && !generators.length) {
 		// no generators?! there's clearly something wrong here
@@ -117,21 +117,22 @@ function run(env) {
 //
 function doThePlop(generator, bypassArr) {
 	generator.runPrompts(bypassArr)
-		.then((...args) => {
-            const onSuccess = (change) =>
-                console.log(chalk.green('[SUCCESS]'), change.type, change.path);
-            const onFailure = (failure) => {
-                const logs = [chalk.red('[FAILED]')];
-                if (failure.type) { logs.push(failure.type); }
-                if (failure.path) { logs.push(failure.path); }
+		.then(answers => {
+			const onSuccess = (change) => {
+				console.log(chalk.green('[SUCCESS]'), change.type, change.path);
+			}
+			const onFailure = (failure) => {
+				const logs = [chalk.red('[FAILED]')];
+				if (failure.type) { logs.push(failure.type); }
+				if (failure.path) { logs.push(failure.path); }
 
-                const error = failure.error || failure.message;
-                logs.push(chalk.red(error));
+				const error = failure.error || failure.message;
+				logs.push(chalk.red(error));
 
-                console.log.apply(console, logs);
-            }
-            generator.runActions(...args, onSuccess, onFailure);
-        })
+				console.log.apply(console, logs);
+			}
+			return generator.runActions(answers, {onSuccess, onFailure});
+		})
 		.catch(function (err) {
 			console.error(chalk.red('[ERROR]'), err.message);
 			process.exit(1);
