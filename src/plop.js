@@ -112,6 +112,15 @@ function run(env) {
 
 }
 
+const typeDisplay = {
+	'function': chalk.yellow('->'),
+	'add': chalk.green('+ '),
+	'addMany': chalk.green('++'),
+	'modify': `${chalk.green('+')}${chalk.red('-')}`,
+	'append': chalk.green('_+')
+};
+const typeMap = t => typeDisplay[t] || t;
+
 /////
 // everybody to the plop!
 //
@@ -119,18 +128,23 @@ function doThePlop(generator, bypassArr) {
 	generator.runPrompts(bypassArr)
 		.then(answers => {
 			const onSuccess = (change) => {
-				console.log(chalk.green('[SUCCESS]'), change.type, change.path);
-			}
+				const logs = [chalk.green('[SUCCESS]')];
+				if (change.type) {
+					logs.push(typeMap(change.type));
+				}
+				if (change.path) { logs.push(change.path); }
+				console.log.apply(console, logs);
+			};
 			const onFailure = (failure) => {
 				const logs = [chalk.red('[FAILED]')];
-				if (failure.type) { logs.push(failure.type); }
+				if (failure.type) { logs.push(typeMap(failure.type)); }
 				if (failure.path) { logs.push(failure.path); }
 
 				const error = failure.error || failure.message;
 				logs.push(chalk.red(error));
 
 				console.log.apply(console, logs);
-			}
+			};
 			return generator.runActions(answers, {onSuccess, onFailure});
 		})
 		.catch(function (err) {
