@@ -5,7 +5,13 @@ import globby from 'globby';
 import actionInterfaceTest from './_common-action-interface-check';
 import addFile from './_common-action-add-file';
 
-export default co.wrap(function* (data, cfg, plop) {
+const defaultConfig = {
+	verbose: true,
+};
+
+export default co.wrap(function* (data, userConfig, plop) {
+	// shallow-merge default config and input config
+	const cfg = Object.assign({}, defaultConfig, userConfig);
 	// check the common action interface attributes. skip path check because it's NA
 	const interfaceTestResult = actionInterfaceTest(cfg, {checkPath: false});
 	if (interfaceTestResult !== true) { throw interfaceTestResult; }
@@ -38,7 +44,9 @@ export default co.wrap(function* (data, cfg, plop) {
 		filesAdded.push(addedPath);
 	}
 
-	return `${filesAdded.length} files added\n -> ${filesAdded.join('\n -> ')}`;
+	const summary = `${filesAdded.length} files added`;
+	if (!cfg.verbose) return summary;
+	else return `${summary}\n -> ${filesAdded.join('\n -> ')}`;
 });
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
