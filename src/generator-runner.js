@@ -61,6 +61,7 @@ export default function (plopfileApi, flags) {
 
 		for (let [actionIdx, action] of actions.entries()) {
 			// including strings in the actions array is used for commenting
+			if (typeof action === 'string' && abort) { continue; }
 			if (typeof action === 'string') { onComment(action); continue; }
 
 			// bail out if a previous action aborted
@@ -98,6 +99,7 @@ export default function (plopfileApi, flags) {
 				onSuccess(actionResult);
 				changes.push(actionResult);
 			} catch(failure) {
+				if (actionCfg.abortOnFail !== false) { abort = true; }
 				onFailure(failure);
 				failures.push(failure);
 			}
@@ -108,7 +110,7 @@ export default function (plopfileApi, flags) {
 
 	// handle action logic
 	const executeActionLogic = co.wrap(function* (action, cfg, data) {
-		const failure = makeErrorLogger(cfg.type || 'function', '', cfg.abortOnFail);
+		const type = cfg.type || 'function';
 
 		// convert any returned data into a promise to
 		// return and wait on
@@ -121,12 +123,11 @@ export default function (plopfileApi, flags) {
 		return yield Promise.resolve(action(data, cfg, plopfileApi)).then(
 			// show the resolved value in the console
 			result => ({
-				type: cfg.type || 'function',
-				path: colors.blue(JSON.stringify(result))
+				type, path: colors.blue(JSON.stringify(result))
 			}),
 			// a rejected promise is treated as a failure
 			function (err) {
-				throw failure(err.message || err.toString());
+				throw { type, path: '', error: err.message || err.toString() };
 			}
 		);
 	});
@@ -138,14 +139,6 @@ export default function (plopfileApi, flags) {
 				types[name] = plopfileApi.getActionType(name);
 				return types;
 			}, {});
-	}
-
-	// provide a function to handle action errors in a uniform way
-	function makeErrorLogger(type, path, abortOnFail) {
-		return function (error) {
-			if (abortOnFail !== false) { abort = true; }
-			return { type, path, error };
-		};
 	}
 
 	return {
