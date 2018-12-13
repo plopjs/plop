@@ -165,6 +165,8 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		getGenerator(name) {
 			var generator = plopfileApi.getGenerator(name);
 
+			if (generator == null) { throw Error(`Generator "${name}" does not exist.`); }
+
 			// if this generator was loaded from an external plopfile, proxy the
 			// generator request through to the external plop instance
 			if (generator.proxy) {
