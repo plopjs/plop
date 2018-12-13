@@ -117,22 +117,21 @@ function run(env) {
 //
 function doThePlop(generator, bypassArr) {
 	generator.runPrompts(bypassArr)
-		.then(generator.runActions)
-		.then(function (result) {
-			result.changes.forEach(function(line) {
-				console.log(chalk.green('[SUCCESS]'), line.type, line.path);
-			});
-			result.failures.forEach(function (line) {
-				const logs = [chalk.red('[FAILED]')];
-				if (line.type) { logs.push(line.type); }
-				if (line.path) { logs.push(line.path); }
+		.then((...args) => {
+            const onSuccess = (change) =>
+                console.log(chalk.green('[SUCCESS]'), change.type, change.path);
+            const onFailure = (failure) => {
+                const logs = [chalk.red('[FAILED]')];
+                if (failure.type) { logs.push(failure.type); }
+                if (failure.path) { logs.push(failure.path); }
 
-				const error = line.error || line.message;
-				logs.push(chalk.red(error));
+                const error = failure.error || failure.message;
+                logs.push(chalk.red(error));
 
-				console.log.apply(console, logs);
-			});
-		})
+                console.log.apply(console, logs);
+            }
+            generator.runActions(...args, onSuccess, onFailure);
+        })
 		.catch(function (err) {
 			console.error(chalk.red('[ERROR]'), err.message);
 			process.exit(1);
