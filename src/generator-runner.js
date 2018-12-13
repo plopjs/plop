@@ -35,7 +35,8 @@ export default function (plopfileApi, flags) {
 		const noop = () => {};
 		const {
 			onSuccess=noop,            // runs after each successful action
-			onFailure=noop             // runs after each failed action
+			onFailure=noop,            // runs after each failed action
+			onComment=noop             // runs for each comment line in the actions array
 		} = hooks;
 		const changes = [];          // array of changed made by the actions
 		const failures = [];         // array of actions that failed
@@ -59,6 +60,9 @@ export default function (plopfileApi, flags) {
 		}
 
 		for (let [actionIdx, action] of actions.entries()) {
+			// including strings in the actions array is used for commenting
+			if (typeof action === 'string') { onComment(action); continue; }
+
 			// bail out if a previous action aborted
 			if (abort) {
 				const failure = {
