@@ -1,7 +1,6 @@
 'use strict';
 
 import co from 'co';
-import colors from 'colors';
 import promptBypass from './prompt-bypass';
 import * as buildInActions from './actions';
 
@@ -64,11 +63,15 @@ export default function (plopfileApi, flags) {
 			if (typeof action === 'string' && abort) { continue; }
 			if (typeof action === 'string') { onComment(action); continue; }
 
+			const actionIsFunction = typeof action === 'function';
+			const actionCfg = (actionIsFunction ? {type: 'function'} : action);
+			const actionLogic = (actionIsFunction ? action : actionTypes[actionCfg.type]);
+
 			// bail out if a previous action aborted
 			if (abort) {
 				const failure = {
-					type: action.type || '',
-					path: action.path || '',
+					type: actionCfg.type || '',
+					path: actionCfg.path || '',
 					error: 'Aborted due to previous action failure'
 				};
 				onFailure(failure);
@@ -76,17 +79,13 @@ export default function (plopfileApi, flags) {
 				continue;
 			}
 
-			action.force = (flags.force === true || action.force === true);
-
-			const actionIsFunction = typeof action === 'function';
-			const actionCfg = (actionIsFunction ? {} : action);
-			const actionLogic = (actionIsFunction ? action : actionTypes[actionCfg.type]);
+			actionCfg.force = (flags.force === true || actionCfg.force === true);
 
 			if (typeof actionLogic !== 'function') {
 				if (actionCfg.abortOnFail !== false) { abort = true; }
 				const failure = {
-					type: action.type || '',
-					path: action.path || '',
+					type: actionCfg.type || '',
+					path: actionCfg.path || '',
 					error: `Invalid action (#${actionIdx + 1})`
 				};
 				onFailure(failure);
@@ -110,7 +109,7 @@ export default function (plopfileApi, flags) {
 
 	// handle action logic
 	const executeActionLogic = co.wrap(function* (action, cfg, data) {
-		const type = cfg.type || 'function';
+		const type = cfg.type || '';
 
 		// convert any returned data into a promise to
 		// return and wait on
@@ -123,10 +122,10 @@ export default function (plopfileApi, flags) {
 		return yield Promise.resolve(action(data, cfg, plopfileApi)).then(
 			// show the resolved value in the console
 			result => ({
-				type, path: colors.blue((typeof result === 'string'
+				type, path: (typeof result === 'string'
 					? result
 					: JSON.stringify(result)
-				))
+				)
 			}),
 			// a rejected promise is treated as a failure
 			function (err) {

@@ -1,6 +1,6 @@
 {
   "name": "node-plop",
-  "version": "0.17.2",
+  "version": "0.17.3",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "types": "index.d.ts",
@@ -58,7 +58,6 @@
   "dependencies": {
     "change-case": "^3.0.1",
     "co": "^4.6.0",
-    "colors": "^1.1.2",
     "core-js": "^2.4.1",
     "del": "^3.0.0",
     "globby": "^8.0.0",
