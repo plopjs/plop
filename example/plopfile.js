@@ -32,6 +32,10 @@ module.exports = function (plop) {
 		commentEnd: ''
 	});
 
+	const delayLog = msg => answers => new Promise((resolve) => {
+		setTimeout(() => resolve(msg), 1000);
+	});
+
 	// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('test', {
 		description: 'this is a test',
@@ -67,6 +71,11 @@ module.exports = function (plop) {
 			}
 		],
 		actions: [
+			`this is a comment`,
+			'this is another comment',
+			delayLog('delayed thing'),
+			delayLog('another delayed thing'),
+			delayLog('this was also delayed'),
 			{
 				type: 'add',
 				path: 'folder/{{dashCase name}}.txt',

@@ -49,6 +49,7 @@ module.exports = (function () {
 			'',
 			chalk.bold('Options:'),
 			'  -h, --help             ' + chalk.dim('Show this help display'),
+			'  -t, --show-type-names  ' + chalk.dim('Show type names instead of abbreviations'),
 			'  -i, --init             ' + chalk.dim('Generate a basic plopfile.js'),
 			'  -v, --version          ' + chalk.dim('Print current version'),
 			'  -f, --force            ' + chalk.dim('Run the generator forcefully'),
@@ -77,10 +78,23 @@ module.exports = (function () {
 		fs.writeFile(cwd + '/plopfile.js', initString, callback);
 	}
 
+	const typeDisplay = {
+		'function': chalk.yellow('->'),
+		'add': chalk.green('++'),
+		'addMany': chalk.green('+!'),
+		'modify': `${chalk.green('+')}${chalk.red('-')}`,
+		'append': chalk.green('_+')
+	};
+	const typeMap = (name, noMap) => {
+		const dimType = chalk.dim(name);
+		return (noMap ? dimType : typeDisplay[name] || dimType);
+	};
+
 	return {
-		chooseOptionFromList: chooseOptionFromList,
-		displayHelpScreen: displayHelpScreen,
-		createInitPlopfile: createInitPlopfile,
-		getHelpMessage: getHelpMessage
+	    chooseOptionFromList,
+		displayHelpScreen,
+		createInitPlopfile,
+		typeMap,
+		getHelpMessage
 	};
 })();
