@@ -8,6 +8,7 @@ const argv = require('minimist')(args);
 const v8flags = require('v8flags');
 const interpret = require('interpret');
 const chalk = require('chalk');
+const ora = require('ora');
 
 const nodePlop = require('node-plop');
 const out = require('./console-out');
@@ -115,23 +116,32 @@ function run(env) {
 // everybody to the plop!
 //
 function doThePlop(generator, bypassArr) {
+	console.clear();
 	generator.runPrompts(bypassArr)
 		.then(answers => {
-			const onComment = (msg) => console.log(msg);
+			console.clear();
+			const noMap = (argv['show-type-names'] || argv.t);
+			const progress = ora();
+			const onComment = (msg) => {
+				progress.info(msg); progress.start();
+			};
 			const onSuccess = (change) => {
-				const logs = [chalk.green('[SUCCESS]')];
-				if (change.type) { logs.push(out.typeMap(change.type)); }
-				if (change.path) { logs.push(change.path); }
-				console.log.apply(console, logs);
+				let line = '';
+				if (change.type) { line += ` ${out.typeMap(change.type, noMap)}`; }
+				if (change.path) { line += ` ${change.path}`; }
+				progress.succeed(line); progress.start();
 			};
-			const onFailure = (failure) => {
-				const logs = [chalk.red('[FAILED]')];
-				if (failure.type) { logs.push(out.typeMap(failure.type)); }
-				if (failure.path) { logs.push(failure.path); }
-				logs.push(chalk.red(failure.error || failure.message));
-				console.log.apply(console, logs);
+			const onFailure = (fail) => {
+				let line = '';
+				if (fail.type) { line += ` ${out.typeMap(fail.type, noMap)}`; }
+				if (fail.path) { line += ` ${fail.path}`; }
+				const errMsg = fail.error || fail.message;
+				if (errMsg) { line += ` ${errMsg}` };
+				progress.fail(line); progress.start();
 			};
-			return generator.runActions(answers, {onSuccess, onFailure, onComment});
+			progress.start();
+			return generator.runActions(answers, {onSuccess, onFailure, onComment})
+				.then(() => progress.stop());
 		})
 		.catch(function (err) {
 			console.error(chalk.red('[ERROR]'), err.message);

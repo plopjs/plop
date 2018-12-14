@@ -36,6 +36,7 @@ module.exports = (function () {
 			'',
 			chalk.bold('Options:'),
 			'  -h, --help             ' + chalk.dim('Show this help display'),
+			'  -t, --show-type-names  ' + chalk.dim('Show type names instead of abbreviations'),
 			'  -i, --init             ' + chalk.dim('Generate a basic plopfile.js'),
 			'  -v, --version          ' + chalk.dim('Print current version'),
 			'  -f, --force            ' + chalk.dim('Run the generator forcefully'),
@@ -71,7 +72,10 @@ module.exports = (function () {
 		'modify': `${chalk.green('+')}${chalk.red('-')}`,
 		'append': chalk.green('_+')
 	};
-	const typeMap = t => typeDisplay[t] || t;
+	const typeMap = (name, noMap) => {
+		const dimType = chalk.dim(name);
+		return (noMap ? dimType : typeDisplay[name] || dimType);
+	};
 
 	return {
 		chooseOptionFromList,
