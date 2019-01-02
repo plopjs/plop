@@ -1,4 +1,6 @@
 import inquirer = require("inquirer");
+import {IOptions as GlobOptions} from 'glob';
+import {HelperDelegate as HelperFunction} from 'handlebars';
 
 interface NodePlopAPI {
   getGenerator(name: string): PlopGenerator;
@@ -11,8 +13,7 @@ interface NodePlopAPI {
   setPartial(name: string, str: string): void;
   getPartial(name: string): string;
   getPartialList(): string[];
-  // TODO: Replace `fn` with handlebar helper function type
-  setHelper(name: string, fn: Function): void;
+  setHelper(name: string, fn: HelperFunction): void;
   getHelper(name: string): Function;
   getHelperList(): string[];
   setActionType(name: string, fn: CustomActionFunction): void;
@@ -35,7 +36,6 @@ interface NodePlopAPI {
   renderString(template: string, data: any): String; //set to any matching handlebars declaration
 
   // passthroughs for backward compatibility
-  // TODO: Check this
   addPrompt(name: string, prompt: inquirer.PromptModule): void;
   addPartial(name: string, str: string): void;
   addHelper(name: string, fn: Function): void;
@@ -44,7 +44,7 @@ interface NodePlopAPI {
 export interface PlopGenerator {
   description: string;
   prompts: inquirer.Question[];
-  actions: Array<ActionType>;
+  actions: ActionType[];
 }
 
 export type CustomActionFunction = (
@@ -80,17 +80,15 @@ export interface AddManyActionConfig
   type: "addMany";
   destination: string;
   base: string;
-  // TODO: Glob
   templateFiles: string;
-  // TODO: Look and check if there is a `@types/glob` package to define this type more strictly
-  globOptions: object;
+  globOptions: GlobOptions;
   verbose: boolean;
 }
 
 export interface ModifyActionConfig extends ActionConfig {
   type: "modify";
   path: string;
-  pattern: string; // TODO: RegExp ?
+  pattern: string | RegExp;
   template: string;
   templateFile: string;
 } 
@@ -98,7 +96,7 @@ export interface ModifyActionConfig extends ActionConfig {
 export interface AppendActionConfig extends ActionConfig {
   type: "append";
   path: string;
-  pattern: string | RegExp; // TODO: RegExp ?
+  pattern: string | RegExp;
   unique: boolean;
   separator: string;
   template: string;
