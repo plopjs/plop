@@ -1,5 +1,8 @@
 import inquirer = require("inquirer");
-import {IOptions as GlobOptions} from 'glob';
+// @types/globby doesn't export types for GlobOptions, so we have to work a little bit to extract them:
+// GlobOptions is the second parameter of the sync function, which can be extracted with the Parameters<T> type
+import { sync as _sync } from 'globby';
+type GlobOptions = Parameters<typeof _sync>[1];
 import {HelperDelegate as HelperFunction} from 'handlebars';
 
 interface NodePlopAPI {
