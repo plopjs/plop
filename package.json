@@ -41,6 +41,8 @@
     "node": ">=8.9.4"
   },
   "devDependencies": {
+    "@types/globby": "^8.0.0",
+    "@types/handlebars": "^4.0.40",
     "@types/inquirer": "0.0.43",
     "ava": "^0.25.0",
     "babel-cli": "^6.16.0",
