@@ -111,5 +111,5 @@ export interface PlopCfg {
   destBasePath: string;
 }
 
-declare function nodePlop(plopfilePath: string, plopCfg: PlopCfg): NodePlopAPI;
+declare function nodePlop(plopfilePath: string, plopCfg?: PlopCfg): NodePlopAPI;
 export default nodePlop;
