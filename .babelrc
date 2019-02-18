@@ -1,3 +1,11 @@
 {
-	"presets": ["node8"]
+	"presets": [
+		[
+			"@babel/preset-env", {
+				"targets": {
+					"node": "8"
+				}
+			}
+		]
+	]
 }
