@@ -1,6 +1,6 @@
 {
   "name": "node-plop",
-  "version": "0.17.3",
+  "version": "0.17.4",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "types": "index.d.ts",
@@ -63,7 +63,7 @@
     "core-js": "^2.4.1",
     "del": "^3.0.0",
     "globby": "^8.0.0",
-    "handlebars": "^4.0.5",
+    "handlebars": "^4.1.0",
     "inquirer": "^6.0.0",
     "isbinaryfile": "^3.0.2",
     "lodash.get": "^4.4.2",
