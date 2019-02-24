@@ -117,7 +117,9 @@ export default function (plopfileApi, flags) {
 		// data can also be a function that returns a data object
 		if (typeof cfgData === 'function') { cfgData = yield cfgData(); }
 		Object.keys(cfgData || {}).forEach(k => {
-			if (typeof data[k] === 'undefined') { data[k] = cfgData[k]; }
+			if (typeof data[k] === 'undefined' || (data[k] && cfgData[k])) { 
+				data[k] = cfgData[k]; 
+			}
 		});
 		return yield Promise.resolve(action(data, cfg, plopfileApi)).then(
 			// show the resolved value in the console
