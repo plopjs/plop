@@ -30,7 +30,7 @@ export default function (plopfileApi, flags) {
 	});
 
 	// Run the actions for this generator
-	const runGeneratorActions = co.wrap(function* (genObject, data, hooks={}) {
+	const runGeneratorActions = co.wrap(function* (genObject, data={}, hooks={}) {
 		const noop = () => {};
 		const {
 			onSuccess=noop,            // runs after each successful action
@@ -111,28 +111,29 @@ export default function (plopfileApi, flags) {
 	const executeActionLogic = co.wrap(function* (action, cfg, data) {
 		const type = cfg.type || '';
 
-		// convert any returned data into a promise to
-		// return and wait on
 		let cfgData = cfg.data || {};
 		// data can also be a function that returns a data object
 		if (typeof cfgData === 'function') { cfgData = yield cfgData(); }
-		Object.keys(cfgData || {}).forEach(k => {
-			if (typeof data[k] === 'undefined' || (data[k] && cfgData[k])) { 
-				data[k] = cfgData[k]; 
-			}
-		});
-		return yield Promise.resolve(action(data, cfg, plopfileApi)).then(
+
+		// track data properties that can be applied to the main data scope
+		const cfgDataProps = Object.keys(cfgData).filter(k => typeof data[k] === 'undefined');
+		// copy config data into main data scope so it's available for templates
+		cfgDataProps.forEach(k => {data[k] = cfgData[k];});
+
+		return yield (Promise.resolve(action(data, cfg, plopfileApi))
 			// show the resolved value in the console
-			result => ({
+			.then(result => ({
 				type, path: (typeof result === 'string'
 					? result
 					: JSON.stringify(result)
 				)
 			}),
 			// a rejected promise is treated as a failure
-			function (err) {
+			err => {
 				throw { type, path: '', error: err.message || err.toString() };
-			}
+			})
+			// cleanup main data scope so config data doesn't leak
+			.finally(() => cfgDataProps.forEach(k => {delete data[k];}))
 		);
 	});
 
