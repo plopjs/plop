@@ -1,4 +1,4 @@
-import fs from 'fs';
+// import fs from 'fs';
 import * as fspp from '../src/fs-promise-proxy';
 import co from 'co';
 import path from 'path';

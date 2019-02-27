@@ -5,10 +5,6 @@ const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 const plop = nodePlop();
 
-/////
-//
-//
-
 test('Add action keeps the executable flag', co.wrap(function* (t) {
 	plop.setGenerator('addExecutable', {
 		actions: [{

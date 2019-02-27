@@ -115,25 +115,28 @@ export default function (plopfileApi, flags) {
 		// data can also be a function that returns a data object
 		if (typeof cfgData === 'function') { cfgData = yield cfgData(); }
 
-		// track data properties that can be applied to the main data scope
-		const cfgDataProps = Object.keys(cfgData).filter(k => typeof data[k] === 'undefined');
+		// track keys that can be applied to the main data scope
+		const cfgDataKeys = Object.keys(cfgData).filter(k => typeof data[k] === 'undefined');
 		// copy config data into main data scope so it's available for templates
-		cfgDataProps.forEach(k => {data[k] = cfgData[k];});
+		cfgDataKeys.forEach(k => {data[k] = cfgData[k];});
 
 		return yield (Promise.resolve(action(data, cfg, plopfileApi))
-			// show the resolved value in the console
-			.then(result => ({
-				type, path: (typeof result === 'string'
-					? result
-					: JSON.stringify(result)
-				)
-			}),
-			// a rejected promise is treated as a failure
-			err => {
-				throw { type, path: '', error: err.message || err.toString() };
-			})
+			.then(
+				// show the resolved value in the console
+				result => ({
+					type, path: (typeof result === 'string'
+						? result
+						: JSON.stringify(result)
+					)
+				}),
+
+				// a rejected promise is treated as a failure
+				err => {
+					throw { type, path: '', error: err.message || err.toString() };
+				}
+			)
 			// cleanup main data scope so config data doesn't leak
-			.finally(() => cfgDataProps.forEach(k => {delete data[k];}))
+			.finally(() => cfgDataKeys.forEach(k => {delete data[k];}))
 		);
 	});
 
