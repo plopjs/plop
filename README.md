@@ -92,6 +92,20 @@ Plop comes with bypass logic built-in for standard inquirer prompts, but there a
 
 If you have published a 3rd party inquirer prompt plugin and would like to support bypass functionality for plop users out of the box, that is covered in [another section of this documentation](#3rd-party-prompt-bypass).
 
+### Bypassing Prompts (by Name)
+You can also bypass prompts by name using `--` and then providing arguments for each prompt that you'd like to bypass. Examples [below](#bypass-examples).
+
+#### Bypass Examples
+```
+## Bypassing both prompt 1 and 2
+$ plop component "my component" react
+$ plop component -- --name "my component" --type react
+
+## Bypassing only prompt 2 (will be prompted for name)
+$ plop component _ react
+$ plop component -- --type react
+```
+
 ### Running a Generator Forcefully
 By default Plop actions keep your files safe by failing when things look fishy. The most obvious example of this is not allowing an [`add`](#add) action to overwrite a file that already exists. Plop actions individually support the `force` property but you can also use the `--force` flag when running Plop from the terminal. Using the `--force` flag will tell every action to run forcefully. With great power...🕷
 
@@ -224,7 +238,7 @@ Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **type** | *String* | | the type of action ([`add`](#add), [`modify`](#modify), [`addMany`](#addmany), [etc](#setactiontype))
 **force** | *Boolean* | `false` | performs the action [forcefully](#running-a-generator-forcefully) (means different things depending on the action)
-**data** | *Object* | `{}` | specifies data that should be mixed with user prompt answers when running this action
+**data** | *Object / Function* | `{}` | specifies data that should be mixed with user prompt answers when running this action
 **abortOnFail** | *Boolean* | `true` | if this action fails for any reason abort all future actions
 
 > The `data` property on any `ActionConfig` can also be a `Function` that returns an `Object` or a `Function` that returns a `Promise` that resolves with an `Object`.
