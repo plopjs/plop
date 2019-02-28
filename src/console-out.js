@@ -54,7 +54,6 @@ module.exports = (function () {
 			'  -v, --version          ' + chalk.dim('Print current version'),
 			'  -f, --force            ' + chalk.dim('Run the generator forcefully'),
 			'  --plopfile             ' + chalk.dim('Path to the plopfile'),
-			'  --completion           ' + chalk.dim('Method to handle bash/zsh/whatever completions'),
 			'  --cwd                  ' + chalk.dim('Directory from which relative paths are calculated against'),
 			'  --require              ' + chalk.dim('String or array of modules to require before running plop'),
 			'',
