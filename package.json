@@ -64,7 +64,7 @@
     "co": "^4.6.0",
     "core-js": "^2.6.5",
     "del": "^3.0.0",
-    "globby": "^8.0.2",
+    "globby": "^9.1.0",
     "handlebars": "^4.1.0",
     "inquirer": "^6.2.2",
     "isbinaryfile": "^3.0.2",
