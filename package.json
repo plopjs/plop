@@ -45,7 +45,7 @@
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "@babel/register": "^7.0.0",
-    "@types/globby": "^8.x",
+    "@types/globby": "^9.1.0",
     "@types/handlebars": "^4.x",
     "@types/inquirer": "0.0.44",
     "ava": "^1.2.1",
