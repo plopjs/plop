@@ -45,7 +45,7 @@
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "@babel/register": "^7.0.0",
-    "@types/globby": "^8.x",
+    "@types/globby": "^9.1.0",
     "@types/handlebars": "^4.x",
     "@types/inquirer": "6.0.0",
     "ava": "^1.2.1",
@@ -62,7 +62,7 @@
   "dependencies": {
     "change-case": "^3.1.0",
     "co": "^4.6.0",
-    "core-js": "^2.6.5",
+    "core-js": "^3.0.0",
     "del": "^4.0.0",
     "globby": "^9.1.0",
     "handlebars": "^4.1.0",
