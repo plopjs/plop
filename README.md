@@ -71,7 +71,7 @@ module.exports = function (plop) {
 };
 ```
 
-The *controlller* generator we created above will ask us 1 question, and create 1 file. This can be expanded to ask as many questions as needed, and create as many files as needed. There are also additional actions that can be used to alter our codebase in different ways.
+The *controller* generator we created above will ask us 1 question, and create 1 file. This can be expanded to ask as many questions as needed, and create as many files as needed. There are also additional actions that can be used to alter our codebase in different ways.
 
 ## Using Prompts
 Plop uses the [inquirer.js](https://github.com/SBoudrias/Inquirer.js) library to gather user data. A list of [prompt types](https://github.com/SBoudrias/Inquirer.js/#prompt-types) can be found on the inquirer official website.
