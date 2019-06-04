@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const out = require('./console-out');
 
 module.exports = {
