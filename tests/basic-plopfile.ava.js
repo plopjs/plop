@@ -6,9 +6,7 @@ const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 const plop = nodePlop(`${mockPath}/plopfile.js`);
 const basicAdd = plop.getGenerator('basic-add');
 
-test.before(() => {
-	return basicAdd.runActions({name: 'this is a test', age: '21'});
-});
+test.before(() => basicAdd.runActions({name: 'this is a test', age: '21'}));
 
 test('Check that the file has been created', t => {
 	const filePath = path.resolve(testSrcPath, 'this-is-a-test.txt');

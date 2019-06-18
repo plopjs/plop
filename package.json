@@ -65,7 +65,7 @@
     "core-js": "^3.0.0",
     "del": "^4.0.0",
     "globby": "^9.1.0",
-    "handlebars": "^4.1.0",
+    "handlebars": "^4.1.2",
     "inquirer": "^6.2.2",
     "isbinaryfile": "^3.0.2",
     "lodash.get": "^4.4.2",
