@@ -79,6 +79,17 @@ Plop uses the [inquirer.js](https://github.com/SBoudrias/Inquirer.js) library to
 ## CLI Usage
 Once plop is installed, and you have created a generator, you are ready to run plop from the terminal. Running `plop` with no parameters will present you with a list of generators to pick from. You can also run `plop [generatorName]` to trigger a generator directly. If you did not install plop globally, you will need to setup an npm script to run plop for you.
 
+```javascript
+// package.json
+{
+    ...,
+    "scripts": {
+        "plop": "plop"
+    },
+    ...
+}
+```
+
 ### Bypassing Prompts
 Once you get to know a project (and its generators) well, you may want to provide answers to the prompts when you run the generator. If I have (for instance) a `component` generator that has one prompt (name), I can run that generator using `plop component "some component name"` and it will immediately execute as though I had typed "some component name" into the prompt. If that same generator had a second prompt, the same input would have resulted in the user being prompted for the second value.
 
