@@ -67,7 +67,7 @@
     "globby": "^9.1.0",
     "handlebars": "^4.1.2",
     "inquirer": "^6.2.2",
-    "isbinaryfile": "^3.0.2",
+    "isbinaryfile": "^4.0.1",
     "lodash.get": "^4.4.2",
     "mkdirp": "^0.5.1",
     "pify": "^4.0.0",
