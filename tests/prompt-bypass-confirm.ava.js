@@ -17,19 +17,19 @@ test('verify good bypass input', function (t) {
 	t.true(isTrue.confirm2);
 	t.true(isTrue.confirm3);
 	t.true(isTrue.confirm4);
-	
+
 	const [, isTrueCap] = promptBypass(prompts, ['Y','True','YES','T'], plop);
 	t.true(isTrueCap.confirm1);
 	t.true(isTrueCap.confirm2);
 	t.true(isTrueCap.confirm3);
 	t.true(isTrueCap.confirm4);
-	
+
 	const [, notTrue] = promptBypass(prompts, ['n','false','no','n'], plop);
 	t.false(notTrue.confirm1);
 	t.false(notTrue.confirm2);
 	t.false(notTrue.confirm3);
 	t.false(notTrue.confirm4);
-	
+
 	const [, notTrueCap] = promptBypass(prompts, ['N','False','NO','N'], plop);
 	t.false(notTrueCap.confirm1);
 	t.false(notTrueCap.confirm2);

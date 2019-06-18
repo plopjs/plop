@@ -17,23 +17,23 @@ test('verify good bypass input', function (t) {
 	const [, allAnswersByValue] = promptBypass(prompts, ['one,two,three'], plop);
 	t.true(Array.isArray(allAnswersByValue.checkbox));
 	t.is(JSON.stringify(allAnswersByValue.checkbox), '["one","two","three"]');
-	
+
 	const [, someAnswersByValue] = promptBypass(prompts, ['one,three'], plop);
 	t.true(Array.isArray(someAnswersByValue.checkbox));
 	t.is(JSON.stringify(someAnswersByValue.checkbox), '["one","three"]');
-	
+
 	const [, allAnswersByIndex] = promptBypass(prompts, ['0,1,2'], plop);
 	t.true(Array.isArray(allAnswersByIndex.checkbox));
 	t.is(JSON.stringify(allAnswersByIndex.checkbox), '["one","two","three"]');
-	
+
 	const [, someAnswersByIndex] = promptBypass(prompts, ['0,2'], plop);
 	t.true(Array.isArray(someAnswersByIndex.checkbox));
 	t.is(JSON.stringify(someAnswersByIndex.checkbox), '["one","three"]');
-	
+
 	const [, allAnswersByMixed] = promptBypass(prompts, ['0,t,three'], plop);
 	t.true(Array.isArray(allAnswersByMixed.checkbox));
 	t.is(JSON.stringify(allAnswersByMixed.checkbox), '["one","two","three"]');
-	
+
 	const [, someAnswersByMixed] = promptBypass(prompts, ['0,three'], plop);
 	t.true(Array.isArray(someAnswersByMixed.checkbox));
 	t.is(JSON.stringify(someAnswersByMixed.checkbox), '["one","three"]');
