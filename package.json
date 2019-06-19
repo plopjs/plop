@@ -1,6 +1,6 @@
 {
   "name": "plop",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity",
   "main": "./src/plop.js",
   "repository": {
@@ -32,8 +32,8 @@
     "interpret": "^1.2.0",
     "liftoff": "^2.5.0",
     "minimist": "^1.2.0",
-    "node-plop": "~0.18.0",
-    "ora": "^3.0.0",
+    "node-plop": "~0.19.0",
+    "ora": "^3.4.0",
     "v8flags": "^2.0.10"
   },
   "engines": {

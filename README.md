@@ -299,6 +299,7 @@ Property | Type | Default | Description
 **destination** | *String* | | a handlebars template that (when rendered) is the destination folder for the new files
 **base** | *String* | | the section of the path that should be excluded when adding files to the `destination` folder
 **templateFiles** | *[Glob](https://github.com/sindresorhus/globby#globbing-patterns)* | | glob pattern that matches multiple template files to be added
+**stripExtensions** | *[String]* | `['hbs']` | file extensions that should be stripped from `templateFiles` files names while being added to the `destination`
 **globOptions** | *[Object](https://github.com/sindresorhus/globby#options)* | | glob options that change how to match to the template files to be added
 **verbose** | *Boolean* | `true` | print each successfully added file path
 **skipIfExists** | *Boolean* | `false` | *inherited from [Add](#add)* (skips a file if it already exists)
