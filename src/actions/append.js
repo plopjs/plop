@@ -51,7 +51,7 @@ export default co.wrap(function*(data, cfg, plop) {
 		// check path
 		const pathExists = yield fspp.fileExists(fileDestPath);
 		if (!pathExists) {
-			throw 'File does not exists';
+			throw 'File does not exist';
 		} else {
 			let fileData = yield fspp.readFile(fileDestPath);
 			fileData = yield doAppend(data, cfg, plop, fileData);

@@ -7,6 +7,7 @@ import addFile from './_common-action-add-file';
 
 const defaultConfig = {
 	verbose: true,
+	stripExtensions: ['hbs']
 };
 
 export default co.wrap(function* (data, userConfig, plop) {
@@ -37,7 +38,7 @@ export default co.wrap(function* (data, userConfig, plop) {
 	for (let templateFile of templateFiles) {
 		const absTemplatePath = path.resolve(plop.getPlopfilePath(), templateFile);
 		const fileCfg = Object.assign({}, cfg, {
-			path: resolvePath(cfg.destination, templateFile, cfg.base),
+			path: stripExtensions(cfg.stripExtensions, resolvePath(cfg.destination, templateFile, cfg.base)),
 			templateFile: absTemplatePath
 		});
 		const addedPath = yield addFile(data, fileCfg, plop);
@@ -81,4 +82,18 @@ function dropFileRootFolder(file) {
 	fileParts.shift();
 
 	return fileParts.join(path.sep);
+}
+
+function stripExtensions(shouldStrip, fileName) {
+	const maybeFile = path.parse(fileName);
+
+	if (
+		Array.isArray(shouldStrip) &&
+			!shouldStrip.map(item => `.${item}`).includes(maybeFile.ext)
+	)
+		return fileName;
+
+	return path.parse(maybeFile.name).ext !== ''
+		? path.join(maybeFile.dir, maybeFile.name)
+		: fileName;
 }

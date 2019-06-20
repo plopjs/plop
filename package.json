@@ -1,6 +1,6 @@
 {
   "name": "node-plop",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "types": "index.d.ts",
@@ -11,11 +11,10 @@
     "test-watch": "ava --watch",
     "compile": "npm run clean && babel src --out-dir lib",
     "compile-watch": "babel src --watch --out-dir lib",
-    "prepublish": "npm run compile",
+    "prepublishOnly": "npm run compile",
     "develop": "npm run clean && (npm run compile-watch & npm run test-watch)"
   },
   "pre-commit": [
-    "compile",
     "eslint",
     "test"
   ],
@@ -41,19 +40,19 @@
     "node": ">=8.9.4"
   },
   "devDependencies": {
-    "@babel/cli": "^7.x",
-    "@babel/core": "^7.3.4",
-    "@babel/preset-env": "^7.3.4",
-    "@babel/register": "^7.0.0",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
     "@types/globby": "^9.1.0",
-    "@types/handlebars": "^4.x",
-    "@types/inquirer": "6.0.0",
-    "ava": "^1.2.1",
-    "eslint": "^5.14.1",
+    "@types/handlebars": "^4.1.0",
+    "@types/inquirer": "6.0.1",
+    "ava": "^2.1.0",
+    "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-node": "^9.0.0",
+    "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
     "plop": "^2.3.0",
     "plop-pack-fancy-comments": "^0.2.1",
@@ -62,16 +61,16 @@
   "dependencies": {
     "change-case": "^3.1.0",
     "co": "^4.6.0",
-    "core-js": "^3.0.0",
-    "del": "^4.0.0",
-    "globby": "^9.1.0",
-    "handlebars": "^4.1.0",
-    "inquirer": "^6.2.2",
-    "isbinaryfile": "^3.0.2",
+    "core-js": "^3.1.4",
+    "del": "^4.1.1",
+    "globby": "^9.2.0",
+    "handlebars": "^4.1.2",
+    "inquirer": "^6.3.1",
+    "isbinaryfile": "^4.0.1",
     "lodash.get": "^4.4.2",
     "mkdirp": "^0.5.1",
     "pify": "^4.0.0",
-    "resolve": "^1.10.0"
+    "resolve": "^1.11.0"
   },
   "ava": {
     "files": [

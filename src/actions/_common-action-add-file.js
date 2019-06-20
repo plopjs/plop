@@ -6,7 +6,7 @@ import {
 	throwStringifiedError,
 	getRelativeToBasePath
 } from './_common-action-utils';
-import isBinary from 'isbinaryfile';
+import {isBinaryFileSync} from 'isbinaryfile';
 import * as fspp from '../fs-promise-proxy';
 
 export default function* addFile(data, cfg, plop) {
@@ -33,7 +33,7 @@ export default function* addFile(data, cfg, plop) {
 				&& path.resolve(plop.getPlopfilePath(), cfg.templateFile)
 				|| null;
 
-			if (absTemplatePath != null && isBinary.sync(absTemplatePath)) {
+			if (absTemplatePath != null && isBinaryFileSync(absTemplatePath)) {
 				const rawTemplate = yield fspp.readFileRaw(cfg.templateFile);
 				yield fspp.writeFileRaw(fileDestPath, rawTemplate);
 			} else {

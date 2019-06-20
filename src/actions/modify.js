@@ -21,7 +21,7 @@ export default co.wrap(function*(data, cfg, plop) {
 		const pathExists = yield fspp.fileExists(fileDestPath);
 
 		if (!pathExists) {
-			throw 'File does not exists';
+			throw 'File does not exist';
 		} else {
 			let fileData = yield fspp.readFile(fileDestPath);
 			cfg.templateFile = getRenderedTemplatePath(data, cfg, plop);
