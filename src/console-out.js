@@ -56,6 +56,7 @@ module.exports = (function () {
 			'  --plopfile             ' + chalk.dim('Path to the plopfile'),
 			'  --cwd                  ' + chalk.dim('Directory from which relative paths are calculated against'),
 			'  --require              ' + chalk.dim('String or array of modules to require before running plop'),
+			'  --dest                 ' + chalk.dim('Output to this directory instead of the plopfile\'s parent directory'),
 			'',
 			chalk.bold('Examples:'),
 			'  $ ' + chalk.blue('plop'),

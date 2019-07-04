@@ -36,6 +36,7 @@ function run(env) {
 
 	// set the default base path to the plopfile directory
 	const plop = nodePlop(plopfilePath, {
+		destBasePath: argv.dest != null ? Path.resolve(`${ argv.dest }`) : undefined,
 		force: argv.force || argv.f
 	});
 
