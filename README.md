@@ -142,14 +142,26 @@ Method | Parameters | Returns | Description
 [**setPrompt**](#setprompt) | *String, InquirerPrompt* | | registers a custom prompt type with inquirer
 [**load**](https://github.com/amwmedia/plop/blob/master/plop-load.md) | *Array[String], Object, Object* | | loads generators, helpers and/or partials from another plopfile or npm module
 
-### Typescript Support
+### TypeScript declarations
 
-If you utilize Typescript in your projects, you can easily add support for IDE completion of these methods by utilizing the exported type `NodePlopAPI` from the `plop` package.
+`plop` and `node-plop` bundle TypeScript declarations.  Whether or not you write your plopfile in TypeScript, many
+editors will offer code assistance via these declarations.
 
-``` typescript
+```typescript
+// plopfile.ts
 import {NodePlopAPI} from 'plop';
 
 export default function (plop: NodePlopAPI) {
+};
+```
+
+```javascript
+// plopfile.js
+
+exports.default = function (
+	/** @type {import('plop').NodePlopAPI} */
+	plop
+) {
 };
 ```
 
@@ -225,10 +237,6 @@ module.exports = function (plop) {
 };
 ```
 
-### Typescript Type
-
-Using the `CustomActionFunction` type from the `plop` package, you can explicitly type these functions. This will pass type inference to the arguments and give you IDE warnings for potential errors.
-
 ## setPrompt
 [Inquirer](https://github.com/SBoudrias/Inquirer.js) provides many types of prompts out of the box, but it also allows developers to build prompt plugins. If you'd like to use a prompt plugin, you can register it with `setPrompt`. For more details see the [Inquirer documentation for registering prompts](https://github.com/SBoudrias/Inquirer.js#inquirerregisterpromptname-prompt). Also check out the [plop community driven list of custom prompts](https://github.com/amwmedia/plop/blob/master/inquirer-prompts.md).
 
@@ -257,10 +265,6 @@ Property | Type | Default | Description
 
 > If your list of actions needs to be dynamic, take a look at [using a dynamic actions array.](#using-a-dynamic-actions-array)
  
-#### Typescript Type
-
-`PlopGenerator` from the `plop` package describes the type data associated with this interface
-
 ### *Interface* `ActionConfig`
 The following properties are the standard properties that plop handles internally. Other properties will be required depending on the *type* of action. Also take a look at the [built-in actions](#built-in-actions).
 
@@ -274,10 +278,6 @@ Property | Type | Default | Description
 > The `data` property on any `ActionConfig` can also be a `Function` that returns an `Object` or a `Function` that returns a `Promise` that resolves with an `Object`.
 
 > Instead of an Action Object, a [function can also be used](#custom-action-function-)
-
-#### Typescript Type
-
-`ActionConfig` from the `plop` package describes the type data associated with this interface
 
 ## Other Methods
 Method | Parameters | Returns | Description
@@ -314,9 +314,6 @@ Property | Type | Default | Description
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
 
-### Typescript Type
-`AddActionConfig` can be used as type data to describe this type of action
-
 ## AddMany
 The `addMany` action can be used to add multiple files to your project with a single action. The `destination` property is a handlebars template that will be used to identify the folder that the generated files should go into. The `base` property  can be used to alter what section of the template paths should be omitted when creating files. The paths located by the `templateFiles` glob can use handlebars syntax in their file/folder names if you'd like the added file names to be unique (example: `{{ dashCase name }}.spec.js`).
 
@@ -333,9 +330,6 @@ Property | Type | Default | Description
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
 
-### Typescript Type
-`AddManyActionConfig` can be used as type data to describe this type of action
-
 ## Modify
 The `modify` action will use a `pattern` property to find/replace text in the file located at the `path` specified. More details on modify can be found in the example folder.
 
@@ -347,9 +341,6 @@ Property | Type | Default | Description
 **templateFile** | *String* | | path a file containing the `template`
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
-
-### Typescript Type
-`ModifyActionConfig` can be used as type data to describe this type of action
 
 ## Append
 The `append` action is a commonly used subset of `modify`. It is used to append data in a file at a particular location.
@@ -364,10 +355,6 @@ Property | Type | Default | Description
 **templateFile** | *String* | | path a file containing the `template`
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
-
-### Typescript Type
-`AppendActionConfig` can be used as type data to describe this type of action
-
 
 ## Custom (Action Function)
 The `Add` and `Modify` actions will take care of almost every case that plop is designed to handle. However, plop does offer custom action functions for the node/js guru. A custom action function is a function that is provided in the actions array.
