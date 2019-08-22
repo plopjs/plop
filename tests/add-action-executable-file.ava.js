@@ -25,5 +25,22 @@ if (process.platform !== 'win32') {
 		})
 	);
 } else {
-	test.todo('[Windows] Add action keeps the executable flag');
+	test.skip(
+		'[Windows] Add action keeps the executable flag',
+		co.wrap(function*(t) {
+			plop.setGenerator('addExecutable', {
+				actions: [
+					{
+						type: 'add',
+						path: `${testSrcPath}/added.sh`,
+						templateFile: `${mockPath}/plop-templates/add.sh`
+					}
+				]
+			});
+
+			yield plop.getGenerator('addExecutable').runActions();
+			const destStats = fs.statSync(`${testSrcPath}/added.sh`);
+			// t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
+		})
+	);
 }
