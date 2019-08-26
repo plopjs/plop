@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "node ./build-scripts/clean",
     "eslint": "eslint src/",
-    "test": "npm run compile && ava",
+    "test": "npm run eslint && npm run compile && ava",
     "test-watch": "ava --watch",
     "compile": "npm run clean && babel src --out-dir lib",
     "compile-watch": "babel src --watch --out-dir lib",
@@ -46,7 +46,7 @@
     "@babel/register": "^7.5.5",
     "ava": "^2.3.0",
     "eslint": "^6.0.0",
-    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard": "^14.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^9.0.0",
     "eslint-plugin-promise": "^4.2.1",
