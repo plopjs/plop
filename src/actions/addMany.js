@@ -52,7 +52,7 @@ export default co.wrap(function* (data, userConfig, plop) {
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
 	globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);
-	return globby.sync(templateFilesGlob, Object.assign({nobrace: true}, globOptions))
+	return globby.sync(templateFilesGlob, Object.assign({braceExpansion: false}, globOptions))
 		.filter(isUnder(basePath))
 		.filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
 }
