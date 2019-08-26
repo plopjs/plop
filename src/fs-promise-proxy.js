@@ -1,15 +1,15 @@
-import pify from 'pify';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
+import {promisify} from 'util';
 
-const _readFile = pify(fs.readFile);
-const _writeFile = pify(fs.writeFile);
-const _access = pify(fs.access);
+const _readFile = promisify(fs.readFile);
+const _writeFile = promisify(fs.writeFile);
+const _access = promisify(fs.access);
 
-export const makeDir = pify(mkdirp);
-export const readdir = pify(fs.readdir);
-export const stat = pify(fs.stat);
-export const chmod = pify(fs.chmod);
+export const makeDir = promisify(mkdirp);
+export const readdir = promisify(fs.readdir);
+export const stat = promisify(fs.stat);
+export const chmod = promisify(fs.chmod);
 export const readFile = path => _readFile(path, 'utf8');
 export const writeFile = (path, data) => _writeFile(path, data, 'utf8');
 export const readFileRaw = path => _readFile(path, null);
