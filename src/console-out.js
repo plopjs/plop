@@ -70,7 +70,7 @@ module.exports = (function () {
 		].join('\n'));
 	}
 
-	function createInitPlopfile(cwd, callback){
+	function createInitPlopfile(force = false){
 		var initString = 'module.exports = function (plop) {\n\n' +
 			'\tplop.setGenerator(\'basics\', {\n' +
 			'\t\tdescription: \'this is a skeleton plopfile\',\n' +
@@ -79,7 +79,11 @@ module.exports = (function () {
 			'\t});\n\n' +
 			'};';
 
-		fs.writeFile(cwd + '/plopfile.js', initString, callback);
+		if (fs.existsSync(process.cwd() + '/plopfile.js') && force === false) {
+			throw Error('"plopfile.js" already exists at this location.');
+		}
+
+		fs.writeFileSync(process.cwd() + '/plopfile.js', initString);
 	}
 
 	const typeDisplay = {
