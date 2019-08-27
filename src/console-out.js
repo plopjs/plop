@@ -53,9 +53,14 @@ module.exports = (function () {
 			'  -i, --init             ' + chalk.dim('Generate a basic plopfile.js'),
 			'  -v, --version          ' + chalk.dim('Print current version'),
 			'  -f, --force            ' + chalk.dim('Run the generator forcefully'),
-			'  --plopfile             ' + chalk.dim('Path to the plopfile'),
-			'  --cwd                  ' + chalk.dim('Directory from which relative paths are calculated against'),
-			'  --require              ' + chalk.dim('String or array of modules to require before running plop'),
+			'',
+			chalk.dim(' ------------------------------------------------------'),
+			chalk.dim('  ⚠  danger waits for those who venture below the line'),
+			'',
+			chalk.dim('  --plopfile             Path to the plopfile'),
+			chalk.dim('  --cwd                  Directory from which relative paths are calculated against while locating the plopfile'),
+			chalk.dim('  --require              String or array of modules to require before running plop'),
+			chalk.dim('  --dest                 Output to this directory instead of the plopfile\'s parent directory'),
 			'',
 			chalk.bold('Examples:'),
 			'  $ ' + chalk.blue('plop'),
@@ -90,7 +95,7 @@ module.exports = (function () {
 	};
 
 	return {
-	    chooseOptionFromList,
+		chooseOptionFromList,
 		displayHelpScreen,
 		createInitPlopfile,
 		typeMap,

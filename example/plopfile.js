@@ -93,7 +93,7 @@ module.exports = function (plop) {
 				var existsMsg = 'psst {{name}}, change-me.txt already exists';
 				var copiedMsg = 'hey {{name}}, I copied change-me.txt for you';
 				var changeFileName = 'change-me.txt';
-				var changeFilePath = 'folder/' + changeFileName;
+				var changeFilePath = plop.getDestBasePath() + '/folder/' + changeFileName;
 
 				// you can use plop.renderString to render templates
 				existsMsg = plop.renderString(existsMsg, answers);
