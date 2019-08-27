@@ -66,13 +66,14 @@ function handleArgFlags(env) {
 
 		// handle request for initializing a new plopfile
 		if (argv.init || argv.i) {
-			return out.createInitPlopfile(env.cwd, function (err) {
-				if (err) {
-					console.log(err);
-					process.exit(1);
-				}
+			const force = argv.force === true || argv.f === true || false;
+			try {
+				out.createInitPlopfile(force);
 				process.exit(0);
-			});
+			} catch (err) {
+				console.error(chalk.red('[PLOP] ') + err.message);
+				process.exit(1);
+			}
 		}
 
 		// handle request for version number
