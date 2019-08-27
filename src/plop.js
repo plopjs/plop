@@ -2,6 +2,7 @@
 
 'use strict';
 
+const path = require('path');
 const Liftoff = require('liftoff');
 const args = process.argv.slice(2);
 const argv = require('minimist')(args);
@@ -36,7 +37,7 @@ function run(env) {
 
 	// set the default base path to the plopfile directory
 	const plop = nodePlop(plopfilePath, {
-		destBasePath: argv.dest != null ? Path.resolve(`${ argv.dest }`) : undefined,
+		destBasePath: argv.dest != null ? path.resolve(argv.dest) : undefined,
 		force: argv.force || argv.f
 	});
 
