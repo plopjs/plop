@@ -22,12 +22,12 @@ class AvaTest {
 		const ctx = this;
 		return co(function*() {
 			// remove the src folder
-			yield del([ctx.testSrcPath]);
+			yield del([ctx.testSrcPath], {force: true});
 
 			try {
 				const mockIsEmpty = (yield fspp.readdir(ctx.mockPath)).length === 0;
 				if (mockIsEmpty) {
-					yield del([ctx.mockPath]);
+					yield del([ctx.mockPath], {force: true});
 				}
 			} catch (err) {
 				// there was no mock directory to remove
