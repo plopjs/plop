@@ -3,8 +3,6 @@ const args = process.argv.slice(2);
 const {Plop, run} = require('../src/plop');
 const argv = require('minimist')(args);
 
-console.log(argv);
-
 Plop.launch({
 	cwd: argv.cwd,
 	configPath: argv.plopfile,
