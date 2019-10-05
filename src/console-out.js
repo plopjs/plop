@@ -53,9 +53,14 @@ module.exports = (function () {
 			'  -i, --init             ' + chalk.dim('Generate a basic plopfile.js'),
 			'  -v, --version          ' + chalk.dim('Print current version'),
 			'  -f, --force            ' + chalk.dim('Run the generator forcefully'),
-			'  --plopfile             ' + chalk.dim('Path to the plopfile'),
-			'  --cwd                  ' + chalk.dim('Directory from which relative paths are calculated against'),
-			'  --require              ' + chalk.dim('String or array of modules to require before running plop'),
+			'',
+			chalk.dim(' ------------------------------------------------------'),
+			chalk.dim('  ⚠  danger waits for those who venture below the line'),
+			'',
+			chalk.dim('  --plopfile             Path to the plopfile'),
+			chalk.dim('  --cwd                  Directory from which relative paths are calculated against while locating the plopfile'),
+			chalk.dim('  --require              String or array of modules to require before running plop'),
+			chalk.dim('  --dest                 Output to this directory instead of the plopfile\'s parent directory'),
 			'',
 			chalk.bold('Examples:'),
 			'  $ ' + chalk.blue('plop'),
@@ -65,7 +70,7 @@ module.exports = (function () {
 		].join('\n'));
 	}
 
-	function createInitPlopfile(cwd, callback){
+	function createInitPlopfile(force = false){
 		var initString = 'module.exports = function (plop) {\n\n' +
 			'\tplop.setGenerator(\'basics\', {\n' +
 			'\t\tdescription: \'this is a skeleton plopfile\',\n' +
@@ -74,7 +79,11 @@ module.exports = (function () {
 			'\t});\n\n' +
 			'};';
 
-		fs.writeFile(cwd + '/plopfile.js', initString, callback);
+		if (fs.existsSync(process.cwd() + '/plopfile.js') && force === false) {
+			throw Error('"plopfile.js" already exists at this location.');
+		}
+
+		fs.writeFileSync(process.cwd() + '/plopfile.js', initString);
 	}
 
 	const typeDisplay = {
@@ -90,7 +99,7 @@ module.exports = (function () {
 	};
 
 	return {
-	    chooseOptionFromList,
+		chooseOptionFromList,
 		displayHelpScreen,
 		createInitPlopfile,
 		typeMap,

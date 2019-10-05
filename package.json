@@ -23,7 +23,7 @@
     "url": "https://github.com/amwmedia/plop/issues"
   },
   "devDependencies": {
-    "inquirer-directory": "^2.1.0",
+    "inquirer-directory": "^2.2.0",
     "plop-pack-fancy-comments": "^0.2.0"
   },
   "homepage": "https://plopjs.com",
