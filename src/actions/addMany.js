@@ -4,6 +4,7 @@ import fs from 'fs';
 import globby from 'globby';
 import actionInterfaceTest from './_common-action-interface-check';
 import addFile from './_common-action-add-file';
+import { normalizePath } from './_common-action-utils';
 
 const defaultConfig = {
 	verbose: true,
@@ -66,11 +67,7 @@ function isUnder(basePath = '') {
 }
 
 function resolvePath(destination, file, rootPath) {
-	return toUnix(path.join(destination, dropFileRootPath(file, rootPath)));
-}
-
-function toUnix(path) {
-	return !path.sep || path.sep === '\\'  ? path.replace(/\\/g, '/') : path;
+	return normalizePath(path.join(destination, dropFileRootPath(file, rootPath)));
 }
 
 function dropFileRootPath(file, rootPath) {
