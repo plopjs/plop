@@ -2,16 +2,19 @@ import path from 'path';
 import * as fspp from '../fs-promise-proxy';
 
 const getFullData = (data, cfg) => Object.assign({}, cfg.data, data);
-export const makeDestPath = (data, cfg, plop) =>
-	path.resolve(
-		plop.getDestBasePath(),
-		plop.renderString(cfg.path || '', getFullData(data, cfg))
-	);
+
+export const normalizePath = path => {
+	return !path.sep || path.sep === '\\' ? path.replace(/\\/g, '/') : path;
+};
+
+export const makeDestPath = (data, cfg, plop) => {
+	return path.resolve(plop.getDestBasePath(), plop.renderString(normalizePath(cfg.path) || '', getFullData(data, cfg)));
+};
 
 export function getRenderedTemplatePath(data, cfg, plop) {
 	if (cfg.templateFile) {
 		const absTemplatePath = path.resolve(plop.getPlopfilePath(), cfg.templateFile);
-		return plop.renderString(absTemplatePath, getFullData(data, cfg));
+		return plop.renderString(normalizePath(absTemplatePath), getFullData(data, cfg));
 	}
 	return null;
 }
@@ -37,8 +40,7 @@ export function* getRenderedTemplate(data, cfg, plop) {
 	return plop.renderString(template, getFullData(data, cfg));
 }
 
-export const getRelativeToBasePath = (filePath, plop) =>
-	filePath.replace(path.resolve(plop.getDestBasePath()), '');
+export const getRelativeToBasePath = (filePath, plop) => filePath.replace(path.resolve(plop.getDestBasePath()), '');
 
 export const throwStringifiedError = err => {
 	if (typeof err === 'string') {
