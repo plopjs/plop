@@ -12,6 +12,11 @@ module.exports = {
  * @param plopArgV - The original args passed to plop without using names
  */
 function combineBypassData(generator, bypassArr, plopArgV) {
+	// skip bypass if prompts is a function
+	if (typeof generator.prompts === "function") {
+		return [];
+	}
+
 	// Get named prompts that are passed to the command line
 	const promptNames = generator.prompts.map((prompt) => prompt.name);
 	// Check if bypassArr is too long for promptNames
