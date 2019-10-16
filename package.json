@@ -41,6 +41,6 @@
   },
   "preferGlobal": "true",
   "bin": {
-    "plop": "./src/plop.js"
+    "plop": "./bin/plop.js"
   }
 }
