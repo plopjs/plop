@@ -142,6 +142,29 @@ Method | Parameters | Returns | Description
 [**setPrompt**](#setprompt) | *String, InquirerPrompt* | | registers a custom prompt type with inquirer
 [**load**](https://github.com/amwmedia/plop/blob/master/plop-load.md) | *Array[String], Object, Object* | | loads generators, helpers and/or partials from another plopfile or npm module
 
+### TypeScript declarations
+
+`plop` and `node-plop` bundle TypeScript declarations.  Whether or not you write your plopfile in TypeScript, many
+editors will offer code assistance via these declarations.
+
+```typescript
+// plopfile.ts
+import {NodePlopAPI} from 'plop';
+
+export default function (plop: NodePlopAPI) {
+};
+```
+
+```javascript
+// plopfile.js
+
+exports.default = function (
+	/** @type {import('plop').NodePlopAPI} */
+	plop
+) {
+};
+```
+
 ## setHelper
 `setHelper` directly corresponds to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](http://handlebarsjs.com/expressions.html#helpers), then you already know how this works.
 
@@ -241,7 +264,7 @@ Property | Type | Default | Description
 **actions** | *Array[[ActionConfig](#interface-actionconfig)]* | | actions to perform
 
 > If your list of actions needs to be dynamic, take a look at [using a dynamic actions array.](#using-a-dynamic-actions-array)
-
+ 
 ### *Interface* `ActionConfig`
 The following properties are the standard properties that plop handles internally. Other properties will be required depending on the *type* of action. Also take a look at the [built-in actions](#built-in-actions).
 

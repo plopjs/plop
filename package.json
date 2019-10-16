@@ -2,7 +2,7 @@
   "name": "plop",
   "version": "2.5.0",
   "description": "Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity",
-  "main": "./src/plop.js",
+  "main": "./src/plop",
   "repository": {
     "type": "git",
     "url": "https://github.com/amwmedia/plop.git"
