@@ -7,5 +7,6 @@ export {
     CustomActionFunction,
     ModifyActionConfig,
     PlopCfg,
-    PlopGenerator
+    PlopGenerator,
+    NodePlopAPI
 } from 'node-plop';
