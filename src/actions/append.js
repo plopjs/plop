@@ -15,18 +15,17 @@ const doAppend = function*(data, cfg, plop, fileData) {
 	// if the appended string should be unique (default),
 	// remove any occurence of it (but only if pattern would match)
 
+	const { separator = '\n' } = cfg;
 	if (cfg.unique !== false) {
 		// only remove after "pattern", so that we remove not too much accidentally
 		const parts = fileData.split(cfg.pattern);
 		const lastPart = parts[parts.length - 1];
 		const lastPartWithoutDuplicates = lastPart.replace(
-			new RegExp(stringToAppend, 'g'),
+			new RegExp(separator + stringToAppend, 'g'),
 			''
 		);
 		fileData = fileData.replace(lastPart, lastPartWithoutDuplicates);
 	}
-
-	const { separator = '\n' } = cfg;
 
 	// add the appended string to the end of the "fileData" if "pattern"
 	// was not provided, i.e. null or false
