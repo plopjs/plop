@@ -349,7 +349,7 @@ Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **path** | *String* | | handlebars template that (when rendered) is the path of the file to be modified
 **pattern** | *RegExp, String* | | regular expression used to match text where the append should happen
-**unique** | *Boolean* | true | whether identical entries should be removed
+**unique** | *Boolean* | `true` | whether identical entries should be removed
 **separator** | *String* | `new line` | the value that separates entries
 **template** | *String* | | handlebars template to be used for the entry
 **templateFile** | *String* | | path a file containing the `template`
