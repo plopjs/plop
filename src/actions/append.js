@@ -15,7 +15,7 @@ const doAppend = function*(data, cfg, plop, fileData) {
 	// if the appended string should be unique (default),
 	// remove any occurence of it (but only if pattern would match)
 
-	if (cfg.unique !== false && new RegExp(cfg.pattern).test(fileData)) {
+	if (cfg.unique !== false) {
 		// only remove after "pattern", so that we remove not too much accidentally
 		const parts = fileData.split(cfg.pattern);
 		const lastPart = parts[parts.length - 1];

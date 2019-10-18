@@ -21,8 +21,10 @@ test('Check if entry will be appended', co.wrap(function* (t) {
 	const filePath = path.resolve(testSrcPath, 'list1.txt');
 	const content = fs.readFileSync(filePath).toString();
 
-	t.is((content.match(/Marco/g) || []).length, 1);
-	t.is((content.match(/Polo/g) || []).length, 1);
+	t.is((content.match(/Marco1/g) || []).length, 1);
+	t.is((content.match(/Polo1/g) || []).length, 1);
+	t.is((content.match(/Marco2/g) || []).length, 1);
+	t.is((content.match(/Polo2/g) || []).length, 1);
 }));
 
 test('Check if duplicates get filtered', co.wrap(function* (t) {
@@ -34,8 +36,10 @@ test('Check if duplicates get filtered', co.wrap(function* (t) {
 	const filePath = path.resolve(testSrcPath, 'list2.txt');
 	const content = fs.readFileSync(filePath).toString();
 
-	t.is((content.match(/Marco/g) || []).length, 1);
-	t.is((content.match(/Polo/g) || []).length, 1);
+	t.is((content.match(/Marco1/g) || []).length, 1);
+	t.is((content.match(/Polo1/g) || []).length, 1);
+	t.is((content.match(/Marco2/g) || []).length, 1);
+	t.is((content.match(/Polo2/g) || []).length, 1);
 }));
 
 test('Check if duplicates are kept, if allowed', co.wrap(function* (t) {
@@ -46,8 +50,10 @@ test('Check if duplicates are kept, if allowed', co.wrap(function* (t) {
 	const filePath = path.resolve(testSrcPath, 'list3.txt');
 	const content = fs.readFileSync(filePath).toString();
 
-	t.is((content.match(/Marco/g) || []).length, 2);
-	t.is((content.match(/Polo/g) || []).length, 1);
+	t.is((content.match(/Marco1/g) || []).length, 2);
+	t.is((content.match(/Polo1/g) || []).length, 1);
+	t.is((content.match(/Marco2/g) || []).length, 2);
+	t.is((content.match(/Polo2/g) || []).length, 1);
 }));
 
 test('Check if duplicates are only removed below the pattern', co.wrap(function* (t) {
@@ -59,6 +65,11 @@ test('Check if duplicates are only removed below the pattern', co.wrap(function*
 	const filePath = path.resolve(testSrcPath, 'list4.txt');
 	const content = fs.readFileSync(filePath).toString();
 
-	t.is((content.match(/Plop/g) || []).length, 2);
-	t.is((content.match(/Polo/g) || []).length, 1);
+	t.is((content.match(/Plop1/g) || []).length, 1);
+	t.is((content.match(/Polo1/g) || []).length, 1);
+	t.is((content.match(/Plop2/g) || []).length, 1);
+	t.is((content.match(/Polo2/g) || []).length, 1);
+
+	// there's a plop at the top
+	t.is((content.match(/Plop/g) || []).length, 3);
 }));

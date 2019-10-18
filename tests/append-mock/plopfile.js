@@ -53,7 +53,14 @@ module.exports = function (plop) {
 				type: 'append',
 				path: 'src/{{listName}}.txt',
 				pattern: /-- APPEND ITEMS HERE --/gi,
-				templateFile: 'plop-templates/list-item.txt',
+				template: '😻 name: {{name}}1',
+				unique: !allowDuplicates
+			},
+			{
+				type: 'append',
+				path: 'src/{{listName}}.txt',
+				pattern: '/* APPEND OTHER ITEMS HERE */',
+				template: '🔥 name: {{name}}2',
 				unique: !allowDuplicates
 			}
 		]
