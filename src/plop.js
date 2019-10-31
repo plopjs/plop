@@ -42,7 +42,7 @@ function run(env) {
 	const runGeneratorByName = name => {
 		const generator = plop.getGenerator(name);
 		const bypassData = combineBypassData(generator, bypassArr, plopArgV);
-		doThePlop(generator, bypassData);
+		doThePlop(generator, bypassData, plop);
 	};
 
 	// hmmmm, couldn't identify a generator in the user's input
@@ -77,13 +77,13 @@ function run(env) {
 /////
 // everybody to the plop!
 //
-function doThePlop(generator, bypassArr) {
+function doThePlop(generator, bypassArr, plop) {
 	generator.runPrompts(bypassArr)
 		.then(answers => {
 			const noMap = (argv['show-type-names'] || argv.t);
 			const progress = ora();
 			const onComment = (msg) => {
-				progress.info(msg); progress.start();
+				progress.info(plop.renderString(msg, answers)); progress.start();
 			};
 			const onSuccess = (change) => {
 				let line = '';
