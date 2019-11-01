@@ -129,7 +129,7 @@ export interface PlopGenerator {
   actions: ActionType[];
 }
 
-export type CustomActionFunction = (
+export type CustomActionFunction<TData extends object = object> = (
   /**
    * Answers to the generator prompts.
    */
@@ -137,20 +137,20 @@ export type CustomActionFunction = (
   /**
    * The object in the `actions` array for the generator.
    */
-  config?: ActionConfig,
+  config?: ActionConfig<TData>,
   /**
    * The plop api for the plopfile where this action is being run.
    */
   plopfileApi?: NodePlopAPI
 ) => Promise<string> | string; // Check return type?
 
-export type ActionType =
-  | ActionConfig
-  | AddActionConfig
-  | AddManyActionConfig
-  | ModifyActionConfig
-  | AppendActionConfig
-  | CustomActionFunction;
+export type ActionType<TData extends object = object> =
+  | ActionConfig<TData>
+  | AddActionConfig<TData>
+  | AddManyActionConfig<TData>
+  | ModifyActionConfig<TData>
+  | AppendActionConfig<TData>
+  | CustomActionFunction<TData>;
 
 /**
  * There are several types of built-in actions you can use in your
@@ -158,7 +158,7 @@ export type ActionType =
  * You specify which `type` of action (all paths are based on the location of
  * the plopfile), and a template to use.
  */
-export interface ActionConfig<T extends object = object> {
+export interface ActionConfig<TData extends object = object> {
   /**
    * The type of action.
    */
@@ -172,8 +172,8 @@ export interface ActionConfig<T extends object = object> {
    * @default {}
    */
   data:
-    | T
-    | ((...args: any[]) => T | Promise<T>);
+    | TData
+    | ((...args: any[]) => TData | Promise<TData>);
   /**
    * @default true
    */
@@ -185,7 +185,8 @@ export interface ActionConfig<T extends object = object> {
  * The file contents will be determined by the `template` or `templateFile`
  * property.
  */
-export interface AddActionConfig extends ActionConfig {
+export interface AddActionConfig<TData extends object = object>
+  extends ActionConfig<TData> {
   /**
    * The type of action.
    */
@@ -214,8 +215,11 @@ export interface AddActionConfig extends ActionConfig {
  * a single action.
  * @example {{ dashCase name }}.spec.js
  */
-export interface AddManyActionConfig
-  extends Pick<AddActionConfig, Exclude<keyof AddActionConfig, "type">> {
+export interface AddManyActionConfig<TData extends object = object>
+  extends Pick<
+    AddActionConfig<TData>,
+    Exclude<keyof AddActionConfig<TData>, "type">
+  > {
   /**
    * The type of action.
    */
@@ -258,7 +262,8 @@ export interface AddManyActionConfig
  * file located at the `path` specified. More details on modify can be found in
  * the example folder.
  */
-export interface ModifyActionConfig extends ActionConfig {
+export interface ModifyActionConfig<TData extends object = object>
+  extends ActionConfig<TData> {
   /**
    * The type of action.
    */
@@ -288,7 +293,8 @@ export interface ModifyActionConfig extends ActionConfig {
  * The `append` action is a commonly used subset of `modify`. It is used to
  * append data in a file at a particular location.
  */
-export interface AppendActionConfig extends ActionConfig {
+export interface AppendActionConfig<TData extends object = object>
+  extends ActionConfig<TData> {
   /**
    * The type of action.
    */
