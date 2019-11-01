@@ -158,7 +158,7 @@ export type ActionType =
  * You specify which `type` of action (all paths are based on the location of
  * the plopfile), and a template to use.
  */
-export interface ActionConfig {
+export interface ActionConfig<T extends object = object> {
   /**
    * The type of action.
    */
@@ -169,13 +169,11 @@ export interface ActionConfig {
    */
   force: boolean;
   /**
-   *
    * @default {}
    */
   data:
-    | object
-    | ((...args: any[]) => object)
-    | ((...args: any[]) => Promise<object>);
+    | T
+    | ((...args: any[]) => T | Promise<T>);
   /**
    * @default true
    */
