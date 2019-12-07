@@ -195,9 +195,9 @@ module.exports = function (plop) {
 ### *FunctionSignature* Custom Action
 Parameters | Type | Description
 ---------- | ---- | -----------
-1) **answers** | *Object* | Answers to the generator prompts
-2) **config** | *[ActionConfig](#interface-actionconfig)* | The object in the "actions" array for the generator
-3) **plop** | *[PlopfileApi](#plopfile-api)* | The plop api for the plopfile where this action is being run
+**answers** | *Object* | Answers to the generator prompts
+**config** | *[ActionConfig](#interface-actionconfig)* | The object in the "actions" array for the generator
+**plop** | *[PlopfileApi](#plopfile-api)* | The plop api for the plopfile where this action is being run
 
 ``` javascript
 module.exports = function (plop) {
