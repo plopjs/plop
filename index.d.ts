@@ -242,7 +242,7 @@ export interface AddManyActionConfig<TData extends object = object>
    * file/folder names if you'd like the added file names to be unique.
    * @type Glob
    */
-  templateFiles: string;
+  templateFiles: string | string[];
   /**
    * File extensions that should be stripped from `templateFiles` files names
    * while being added to the `destination`.
