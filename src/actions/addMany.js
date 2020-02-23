@@ -1,4 +1,3 @@
-import co from 'co';
 import path from 'path';
 import fs from 'fs';
 import globby from 'globby';
@@ -11,7 +10,7 @@ const defaultConfig = {
 	stripExtensions: ['hbs']
 };
 
-export default co.wrap(function* (data, userConfig, plop) {
+export default async function (data, userConfig, plop) {
 	// shallow-merge default config and input config
 	const cfg = Object.assign({}, defaultConfig, userConfig);
 	// check the common action interface attributes. skip path check because it's NA
@@ -42,14 +41,14 @@ export default co.wrap(function* (data, userConfig, plop) {
 			path: stripExtensions(cfg.stripExtensions, resolvePath(cfg.destination, templateFile, cfg.base)),
 			templateFile: absTemplatePath
 		});
-		const addedPath = yield addFile(data, fileCfg, plop);
+		const addedPath = await addFile(data, fileCfg, plop);
 		filesAdded.push(addedPath);
 	}
 
 	const summary = `${filesAdded.length} files added`;
 	if (!cfg.verbose) return summary;
 	else return `${summary}\n -> ${filesAdded.join('\n -> ')}`;
-});
+}
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
 	globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);

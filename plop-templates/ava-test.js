@@ -10,9 +10,9 @@ const plop = nodePlop();
 // 
 //
 
-test('{{sentenceCase name}} async test', co.wrap(function* (t) {
-	const results = yield somethingAsync();
-}));
+test('{{sentenceCase name}} async test', async function (t) {
+	const results = await somethingAsync();
+});
 
 test('{{sentenceCase name}} test', function (t) {
 

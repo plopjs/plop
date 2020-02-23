@@ -8,7 +8,7 @@ const plop = nodePlop();
 if (process.platform !== 'win32') {
 	test(
 		'Add action keeps the executable flag',
-		co.wrap(function*(t) {
+		async function (t) {
 			plop.setGenerator('addExecutable', {
 				actions: [
 					{
@@ -19,15 +19,15 @@ if (process.platform !== 'win32') {
 				]
 			});
 
-			yield plop.getGenerator('addExecutable').runActions();
+			await plop.getGenerator('addExecutable').runActions();
 			const destStats = fs.statSync(`${testSrcPath}/added.sh`);
 			t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
-		})
+		}
 	);
 } else {
 	test.skip(
 		'[Windows] Add action keeps the executable flag',
-		co.wrap(function*(t) {
+		async function (t) {
 			plop.setGenerator('addExecutable', {
 				actions: [
 					{
@@ -38,9 +38,9 @@ if (process.platform !== 'win32') {
 				]
 			});
 
-			yield plop.getGenerator('addExecutable').runActions();
+			await plop.getGenerator('addExecutable').runActions();
 			const destStats = fs.statSync(`${testSrcPath}/added.sh`);
 			// t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
-		})
+		}
 	);
 }
