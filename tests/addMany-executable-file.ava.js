@@ -16,8 +16,8 @@ if (process.platform !== 'win32') {
 		t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
 	});
 } else {
-	test.skip('[windows] addMany action keeps the executable flag', t => {
+	test.skip('[windows] addMany action keeps the executable flag', (t) => {
 		const destStats = fs.statSync(`${testSrcPath}/ls-command.sh`);
-		// t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
+		t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
 	});
 }
