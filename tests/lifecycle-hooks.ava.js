@@ -1,6 +1,5 @@
-import co from 'co';
 import AvaTest from './_base-ava-test';
-const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
+const {test, nodePlop} = (new AvaTest(__filename));
 
 const errAction = () => {throw Error('');};
 

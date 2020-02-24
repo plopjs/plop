@@ -1,4 +1,3 @@
-import co from 'co';
 import AvaTest from './_base-ava-test';
 const {test, nodePlop} = (new AvaTest(__filename));
 

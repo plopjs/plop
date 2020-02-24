@@ -1,7 +1,6 @@
 import ava from 'ava';
 import path from 'path';
 import del from 'del';
-import co from 'co';
 import * as fspp from '../lib/fs-promise-proxy.js';
 import nodePlop from '../lib/index.js';
 import { normalizePath } from '../src/actions/_common-action-utils';

@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import co from 'co';
 import AvaTest from './_base-ava-test';
 const {test, mockPath, testSrcPath, nodePlop} = new AvaTest(__filename);
 
