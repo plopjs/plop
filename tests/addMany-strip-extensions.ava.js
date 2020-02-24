@@ -6,12 +6,9 @@ const { test, mockPath, testSrcPath, nodePlop } = (new AvaTest(__filename));
 
 const plop = nodePlop(`${mockPath}/plopfile.js`);
 const multipleAdds = plop.getGenerator('add-many-strip-extensions');
-var multipleAddsResult;
 
 test.before(() => {
-	return multipleAdds.runActions({ name: 'John Doe' }).then(function (res) {
-		multipleAddsResult = res;
-	});
+	return multipleAdds.runActions({ name: 'John Doe' });
 });
 
 test('Check that all files generated without hbs extension', t => {

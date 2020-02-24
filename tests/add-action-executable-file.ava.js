@@ -38,8 +38,9 @@ if (process.platform !== 'win32') {
 			});
 
 			await plop.getGenerator('addExecutable').runActions();
+			
 			const destStats = fs.statSync(`${testSrcPath}/added.sh`);
-			// t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
+			t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
 		}
 	);
 }
