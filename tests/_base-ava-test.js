@@ -20,19 +20,19 @@ class AvaTest {
 
 	clean() {
 		const ctx = this;
-		return co(function*() {
+		return async function () {
 			// remove the src folder
-			yield del([normalizePath(ctx.testSrcPath)], {force: true});
+			await del([normalizePath(ctx.testSrcPath)], {force: true});
 
 			try {
-				const mockIsEmpty = (yield fspp.readdir(ctx.mockPath)).length === 0;
+				const mockIsEmpty = (await fspp.readdir(ctx.mockPath)).length === 0;
 				if (mockIsEmpty) {
-					yield del([ctx.mockPath], {force: true});
+					await del([ctx.mockPath], {force: true});
 				}
 			} catch (err) {
 				// there was no mock directory to remove
 			}
-		});
+		}();
 	}
 }
 

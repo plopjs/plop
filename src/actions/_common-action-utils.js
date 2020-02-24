@@ -19,13 +19,13 @@ export function getRenderedTemplatePath(data, cfg, plop) {
 	return null;
 }
 
-export function* getTemplate(data, cfg, plop) {
+export async function getTemplate(data, cfg, plop) {
 	const makeTmplPath = p => path.resolve(plop.getPlopfilePath(), p);
 
 	let { template } = cfg;
 
 	if (cfg.templateFile) {
-		template = yield fspp.readFile(makeTmplPath(cfg.templateFile));
+		template = await fspp.readFile(makeTmplPath(cfg.templateFile));
 	}
 	if (template == null) {
 		template = '';
@@ -34,8 +34,8 @@ export function* getTemplate(data, cfg, plop) {
 	return template;
 }
 
-export function* getRenderedTemplate(data, cfg, plop) {
-	const template = yield getTemplate(data, cfg, plop);
+export async function getRenderedTemplate(data, cfg, plop) {
+	const template = await getTemplate(data, cfg, plop);
 
 	return plop.renderString(template, getFullData(data, cfg));
 }

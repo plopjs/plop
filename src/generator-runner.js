@@ -1,6 +1,5 @@
 'use strict';
 
-import co from 'co';
 import promptBypass from './prompt-bypass';
 import * as buildInActions from './actions';
 
@@ -10,7 +9,7 @@ export default function (plopfileApi, flags) {
 
 	// triggers inquirer with the correct prompts for this generator
 	// returns a promise that resolves with the user's answers
-	const runGeneratorPrompts = co.wrap(function* (genObject, bypassArr = []) {
+	const runGeneratorPrompts = async function (genObject, bypassArr = []) {
 		const {prompts} = genObject;
 
 		if (prompts == null) {
@@ -18,19 +17,19 @@ export default function (plopfileApi, flags) {
 		}
 
 		if (typeof prompts === 'function') {
-			return yield prompts(plopfileApi.inquirer);
+			return await prompts(plopfileApi.inquirer);
 		}
 
 		// handle bypass data when provided
 		const [promptsAfterBypass, bypassAnswers] = promptBypass(prompts, bypassArr, plopfileApi);
 
-		return yield plopfileApi.inquirer
+		return await plopfileApi.inquirer
 			.prompt(promptsAfterBypass)
 			.then(answers => Object.assign(answers, bypassAnswers));
-	});
+	};
 
 	// Run the actions for this generator
-	const runGeneratorActions = co.wrap(function* (genObject, data={}, hooks={}) {
+	const runGeneratorActions = async function (genObject, data={}, hooks={}) {
 		const noop = () => {};
 		const {
 			onSuccess=noop,            // runs after each successful action
@@ -94,7 +93,7 @@ export default function (plopfileApi, flags) {
 			}
 
 			try {
-				const actionResult = yield executeActionLogic(actionLogic, actionCfg, data);
+				const actionResult = await executeActionLogic(actionLogic, actionCfg, data);
 				onSuccess(actionResult);
 				changes.push(actionResult);
 			} catch(failure) {
@@ -105,22 +104,22 @@ export default function (plopfileApi, flags) {
 		}
 
 		return { changes, failures };
-	});
+	};
 
 	// handle action logic
-	const executeActionLogic = co.wrap(function* (action, cfg, data) {
+	const executeActionLogic = async function (action, cfg, data) {
 		const type = cfg.type || '';
 
 		let cfgData = cfg.data || {};
 		// data can also be a function that returns a data object
-		if (typeof cfgData === 'function') { cfgData = yield cfgData(); }
+		if (typeof cfgData === 'function') { cfgData = await cfgData(); }
 
 		// track keys that can be applied to the main data scope
 		const cfgDataKeys = Object.keys(cfgData).filter(k => typeof data[k] === 'undefined');
 		// copy config data into main data scope so it's available for templates
 		cfgDataKeys.forEach(k => {data[k] = cfgData[k];});
 
-		return yield (Promise.resolve(action(data, cfg, plopfileApi))
+		return await Promise.resolve(action(data, cfg, plopfileApi))
 			.then(
 				// show the resolved value in the console
 				result => ({
@@ -136,9 +135,8 @@ export default function (plopfileApi, flags) {
 				}
 			)
 			// cleanup main data scope so config data doesn't leak
-			.finally(() => cfgDataKeys.forEach(k => {delete data[k];}))
-		);
-	});
+			.finally(() => cfgDataKeys.forEach(k => {delete data[k];}));
+	};
 
 	// request the list of custom actions from the plopfile
 	function getCustomActionTypes() {
