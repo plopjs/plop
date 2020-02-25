@@ -13,7 +13,7 @@ const ts = {
 	},
 	plugins: ['@typescript-eslint'],
 	rules: {
-		'@typescript-eslint/no-explicit-any': 'off'
+		'@typescript-eslint/no-explicit-any': 0
 	}
 };
 
