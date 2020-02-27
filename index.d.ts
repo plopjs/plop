@@ -1,4 +1,4 @@
-import inquirer = require("inquirer");
+import inquirer from 'inquirer';
 // @types/globby doesn't export types for GlobOptions, so we have to work a little bit to extract them:
 // GlobOptions is the second parameter of the sync function, which can be extracted with the Parameters<T> type
 import { GlobbyOptions } from 'globby';
@@ -104,7 +104,7 @@ export interface NodePlopAPI {
    * Runs `template` through the handlebars template renderer using `data`.
    * @returns the rendered template.
    */
-  renderString(template: string, data: any): String; //set to any matching handlebars declaration
+  renderString(template: string, data: any): string; //set to any matching handlebars declaration
 
   // passthroughs for backward compatibility
   addPrompt: typeof inquirer.registerPrompt;
@@ -193,7 +193,7 @@ export interface AddActionConfig<TData extends object = object>
   /**
    * The type of action.
    */
-  type: "add";
+  type: 'add';
   /**
    * A handlebars template that will be used to create the file by name.
    */
@@ -221,12 +221,12 @@ export interface AddActionConfig<TData extends object = object>
 export interface AddManyActionConfig<TData extends object = object>
   extends Pick<
     AddActionConfig<TData>,
-    Exclude<keyof AddActionConfig<TData>, "type">
+    Exclude<keyof AddActionConfig<TData>, 'type'>
   > {
   /**
    * The type of action.
    */
-  type: "addMany";
+  type: 'addMany';
   /**
    * A handlebars template that will be used to identify the folder that the
    * generated files should go into.
@@ -270,7 +270,7 @@ export interface ModifyActionConfig<TData extends object = object>
   /**
    * The type of action.
    */
-  type: "modify";
+  type: 'modify';
   /**
    * Handlebars template that (when rendered) is the path of the file to be
    * modified.
@@ -301,7 +301,7 @@ export interface AppendActionConfig<TData extends object = object>
   /**
    * The type of action.
    */
-  type: "append";
+  type: 'append';
   /**
    * Handlebars template that (when rendered) is the path of the file to be
    * modified.
