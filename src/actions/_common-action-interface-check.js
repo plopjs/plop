@@ -16,5 +16,9 @@ export default function(action, {checkPath=true, checkAbortOnFail=true} = {}) {
 		return `Invalid value for abortOnFail (${abortOnFail} is not a Boolean)`;
 	}
 
+	if ('transform' in action && typeof action.transform !== 'function') {
+		return `Invalid value for transform (${action.transform} is not a function)`;
+	}
+
 	return true;
 }

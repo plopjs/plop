@@ -2,6 +2,7 @@ import path from 'path';
 import del from 'del';
 import {
 	getRenderedTemplate,
+	getTransformedTemplate,
 	makeDestPath,
 	throwStringifiedError,
 	getRelativeToBasePath
@@ -38,7 +39,14 @@ export default async function addFile(data, cfg, plop) {
 				await fspp.writeFileRaw(fileDestPath, rawTemplate);
 			} else {
 				const renderedTemplate = await getRenderedTemplate(data, cfg, plop);
-				await fspp.writeFile(fileDestPath, renderedTemplate);
+
+				const transformedTemplate = await getTransformedTemplate(
+					renderedTemplate,
+					data,
+					cfg
+				);
+
+				await fspp.writeFile(fileDestPath, transformedTemplate);
 			}
 
 			// keep the executable flags
