@@ -17,11 +17,15 @@ export default function(action, {checkPath=true, checkAbortOnFail=true} = {}) {
 	}
 
 	if ('transform' in action && typeof action.transform !== 'function') {
-		return `Invalid value for transform (${action.transform} is not a function)`;
+		return `Invalid value for transform (${typeof action.transform} is not a function)`;
 	}
 
 	if (action.type === 'modify' && !('pattern' in action) && !('transform' in action)) {
 		return 'Invalid modify action (modify must have a pattern or transform function)';
+	}
+
+	if ('when' in action && typeof action.when !== 'function') {
+		return `Invalid value for when (${typeof action.when} is not a function)`;
 	}
 
 	return true;

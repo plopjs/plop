@@ -114,6 +114,15 @@ export default function (plopfileApi, flags) {
 		// data can also be a function that returns a data object
 		if (typeof cfgData === 'function') { cfgData = await cfgData(); }
 
+		// check if action should run
+		if (typeof cfg.when === 'function') {
+			const stubTrue = () => true;
+			const reasonToSkip = await (cfg.when || stubTrue)(data);
+			if (typeof reasonToSkip === 'string') {
+				return reasonToSkip;
+			}
+		}
+
 		// track keys that can be applied to the main data scope
 		const cfgDataKeys = Object.keys(cfgData).filter(k => typeof data[k] === 'undefined');
 		// copy config data into main data scope so it's available for templates
@@ -135,16 +144,19 @@ export default function (plopfileApi, flags) {
 				}
 			)
 			// cleanup main data scope so config data doesn't leak
-			.finally(() => cfgDataKeys.forEach(k => {delete data[k];}));
+			.finally(() =>
+				cfgDataKeys.forEach(k => {
+					delete data[k];
+				})
+			);
 	};
 
 	// request the list of custom actions from the plopfile
 	function getCustomActionTypes() {
-		return plopfileApi.getActionTypeList()
-			.reduce(function (types, name) {
-				types[name] = plopfileApi.getActionType(name);
-				return types;
-			}, {});
+		return plopfileApi.getActionTypeList().reduce(function(types, name) {
+			types[name] = plopfileApi.getActionType(name);
+			return types;
+		}, {});
 	}
 
 	return {
