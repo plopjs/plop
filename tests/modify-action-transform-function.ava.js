@@ -2,9 +2,17 @@ import fs from 'fs';
 import path from 'path';
 import AvaTest from './_base-ava-test';
 
+/**
+ * We are creating files in each test,
+ * but Ava runs tests in parallel by default,
+ * which can make the tests unreliable,
+ * so we need to implement the these tests with test.serial.
+ *
+ * Also we need to clean before each test, b/c we are creating files in each test.
+ * (AvaTest only cleans once before and after the test file)
+ */
 const avaTest = new AvaTest(__filename);
 const { test, testSrcPath, nodePlop, clean } = avaTest;
-// Need to clean before each test b/c we are creating files in each test
 test.beforeEach(clean.bind(avaTest));
 
 const plop = nodePlop();
