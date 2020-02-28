@@ -4,7 +4,8 @@ import {
 	makeDestPath,
 	throwStringifiedError,
 	getRelativeToBasePath,
-	getRenderedTemplatePath
+	getRenderedTemplatePath,
+	getTransformedTemplate
 } from './_common-action-utils';
 
 import actionInterfaceTest from './_common-action-interface-check';
@@ -26,7 +27,8 @@ export default async function (data, cfg, plop) {
 			cfg.templateFile = getRenderedTemplatePath(data, cfg, plop);
 			const replacement = await getRenderedTemplate(data, cfg, plop);
 			fileData = fileData.replace(cfg.pattern, replacement);
-			await fspp.writeFile(fileDestPath, fileData);
+			const transformed = await getTransformedTemplate(fileData, data, cfg);
+			await fspp.writeFile(fileDestPath, transformed);
 		}
 		return getRelativeToBasePath(fileDestPath, plop);
 	} catch (err) {

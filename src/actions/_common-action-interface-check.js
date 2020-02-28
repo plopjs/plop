@@ -20,5 +20,9 @@ export default function(action, {checkPath=true, checkAbortOnFail=true} = {}) {
 		return `Invalid value for transform (${action.transform} is not a function)`;
 	}
 
+	if (action.type === 'modify' && !('pattern' in action) && !('transform' in action)) {
+		return 'Invalid modify action (modify must have a pattern or transform function)';
+	}
+
 	return true;
 }
