@@ -51,7 +51,7 @@ export const throwStringifiedError = err => {
 };
 
 export async function getTransformedTemplate(template, data, cfg) {
-	// transform was already typechecked in interface check
+	// transform() was already typechecked at runtime in interface check
 	if ('transform' in cfg) {
 		const result = await cfg.transform(template, data);
 
