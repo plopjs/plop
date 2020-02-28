@@ -181,19 +181,19 @@ export interface ActionConfig<TData extends object = object> {
    * @default true
    */
   abortOnFail?: boolean;
-	/**
-	 * Skip an action if this function returns a string,
-	 * which is the reason it should be skipped.
-	 *
-	 * May also return a Promise which resolves to a string.
-	 *
-	 * The action will continue if action.when()
-	 * returns or resolves to anything other than a string,
-	 * and the return value will be ignored.
-	 *
-	 * @default () => true
-	 */
-	when?: (data: TData) => void | string | Promise<void | string>;
+  /**
+   * Skip an action if this function returns a string,
+   * which is the reason it should be skipped.
+   *
+   * May also return a Promise which resolves to a string.
+   *
+   * The action will continue if action.when()
+   * returns or resolves to anything other than a string,
+   * and the return value will be ignored.
+   *
+   * @default () => true
+   */
+  when?: (data: TData) => void | string | Promise<void | string>;
 }
 
 /**
@@ -224,10 +224,10 @@ export interface AddActionConfig<TData extends object = object>
    * @default false
    */
   skipIfExists?: boolean;
-	/**
-	 * Transform the template output before writing the file.
-	 */
-	transform?: (templateOutput: string, data: TData) => string;
+  /**
+   * Transform the template output before writing the file.
+   */
+  transform?: (templateOutput: string, data: TData) => string;
 }
 
 /**
@@ -275,10 +275,10 @@ export interface AddManyActionConfig<TData extends object = object>
    * @default true
    */
   verbose?: boolean;
-	/**
-	 * Transform the template output before writing the file.
-	 */
-	transform?: (templateOutput: string, data: TData) => string;
+  /**
+   * Transform the template output before writing the file.
+   */
+  transform?: (templateOutput: string, data: TData) => string;
 }
 
 /**
@@ -303,16 +303,16 @@ export interface ModifyActionConfig<TData extends object = object>
   /**
    * Used to match text that should be replaced.
    * @default end-of-file
-	 */
+   */
   pattern?: string | RegExp;
-	/**
+  /**
    * Handlebars template that should replace what was matched by the `pattern`.
    * Capture groups are available as `$1`, `$2`, etc.
-	 */
+   */
   template?: string;
-	/**
+  /**
    * Path a file containing the `template`.
-	 */
+   */
   templateFile?: string;
   /**
    * Transform the file contents immediately before writing to disk.
