@@ -24,8 +24,8 @@ export default function(action, {checkPath=true, checkAbortOnFail=true} = {}) {
 		return 'Invalid modify action (modify must have a pattern or transform function)';
 	}
 
-	if ('when' in action && typeof action.when !== 'function') {
-		return `Invalid value for when (${typeof action.when} is not a function)`;
+	if ('skip' in action && typeof action.skip !== 'function') {
+		return `Invalid value for skip (${typeof action.skip} is not a function)`;
 	}
 
 	return true;

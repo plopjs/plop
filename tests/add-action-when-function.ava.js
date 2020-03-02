@@ -26,7 +26,7 @@ const addAction = {
 	path: `${testSrcPath}/{{name}}.txt`
 };
 
-test.serial('action runs as expected without when function', async function(t) {
+test.serial('action runs as expected without skip function', async function(t) {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 	const action = plop.setGenerator(genName, {
 		actions: [addAction]
@@ -42,7 +42,7 @@ test.serial('action runs as expected without when function', async function(t) {
 	t.true(fs.existsSync(filePath), 'file was not created');
 });
 
-test.serial('action throws if action.when is not a function', async function(
+test.serial('action throws if action.skip is not a function', async function(
 	t
 ) {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
@@ -50,7 +50,7 @@ test.serial('action throws if action.when is not a function', async function(
 		actions: [
 			{
 				...addAction,
-				when: true
+				skip: true
 			}
 		]
 	});
@@ -65,12 +65,12 @@ test.serial('action throws if action.when is not a function', async function(
 	t.false(fs.existsSync(filePath), 'file was wrongly created');
 });
 
-test.serial('when function receives correct arguments', async function(t) {
+test.serial('skip function receives correct arguments', async function(t) {
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{
 				...addAction,
-				async when(...args) {
+				async skip(...args) {
 					t.is(args.length, 1);
 					t.deepEqual(args[0], { name: fileName });
 
@@ -84,14 +84,14 @@ test.serial('when function receives correct arguments', async function(t) {
 });
 
 test.serial(
-	'action executes if async when function resolves void',
+	'action executes if async skip function resolves void',
 	async function(t) {
 		const filePath = path.resolve(testSrcPath, fileName + '.txt');
 		const action = plop.setGenerator(genName, {
 			actions: [
 				{
 					...addAction,
-					async when() {
+					async skip() {
 						return;
 					}
 				}
@@ -109,13 +109,13 @@ test.serial(
 	}
 );
 
-test.serial('action executes if when returns void', async function(t) {
+test.serial('action executes if skip function returns void', async function(t) {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{
 				...addAction,
-				when() {
+				skip() {
 					return;
 				}
 			}
@@ -132,14 +132,14 @@ test.serial('action executes if when returns void', async function(t) {
 	t.true(fs.existsSync(filePath), 'file was created');
 });
 
-test.serial('action skips if async when returns a string', async function(t) {
+test.serial('action skips if async skip function returns a string', async function(t) {
 	const message = 'We should skip this one!';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{
 				...addAction,
-				async when() {
+				async skip() {
 					return message;
 				}
 			}
@@ -157,13 +157,13 @@ test.serial('action skips if async when returns a string', async function(t) {
 	t.false(fs.existsSync(filePath), 'file was wrongly created');
 });
 
-test.serial('action skips if async when rejects', async function(t) {
+test.serial('action skips if async skip function rejects', async function(t) {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{
 				...addAction,
-				async when() {
+				async skip() {
 					throw new Error('Whoops');
 				}
 			}
@@ -180,14 +180,14 @@ test.serial('action skips if async when rejects', async function(t) {
 	t.false(fs.existsSync(filePath), 'file was wrongly created');
 });
 
-test.serial('action skips if when returns a string', async function(t) {
+test.serial('action skips if skip function returns a string', async function(t) {
 	const message = 'We should skip this one!';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{
 				...addAction,
-				when() {
+				skip() {
 					return message;
 				}
 			}
@@ -205,13 +205,13 @@ test.serial('action skips if when returns a string', async function(t) {
 	t.false(fs.existsSync(filePath), 'file was wrongly created');
 });
 
-test.serial('action skips if when throws', async function(t) {
+test.serial('action skips if skip function throws', async function(t) {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{
 				...addAction,
-				when() {
+				skip() {
 					throw new Error('Whoops');
 				}
 			}
