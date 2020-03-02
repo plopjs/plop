@@ -304,6 +304,8 @@ Method | Parameters | Returns | Description
 # Built-In Actions
 There are several types of built-in actions you can use in your [GeneratorConfig](#interface-generatorconfig). You specify which `type` of action  (all paths are based on the location of the plopfile), and a template to use.
 
+> The `Add`, `AddMany` and `Modify` actions have an optional `transform` method that can be used to transform the template result before it is written to disk. The `transform` function receives the template result or file contents as a `string` and the action data as arguments. It must return a `string` or a `Promise` that resolves to a `string`.
+
 ## Add
 The `add` action is used to (you guessed it) add a file to your project. The path property is a handlebars template that will be used to create the file by name. The file contents will be determined by the `template` or `templateFile` property.
 
@@ -313,11 +315,11 @@ Property | Type | Default | Description
 **template** | *String* | | a handlebars template that should be used to build the new file
 **templateFile** | *String* | | a path a file containing the `template`
 **skipIfExists** | *Boolean* | `false` | skips a file if it already exists (instead of failing)
+**transform** | *Function* | | [an optional function](#built-in-actions) that can be used to transform the template result before writing the file to disk
+**skip** | *Function* | | *inherited from [ActionConfig](#interface-actionconfig)*
 **force** | *Boolean* | `false` | *inherited from [ActionConfig](#interface-actionconfig)* (overwrites files if they exist)
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
-**skip** | *Function* | | *inherited from [ActionConfig](#interface-actionconfig)*
-**transform** | *Boolean* | | an optional function that can be used to transform the template result before writing the file to disk
 
 ## AddMany
 The `addMany` action can be used to add multiple files to your project with a single action. The `destination` property is a handlebars template that will be used to identify the folder that the generated files should go into. The `base` property  can be used to alter what section of the template paths should be omitted when creating files. The paths located by the `templateFiles` glob can use handlebars syntax in their file/folder names if you'd like the added file names to be unique (example: `{{ dashCase name }}.spec.js`).
@@ -330,12 +332,12 @@ Property | Type | Default | Description
 **stripExtensions** | *[String]* | `['hbs']` | file extensions that should be stripped from `templateFiles` files names while being added to the `destination`
 **globOptions** | *[Object](https://github.com/sindresorhus/globby#options)* | | glob options that change how to match to the template files to be added
 **verbose** | *Boolean* | `true` | print each successfully added file path
+**transform** | *Function* | | [an optional function](#built-in-actions) that can be used to transform the template result before writing each file to disk
+**skip** | *Function* | | *inherited from [ActionConfig](#interface-actionconfig)*
 **skipIfExists** | *Boolean* | `false` | *inherited from [Add](#add)* (skips a file if it already exists)
 **force** | *Boolean* | `false` | *inherited from [ActionConfig](#interface-actionconfig)* (overwrites files if they exist)
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
-**skip** | *Function* | | *inherited from [ActionConfig](#interface-actionconfig)*
-**transform** | *Boolean* | | an optional function that can be used to transform the template result before writing each file to disk
 
 ## Modify
 The `modify` action can be used two ways. You can use a `pattern` property to find/replace text in the file located at the `path` specified, or you can use a `transform` function to transform the file contents. Both `pattern` and `transform` can be used at the same time (`transform` will happen last). More details on modify can be found in the example folder.
@@ -346,10 +348,10 @@ Property | Type | Default | Description
 **pattern** | *RegExp* | _end&#x2011;of&#x2011;file_ | regular expression used to match text that should be replaced
 **template** | *String* | | handlebars template that should replace what was matched by the `pattern`. capture groups are available as $1, $2, etc
 **templateFile** | *String* | | path a file containing the `template`
+**transform** | *Function* | | [an optional function](#built-in-actions) that can be used to transform the file before writing it to disk
+**skip** | *Function* | | *inherited from [ActionConfig](#interface-actionconfig)*
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
-**skip** | *Function* | | *inherited from [ActionConfig](#interface-actionconfig)*
-**transform** | *Boolean* | | an optional function that can be used to transform the file before writing it to disk
 
 ## Append
 The `append` action is a commonly used subset of `modify`. It is used to append data in a file at a particular location.
@@ -364,20 +366,6 @@ Property | Type | Default | Description
 **templateFile** | *String* | | path a file containing the `template`
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
-
-## Transform Function
-The `Add`, `AddMany` and `Modify` actions have an optional `transform` method that can be used to transform the template result before it is written to disk. The `transform` function receives the template result or file contents as a `string` and the action data as arguments. It must return a `string` or a `Promise` that resolves to a `string`.
-
-```javascript
-// Example transform usage
-{
-	type: 'modify'
-	path: 'path/to/file-to-be-changed.js',
-	transform(fileContents, data) {
-		return 'new file contents';
-	}
-}
-```
 
 ## Custom (Action Function)
 The `Add` and `Modify` actions will take care of almost every case that plop is designed to handle. However, plop does offer custom action functions for the node/js guru. A custom action function is a function that is provided in the actions array.
