@@ -187,13 +187,13 @@ export interface ActionConfig<TData extends object = object> {
    *
    * May also return a Promise which resolves to a string.
    *
-   * The action will continue if action.when()
+   * The action will continue if action.skip()
    * returns or resolves to anything other than a string,
    * and the return value will be ignored.
    *
    * @default () => true
    */
-  when?: (data: TData) => void | string | Promise<void | string>;
+  skip?: (data: TData) => void | string | Promise<void | string>;
 }
 
 /**
@@ -225,9 +225,9 @@ export interface AddActionConfig<TData extends object = object>
    */
   skipIfExists?: boolean;
   /**
-   * Transform the template output before writing the file.
+   * Transform the template result before writing the file.
    */
-  transform?: (templateOutput: string, data: TData) => string;
+  transform?: (templateResult: string, data: TData) => string;
 }
 
 /**
@@ -276,9 +276,9 @@ export interface AddManyActionConfig<TData extends object = object>
    */
   verbose?: boolean;
   /**
-   * Transform the template output before writing the file.
+   * Transform the template result before writing the file.
    */
-  transform?: (templateOutput: string, data: TData) => string;
+  transform?: (templateResult: string, data: TData) => string;
 }
 
 /**
@@ -317,7 +317,7 @@ export interface ModifyActionConfig<TData extends object = object>
   /**
    * Transform the file contents immediately before writing to disk.
    */
-  transform?: (templateOutput: string, data: TData) => string;
+  transform?: (fileContents: string, data: TData) => string;
 }
 
 /**
