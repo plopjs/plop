@@ -32,7 +32,7 @@
     "interpret": "^1.2.0",
     "liftoff": "^2.5.0",
     "minimist": "^1.2.0",
-    "node-plop": "~0.24.0",
+    "node-plop": "~0.25.0",
     "ora": "^3.4.0",
     "v8flags": "^2.0.10"
   },
