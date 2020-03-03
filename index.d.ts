@@ -181,6 +181,19 @@ export interface ActionConfig<TData extends object = object> {
    * @default true
    */
   abortOnFail?: boolean;
+  /**
+   * Skip an action if this function returns a string,
+   * which is the reason it should be skipped.
+   *
+   * May also return a Promise which resolves to a string.
+   *
+   * The action will continue if action.skip()
+   * returns or resolves to anything other than a string,
+   * and the return value will be ignored.
+   *
+   * @default () => true
+   */
+  skip?: (data: TData) => void | string | Promise<void | string>;
 }
 
 /**
@@ -211,6 +224,10 @@ export interface AddActionConfig<TData extends object = object>
    * @default false
    */
   skipIfExists?: boolean;
+  /**
+   * Transform the template result before writing the file.
+   */
+  transform?: (templateResult: string, data: TData) => string;
 }
 
 /**
@@ -258,12 +275,19 @@ export interface AddManyActionConfig<TData extends object = object>
    * @default true
    */
   verbose?: boolean;
+  /**
+   * Transform the template result before writing the file.
+   */
+  transform?: (templateResult: string, data: TData) => string;
 }
 
 /**
- * The `modify` action will use a `pattern` property to find/replace text in the
- * file located at the `path` specified. More details on modify can be found in
- * the example folder.
+ * The `modify` action will use a `pattern` property and/or a `transform` function 
+ * to find/replace or transform text in the file located at the `path` specified.
+ * 
+ * `pattern` and `transform` can be used together or individually.
+ * 
+ * More details on modify can be found in the example folder.
  */
 export interface ModifyActionConfig<TData extends object = object>
   extends ActionConfig<TData> {
@@ -280,16 +304,20 @@ export interface ModifyActionConfig<TData extends object = object>
    * Used to match text that should be replaced.
    * @default end-of-file
    */
-  pattern: string | RegExp;
+  pattern?: string | RegExp;
   /**
    * Handlebars template that should replace what was matched by the `pattern`.
    * Capture groups are available as `$1`, `$2`, etc.
    */
-  template: string;
+  template?: string;
   /**
    * Path a file containing the `template`.
    */
-  templateFile: string;
+  templateFile?: string;
+  /**
+   * Transform the file contents immediately before writing to disk.
+   */
+  transform?: (fileContents: string, data: TData) => string;
 }
 
 /**

@@ -49,3 +49,21 @@ export const throwStringifiedError = err => {
 		throw err.message || JSON.stringify(err);
 	}
 };
+
+export async function getTransformedTemplate(template, data, cfg) {
+	// transform() was already typechecked at runtime in interface check
+	if ('transform' in cfg) {
+		const result = await cfg.transform(template, data);
+
+		if (typeof result !== 'string')
+			throw new TypeError(
+				`Invalid return value for transform (${JSON.stringify(
+					result
+				)} is not a string)`
+			);
+
+		return result;
+	} else {
+		return template;
+	}
+}

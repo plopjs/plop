@@ -16,5 +16,17 @@ export default function(action, {checkPath=true, checkAbortOnFail=true} = {}) {
 		return `Invalid value for abortOnFail (${abortOnFail} is not a Boolean)`;
 	}
 
+	if ('transform' in action && typeof action.transform !== 'function') {
+		return `Invalid value for transform (${typeof action.transform} is not a function)`;
+	}
+
+	if (action.type === 'modify' && !('pattern' in action) && !('transform' in action)) {
+		return 'Invalid modify action (modify must have a pattern or transform function)';
+	}
+
+	if ('skip' in action && typeof action.skip !== 'function') {
+		return `Invalid value for skip (${typeof action.skip} is not a function)`;
+	}
+
 	return true;
 }
