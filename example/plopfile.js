@@ -122,7 +122,22 @@ module.exports = function (plop) {
 				path: 'folder/change-me.txt',
 				pattern: /## replace name here ##/gi,
 				template: 'replaced => {{dashCase name}}'
-			}
+			},{
+				type: 'modify',
+				path: 'folder/change-me.txt',
+				skip(data) {
+					if (!data.toppings.includes('mushroom')) {
+						// Skip this action
+						return 'Skipped replacing mushrooms';
+					} else {
+						// Continue with this action
+						return;
+					}
+				},
+				transform(fileContents, data) {
+					return fileContents.replace(/mushrooms/g, 'pepperoni');
+				}
+			},
 		]
 	});
 
