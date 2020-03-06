@@ -4,28 +4,6 @@ import inquirer from 'inquirer';
 import { GlobbyOptions } from 'globby';
 import {HelperDelegate as HelperFunction} from 'handlebars';
 
-type WithTemplateOrFile<T> =
-  | (T & {
-      /**
-       * Handlebars template to be used for the entry.
-       */
-      template: string;
-      /**
-       * Path to a file containing the `template`.
-       */
-      templateFile?: string;
-    })
-  | (T & {
-      /**
-       * Handlebars template to be used for the entry.
-       */
-      template?: string;
-      /**
-       * Path to a file containing the `template`.
-       */
-      templateFile: string;
-    });
-
 export interface NodePlopAPI {
   /**
    * Get the [GeneratorConfig](https://plopjs.com/documentation/#interface-generatorconfig) by name.
@@ -311,7 +289,7 @@ export interface AddManyActionConfig<TData extends object = object>
  * 
  * More details on modify can be found in the example folder.
  */
-interface ModifyActionConfigBase<TData extends object = object>
+export interface ModifyActionConfig<TData extends object = object>
   extends ActionConfig<TData> {
   /**
    * The type of action.
@@ -333,15 +311,11 @@ interface ModifyActionConfigBase<TData extends object = object>
   transform?: (fileContents: string, data: TData) => string;
 }
 
-export type ModifyActionConfig<
-  TData extends object = object
-> = WithTemplateOrFile<ModifyActionConfigBase<TData>>;
-
 /**
  * The `append` action is a commonly used subset of `modify`. It is used to
  * append data in a file at a particular location.
  */
-interface AppendActionConfigBase<TData extends object = object>
+export interface AppendActionConfig<TData extends object = object>
   extends ActionConfig<TData> {
   /**
    * The type of action.
@@ -366,11 +340,15 @@ interface AppendActionConfigBase<TData extends object = object>
    * @default newline
    */
   separator?: string;
+  /**
+   * Handlebars template to be used for the entry.
+   */
+  template: string;
+  /**
+   * Path a file containing the template.
+   */
+  templateFile: string;
 }
-
-export type AppendActionConfig<
-  TData extends object = object
-> = WithTemplateOrFile<AppendActionConfigBase<TData>>;
 
 export interface PlopCfg {
   force: boolean;
