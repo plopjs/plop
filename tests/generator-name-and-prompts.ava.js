@@ -1,4 +1,3 @@
-import co from 'co';
 import AvaTest from './_base-ava-test';
 const {test, nodePlop} = (new AvaTest(__filename));
 
@@ -18,37 +17,37 @@ test.before(() => {
 	});
 });
 
-test('generator should not be able to run promps if it has none', co.wrap(function* (t) {
+test('generator should not be able to run promps if it has none', async function (t) {
 	const generatorOne = plop.getGenerator('generator-1');
 	t.is(typeof generatorOne, 'object');
 
 	try {
-		yield generatorOne.runPrompts();
+		await generatorOne.runPrompts();
 		t.fail();
 	} catch(err) {
 		t.is(err.message, 'generator-1 has no prompts');
 	}
-}));
+});
 
-test('generator should not be able to run actions if it has none', co.wrap(function* (t) {
+test('generator should not be able to run actions if it has none', async function (t) {
 	const generatorOne = plop.getGenerator('generator-1');
 	t.is(typeof generatorOne, 'object');
 
 	try {
-		yield generatorOne.runActions();
+		await generatorOne.runActions();
 		t.fail();
 	} catch(err) {
 		t.is(err.message, 'generator-1 has no actions');
 	}
-}));
+});
 
-test('generator should not be able to run invalid actions data', co.wrap(function* (t) {
+test('generator should not be able to run invalid actions data', async function (t) {
 	const generatorBadActions = plop.getGenerator('bad-actions-function');
 
 	try {
-		yield generatorBadActions.runActions();
+		await generatorBadActions.runActions();
 		t.fail();
 	}catch(err){
 		t.is(err.message, 'bad-actions-function has no actions');
 	}
-}));
+});

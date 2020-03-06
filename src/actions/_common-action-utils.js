@@ -19,13 +19,13 @@ export function getRenderedTemplatePath(data, cfg, plop) {
 	return null;
 }
 
-export function* getTemplate(data, cfg, plop) {
+export async function getTemplate(data, cfg, plop) {
 	const makeTmplPath = p => path.resolve(plop.getPlopfilePath(), p);
 
 	let { template } = cfg;
 
 	if (cfg.templateFile) {
-		template = yield fspp.readFile(makeTmplPath(cfg.templateFile));
+		template = await fspp.readFile(makeTmplPath(cfg.templateFile));
 	}
 	if (template == null) {
 		template = '';
@@ -34,8 +34,8 @@ export function* getTemplate(data, cfg, plop) {
 	return template;
 }
 
-export function* getRenderedTemplate(data, cfg, plop) {
-	const template = yield getTemplate(data, cfg, plop);
+export async function getRenderedTemplate(data, cfg, plop) {
+	const template = await getTemplate(data, cfg, plop);
 
 	return plop.renderString(template, getFullData(data, cfg));
 }
@@ -49,3 +49,21 @@ export const throwStringifiedError = err => {
 		throw err.message || JSON.stringify(err);
 	}
 };
+
+export async function getTransformedTemplate(template, data, cfg) {
+	// transform() was already typechecked at runtime in interface check
+	if ('transform' in cfg) {
+		const result = await cfg.transform(template, data);
+
+		if (typeof result !== 'string')
+			throw new TypeError(
+				`Invalid return value for transform (${JSON.stringify(
+					result
+				)} is not a string)`
+			);
+
+		return result;
+	} else {
+		return template;
+	}
+}

@@ -1,5 +1,4 @@
 import fs from 'fs';
-import co from 'co';
 import path from 'path';
 import AvaTest from './_base-ava-test';
 const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
@@ -10,7 +9,7 @@ const plop = nodePlop();
 //
 //
 
-test('Add action does not fail on binary file', co.wrap(function* (t) {
+test('Add action does not fail on binary file', async function (t) {
 	plop.setGenerator('addBinary', {
 		actions: [{
 			type: 'add',
@@ -20,6 +19,6 @@ test('Add action does not fail on binary file', co.wrap(function* (t) {
 	});
 
 	const filePath = path.resolve(testSrcPath, 'test-plop-logo.png');
-	yield plop.getGenerator('addBinary').runActions({name: 'test'});
+	await plop.getGenerator('addBinary').runActions({name: 'test'});
 	t.true(fs.existsSync(filePath));
-}));
+});

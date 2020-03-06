@@ -1,6 +1,6 @@
 {
   "name": "node-plop",
-  "version": "0.23.0",
+  "version": "0.25.0",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "types": "index.d.ts",
@@ -44,8 +44,10 @@
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
     "@babel/register": "^7.6.2",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
     "ava": "^2.4.0",
-    "eslint": "^6.5.1",
+    "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
@@ -53,14 +55,14 @@
     "eslint-plugin-standard": "^4.0.1",
     "plop": "^2.4.0",
     "plop-pack-fancy-comments": "^0.2.1",
-    "pre-commit": "^1.x"
+    "pre-commit": "^1.x",
+    "typescript": "^3.8.2"
   },
   "dependencies": {
     "@types/globby": "^9.1.0",
     "@types/handlebars": "^4.1.0",
     "@types/inquirer": "6.0.1",
     "change-case": "^3.1.0",
-    "co": "^4.6.0",
     "core-js": "^3.3.2",
     "del": "^5.1.0",
     "globby": "^10.0.1",

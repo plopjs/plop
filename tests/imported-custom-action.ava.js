@@ -1,5 +1,4 @@
 import {fileExists} from '../src/fs-promise-proxy';
-import co from 'co';
 import path from 'path';
 import AvaTest from './_base-ava-test';
 const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
@@ -9,7 +8,7 @@ const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 //
 const customAction = require(path.resolve(mockPath, 'custom-action.js'));
 
-test('imported custom action should execute correctly', co.wrap(function* (t) {
+test('imported custom action should execute correctly', async function (t) {
 	const plop = nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test.txt');
 	plop.setActionType('custom-del', customAction);
@@ -25,16 +24,16 @@ test('imported custom action should execute correctly', co.wrap(function* (t) {
 
 	t.is(typeof plop.getActionType('custom-del'), 'function');
 
-	const results = yield generator.runActions({});
-	const testFileExists = yield fileExists(testFilePath);
+	const results = await generator.runActions({});
+	const testFileExists = await fileExists(testFilePath);
 
 	t.is(results.failures.length, 0);
 	t.is(results.changes.length, 2);
 	t.false(testFileExists);
-}));
+});
 
 
-test('imported custom action can throw errors', co.wrap(function* (t) {
+test('imported custom action can throw errors', async function (t) {
 	const plop = nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test2.txt');
 	plop.setActionType('custom-del', customAction);
@@ -44,8 +43,8 @@ test('imported custom action can throw errors', co.wrap(function* (t) {
 
 	// remove a file that doesn't exist (should error)
 	const generator = plop.setGenerator('', {actions: [deleteTestFile]});
-	const results = yield generator.runActions({});
+	const results = await generator.runActions({});
 
 	t.is(results.failures.length, 1);
 	t.true(results.failures[0].error.startsWith('Path does not exist'));
-}));
+});

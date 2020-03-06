@@ -1,4 +1,3 @@
-import co from 'co';
 import AvaTest from './_base-ava-test';
 const { test, testSrcPath, nodePlop } = new AvaTest(__filename);
 import { normalizePath } from '../src/actions/_common-action-utils';
@@ -10,7 +9,7 @@ const plop = nodePlop();
 
 test(
 	'Action data cleanup',
-	co.wrap(function*(t) {
+	async function (t) {
 		const actions = ['one', 'two', 'three'].map(fName => ({
 			type: 'add',
 			template: '',
@@ -18,7 +17,7 @@ test(
 			data: { fName, unchanged: `${fName}-unchanged` }
 		}));
 		const g = plop.setGenerator('', { actions });
-		const { changes, failures } = yield g.runActions({ unchanged: 'unchanged' });
+		const { changes, failures } = await g.runActions({ unchanged: 'unchanged' });
 		const addedFiles = changes
 			.map(c =>
 				normalizePath(c.path)
@@ -29,5 +28,5 @@ test(
 		t.is(addedFiles, 'one-unchanged.txt|two-unchanged.txt|three-unchanged.txt');
 		t.is(changes.length, 3);
 		t.is(failures.length, 0);
-	})
+	}
 );

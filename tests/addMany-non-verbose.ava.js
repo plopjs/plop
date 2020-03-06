@@ -1,15 +1,12 @@
 import fs from 'fs';
-import co from 'co';
 import path from 'path';
 import AvaTest from './_base-ava-test';
 const { test, mockPath, testSrcPath, nodePlop } = (new AvaTest(__filename));
 
 const plop = nodePlop(`${mockPath}/plopfile.js`);
 
-test('Check that all files have been created', co.wrap(function* (t) {
-	const multipleAddsResult = yield (
-		plop.getGenerator('multiple-adds').runActions({ name: 'John Doe' })
-	);
+test('Check that all files have been created', async function (t) {
+	const multipleAddsResult = await plop.getGenerator('multiple-adds').runActions({ name: 'John Doe' });
 
 	const expectedFiles = [
 		'john-doe/add.txt',
@@ -28,4 +25,4 @@ test('Check that all files have been created', co.wrap(function* (t) {
 	t.true(multipleAddsResult.changes[0].path.includes('5 files added'));
 	// does not have additional lines
 	t.false(multipleAddsResult.changes[0].path.includes('\n'));
-}));
+});

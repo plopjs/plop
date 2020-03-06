@@ -190,7 +190,10 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		setPlopfilePath(plopfilePath);
 		loadPackageJson();
 
-		require(path.join(plopfilePath, plopFileName))(plopfileApi, plopCfg);
+		const plopFileExport = require(path.join(plopfilePath, plopFileName));
+		const plop = typeof plopFileExport === 'function' ? plopFileExport : plopFileExport.default;
+
+		plop(plopfileApi, plopCfg);
 	} else {
 		setPlopfilePath(process.cwd());
 		loadPackageJson();
