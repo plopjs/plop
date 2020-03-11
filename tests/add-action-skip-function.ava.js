@@ -66,21 +66,26 @@ test.serial('action throws if action.skip is not a function', async function(
 });
 
 test.serial('skip function receives correct arguments', async function(t) {
+	const mainData = { fileName, a: 1 };
+	const configData = { a: 'a', b: 2 };
+	
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{
 				...addAction,
 				async skip(...args) {
 					t.is(args.length, 1);
-					t.deepEqual(args[0], { name: fileName });
+					// Main data should be overwritten by config data
+					t.deepEqual(args[0], {...mainData, ...configData});
 
 					return 'Just checking arguments';
-				}
+				},
+				data: configData
 			}
 		]
 	});
 
-	await action.runActions({ name: fileName });
+	await action.runActions(mainData);
 });
 
 test.serial(

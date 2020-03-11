@@ -116,7 +116,7 @@ export default function (plopfileApi, flags) {
 
 		// check if action should run
 		if (typeof cfg.skip === 'function') {
-			const reasonToSkip = await cfg.skip(data);
+			const reasonToSkip = await cfg.skip({ ...data, ...cfgData });
 			if (typeof reasonToSkip === 'string') {
 				return reasonToSkip;
 			}
