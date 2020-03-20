@@ -1,0 +1,26 @@
+diff --git a/index.js b/index.js
+index 0c36d05..d2de717 100644
+--- a/index.js
++++ b/index.js
+@@ -10,7 +10,7 @@ exports.prepare = function (extensions, filepath, cwd, nothrow) {
+   var err;
+   var onlyErrors = false;
+   var ext = extension(filepath);
+-  if (Object.keys(require.extensions).indexOf(ext) !== -1) {
++  if (Object.keys(__non_webpack_require__.extensions).indexOf(ext) !== -1) {
+     return true;
+   }
+   var config = normalize(extensions[ext]);
+diff --git a/lib/register.js b/lib/register.js
+index 20e8ca7..a2df397 100644
+--- a/lib/register.js
++++ b/lib/register.js
+@@ -4,7 +4,7 @@ const resolve = require('resolve');
+ module.exports = function (cwd, moduleName, register) {
+   try {
+     var modulePath = resolve.sync(moduleName, {basedir: cwd});
+-    var result = require(modulePath);
++    var result = __non_webpack_require__(modulePath);
+     if (typeof register === 'function') {
+       register(result);
+     }

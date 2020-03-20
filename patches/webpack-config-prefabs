@@ -1,0 +1,22 @@
+diff --git a/dist/index.js b/dist/index.js
+index 8826cc6..b41560e 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -93,7 +93,7 @@ function nodeLibrary(module, options) {
+                 // doesn't pass through sourcemaps
+                 {
+                     test: /\.(?:tsx?|jsx?)$/,
+-                    loader: 'string-replace-loader',
++                    loader: require.resolve('string-replace-loader'),
+                     options: {
+                         search: '^#![^\n]*?\n',
+                         replace: '\n',
+@@ -102,7 +102,7 @@ function nodeLibrary(module, options) {
+                 }
+             ], ingestSourceMaps ? [T({
+                     test: /\.(js|ts|tsx|jsx)$/,
+-                    use: ["source-map-loader"],
++                    use: [require.resolve("source-map-loader")],
+                     enforce: "pre"
+                 })] : [])
+         },

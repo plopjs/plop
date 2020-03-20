@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const args = process.argv.slice(2);
-const {Plop, run} = require('../src/plop');
+const {Plop, run} = require('../dist/bundle');
 const argv = require('minimist')(args);
 
 Plop.launch({

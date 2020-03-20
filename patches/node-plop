@@ -1,0 +1,13 @@
+diff --git a/lib/node-plop.js b/lib/node-plop.js
+index 0bd66de..da1a5ab 100644
+--- a/lib/node-plop.js
++++ b/lib/node-plop.js
+@@ -265,7 +265,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
+     setPlopfilePath(plopfilePath);
+     loadPackageJson();
+ 
+-    const plopFileExport = require(_path.default.join(plopfilePath, plopFileName));
++    const plopFileExport = __non_webpack_require__(_path.default.join(plopfilePath, plopFileName));
+ 
+     const plop = typeof plopFileExport === 'function' ? plopFileExport : plopFileExport.default;
+     plop(plopfileApi, plopCfg);
