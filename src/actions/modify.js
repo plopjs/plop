@@ -26,7 +26,11 @@ export default async function (data, cfg, plop) {
 			let fileData = await fspp.readFile(fileDestPath);
 			cfg.templateFile = getRenderedTemplatePath(data, cfg, plop);
 			const replacement = await getRenderedTemplate(data, cfg, plop);
-			fileData = fileData.replace(cfg.pattern, replacement);
+
+			if (typeof cfg.pattern === 'string' || cfg.pattern instanceof RegExp) {
+				fileData = fileData.replace(cfg.pattern, replacement);
+			}
+
 			const transformed = await getTransformedTemplate(fileData, data, cfg);
 			await fspp.writeFile(fileDestPath, transformed);
 		}
