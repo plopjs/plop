@@ -36,6 +36,7 @@ test.serial('action runs as expected without skip function', async function(t) {
 
 	// Check action ran ok
 	t.true(results.changes.length === 1, 'action was skipped');
+	t.not(results.changes[0].type, 'skip', 'type should not be skip');
 	t.true(results.failures.length === 0, 'action failed');
 
 	// Check that the file was not created
@@ -66,21 +67,26 @@ test.serial('action throws if action.skip is not a function', async function(
 });
 
 test.serial('skip function receives correct arguments', async function(t) {
+	const mainData = { fileName, a: 1 };
+	const configData = { a: 'a', b: 2 };
+	
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{
 				...addAction,
 				async skip(...args) {
 					t.is(args.length, 1);
-					t.deepEqual(args[0], { name: fileName });
+					// Main data should be overwritten by config data
+					t.deepEqual(args[0], {...mainData, ...configData});
 
 					return 'Just checking arguments';
-				}
+				},
+				data: configData
 			}
 		]
 	});
 
-	await action.runActions({ name: fileName });
+	await action.runActions(mainData);
 });
 
 test.serial(
@@ -126,6 +132,7 @@ test.serial('action executes if skip function returns void', async function(t) {
 
 	// Check action ran ok
 	t.true(results.changes.length > 0, 'action was skipped');
+	t.not(results.changes[0].type, 'skip', 'type should not be skip');
 	t.true(results.failures.length === 0, 'action failed');
 
 	// Check that the file was created
@@ -150,7 +157,8 @@ test.serial('action skips if async skip function returns a string', async functi
 
 	// Check action ran ok
 	t.true(results.changes.length > 0, 'action was not skipped');
-	t.true(results.changes[0] === message, 'message was not used');
+	t.is(results.changes[0].type, 'skip', 'type should be "skip"');
+	t.true(results.changes[0].path === message, 'message was not used');
 	t.true(results.failures.length === 0, 'action failed');
 
 	// Check that the file was not created
@@ -198,7 +206,8 @@ test.serial('action skips if skip function returns a string', async function(t) 
 
 	// Check action ran ok
 	t.true(results.changes.length > 0, 'action was not skipped');
-	t.true(results.changes[0] === message, 'message was not used');
+	t.is(results.changes[0].type, 'skip', 'type is not skip');
+	t.true(results.changes[0].path === message, 'message was not used');
 	t.true(results.failures.length === 0, 'there were one or more failures');
 
 	// Check that the file was not created
