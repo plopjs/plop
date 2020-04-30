@@ -267,3 +267,27 @@ test.serial(
 		t.true(changes.length === 1, 'modify action made changes');
 	}
 );
+
+test.serial(
+	'Modify action without pattern does not remove "undefined"',
+	async function(t) {
+		const template = 'type SomeType = string | undefined;';
+		
+		const gen = plop.setGenerator(genName, {
+			actions: [
+				{...addAction, template },
+				{
+					...modifyAction,
+					async transform(code) {
+						t.true(/undefined/.test(code), 'modify action removed "undefined"');
+						return code;
+					}
+				}]
+		});
+
+		const { changes, failures } = await gen.runActions({ fileName });
+
+		t.true(failures.length === 0, 'an action failed');
+		t.true(changes.length === 2, 'not enough change were made');
+	}
+);
