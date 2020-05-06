@@ -137,7 +137,7 @@ export interface NodePlopAPI {
 export type Actions = Array<ActionType | string>
 export type Prompts = Array<inquirer.Question>
 export type DynamicActionFunction = (data?: any) => Actions
-export type DynamicPromptFunction = () => Prompts;
+export type DynamicPromptFunction = () => Prompts
 
 export interface PlopGenerator {
   /**
