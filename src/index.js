@@ -1,4 +1,3 @@
-import 'core-js'; // es2015 polyfill
 import nodePlop from './node-plop';
 
 /**
