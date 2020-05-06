@@ -135,7 +135,9 @@ export interface NodePlopAPI {
 }
 
 export type Actions = Array<ActionType | string>
+export type Prompts = Array<inquirer.Question>
 export type DynamicActionFunction = (data?: any) => Actions
+export type DynamicPromptFunction = () => Prompts;
 
 export interface PlopGenerator {
   /**
@@ -145,7 +147,7 @@ export interface PlopGenerator {
   /**
    * Questions to ask the user.
    */
-  prompts: inquirer.Question[];
+  prompts: Prompts | DynamicPromptFunction;
   /**
    * Actions to perform.
    * If your list of actions needs to be dynamic, take a look at
