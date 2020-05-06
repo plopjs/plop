@@ -134,10 +134,11 @@ export interface NodePlopAPI {
   addHelper(name: string, fn: Function): void;
 }
 
+export type PromptAnswers = Record<string, any>
 export type Actions = Array<ActionType | string>
 export type Prompts = Array<inquirer.Question>
-export type DynamicActionFunction = (data?: any) => Actions
-export type DynamicPromptFunction = () => Prompts
+export type DynamicActionFunction = (data?: PromptAnswers) => Actions
+export type DynamicPromptFunction = (inquirer: inquirer.Inquirer) => Promise<PromptAnswers>;
 
 export interface PlopGenerator {
   /**
