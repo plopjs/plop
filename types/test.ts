@@ -1,4 +1,4 @@
-import nodePlop from 'node-plop';
+import nodePlop from './index';
 
 const plop = nodePlop('./file', {
 	destBasePath: './',

@@ -7,8 +7,8 @@
   "scripts": {
     "clean": "node ./build-scripts/clean",
     "eslint": "eslint src/",
-    "test": "npm run test:js && npm run test:ts",
-    "test:ts": "dtslint types --localTs node_modules/typescript/lib --expectOnly",
+    "test": "npm run test:js && npm run test:typings",
+    "test:typings": "dtslint types --localTs node_modules/typescript/lib --expectOnly",
     "test:js": "npm run eslint && npm run compile && ava",
     "test-watch": "ava --watch",
     "compile": "npm run clean && babel src --out-dir lib",
