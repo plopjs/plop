@@ -58,10 +58,27 @@ interface PlopActionHooks {
 	onFailure?: (failure: PlopActionHooksFailures) => void;
 }
 
+export type PromptAnswers = Record<string, any>
+export type DynamicPromptsFunction = (inquirer: inquirer.Inquirer) => Promise<PromptAnswers>;
+export type DynamicActionsFunction = (data?: PromptAnswers) => ActionType[]
+
+export type Prompts = DynamicPromptsFunction | inquirer.Question[]
+	| inquirer.CheckboxQuestion[]
+	| inquirer.ListQuestion[]
+	| inquirer.ExpandQuestion[]
+	| inquirer.ConfirmQuestion[]
+	| inquirer.EditorQuestion[]
+	| inquirer.RawListQuestion[]
+	| inquirer.PasswordQuestion[]
+	| inquirer.NumberQuestion[]
+	| inquirer.InputQuestion[];
+
+export type Actions = DynamicActionsFunction | ActionType[]
+
 export interface PlopGenerator {
 	description: string;
-	prompts: inquirer.Question[];
-	actions: ActionType[];
+	prompts: Prompts;
+	actions: Actions;
 	runPrompts: (bypassArr?: string[]) => Promise<any>;
 	runActions: (
 		answers: any,
