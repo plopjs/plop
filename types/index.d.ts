@@ -7,7 +7,7 @@ import { HelperDelegate as HelperFunction } from 'handlebars';
 
 interface NodePlopAPI {
 	getGenerator(name: string): PlopGenerator;
-	setGenerator(name: string, config: PlopGeneratorOptions): PlopGenerator;
+	setGenerator(name: string, config: PlopGeneratorConfig): PlopGenerator;
 
 	setPrompt(name: string, prompt: inquirer.PromptModule): void;
 	setWelcomeMessage(message: string): void;
@@ -58,16 +58,13 @@ interface PlopActionHooks {
 	onFailure?: (failure: PlopActionHooksFailures) => void;
 }
 
-export interface PlopGeneratorOptions {
+export interface PlopGeneratorConfig {
 	description: string;
 	prompts: Prompts;
 	actions: Actions;
 }
 
-export interface PlopGenerator {
-	description: string;
-	prompts: Prompts;
-	actions: Actions;
+export interface PlopGenerator extends PlopGeneratorConfig {
 	runPrompts: (bypassArr?: string[]) => Promise<any>;
 	runActions: (
 		answers: any,
