@@ -7,7 +7,7 @@ import { HelperDelegate as HelperFunction } from 'handlebars';
 
 interface NodePlopAPI {
 	getGenerator(name: string): PlopGenerator;
-	setGenerator(name: string, config: PlopGenerator): PlopGenerator;
+	setGenerator(name: string, config: PlopGeneratorOptions): PlopGenerator;
 
 	setPrompt(name: string, prompt: inquirer.PromptModule): void;
 	setWelcomeMessage(message: string): void;
@@ -58,22 +58,11 @@ interface PlopActionHooks {
 	onFailure?: (failure: PlopActionHooksFailures) => void;
 }
 
-export type PromptAnswers = Record<string, any>;
-export type DynamicPromptsFunction = (inquirer: inquirer.Inquirer) => Promise<PromptAnswers>;
-export type DynamicActionsFunction = (data?: PromptAnswers) => ActionType[];
-
-export type Prompts = DynamicPromptsFunction | inquirer.Question[]
-	| inquirer.CheckboxQuestion[]
-	| inquirer.ListQuestion[]
-	| inquirer.ExpandQuestion[]
-	| inquirer.ConfirmQuestion[]
-	| inquirer.EditorQuestion[]
-	| inquirer.RawListQuestion[]
-	| inquirer.PasswordQuestion[]
-	| inquirer.NumberQuestion[]
-	| inquirer.InputQuestion[];
-
-export type Actions = DynamicActionsFunction | ActionType[];
+export interface PlopGeneratorOptions {
+	description: string;
+	prompts: Prompts;
+	actions: Actions;
+}
 
 export interface PlopGenerator {
 	description: string;
@@ -89,6 +78,23 @@ export interface PlopGenerator {
 	}>;
 }
 
+export type PromptQuestion = inquirer.Question
+	| inquirer.CheckboxQuestion
+	| inquirer.ListQuestion
+	| inquirer.ExpandQuestion
+	| inquirer.ConfirmQuestion
+	| inquirer.EditorQuestion
+	| inquirer.RawListQuestion
+	| inquirer.PasswordQuestion
+	| inquirer.NumberQuestion
+	| inquirer.InputQuestion;
+
+export type DynamicPromptsFunction = (inquirer: inquirer.Inquirer) => Promise<inquirer.Answers>;
+export type DynamicActionsFunction = (data?: inquirer.Answers) => ActionType[];
+
+export type Prompts = DynamicPromptsFunction | PromptQuestion[]
+export type Actions = DynamicActionsFunction | ActionType[];
+
 export type CustomActionFunction = (
 	answers: object,
 	config?: ActionConfig,
@@ -97,6 +103,7 @@ export type CustomActionFunction = (
 
 export type ActionType =
 	| ActionConfig
+	| AddActionConfig
 	| AddManyActionConfig
 	| ModifyActionConfig
 	| AppendActionConfig
@@ -104,9 +111,9 @@ export type ActionType =
 
 export interface ActionConfig {
 	type: string;
-	force: boolean;
-	data: object;
-	abortOnFail: boolean;
+	force?: boolean;
+	data?: object;
+	abortOnFail?: boolean;
 }
 
 export interface AddActionConfig extends ActionConfig {
