@@ -7,7 +7,7 @@ import { HelperDelegate as HelperFunction } from 'handlebars';
 
 interface NodePlopAPI {
 	getGenerator(name: string): PlopGenerator;
-	setGenerator(name: string, config: PlopGenerator): PlopGenerator;
+	setGenerator(name: string, config: PlopGeneratorConfig): PlopGenerator;
 
 	setPrompt(name: string, prompt: inquirer.PromptModule): void;
 	setWelcomeMessage(message: string): void;
@@ -58,10 +58,13 @@ interface PlopActionHooks {
 	onFailure?: (failure: PlopActionHooksFailures) => void;
 }
 
-export interface PlopGenerator {
+export interface PlopGeneratorConfig {
 	description: string;
-	prompts: inquirer.Question[];
-	actions: ActionType[];
+	prompts: Prompts;
+	actions: Actions;
+}
+
+export interface PlopGenerator extends PlopGeneratorConfig {
 	runPrompts: (bypassArr?: string[]) => Promise<any>;
 	runActions: (
 		answers: any,
@@ -72,6 +75,23 @@ export interface PlopGenerator {
 	}>;
 }
 
+export type PromptQuestion = inquirer.Question
+	| inquirer.CheckboxQuestion
+	| inquirer.ListQuestion
+	| inquirer.ExpandQuestion
+	| inquirer.ConfirmQuestion
+	| inquirer.EditorQuestion
+	| inquirer.RawListQuestion
+	| inquirer.PasswordQuestion
+	| inquirer.NumberQuestion
+	| inquirer.InputQuestion;
+
+export type DynamicPromptsFunction = (inquirer: inquirer.Inquirer) => Promise<inquirer.Answers>;
+export type DynamicActionsFunction = (data?: inquirer.Answers) => ActionType[];
+
+export type Prompts = DynamicPromptsFunction | PromptQuestion[]
+export type Actions = DynamicActionsFunction | ActionType[];
+
 export type CustomActionFunction = (
 	answers: object,
 	config?: ActionConfig,
@@ -80,6 +100,7 @@ export type CustomActionFunction = (
 
 export type ActionType =
 	| ActionConfig
+	| AddActionConfig
 	| AddManyActionConfig
 	| ModifyActionConfig
 	| AppendActionConfig
@@ -87,9 +108,9 @@ export type ActionType =
 
 export interface ActionConfig {
 	type: string;
-	force: boolean;
-	data: object;
-	abortOnFail: boolean;
+	force?: boolean;
+	data?: object;
+	abortOnFail?: boolean;
 }
 
 export interface AddActionConfig extends ActionConfig {
