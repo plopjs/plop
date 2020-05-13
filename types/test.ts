@@ -1,4 +1,4 @@
-import nodePlop, { AddActionConfig } from './index';
+import nodePlop from './index';
 
 const plop = nodePlop('./file', {
 	destBasePath: './',
