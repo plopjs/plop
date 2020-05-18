@@ -520,34 +520,7 @@ And your `package.json` should look like the following:
 
 Many CLI utilities handle some actions for you, such as running `git init` or `npm install` once the template is generated.
 
-While we'd like to provide these actions, we also want to keep the core actions limited in scope. As such, we provide an additional
-package [`plop-actions`](https://github.com/plopjs/plop-actions) to do just that.
-
-```javascript
-const {gitInit} = require('plop-actions');
-
-module.exports = function(plop) {
-  plop.setActionType('gitInit', gitInit);
-
-  plop.setGenerator('generate', {
-    prompts: [
-        // ...
-    ],
-    actions: function(data) {
-      const actions = [];
-
-      actions.push({
-        type: 'gitInit',
-        path: `${process.cwd()}/project-name/`,
-        // By default is false, but if "true" will log the output of commands
-        verbose: true
-      })
-    }
-  })
-}
-```
-
-For more, [refer to the `plop-actions` README](https://github.com/plopjs/plop-actions#readme)
+While we'd like to provide these actions, we also want to keep the core actions limited in scope. As such, we maintain a collection of libraries built to add these actions to Plop in [our Awesome Plop list](https://github.com/plopjs/awesome-plop). There, you'll be able to find options for those actions, or even build your own and add it to the list!
 
 ### Further Customization
 
