@@ -548,3 +548,15 @@ module.exports = function(plop) {
 ```
 
 For more, [refer to the `plop-actions` README](https://github.com/plopjs/plop-actions#readme)
+
+### Further Customization
+
+While `plop` provides a great level of customization for CLI utility wrappers, there may be usecases where you simply
+want more control over the CLI experience while also utilizing the template generation code.
+
+Luckily, [`node-plop`](https://github.com/plopjs/node-plop/) may be for you! It's what the `plop` CLI itself is built
+upon and can be easily extended for other usage in the CLI. However, be warned, documentation is not quite as fleshed out
+for integration with `node-plop`. That is to say `Thar be dragons`.
+
+> We note lackluster documentation on `node-plop` integration not as a point of pride, but rather a word of warning.
+> If you'd like to contribute documentation to the project, please do so! We always welcome and encourage contributions! 
