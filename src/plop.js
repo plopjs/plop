@@ -22,7 +22,19 @@ const Plop = new Liftoff({
 	v8flags: v8flags
 });
 
-function run(env) {
+/**
+ * The function to pass as the second argument to `Plop.launch`
+ * @param env - This is passed implicitly
+ * @param _ - Passed implicitly. Not needed, but allows for `passArgsBeforeDashes` to be explicitly passed
+ * @param passArgsBeforeDashes - An opt-in `true` boolean that will allow merging of plop CLI API and generator API
+ * @example
+ * Plop.launch({}, env => run(env, undefined, true))
+ *
+ * !!!!!! WARNING !!!!!!
+ * One of the reasons we default generator arguments as anything past `--` is a few reasons:
+ * Primarily that there may be name-spacing issues when combining the arg order and named arg passing
+ */
+function run(env, _, passArgsBeforeDashes) {
 	const plopfilePath = env.configPath;
 
 	// handle basic argument flags like --help, --version, etc
@@ -36,7 +48,7 @@ function run(env) {
 
 	const generators = plop.getGeneratorList();
 	const generatorNames = generators.map(v => v.name);
-	const {generatorName, bypassArr, plopArgV} = getBypassAndGenerator(plop);
+	const {generatorName, bypassArr, plopArgV} = getBypassAndGenerator(plop, passArgsBeforeDashes);
 
 	// look up a generator and run it with calculated bypass data
 	const runGeneratorByName = name => {
