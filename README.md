@@ -2,7 +2,7 @@ Plop
 ======
 
 Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity.
-![plop demo](http://i.imgur.com/penUFkr.gif)
+![plop demo](https://i.imgur.com/penUFkr.gif)
 
 > [Documentation also available on plopjs.com](https://plopjs.com/documentation/)
 
@@ -125,7 +125,7 @@ Because when you create your boilerplate separate from your code, you naturally 
 
 Because saving your team (or yourself) 5-15 minutes when creating every route, component, controller, helper, test, view, etc... [really adds up](https://xkcd.com/1205/).
 
-Because [context switching is expensive](http://www.petrikainulainen.net/software-development/processes/the-cost-of-context-switching/) and saving time is not the only [benefit to automating workflows](https://medium.com/@kentcdodds/an-argument-for-automation-fce8394c14e2)
+Because [context switching is expensive](https://www.petrikainulainen.net/software-development/processes/the-cost-of-context-switching/) and saving time is not the only [benefit to automating workflows](https://medium.com/@kentcdodds/an-argument-for-automation-fce8394c14e2)
 
 # Plopfile Api
 The plopfile api is the collection of methods that are exposed by the `plop` object. Most of the work is done by [`setGenerator`](#setgenerator) but this section documents the other methods that you may also find useful in your plopfile.
@@ -166,7 +166,7 @@ Method | Parameters | Returns | Description
 [**load**](https://github.com/amwmedia/plop/blob/master/plop-load.md) | *Array[String], Object, Object* | | loads generators, helpers and/or partials from another plopfile or npm module
 
 ## setHelper
-`setHelper` directly corresponds to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](http://handlebarsjs.com/guide/expressions.html#helpers), then you already know how this works.
+`setHelper` directly corresponds to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](https://handlebarsjs.com/guide/expressions.html#helpers), then you already know how this works.
 
 ``` javascript
 module.exports = function (plop) {
@@ -180,7 +180,7 @@ module.exports = function (plop) {
 ```
 
 ## setPartial
-`setPartial` directly corresponds to the handlebars method `registerPartial`. So if you are familiar with [handlebars partials](http://handlebarsjs.com/guide/partials.html), then you already know how this works.
+`setPartial` directly corresponds to the handlebars method `registerPartial`. So if you are familiar with [handlebars partials](https://handlebarsjs.com/guide/partials.html), then you already know how this works.
 
 ``` javascript
 module.exports = function (plop) {
