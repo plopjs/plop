@@ -460,3 +460,91 @@ function MyConfirmPluginConstructor() {
 
 ### Adding Bypass Support to Your Plopfile
 If the 3rd party prompt plugin you are using does not support bypass by default, you can add the `bypass` function above to your prompt's config object and plop will use it for handling bypass data for that prompt.
+
+## Wrapping Plop 
+
+Plop provides a lot of powerful functionality "for free". This utility is so powerful, in fact, that you can even wrap `plop`
+into your own CLI project. To do so, you only need a `plopfile.js`, a `package.json`, and a template to reference.
+
+Your `index.js` file should look like the following:
+
+```javascript
+#!/usr/bin/env node
+const path = require('path');
+const args = process.argv.slice(2);
+const {Plop, run} = require('plop');
+const argv = require('minimist')(args);
+
+Plop.launch({
+  cwd: argv.cwd,
+  // In order for `plop` to always pick up the `plopfile.js` despite the CWD, you must use `__dirname`
+  configPath: path.join(__dirname, 'plopfile.js'),
+  require: argv.require,
+  completion: argv.completion
+// This will merge the `plop` argv and the generator argv.
+// This means that you don't need to use `--` anymore
+}, env => run(env, undefined, true));
+```
+
+> Be aware that if you choose to use the `env => run(env, undefined, true))`, you may run into command merging issues
+> when using generator arg passing.
+>
+> If you'd like to opt-out of this behavior and act like plop does (requiring `--` before passing named arguments to generators)
+> simply replace the `env =>` arrow function with `run`:
+>
+>```javascript
+>Plop.launch({}, run);
+>```
+
+And your `package.json` should look like the following:
+
+```json
+{
+  "name": "create-your-name-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "plop",
+  },
+  "bin": {
+    "create-your-name-app": "./index.js"
+  },
+  "preferGlobal": true,
+  "dependencies": {
+    "plop": "^2.6.0"
+  }
+}
+```
+
+### Adding General CLI Actions
+
+Many CLI utilities handle some actions for you, such as running `git init` or `npm install` once the template is generated.
+
+While we'd like to provide these actions, we also want to keep the core actions limited in scope. As such, we provide an additional
+package [`plop-actions`](https://github.com/plopjs/plop-actions) to do just that.
+
+```javascript
+const {gitInit} = require('plop-actions');
+
+module.exports = function(plop) {
+  plop.setActionType('gitInit', gitInit);
+
+  plop.setGenerator('generate', {
+    prompts: [
+        // ...
+    ],
+    actions: function(data) {
+      const actions = [];
+
+      actions.push({
+        type: 'gitInit',
+        path: `${process.cwd()}/project-name/`,
+        // By default is false, but if "true" will log the output of commands
+        verbose: true
+      })
+    }
+  })
+}
+```
+
+For more, [refer to the `plop-actions` README](https://github.com/plopjs/plop-actions#readme)
