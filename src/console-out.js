@@ -91,7 +91,8 @@ module.exports = (function () {
 		'add': chalk.green('++'),
 		'addMany': chalk.green('+!'),
 		'modify': `${chalk.green('+')}${chalk.red('-')}`,
-		'append': chalk.green('_+')
+		'append': chalk.green('_+'),
+		'skip': chalk.green('--')
 	};
 	const typeMap = (name, noMap) => {
 		const dimType = chalk.dim(name);
