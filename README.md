@@ -166,7 +166,7 @@ Method | Parameters | Returns | Description
 [**load**](https://github.com/amwmedia/plop/blob/master/plop-load.md) | *Array[String], Object, Object* | | loads generators, helpers and/or partials from another plopfile or npm module
 
 ## setHelper
-`setHelper` directly corresponds to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](http://handlebarsjs.com/expressions.html#helpers), then you already know how this works.
+`setHelper` directly corresponds to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](http://handlebarsjs.com/guide/expressions.html#helpers), then you already know how this works.
 
 ``` javascript
 module.exports = function (plop) {
@@ -180,7 +180,7 @@ module.exports = function (plop) {
 ```
 
 ## setPartial
-`setPartial` directly corresponds to the handlebars method `registerPartial`. So if you are familiar with [handlebars partials](http://handlebarsjs.com/partials.html), then you already know how this works.
+`setPartial` directly corresponds to the handlebars method `registerPartial`. So if you are familiar with [handlebars partials](http://handlebarsjs.com/guide/partials.html), then you already know how this works.
 
 ``` javascript
 module.exports = function (plop) {
