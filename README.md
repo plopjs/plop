@@ -460,3 +460,76 @@ function MyConfirmPluginConstructor() {
 
 ### Adding Bypass Support to Your Plopfile
 If the 3rd party prompt plugin you are using does not support bypass by default, you can add the `bypass` function above to your prompt's config object and plop will use it for handling bypass data for that prompt.
+
+## Wrapping Plop 
+
+Plop provides a lot of powerful functionality "for free". This utility is so powerful, in fact, that you can even wrap `plop`
+into your own CLI project. To do so, you only need a `plopfile.js`, a `package.json`, and a template to reference.
+
+Your `index.js` file should look like the following:
+
+```javascript
+#!/usr/bin/env node
+const path = require('path');
+const args = process.argv.slice(2);
+const {Plop, run} = require('plop');
+const argv = require('minimist')(args);
+
+Plop.launch({
+  cwd: argv.cwd,
+  // In order for `plop` to always pick up the `plopfile.js` despite the CWD, you must use `__dirname`
+  configPath: path.join(__dirname, 'plopfile.js'),
+  require: argv.require,
+  completion: argv.completion
+// This will merge the `plop` argv and the generator argv.
+// This means that you don't need to use `--` anymore
+}, env => run(env, undefined, true));
+```
+
+> Be aware that if you choose to use the `env => run(env, undefined, true))`, you may run into command merging issues
+> when using generator arg passing.
+>
+> If you'd like to opt-out of this behavior and act like plop does (requiring `--` before passing named arguments to generators)
+> simply replace the `env =>` arrow function with `run`:
+>
+>```javascript
+>Plop.launch({}, run);
+>```
+
+And your `package.json` should look like the following:
+
+```json
+{
+  "name": "create-your-name-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "plop",
+  },
+  "bin": {
+    "create-your-name-app": "./index.js"
+  },
+  "preferGlobal": true,
+  "dependencies": {
+    "plop": "^2.6.0"
+  }
+}
+```
+
+### Adding General CLI Actions
+
+Many CLI utilities handle some actions for you, such as running `git init` or `npm install` once the template is generated.
+
+While we'd like to provide these actions, we also want to keep the core actions limited in scope. As such, we maintain a collection of libraries built to add these actions to Plop in [our Awesome Plop list](https://github.com/plopjs/awesome-plop). There, you'll be able to find options for those actions, or even build your own and add it to the list!
+
+### Further Customization
+
+While `plop` provides a great level of customization for CLI utility wrappers, there may be usecases where you simply
+want more control over the CLI experience while also utilizing the template generation code.
+
+Luckily, [`node-plop`](https://github.com/plopjs/node-plop/) may be for you! It's what the `plop` CLI itself is built
+upon and can be easily extended for other usage in the CLI. However, be warned, documentation is not quite as fleshed out
+for integration with `node-plop`. That is to say `Thar be dragons`.
+
+> We note lackluster documentation on `node-plop` integration not as a point of pride, but rather a word of warning.
+> If you'd like to contribute documentation to the project, please do so! We always welcome and encourage contributions! 

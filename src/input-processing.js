@@ -10,17 +10,21 @@ module.exports = {getBypassAndGenerator, handleArgFlags};
 /**
  * Parses the user input to identify the generator to run and any bypass data
  * @param plop - The plop context
+ * @param passArgsBeforeDashes - Should we pass args before `--` to the generator API
  */
-function getBypassAndGenerator(plop) {
-	// See if there are args to pass to generator
-	const eoaIndex = args.indexOf('--');
-	const {plopArgV, eoaArg} = (eoaIndex === -1
-		? {plopArgV: []}
-		: {
-			plopArgV: minimist(args.slice(eoaIndex + 1, args.length)),
-			eoaArg: args[eoaIndex + 1]
-		}
-	);
+function getBypassAndGenerator(plop, passArgsBeforeDashes) {
+    // See if there are args to pass to generator
+    const eoaIndex = args.indexOf('--');
+    const {plopArgV, eoaArg} = (
+        passArgsBeforeDashes ?
+            {plopArgV: argv} :
+            eoaIndex === -1
+                ? {plopArgV: []}
+                : {
+                    plopArgV: minimist(args.slice(eoaIndex + 1, args.length)),
+                    eoaArg: args[eoaIndex + 1]
+                }
+    );
 
   // locate the generator name based on input and take the rest of the
 	// user's input as prompt bypass data to be passed into the generator
