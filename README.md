@@ -11,7 +11,7 @@ Micro-generator framework that makes it easy for an entire team to create files 
 &nbsp;
 [![npm](https://img.shields.io/npm/v/plop.svg)](https://www.npmjs.com/package/plop)
 &nbsp;
-[![plop on slack](https://plopjs-slack-vbeawnrrtk.now.sh/badge.svg)](https://plopjs-slack-vbeawnrrtk.now.sh/)
+[![plop on slack](https://img.shields.io/badge/slack-join%20workspace-green)](https://join.slack.com/t/plopjs/shared_invite/zt-ehh69el1-2_DjgZRuMbpC9RnEa4M8cA)
 
 ## What is Plop?
 Plop is what I like to call a "micro-generator framework." Now, I call it that because it is a small tool that gives you a simple way to generate code or any other type of flat text files in a consistent way. You see, we all create structures and patterns in our code (routes, controllers, components, helpers, etc). These patterns change and improve over time so when you need to create a NEW *insert-name-of-pattern-here*, it's not always easy to locate the files in your codebase that represent the current "best practice." That's where plop saves you. With plop, you have your "best practice" method of creating any given pattern in CODE. Code that can easily be run from the terminal by typing `plop`. Not only does this save you from hunting around in your codebase for the right files to copy, but it also turns "the right way" into "the easiest way" to make new files.
@@ -278,7 +278,7 @@ Property | Type | Default | Description
 
 > The `data` property on any `ActionConfig` can also be a `Function` that returns an `Object` or a `Function` that returns a `Promise` that resolves with an `Object`.
 
-> The `skip` function on any `ActionConfig` is optional and should return a string if the action should be skipped. The return value is the reason to skip the action. 
+> The `skip` function on any `ActionConfig` is optional and should return a string if the action should be skipped. The return value is the reason to skip the action.
 
 > Instead of an Action Object, a [function can also be used](#custom-action-function-)
 
@@ -461,7 +461,7 @@ function MyConfirmPluginConstructor() {
 ### Adding Bypass Support to Your Plopfile
 If the 3rd party prompt plugin you are using does not support bypass by default, you can add the `bypass` function above to your prompt's config object and plop will use it for handling bypass data for that prompt.
 
-## Wrapping Plop 
+## Wrapping Plop
 
 Plop provides a lot of powerful functionality "for free". This utility is so powerful, in fact, that you can even wrap `plop`
 into your own CLI project. To do so, you only need a `plopfile.js`, a `package.json`, and a template to reference.
@@ -532,4 +532,4 @@ upon and can be easily extended for other usage in the CLI. However, be warned, 
 for integration with `node-plop`. That is to say `Thar be dragons`.
 
 > We note lackluster documentation on `node-plop` integration not as a point of pride, but rather a word of warning.
-> If you'd like to contribute documentation to the project, please do so! We always welcome and encourage contributions! 
+> If you'd like to contribute documentation to the project, please do so! We always welcome and encourage contributions!
