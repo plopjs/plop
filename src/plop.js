@@ -22,6 +22,8 @@ const Plop = new Liftoff({
 	v8flags: v8flags
 });
 
+const progressSpinner = ora();
+
 /**
  * The function to pass as the second argument to `Plop.launch`
  * @param env - This is passed implicitly
@@ -93,15 +95,14 @@ function doThePlop(generator, bypassArr) {
 	generator.runPrompts(bypassArr)
 		.then(answers => {
 			const noMap = (argv['show-type-names'] || argv.t);
-			const progress = ora();
 			const onComment = (msg) => {
-				progress.info(msg); progress.start();
+				progressSpinner.info(msg); progressSpinner.start();
 			};
 			const onSuccess = (change) => {
 				let line = '';
 				if (change.type) { line += ` ${out.typeMap(change.type, noMap)}`; }
 				if (change.path) { line += ` ${change.path}`; }
-				progress.succeed(line); progress.start();
+				progressSpinner.succeed(line); progressSpinner.start();
 			};
 			const onFailure = (fail) => {
 				let line = '';
@@ -109,11 +110,11 @@ function doThePlop(generator, bypassArr) {
 				if (fail.path) { line += ` ${fail.path}`; }
 				const errMsg = fail.error || fail.message;
 				if (errMsg) { line += ` ${errMsg}` };
-				progress.fail(line); progress.start();
+				progressSpinner.fail(line); progressSpinner.start();
 			};
-			progress.start();
+			progressSpinner.start();
 			return generator.runActions(answers, {onSuccess, onFailure, onComment})
-				.then(() => progress.stop());
+				.then(() => progressSpinner.stop());
 		})
 		.catch(function (err) {
 			console.error(chalk.red('[ERROR]'), err.message);
@@ -123,5 +124,6 @@ function doThePlop(generator, bypassArr) {
 
 module.exports = {
 	Plop,
-	run
+	run,
+	progressSpinner
 }
