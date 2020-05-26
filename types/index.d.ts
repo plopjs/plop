@@ -5,7 +5,7 @@ import { sync as _sync } from 'globby';
 type GlobOptions = Parameters<typeof _sync>[1];
 import { HelperDelegate as HelperFunction } from 'handlebars';
 
-interface NodePlopAPI {
+export interface NodePlopAPI {
 	getGenerator(name: string): PlopGenerator;
 	setGenerator(name: string, config: PlopGeneratorConfig): PlopGenerator;
 
