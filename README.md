@@ -125,7 +125,7 @@ Because when you create your boilerplate separate from your code, you naturally 
 
 Because saving your team (or yourself) 5-15 minutes when creating every route, component, controller, helper, test, view, etc... [really adds up](https://xkcd.com/1205/).
 
-Because [context switching is expensive](https://www.petrikainulainen.net/software-development/processes/the-cost-of-context-switching/) and saving time is not the only [benefit to automating workflows](https://medium.com/@kentcdodds/an-argument-for-automation-fce8394c14e2)
+Because [context switching is expensive](https://www.petrikainulainen.net/software-development/processes/the-cost-of-context-switching/) and saving time is not the only [benefit to automating workflows](https://kentcdodds.com/blog/automation)
 
 # Plopfile Api
 The plopfile api is the collection of methods that are exposed by the `plop` object. Most of the work is done by [`setGenerator`](#setgenerator) but this section documents the other methods that you may also find useful in your plopfile.
