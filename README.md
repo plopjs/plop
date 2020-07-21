@@ -516,6 +516,22 @@ And your `package.json` should look like the following:
 }
 ```
 
+### Setting the base destination path for the wrapper
+
+When wrapping plop, you might want to have the destination path to be based on the cwd when running the wrapper. You can configure the `dest` base path like this:
+
+```javascript
+Plop.launch({
+	// config like above
+}, env => {
+	const options = {
+		...env,
+		dest: process.cwd() // this will make the destination path to be based on the cwd when calling the wrapper
+	}
+	return run(options, undefined, true)
+})
+```
+
 ### Adding General CLI Actions
 
 Many CLI utilities handle some actions for you, such as running `git init` or `npm install` once the template is generated.
