@@ -42,9 +42,10 @@ function run(env, _, passArgsBeforeDashes) {
 	// handle basic argument flags like --help, --version, etc
 	handleArgFlags(env);
 
-	// set the default base path to the plopfile directory
+	// use base path from argv or env if any is present, otherwise set it to the plopfile directory
+	const destBasePath = argv.dest || env.dest
 	const plop = nodePlop(plopfilePath, {
-		destBasePath: argv.dest != null ? path.resolve(argv.dest) : undefined,
+		destBasePath: destBasePath ? path.resolve(destBasePath) : undefined,
 		force: argv.force === true || argv.f === true || false
 	});
 
