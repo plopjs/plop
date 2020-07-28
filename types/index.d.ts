@@ -111,23 +111,29 @@ export interface ActionConfig {
 	force?: boolean;
 	data?: object;
 	abortOnFail?: boolean;
+	skip?: Function;
 }
+
+type TranformFn<T> = (template: string, data: any, cfg: T) => string | Promise<string>;
 
 export interface AddActionConfig extends ActionConfig {
 	type: 'add';
 	path: string;
 	template: string;
 	templateFile: string;
-	skipIfExists: boolean;
+	skipIfExists?: boolean;
+	transform?: TranformFn<AddActionConfig>;
 }
 
-export interface AddManyActionConfig extends Pick<AddActionConfig, Exclude<keyof AddActionConfig, 'type'>> {
+export interface AddManyActionConfig extends Pick<AddActionConfig, Exclude<keyof AddActionConfig, 'type' | 'templateFile' | 'template' | 'transform'>> {
 	type: 'addMany';
 	destination: string;
 	base: string;
-	templateFiles: string;
+	templateFiles: string | string[];
+	stripExtensions?: string[];
 	globOptions: GlobOptions;
-	verbose: boolean;
+	verbose?: boolean;
+	transform?: TranformFn<AddManyActionConfig>;
 }
 
 export interface ModifyActionConfig extends ActionConfig {
@@ -136,6 +142,7 @@ export interface ModifyActionConfig extends ActionConfig {
 	pattern: string | RegExp;
 	template: string;
 	templateFile: string;
+	transform?: TranformFn<ModifyActionConfig>;
 }
 
 export interface AppendActionConfig extends ActionConfig {
