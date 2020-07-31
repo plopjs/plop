@@ -13,26 +13,24 @@ module.exports = {getBypassAndGenerator, handleArgFlags};
  * @param passArgsBeforeDashes - Should we pass args before `--` to the generator API
  */
 function getBypassAndGenerator(plop, passArgsBeforeDashes) {
-    // See if there are args to pass to generator
-    const eoaIndex = args.indexOf('--');
-    const {plopArgV, eoaArg} = (
-        passArgsBeforeDashes ?
-            {plopArgV: argv} :
-            eoaIndex === -1
-                ? {plopArgV: []}
-                : {
-                    plopArgV: minimist(args.slice(eoaIndex + 1, args.length)),
-                    eoaArg: args[eoaIndex + 1]
-                }
-    );
+	// See if there are args to pass to generator
+	const eoaIndex = args.indexOf('--');
+	const {plopArgV, eoaArg} = passArgsBeforeDashes
+		? {plopArgV: argv}
+		: eoaIndex === -1
+		? {plopArgV: []}
+		: {
+				plopArgV: minimist(args.slice(eoaIndex + 1, args.length)),
+				eoaArg: args[eoaIndex + 1]
+		  };
 
-  // locate the generator name based on input and take the rest of the
+	// locate the generator name based on input and take the rest of the
 	// user's input as prompt bypass data to be passed into the generator
 	let generatorName = '';
 	let bypassArr = [];
 
 	const generatorNames = plop.getGeneratorList().map(v => v.name);
-	for (let i=0; i < argv._.length; i++) {
+	for (let i = 0; i < argv._.length; i++) {
 		const nameTest = (generatorName.length ? generatorName + ' ' : '') + argv._[i];
 		if (listHasOptionThatStartsWith(generatorNames, nameTest)) {
 			generatorName = nameTest;
@@ -41,12 +39,12 @@ function getBypassAndGenerator(plop, passArgsBeforeDashes) {
 			// If can't find index, slice until the very end - allowing all `_` to be passed
 			index = index !== -1 ? index : argv._.length;
 			// Force `'_'` to become undefined in nameless bypassArr
-			bypassArr = argv._.slice(i, index).map(arg => (/^_+$/).test(arg) ? undefined : arg);
+			bypassArr = argv._.slice(i, index).map(arg => (/^_+$/.test(arg) ? undefined : arg));
 			break;
 		}
 	}
 
-  return {generatorName, bypassArr, plopArgV};
+	return {generatorName, bypassArr, plopArgV};
 }
 
 function listHasOptionThatStartsWith(list, prefix) {
@@ -82,7 +80,6 @@ function handleArgFlags(env) {
 
 		// handle request for version number
 		if (argv.version || argv.v) {
-
 			const localVersion = env.modulePackage.version;
 			if (localVersion !== globalPkg.version && localVersion != null) {
 				console.log(chalk.yellow('CLI version'), globalPkg.version);

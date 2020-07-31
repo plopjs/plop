@@ -1,4 +1,3 @@
-'use strict';
 const path = require('path');
 
 module.exports = function (plop) {
@@ -9,7 +8,7 @@ module.exports = function (plop) {
 	// available for use in the generator templates
 
 	// adds 4 dashes around some text (yes es6/es2015 is supported)
-	plop.addHelper('dashAround', (text) => '---- ' + text + ' ----');
+	plop.addHelper('dashAround', text => '---- ' + text + ' ----');
 
 	// formats an array of options like you would write
 	// it, if you were speaking (one, two, and three)
@@ -32,9 +31,10 @@ module.exports = function (plop) {
 		commentEnd: ''
 	});
 
-	const delayLog = msg => answers => new Promise((resolve) => {
-		setTimeout(() => resolve(msg), 1000);
-	});
+	const delayLog = msg => _answers =>
+		new Promise(resolve => {
+			setTimeout(() => resolve(msg), 1000);
+		});
 
 	// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('test', {
@@ -45,19 +45,25 @@ module.exports = function (plop) {
 				name: 'name',
 				message: 'What is your name?',
 				validate: function (value) {
-					if ((/.+/).test(value)) { return true; }
+					if (/.+/.test(value)) {
+						return true;
+					}
 					return 'name is required';
 				}
-			}, {
+			},
+			{
 				type: 'input',
 				name: 'age',
 				message: 'How old are you?',
 				validate: function (value) {
 					var digitsOnly = /\d+/;
-					if (digitsOnly.test(value)) { return true; }
+					if (digitsOnly.test(value)) {
+						return true;
+					}
 					return 'Invalid age! Must be a number genius!';
 				}
-			}, {
+			},
+			{
 				type: 'checkbox',
 				name: 'toppings',
 				message: 'What pizza toppings do you like?',
@@ -107,22 +113,26 @@ module.exports = function (plop) {
 					fs.writeFileSync(changeFilePath, fs.readFileSync('templates/' + changeFileName));
 					return copiedMsg;
 				}
-			},{
+			},
+			{
 				type: 'modify',
 				path: 'folder/change-me.txt',
 				pattern: /(-- APPEND ITEMS HERE --)/gi,
 				template: '$1\r\n{{name}}: {{age}}'
-			},{
+			},
+			{
 				type: 'modify',
 				path: 'folder/change-me.txt',
 				pattern: /(-- PREPEND ITEMS HERE --)/gi,
 				templateFile: 'templates/part.txt'
-			},{
+			},
+			{
 				type: 'modify',
 				path: 'folder/change-me.txt',
 				pattern: /## replace name here ##/gi,
 				template: 'replaced => {{dashCase name}}'
-			},{
+			},
+			{
 				type: 'modify',
 				path: 'folder/change-me.txt',
 				skip(data) {
@@ -134,13 +144,12 @@ module.exports = function (plop) {
 						return;
 					}
 				},
-				transform(fileContents, data) {
+				transform(fileContents) {
 					return fileContents.replace(/mushrooms/g, 'pepperoni');
 				}
-			},
+			}
 		]
 	});
-
 
 	// adding a custom inquirer prompt type
 	plop.addPrompt('directory', require('inquirer-directory'));
@@ -153,10 +162,13 @@ module.exports = function (plop) {
 				name: 'fileName',
 				message: 'Pick a file name:',
 				validate: function (value) {
-					if ((/.+/).test(value)) { return true; }
+					if (/.+/.test(value)) {
+						return true;
+					}
 					return 'file name is required';
 				}
-			}, {
+			},
+			{
 				type: 'directory',
 				name: 'path',
 				message: 'where would you like to put this component?',
@@ -164,17 +176,17 @@ module.exports = function (plop) {
 			}
 		],
 		actions: [
-			function(data) {
+			function (data) {
 				console.log(data);
 				return 'yay';
-			}, {
+			},
+			{
 				type: 'add',
 				path: '{{absPath path}}/{{fileName}}.txt',
 				template: '{{absPath path}}/{{fileName}} plopped!'
 			}
 		]
 	});
-
 
 	// test with dynamic actions, regarding responses to prompts
 	plop.setGenerator('dynamic actions', {
@@ -185,16 +197,19 @@ module.exports = function (plop) {
 				name: 'name',
 				message: 'What is your name?',
 				validate: function (value) {
-					if ((/.+/).test(value)) { return true; }
+					if (/.+/.test(value)) {
+						return true;
+					}
 					return 'name is required';
 				}
-			}, {
+			},
+			{
 				type: 'confirm',
 				name: 'hasPotatoes',
 				message: 'Do you want potatoes with your burger?'
 			}
 		],
-		actions: function(data) {
+		actions: function (data) {
 			var actions = [
 				{
 					type: 'add',
@@ -204,14 +219,15 @@ module.exports = function (plop) {
 				}
 			];
 
-			if(data.hasPotatoes) {
+			if (data.hasPotatoes) {
 				actions = actions.concat([
 					{
 						type: 'add',
 						path: 'folder/{{dashCase name}}-potatoes.txt',
 						templateFile: 'templates/potatoes.txt',
 						abortOnFail: true
-					},{
+					},
+					{
 						type: 'modify',
 						path: 'folder/{{dashCase name}}-burger.txt',
 						pattern: /(!\n)/gi,

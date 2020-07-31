@@ -1,0 +1,11 @@
+{
+	"extends": "eslint:recommended",
+	"env": {
+		"es6": true,
+		"node": true
+	},
+	"rules": {
+		"no-mixed-spaces-and-tabs": "off",
+		"no-unused-vars": ["error", {"argsIgnorePattern": "^_"}]
+	}
+}
