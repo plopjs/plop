@@ -1,6 +1,6 @@
 {
   "name": "node-plop",
-  "version": "0.26.1",
+  "version": "0.26.2",
   "description": "programmatic plopping for fun and profit",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
