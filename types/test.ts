@@ -1,4 +1,4 @@
-import nodePlop from './index';
+import nodePlop, {AddManyActionConfig} from './index';
 
 const plop = nodePlop('./file', {
 	destBasePath: './',
@@ -101,3 +101,28 @@ plop.setGenerator("test-dynamic-prompts-and-actions", {
 		}];
 	}
 })
+
+const useAddManyAction = (): AddManyActionConfig => ({
+	type: 'addMany',
+	base: '',
+	templateFiles: '',
+	path: '',
+	destination: '',
+	stripExtensions: ['hbs'],
+	globOptions: {
+		dot: true
+	},
+});
+
+const useAddManyTransformAction = (): AddManyActionConfig => ({
+	type: 'addMany',
+	base: '',
+	templateFiles: '',
+	path: '',
+	destination: '',
+	stripExtensions: ['hbs'],
+	transform: () => 'hello',
+	globOptions: {
+		dot: true
+	},
+});
