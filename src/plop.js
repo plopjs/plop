@@ -4,13 +4,10 @@
 
 const path = require('path');
 const Liftoff = require('liftoff');
-const args = process.argv.slice(2);
-const argv = require('minimist')(args);
 const v8flags = require('v8flags');
 const interpret = require('interpret');
 const chalk = require('chalk');
 const ora = require('ora');
-
 const nodePlop = require('node-plop');
 const out = require('./console-out');
 const {combineBypassData} = require('./bypass');
@@ -36,11 +33,13 @@ const progressSpinner = ora();
  * One of the reasons we default generator arguments as anything past `--` is a few reasons:
  * Primarily that there may be name-spacing issues when combining the arg order and named arg passing
  */
-function run(env, _, passArgsBeforeDashes) {
+function run(env, _, passArgsBeforeDashes, args) {
+	args = args || process.argv.slice(2);
+	const argv = require('minimist')(args);
 	const plopfilePath = env.configPath;
 
 	// handle basic argument flags like --help, --version, etc
-	handleArgFlags(env);
+	handleArgFlags(env, argv);
 
 	// use base path from argv or env if any is present, otherwise set it to the plopfile directory
 	const destBasePath = argv.dest || env.dest
@@ -51,13 +50,13 @@ function run(env, _, passArgsBeforeDashes) {
 
 	const generators = plop.getGeneratorList();
 	const generatorNames = generators.map(v => v.name);
-	const {generatorName, bypassArr, plopArgV} = getBypassAndGenerator(plop, passArgsBeforeDashes);
+	const {generatorName, bypassArr, plopArgV} = getBypassAndGenerator(plop, passArgsBeforeDashes, args, argv);
 
 	// look up a generator and run it with calculated bypass data
 	const runGeneratorByName = name => {
 		const generator = plop.getGenerator(name);
 		const bypassData = combineBypassData(generator, bypassArr, plopArgV);
-		doThePlop(generator, bypassData);
+		doThePlop(generator, bypassData, argv);
 	};
 
 	// hmmmm, couldn't identify a generator in the user's input
@@ -92,7 +91,7 @@ function run(env, _, passArgsBeforeDashes) {
 /////
 // everybody to the plop!
 //
-function doThePlop(generator, bypassArr) {
+function doThePlop(generator, bypassArr, argv) {
 	generator.runPrompts(bypassArr)
 		.then(answers => {
 			const noMap = (argv['show-type-names'] || argv.t);

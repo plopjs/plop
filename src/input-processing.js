@@ -2,8 +2,7 @@ const chalk = require('chalk');
 const minimist = require('minimist');
 const out = require('./console-out');
 const globalPkg = require('../package.json');
-const args = process.argv.slice(2);
-const argv = minimist(args);
+
 
 module.exports = {getBypassAndGenerator, handleArgFlags};
 
@@ -12,7 +11,7 @@ module.exports = {getBypassAndGenerator, handleArgFlags};
  * @param plop - The plop context
  * @param passArgsBeforeDashes - Should we pass args before `--` to the generator API
  */
-function getBypassAndGenerator(plop, passArgsBeforeDashes) {
+function getBypassAndGenerator(plop, passArgsBeforeDashes, args, argv) {
     // See if there are args to pass to generator
     const eoaIndex = args.indexOf('--');
     const {plopArgV, eoaArg} = (
@@ -59,7 +58,7 @@ function listHasOptionThatStartsWith(list, prefix) {
  * Handles all basic argument flags
  * @param env - Values parsed by Liftoff
  */
-function handleArgFlags(env) {
+function handleArgFlags(env, argv) {
 	// Make sure that we're not overwritting `help`, `init,` or `version` args in generators
 	if (argv._.length === 0) {
 		// handle request for usage and options
