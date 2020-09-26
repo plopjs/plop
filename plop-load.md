@@ -22,7 +22,7 @@ plop.load
 - **default:** `{ generators:true, helpers:false, partials:false, actionTypes:false }`
 - **optional**
 
-`include` is an object that can contain 4 properties (`generators`, `helpers`, `partials`, and `actionTypes`). Each of these properties should have an [`IncludeDefinition`](#IncludeDefinition) as its value. Most of the time this object is not needed because the plopfile or `plop-pack` is able to specify a default [`IncludeDefinition`](#IncludeDefinition) to be used.
+`include` is an object that can contain 4 properties (`generators`, `helpers`, `partials`, and `actionTypes`). Each of these properties should have an [`IncludeDefinition`](#Interface-IncludeDefinition) as its value. Most of the time this object is not needed because the plopfile or `plop-pack` is able to specify a default [`IncludeDefinition`](#Interface-IncludeDefinition) to be used.
 
 #### Interface `IncludeDefinition`
 - **Boolean:** `true` will include all assets, `false` will include non of them.
