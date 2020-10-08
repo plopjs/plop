@@ -133,11 +133,11 @@ export default function (prompts, bypassArr, plop) {
 			const value = (bypassIsFunc ? bypass.call(null, val, p) : val);
 
 			// if inquirer prompt has a filter function - call it
-			const answer = p.filter ? p.filter(value) : value;
+			const answer = p.filter ? p.filter(value, answers) : value;
 
 			// if inquirer prompt has a validate function - call it
 			if (p.validate) {
-				const validation = p.validate(value);
+				const validation = p.validate(value, answers);
 				if (validation !== true) {
 					// if validation failed return validation error
 					bypassFailures.push(validation);
