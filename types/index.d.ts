@@ -99,6 +99,7 @@ export type CustomActionFunction = (
 ) => Promise<string> | string; // Check return type?
 
 export type ActionType =
+	| string
 	| ActionConfig
 	| AddActionConfig
 	| AddManyActionConfig
