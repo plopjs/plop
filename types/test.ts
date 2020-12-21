@@ -1,4 +1,5 @@
-import nodePlop, {AddManyActionConfig} from './index';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import nodePlop, { AddManyActionConfig, AddActionConfig } from './index';
 
 const plop = nodePlop('./file', {
 	destBasePath: './',
@@ -13,6 +14,7 @@ const generator = plop.getGenerator(names[0]);
 
 plop.getWelcomeMessage();
 
+// @ts-expect-error
 // $ExpectError
 plop.test();
 
@@ -32,14 +34,14 @@ generator.runPrompts(['test']).then((answers) => {
 });
 
 plop.setGenerator('test', {
-	description: "test generator",
+	description: 'test generator',
 	prompts: [{
 		type: 'input',
 		name: 'name',
-		message() {
+		message(): string {
 			return 'test name';
 		},
-		validate(value) {
+		validate(value): true | string {
 			if ((/.+/).test(value)) { return true; }
 			return 'test name is required';
 		}
@@ -52,9 +54,9 @@ plop.setGenerator('test', {
 });
 
 plop.setGenerator('test-dynamic-prompts-only', {
-	description: "test dynamic prompts only",
+	description: 'test dynamic prompts only',
 	prompts: async (inquirer) => ({
-		name: "something-dynamic"
+		name: 'something-dynamic'
 	}),
 	actions: [{
 		type: 'add',
@@ -65,14 +67,14 @@ plop.setGenerator('test-dynamic-prompts-only', {
 
 
 plop.setGenerator('test-dynamic-actions-only', {
-	description: "test dynamic actions only",
+	description: 'test dynamic actions only',
 	prompts: [{
 		type: 'input',
 		name: 'name',
-		message() {
+		message(): string {
 			return 'test name';
 		},
-		validate(value) {
+		validate(value): true | string {
 			if ((/.+/).test(value)) { return true; }
 			return 'test name is required';
 		}
@@ -86,12 +88,12 @@ plop.setGenerator('test-dynamic-actions-only', {
 	}
 });
 
-plop.setGenerator("test-dynamic-prompts-and-actions", {
-	description: "Uses dynamic prompts and actions",
+plop.setGenerator('test-dynamic-prompts-and-actions', {
+	description: 'Uses dynamic prompts and actions',
 	async prompts(inquirer) {
 		return {
-			name: "something-dynamic"
-		}
+			name: 'something-dynamic'
+		};
 	},
 	actions(data) {
 		return [{
@@ -100,7 +102,7 @@ plop.setGenerator("test-dynamic-prompts-and-actions", {
 			templateFile: 'plop-templates/ava-test.js',
 		}];
 	}
-})
+});
 
 const useAddManyAction = (): AddManyActionConfig => ({
 	type: 'addMany',
@@ -121,8 +123,27 @@ const useAddManyTransformAction = (): AddManyActionConfig => ({
 	path: '',
 	destination: '',
 	stripExtensions: ['hbs'],
-	transform: () => 'hello',
+	transform: (): string => 'hello',
 	globOptions: {
 		dot: true
 	},
+});
+
+const useAddActionTemplateOnly = (): AddActionConfig => ({
+	type: 'add',
+	path: '/some/path',
+	template: 'a template {{ someVar }}'
+});
+
+const useAddActionTemplateFileOnly = (): AddActionConfig => ({
+	type: 'add',
+	path: '/some/path',
+	templateFile: 'path/to/some/template.hbs'
+});
+
+// @ts-expect-error
+// $ExpectError
+const useAddActionNoTemplateOrFileErrors = (): AddActionConfig => ({
+	type: 'add',
+	path: 'some/path'
 });
