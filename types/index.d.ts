@@ -114,16 +114,32 @@ export interface ActionConfig {
 	skip?: Function;
 }
 
-type TranformFn<T> = (template: string, data: any, cfg: T) => string | Promise<string>;
+type TransformFn<T> = (template: string, data: any, cfg: T) => string | Promise<string>;
 
-export interface AddActionConfig extends ActionConfig {
+interface AddActionConfigBase extends ActionConfig {
 	type: 'add';
 	path: string;
-	template: string;
-	templateFile: string;
 	skipIfExists?: boolean;
-	transform?: TranformFn<AddActionConfig>;
 }
+
+interface AddActionConfigWithTemplate extends AddActionConfigBase {
+	template: string;
+}
+
+interface AddActionConfigWithTemplateFile extends AddActionConfigBase {
+	templateFile: string;
+}
+
+interface AddActionConfigWithTransform extends AddActionConfigBase {
+	transform: TransformFn<AddActionConfig>;
+	template?: string;
+	templateFile?: string;
+}
+
+export type AddActionConfig =
+	| AddActionConfigWithTemplate
+	| AddActionConfigWithTemplateFile
+	| AddActionConfigWithTransform;
 
 export interface AddManyActionConfig extends Pick<AddActionConfig, Exclude<keyof AddActionConfig, 'type' | 'templateFile' | 'template' | 'transform'>> {
 	type: 'addMany';
@@ -133,7 +149,7 @@ export interface AddManyActionConfig extends Pick<AddActionConfig, Exclude<keyof
 	stripExtensions?: string[];
 	globOptions: GlobOptions;
 	verbose?: boolean;
-	transform?: TranformFn<AddManyActionConfig>;
+	transform?: TransformFn<AddManyActionConfig>;
 }
 
 export interface ModifyActionConfig extends ActionConfig {
@@ -142,7 +158,7 @@ export interface ModifyActionConfig extends ActionConfig {
 	pattern: string | RegExp;
 	template: string;
 	templateFile: string;
-	transform?: TranformFn<ModifyActionConfig>;
+	transform?: TransformFn<ModifyActionConfig>;
 }
 
 export interface AppendActionConfig extends ActionConfig {
