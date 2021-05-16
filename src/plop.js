@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-'use strict';
-
 const path = require('path');
 const Liftoff = require('liftoff');
 const args = process.argv.slice(2);
@@ -43,7 +41,7 @@ function run(env, _, passArgsBeforeDashes) {
 	handleArgFlags(env);
 
 	// use base path from argv or env if any is present, otherwise set it to the plopfile directory
-	const destBasePath = argv.dest || env.dest
+	const destBasePath = argv.dest || env.dest;
 	const plop = nodePlop(plopfilePath, {
 		destBasePath: destBasePath ? path.resolve(destBasePath) : undefined,
 		force: argv.force === true || argv.f === true || false
@@ -72,9 +70,10 @@ function run(env, _, passArgsBeforeDashes) {
 	} else if (!generatorName && generators.length > 1 && !bypassArr.length) {
 		// more than one generator? we'll have to ask the user which
 		// one they want to run.
-		out.chooseOptionFromList(generators, plop.getWelcomeMessage())
+		out
+			.chooseOptionFromList(generators, plop.getWelcomeMessage())
 			.then(runGeneratorByName)
-			.catch((err) => {
+			.catch(err => {
 				console.error(chalk.red('[PLOP] ') + 'Something went wrong with selecting a generator', err);
 			});
 	} else if (generatorNames.includes(generatorName)) {
@@ -86,35 +85,49 @@ function run(env, _, passArgsBeforeDashes) {
 		console.error(chalk.red('[PLOP] ') + 'Could not find a generator for "' + fuzyGenName + '"');
 		process.exit(1);
 	}
-
 }
 
 /////
 // everybody to the plop!
 //
 function doThePlop(generator, bypassArr) {
-	generator.runPrompts(bypassArr)
+	generator
+		.runPrompts(bypassArr)
 		.then(answers => {
-			const noMap = (argv['show-type-names'] || argv.t);
-			const onComment = (msg) => {
-				progressSpinner.info(msg); progressSpinner.start();
+			const noMap = argv['show-type-names'] || argv.t;
+			const onComment = msg => {
+				progressSpinner.info(msg);
+				progressSpinner.start();
 			};
-			const onSuccess = (change) => {
+			const onSuccess = change => {
 				let line = '';
-				if (change.type) { line += ` ${out.typeMap(change.type, noMap)}`; }
-				if (change.path) { line += ` ${change.path}`; }
-				progressSpinner.succeed(line); progressSpinner.start();
+				if (change.type) {
+					line += ` ${out.typeMap(change.type, noMap)}`;
+				}
+				if (change.path) {
+					line += ` ${change.path}`;
+				}
+				progressSpinner.succeed(line);
+				progressSpinner.start();
 			};
-			const onFailure = (fail) => {
+			const onFailure = fail => {
 				let line = '';
-				if (fail.type) { line += ` ${out.typeMap(fail.type, noMap)}`; }
-				if (fail.path) { line += ` ${fail.path}`; }
+				if (fail.type) {
+					line += ` ${out.typeMap(fail.type, noMap)}`;
+				}
+				if (fail.path) {
+					line += ` ${fail.path}`;
+				}
 				const errMsg = fail.error || fail.message;
-				if (errMsg) { line += ` ${errMsg}` };
-				progressSpinner.fail(line); progressSpinner.start();
+				if (errMsg) {
+					line += ` ${errMsg}`;
+				}
+				progressSpinner.fail(line);
+				progressSpinner.start();
 			};
 			progressSpinner.start();
-			return generator.runActions(answers, {onSuccess, onFailure, onComment})
+			return generator
+				.runActions(answers, {onSuccess, onFailure, onComment})
 				.then(() => progressSpinner.stop());
 		})
 		.catch(function (err) {
@@ -127,4 +140,4 @@ module.exports = {
 	Plop,
 	run,
 	progressSpinner
-}
+};
