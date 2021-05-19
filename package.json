@@ -2,10 +2,11 @@
 	"name": "plop",
 	"version": "2.6.0",
 	"description": "Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity",
-	"main": "./dist/plop",
+	"main": "./dist/index.js",
 	"files": [
 		"bin/",
-		"dist/"
+		"dist/",
+		"!dist/index.js.LICENSE.txt"
 	],
 	"repository": {
 		"type": "git",
