@@ -4,5 +4,6 @@ example/folder/
 example/change-me.txt
 .idea
 .vscode
-dist/
+/dist/
+/bin/
 .DS_STORE
