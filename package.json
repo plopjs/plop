@@ -22,9 +22,17 @@
   "bugs": {
     "url": "https://github.com/amwmedia/plop/issues"
   },
+  "scripts": {
+    "test": "npm run test:instrument && ava && nyc report",
+    "test:instrument": "nyc instrument ./bin ./instrumented/bin && nyc instrument ./src ./instrumented/src && cp package.json ./instrumented"
+  },
   "devDependencies": {
+    "ava": "^3.15.0",
+    "execa": "^5.0.0",
     "inquirer-directory": "^2.2.0",
-    "plop-pack-fancy-comments": "^0.2.0"
+    "nyc": "^15.1.0",
+    "plop-pack-fancy-comments": "^0.2.0",
+    "queue-microtask": "^1.2.3"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {
