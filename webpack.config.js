@@ -4,7 +4,7 @@ const webpack = require('webpack');
 // - Useful for configuration files from the end user on Node.js
 // - If this breaks, we can either patch it, or decide to not bundle in the next release
 class FallbackRequireWebpackPlugin {
-	apply(compiler) {
+	apply (compiler) {
 		compiler.hooks.compilation.tap('FallbackRequireWebpackPlugin', (compilation) => {
 			// Permalink for undocumented plugin compilation hook map:
 			// https://github.com/webpack/webpack/blob/v5.37.0/lib/javascript/JavascriptModulesPlugin.js#L123-L165
@@ -13,11 +13,41 @@ class FallbackRequireWebpackPlugin {
 			// https://github.com/webpack/webpack/blob/v5.37.0/lib/javascript/JavascriptModulesPlugin.js#L1178-L1264
 			renderRequire.tap(
 				'FallbackRequireWebpackPlugin',
-				// Replaces `module.exports` with a commonjs `require` when the exports is a function that will error
-				// on runtime (`webpackEmptyContext`)
+				// Replaces `module.exports` with a commonjs `require`, or a proxy that falls back to it, when the
+				// exports is a function that will error during runtime
+				// - Another solution could be to mutate the prototype of `ContextModule`
+				//   (e.g. `ContextModule.prototype.getSourceForEmptyContext = () => 'module.exports = require;';`)
 				(content) => content.replace(
 					/\s*return module\.exports;\s*/,
-					'\nreturn (module.exports && module.exports.name === "webpackEmptyContext") ? require(moduleId) : module.exports;',
+					`
+if (typeof module.exports === "function") {
+	if (module.exports.name === "webpackEmptyContext") return require;
+	if (module.exports.name === "webpackEmptyAsyncContext") return async (...args) => require(...args);
+	if (module.exports.name === "webpackContext") {
+		return new Proxy(module.exports, {
+			apply (target, thisArg, args) {
+				try {
+					Reflect.apply(target, thisArg, args);
+				} catch (error) {
+					Reflect.apply(require, thisArg, args);
+				}
+			}
+		});
+	}
+	if (module.exports.name === "webpackAsyncContext") {
+		return new Proxy(module.exports, {
+			async apply (target, thisArg, args) {
+				try {
+					await Reflect.apply(target, thisArg, args);
+				} catch (error) {
+					Reflect.apply(require, thisArg, args);
+				}
+			}
+		});
+	}
+}
+return module.exports;
+`,
 				),
 			);
 		});
