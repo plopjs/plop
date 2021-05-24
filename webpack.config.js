@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const TerserPlugin = require("terser-webpack-plugin");
 
 // A webpack plugin that falls back to the default require if the module isn't bundled.
 // - Useful for configuration files from the end user on Node.js
@@ -90,6 +91,15 @@ module.exports = {
 	},
 	externalsPresets: {
 		node: true,
+	},
+	optimization: {
+		minimizer: [
+			new TerserPlugin({
+				terserOptions: {
+					keep_fnames: /^webpack(?:Empty)?(?:Async)?Context$/,
+				},
+			}),
+		],
 	},
 	module: {
 		rules: [
