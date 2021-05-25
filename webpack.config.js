@@ -22,10 +22,13 @@ class FallbackRequireWebpackPlugin {
 					/\s*return module\.exports;\s*/,
 					`
 if (typeof module.exports === "function") {
-	if (module.exports.name === "webpackEmptyContext") return require;
-	if (module.exports.name === "webpackEmptyAsyncContext") return async (...args) => require(...args);
-	if (module.exports.name === "webpackContext") {
-		return new Proxy(module.exports, {
+	if (module.exports.name === "webpackEmptyContext") {
+		module.exports = require;
+	} else if (module.exports.name === "webpackEmptyAsyncContext") {
+		module.exports = async (...args) => require(...args);
+	} else if (module.exports.name === "webpackContext") {
+		const originalExport = module.exports;
+		module.exports = new Proxy(originalExport, {
 			apply (target, thisArg, args) {
 				try {
 					Reflect.apply(target, thisArg, args);
@@ -34,9 +37,9 @@ if (typeof module.exports === "function") {
 				}
 			}
 		});
-	}
-	if (module.exports.name === "webpackAsyncContext") {
-		return new Proxy(module.exports, {
+	} else if (module.exports.name === "webpackAsyncContext") {
+		const originalExport = module.exports;
+		module.exports = new Proxy(originalExport, {
 			async apply (target, thisArg, args) {
 				try {
 					await Reflect.apply(target, thisArg, args);
