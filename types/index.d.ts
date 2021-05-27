@@ -28,7 +28,7 @@ export interface NodePlopAPI {
 	getDestBasePath(): string;
 
 	// plop.load functionality
-	load(target: string[] | string, loadCfg: PlopCfg, includeOverride: boolean): void;
+	load(target: string[] | string, loadCfg?: PlopCfg, includeOverride?: boolean): void;
 	setDefaultInclude(inc: object): void;
 	getDefaultInclude(): object;
 
