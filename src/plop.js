@@ -37,22 +37,21 @@ const progressSpinner = ora();
  * Primarily that there may be name-spacing issues when combining the arg order and named arg passing
  */
 function run(env, _, passArgsBeforeDashes) {
-	const plopfilePath = env.configPath;
-
 	// handle basic argument flags like --help, --version, etc
 	handleArgFlags(env);
 
+	const plopfilePath = env.configPath;
+
 	// use base path from argv or env if any is present, otherwise set it to the plopfile directory
 	const destBasePath = argv.dest || env.dest
-	const plop = nodePlop(plopfilePath, {
+	let plop = nodePlop(plopfilePath, {
 		destBasePath: destBasePath ? path.resolve(destBasePath) : undefined,
 		force: argv.force === true || argv.f === true || false
 	});
 
 	const generators = plop.getGeneratorList();
 	const generatorNames = generators.map(v => v.name);
-	const {generatorName, bypassArr, plopArgV} = getBypassAndGenerator(plop, passArgsBeforeDashes);
-
+	const {generatorName, globalGeneratorFilename, bypassArr, plopArgV} = getBypassAndGenerator(plop, passArgsBeforeDashes);
 	// look up a generator and run it with calculated bypass data
 	const runGeneratorByName = name => {
 		const generator = plop.getGenerator(name);
@@ -60,8 +59,14 @@ function run(env, _, passArgsBeforeDashes) {
 		doThePlop(generator, bypassData);
 	};
 
-	// hmmmm, couldn't identify a generator in the user's input
-	if (!generators.length) {
+	if (globalGeneratorFilename) {
+		plop = nodePlop(globalGeneratorFilename, {
+			destBasePath: argv.dest || env.dest || process.cwd(),
+			force: argv.force === true || argv.f === true || false
+		});
+		runGeneratorByName(generatorName);
+	} else if (!generators.length) {
+		// hmmmm, couldn't identify a generator in the user's input
 		// no generators?! there's clearly something wrong here
 		console.error(chalk.red('[PLOP] ') + 'No generator found in plopfile');
 		process.exit(1);

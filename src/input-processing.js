@@ -46,7 +46,16 @@ function getBypassAndGenerator(plop, passArgsBeforeDashes) {
 		}
 	}
 
-  return {generatorName, bypassArr, plopArgV};
+	// generator name wasn't found, look for global
+	let globalGeneratorFilename = '';
+	if(!generatorName) {
+		globalGeneratorFilename = getGlobalGeneratorFilename(bypassArr[0]);
+		if(globalGeneratorFilename) {
+			generatorName = bypassArr.shift();
+		}
+	}
+
+  return {generatorName, globalGeneratorFilename, bypassArr, plopArgV};
 }
 
 function listHasOptionThatStartsWith(list, prefix) {
@@ -94,10 +103,25 @@ function handleArgFlags(env) {
 		}
 	}
 
-	// abort if there's no plopfile found
 	if (env.configPath == null) {
-		console.error(chalk.red('[PLOP] ') + 'No plopfile found');
-		out.displayHelpScreen();
-		process.exit(1);
+		// try a global generator file
+		env.configPath = getGlobalGeneratorFilename(argv._[0]);
+		// abort if there's no plopfile found
+		if(!env.configPath) {
+			console.error(chalk.red('[PLOP] ') + 'No plopfile found and no global generator specified');
+			out.displayHelpScreen();
+			process.exit(1);
+		}
+	}
+}
+
+function getGlobalGeneratorFilename(generatorName) {
+	const globalGeneratorModuleName = `plop-generator-${generatorName}`;
+	try {
+		let globalGeneratorFilename = require.resolve(globalGeneratorModuleName);
+		console.log(chalk.yellow('[PLOP] ') + "Found global generator: " + globalGeneratorModuleName);
+		return globalGeneratorFilename;
+	} catch(e) {
+		return null;
 	}
 }
