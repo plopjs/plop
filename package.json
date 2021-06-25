@@ -5,7 +5,7 @@
   "main": "./src/plop",
   "repository": {
     "type": "git",
-    "url": "https://github.com/amwmedia/plop.git"
+    "url": "https://github.com/plopjs/plop.git"
   },
   "keywords": [
     "generator",
@@ -20,7 +20,7 @@
   "author": "Andrew Worcester <andrew@amwmedia.com> (http://amwmedia.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/amwmedia/plop/issues"
+    "url": "https://github.com/plopjs/plop/issues"
   },
   "devDependencies": {
     "inquirer-directory": "^2.2.0",
