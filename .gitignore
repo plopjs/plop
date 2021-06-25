@@ -5,3 +5,6 @@ example/change-me.txt
 .idea
 .vscode
 .DS_STORE
+.nyc_output
+coverage
+instrumented/
