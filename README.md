@@ -190,7 +190,7 @@ module.exports = function (plop) {
 ```
 
 ## setActionType
-`setActionType` allows you to create your own actions (similar to `add` or `modify`) that can be used in your plopfiles. These are basically highly reusable [custom action function](#custom-action-function-)s.
+`setActionType` allows you to create your own actions (similar to `add` or `modify`) that can be used in your plopfiles. These are basically highly reusable [custom action function](#custom-action-function)s.
 
 ### *FunctionSignature* Custom Action
 Parameters | Type | Description
@@ -280,7 +280,7 @@ Property | Type | Default | Description
 
 > The `skip` function on any `ActionConfig` is optional and should return a string if the action should be skipped. The return value is the reason to skip the action.
 
-> Instead of an Action Object, a [function can also be used](#custom-action-function-)
+> Instead of an Action Object, a [function can also be used](#custom-action-function)
 
 ## Other Methods
 Method | Parameters | Returns | Description
