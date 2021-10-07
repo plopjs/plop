@@ -19,43 +19,51 @@ const prompts = [{
 }];
 
 test('verify good bypass input', function (t) {
-	// answer is string
-	[
-		{ bypassValue: 'eh', expectedAnswer: 'eh' }, // by value
-		{ bypassValue: 'b', expectedAnswer: 'bee' }, // by key
-		{ bypassValue: 'c', expectedAnswer: 'see' }, // by name
-		{ bypassValue: 'd', expectedAnswer: 'd' }, // by value prop
-		{ bypassValue: 'e', expectedAnswer: 'e' }, // by name, no value
-		{ bypassValue: '0', expectedAnswer: 'eh' }, // by index - value
-		{ bypassValue: '1', expectedAnswer: 'bee' }, // by index - key
-		{ bypassValue: '2', expectedAnswer: 'see' }, // by index - name
-		{ bypassValue: '3', expectedAnswer: 'd' }, // by index - value prop
-		{ bypassValue: '4', expectedAnswer: 'e' }, // by index - name, no value
-		{ bypassValue: 4, expectedAnswer: 'e' }, // by index number
-	].forEach(testCase => {
-		const [, value] = promptBypass(prompts, [testCase.bypassValue], plop);
-		t.is(value.list, testCase.expectedAnswer);
-	});
+	const [, byValue] = promptBypass(prompts, ['eh'], plop);
+	t.is(byValue.list, 'eh');
 
-	// answer is object
-	const objValue = { prop: 'value' };
-	[
-		{ bypassValue: 'f', expectedAnswer: objValue }, // by key
-		{ bypassValue: 'ff', expectedAnswer: objValue }, // by name
-		{ bypassValue: '5', expectedAnswer: objValue }, // by index
-		{ bypassValue: 5, expectedAnswer: objValue }, // by index number
-	].forEach(testCase => {
-		const [, value] = promptBypass(prompts, [testCase.bypassValue], plop);
-		t.deepEqual(value.list, testCase.expectedAnswer);
-	});
+	const [, byKey] = promptBypass(prompts, ['b'], plop);
+	t.is(byKey.list, 'bee');
+
+	const [, byName] = promptBypass(prompts, ['c'], plop);
+	t.is(byName.list, 'see');
+
+	const [, byValueProp] = promptBypass(prompts, ['d'], plop);
+	t.is(byValueProp.list, 'd');
+
+	const [, byNameNoValue] = promptBypass(prompts, ['e'], plop);
+	t.is(byNameNoValue.list, 'e');
+
+	const [, byIndexValue] = promptBypass(prompts, ['0'], plop);
+	t.is(byIndexValue.list, 'eh');
+
+	const [, byIndexKey] = promptBypass(prompts, ['1'], plop);
+	t.is(byIndexKey.list, 'bee');
+
+	const [, byIndexName] = promptBypass(prompts, ['2'], plop);
+	t.is(byIndexName.list, 'see');
+
+	const [, byIndexValueProp] = promptBypass(prompts, ['3'], plop);
+	t.is(byIndexValueProp.list, 'd');
+
+	const [, byIndexNameNoValue] = promptBypass(prompts, ['4'], plop);
+	t.is(byIndexNameNoValue.list, 'e');
+
+	const [, byIndexNumber] = promptBypass(prompts, [4], plop);
+	t.is(byIndexNumber.list, 'e');
+
+	const [, byIndexNumberObject] = promptBypass(prompts, [5], plop);
+	t.deepEqual(byIndexNumberObject.list, { prop: 'value' });
+
+	const [, byKeyObject] = promptBypass(prompts, 'f', plop);
+	t.deepEqual(byKeyObject.list, { prop: 'value' });
+
+	const [, byNameObject] = promptBypass(prompts, 'ff', plop);
+	t.deepEqual(byNameObject.list, { prop: 'value' });
 });
 
 test('verify bad bypass input', function (t) {
-	[
-		'asdf',
-		'6',
-		6,
-	].forEach(bypassValue => {
-		t.throws(() => promptBypass(prompts, [bypassValue], plop));
-	});
+	t.throws(() => promptBypass(prompts, ['asdf'], plop));
+	t.throws(() => promptBypass(prompts, ['6'], plop));
+	t.throws(() => promptBypass(prompts, [6], plop));
 });

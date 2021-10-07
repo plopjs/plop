@@ -28,13 +28,11 @@ function checkChoiceValue(choiceValue, value) {
 // check if a bypass value matches some aspect of
 // a particular choice option (index, value, key, etc)
 function choiceMatchesValue (choice, choiceIdx, value) {
-	return [
-		choice,
-		choice.value,
-		choice.key,
-		choice.name,
-		choiceIdx.toString()
-	].some(choiceValue => checkChoiceValue(choiceValue, value));
+	return checkChoiceValue(choice, value)
+		|| checkChoiceValue(choice.value, value)
+		|| checkChoiceValue(choice.key, value)
+		|| checkChoiceValue(choice.name, value)
+		|| checkChoiceValue(choiceIdx.toString(), value);
 }
 
 // check if a value matches a particular set of flagged input options
