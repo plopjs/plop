@@ -86,6 +86,7 @@ function run(env, _, passArgsBeforeDashes) {
 		console.error(chalk.red('[PLOP] ') + 'Could not find a generator for "' + fuzyGenName + '"');
 		process.exit(1);
 	}
+	return plop;
 
 }
 
