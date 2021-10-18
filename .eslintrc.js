@@ -30,7 +30,6 @@ module.exports = {
 	rules: {
 		'require-atomic-updates': 0,
 		indent: ['error', 'tab'],
-		'linebreak-style': ['error', 'unix'],
 		quotes: ['error', 'single'],
 		semi: ['error', 'always']
 	},
