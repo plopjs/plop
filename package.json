@@ -22,9 +22,16 @@
   "bugs": {
     "url": "https://github.com/plopjs/plop/issues"
   },
+  "scripts": {
+    "format": "eslint --fix ./"
+  },
   "devDependencies": {
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "inquirer-directory": "^2.2.0",
-    "plop-pack-fancy-comments": "^0.2.0"
+    "plop-pack-fancy-comments": "^0.2.0",
+    "prettier": "^2.4.1"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {
