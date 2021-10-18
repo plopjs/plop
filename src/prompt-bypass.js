@@ -19,23 +19,21 @@ const getChoiceValue = (choice) => {
 	return choice;
 };
 
+// check if the choice value matches the bypass value
+function checkChoiceValue(choiceValue, value) {
+	return typeof choiceValue === 'string'
+		&& choiceValue.toLowerCase() === value.toLowerCase();
+}
+
 // check if a bypass value matches some aspect of
 // a particular choice option (index, value, key, etc)
-const choiceMatchesValue = (choice, choiceIdx, value) => {
-	const choiceValue = getChoiceValue(choice);
-	
-	const valueMatchesChoice = choiceValue && choiceValue.toLowerCase() === value.toLowerCase();
-	const valueMatchesChoiceKey = typeof choice.key === 'string' && choice.key.toLowerCase() === value.toLowerCase();
-	const valueMatchesChoiceName = typeof choice.name === 'string' && choice.name.toLowerCase() === value.toLowerCase();
-	const valueMatchesChoiceIndex = choiceIdx.toString() === value;
-	
-	return (
-		valueMatchesChoice
-		|| valueMatchesChoiceKey
-		|| valueMatchesChoiceName
-		|| valueMatchesChoiceIndex
-	);
-};
+function choiceMatchesValue (choice, choiceIdx, value) {
+	return checkChoiceValue(choice, value)
+		|| checkChoiceValue(choice.value, value)
+		|| checkChoiceValue(choice.key, value)
+		|| checkChoiceValue(choice.name, value)
+		|| checkChoiceValue(choiceIdx.toString(), value);
+}
 
 // check if a value matches a particular set of flagged input options
 const isFlag = (list, v) => list.includes(v.toLowerCase());

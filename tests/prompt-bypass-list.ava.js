@@ -6,13 +6,15 @@ const plop = nodePlop();
 
 const prompts = [{
 	type:'list',
-	name:'list', message:'listMsg',
+	name:'list',
+	message:'listMsg',
 	choices: [
 		'eh',
 		{key: 'b', value:'bee'},
 		{name: 'c', value: 'see'},
 		{value: 'd'},
-		{name: 'e'}
+		{name: 'e'},
+		{key: 'f', name: 'ff', value: { prop: 'value'}}
 	]
 }];
 
@@ -49,9 +51,19 @@ test('verify good bypass input', function (t) {
 
 	const [, byIndexNumber] = promptBypass(prompts, [4], plop);
 	t.is(byIndexNumber.list, 'e');
+
+	const [, byIndexNumberObject] = promptBypass(prompts, [5], plop);
+	t.deepEqual(byIndexNumberObject.list, { prop: 'value' });
+
+	const [, byKeyObject] = promptBypass(prompts, 'f', plop);
+	t.deepEqual(byKeyObject.list, { prop: 'value' });
+
+	const [, byNameObject] = promptBypass(prompts, 'ff', plop);
+	t.deepEqual(byNameObject.list, { prop: 'value' });
 });
 
 test('verify bad bypass input', function (t) {
 	t.throws(() => promptBypass(prompts, ['asdf'], plop));
-	t.throws(() => promptBypass(prompts, ['5'], plop));
+	t.throws(() => promptBypass(prompts, ['6'], plop));
+	t.throws(() => promptBypass(prompts, [6], plop));
 });
