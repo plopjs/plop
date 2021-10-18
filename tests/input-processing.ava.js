@@ -13,17 +13,17 @@ test("should report a missing plopfile when not copied", async (t) => {
 });
 
 test("should show help information on help flag", async (t) => {
-  const { stdout } = await runInstrumentedPlop("--help");
+  const { stdout } = await runInstrumentedPlop(["--help"]);
   t.regex(stdout, /Usage:/);
   t.snapshot(stdout);
 });
 
 test("should show version on version flag", async (t) => {
-  const { stdout } = await runInstrumentedPlop("--version");
+  const { stdout } = await runInstrumentedPlop(["--version"]);
   t.regex(stdout, /^[\w\.-]+$/);
 });
 
 test("should show version on v flag", async (t) => {
-  const { stdout } = await runInstrumentedPlop("-v");
+  const { stdout } = await runInstrumentedPlop(["-v"]);
   t.regex(stdout, /^[\w\.-]+$/);
 });
