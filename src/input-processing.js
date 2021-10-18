@@ -61,7 +61,7 @@ function listHasOptionThatStartsWith(list, prefix) {
  * @param env - Values parsed by Liftoff
  */
 function handleArgFlags(env) {
-  // Make sure that we're not overwritting `help`, `init,` or `version` args in generators
+  // Make sure that we're not overwriting `help`, `init,` or `version` args in generators
   if (argv._.length === 0) {
     // handle request for usage and options
     if (argv.help || argv.h) {
