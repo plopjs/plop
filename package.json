@@ -36,6 +36,7 @@
     "execa": "^5.0.0",
     "husky": "^7.0.2",
     "inquirer-directory": "^2.2.0",
+    "lint-staged": "^11.2.3",
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.0",
     "prettier": "^2.4.1",
@@ -58,5 +59,8 @@
   "preferGlobal": "true",
   "bin": {
     "plop": "./bin/plop.js"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }
