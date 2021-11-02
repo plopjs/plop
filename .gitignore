@@ -8,3 +8,4 @@ example/change-me.txt
 .nyc_output
 coverage
 instrumented/
+.eslintcache
