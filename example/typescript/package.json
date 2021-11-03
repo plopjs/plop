@@ -1,6 +1,13 @@
 {
   "name": "plop-example",
+  "scripts": {
+    "plop": "plop"
+  },
   "dependencies": {
     "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "plop": "^2.7.6",
+    "ts-node": "^10.4.0"
   }
 }
