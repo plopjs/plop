@@ -9,7 +9,6 @@ const argv = require("minimist")(args);
 const v8flags = require("v8flags");
 const interpret = require("interpret");
 const chalk = require("chalk");
-const ora = require("ora");
 
 const nodePlop = require("node-plop");
 const out = require("./console-out");
@@ -21,8 +20,6 @@ const Plop = new Liftoff({
   extensions: interpret.jsVariants,
   v8flags: v8flags,
 });
-
-const progressSpinner = ora();
 
 /**
  * The function to pass as the second argument to `Plop.launch`
@@ -108,7 +105,11 @@ function run(env, _, passArgsBeforeDashes) {
 function doThePlop(generator, bypassArr) {
   generator
     .runPrompts(bypassArr)
-    .then((answers) => {
+    .then(async (answers) => {
+      const ora = (await import("ora")).default;
+      return [answers, ora()]
+    })
+    .then(([answers, progressSpinner]) => {
       const noMap = argv["show-type-names"] || argv.t;
       const onComment = (msg) => {
         progressSpinner.info(msg);
@@ -154,5 +155,4 @@ function doThePlop(generator, bypassArr) {
 module.exports = {
   Plop,
   run,
-  progressSpinner,
 };
