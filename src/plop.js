@@ -22,7 +22,13 @@ const Plop = new Liftoff({
   v8flags: v8flags,
 });
 
-const progressSpinner = ora();
+const isInJest = process.env.NODE_ENV === "test";
+
+const progressSpinner = ora({
+  // Default is stderr
+  stream: isInJest ? process.stdout : process.stderr,
+  isEnabled: !isInJest,
+});
 
 /**
  * The function to pass as the second argument to `Plop.launch`
