@@ -5,4 +5,5 @@ module.exports = {
   displayName: "node",
   testEnvironment: "jest-environment-node",
   testMatch: ["**/tests/**.spec.js"],
+  snapshotSerializers: ["jest-snapshot-serializer-ansi"],
 };
