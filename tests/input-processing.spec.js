@@ -57,7 +57,47 @@ test("Should bypass generator prompt", async () => {
     cwd: resolve(__dirname, "./examples/javascript"),
   });
 
-  await findByText("What is your name?");
+  expect(await findByText("What is your name?")).toBeTruthy();
+
+  fireEvent.sigterm();
+});
+
+test("Should bypass prompt by input", async () => {
+  const { queryByText, findByText, fireEvent } = await renderPlop(["Frank"], {
+    cwd: resolve(__dirname, "./examples/prompt-only"),
+  });
+
+  expect(await queryByText("What is your name?")).toBeFalsy();
+  expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
+
+  fireEvent.sigterm();
+});
+
+test("Should bypass prompt by input placeholder", async () => {
+  const { queryByText, findByText, fireEvent } = await renderPlop(
+    ["_", "Cheese"],
+    {
+      cwd: resolve(__dirname, "./examples/prompt-only"),
+    }
+  );
+
+  expect(await findByText("What is your name?")).toBeTruthy();
+  fireEvent.enter();
+  expect(await queryByText("What pizza toppings do you like?")).toBeFalsy();
+
+  fireEvent.sigterm();
+});
+
+test("Should bypass prompt by name", async () => {
+  const { queryByText, findByText, fireEvent } = await renderPlop(
+    ["--", "--name", "Frank"],
+    {
+      cwd: resolve(__dirname, "./examples/prompt-only"),
+    }
+  );
+
+  expect(await queryByText("What is your name?")).toBeFalsy();
+  expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
 
   fireEvent.sigterm();
 });
