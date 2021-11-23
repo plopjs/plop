@@ -16,21 +16,21 @@ test("should show help information on help flag", async () => {
 
 test("should show version on version flag", async () => {
   const { findByText } = await renderPlop(["--version"]);
-  await findByText(/^[\w\.-]+$/);
+  expect(await findByText(/^[\w\.-]+$/)).toBeTruthy();
 });
 
 test("should show version on v flag", async () => {
   const { findByText } = await renderPlop(["-v"]);
-  await findByText(/^[\w\.-]+$/);
+  expect(await findByText(/^[\w\.-]+$/)).toBeTruthy();
 });
 
 test("should display inquirer prompts", async () => {
   const { findByText, fireEvent } = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/prompt-only"),
   });
-  await findByText("What is your name?");
+  expect(await findByText("What is your name?")).toBeTruthy();
   fireEvent.type("Joe");
-  await findByText("Joe");
+  expect(await findByText("Joe")).toBeTruthy();
   fireEvent.enter();
   fireEvent.sigterm();
 });
@@ -47,7 +47,7 @@ test("Should handle generator prompt", async () => {
   fireEvent.down();
   fireEvent.enter();
 
-  await findByText("this is a test");
+  expect(await findByText("this is a test")).toBeTruthy();
 
   fireEvent.sigterm();
 });
