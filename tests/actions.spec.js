@@ -2,7 +2,8 @@ const { renderPlop } = require("./render");
 const { resolve } = require("path");
 const { waitFor } = require("cli-testing-library");
 const fs = require("fs");
-const { getFilePath } = require("./file-helper");
+const { getFileHelper } = require("./file-helper");
+const { getFilePath } = getFileHelper();
 
 test("Plop to add and rename files", async () => {
   const expectedFilePath = await getFilePath(

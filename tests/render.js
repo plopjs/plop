@@ -9,9 +9,16 @@ const { resolve } = require("path");
 function renderScript(script, args = [], opts = {}) {
   const { cwd = __dirname } = opts;
 
-  const rendered = render("npx", ["nyc", "--silent", "node", script, ...args], {
-    cwd,
-  });
+  const rendered = render(
+    resolve(__dirname, "../node_modules/.bin/nyc"),
+    ["--silent", "node", script, ...args],
+    {
+      cwd,
+      spawnOpts: {
+        env: { ...process.env, NODE_ENV: "test" },
+      },
+    }
+  );
 
   return rendered;
 }
