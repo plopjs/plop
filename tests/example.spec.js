@@ -18,5 +18,5 @@ test("Should fail", async () => {
 
   await findByText("this is a test");
 
-  // TODO: manually sigkill
+  fireEvent.sigterm(inst);
 });
