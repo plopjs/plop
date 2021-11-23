@@ -1,5 +1,5 @@
 module.exports = function (plop) {
-  plop.setGenerator("addAndNameFIle", {
+  plop.setGenerator("addAndNameFile", {
     description: "Name that file",
     prompts: [
       {
@@ -13,6 +13,24 @@ module.exports = function (plop) {
         type: "add",
         path: "./output/{{fileName}}.txt",
         templateFile: "./templates/to-add.txt",
+      },
+    ],
+  });
+
+  plop.setGenerator("addAndChangeFile", {
+    description: "Name that file",
+    prompts: [
+      {
+        type: "input",
+        name: "name",
+        message: "What's your name?",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "./output/to-add-change.txt",
+        templateFile: "./templates/to-add-change.txt",
       },
     ],
   });
