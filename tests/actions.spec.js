@@ -6,7 +6,6 @@ const fs = require("fs");
 test("Plop to add and rename files", async () => {
   const { findByText, fireEvent } = await renderPlop(["addAndNameFile"], {
     cwd: resolve(__dirname, "./examples/add-action"),
-    debug: true,
   });
 
   expect(await findByText("What should the file name be?")).toBeTruthy();
@@ -33,7 +32,6 @@ test("Plop to add and rename files", async () => {
 test("Plop to add and change file contents", async () => {
   const { findByText, fireEvent } = await renderPlop(["addAndChangeFile"], {
     cwd: resolve(__dirname, "./examples/add-action"),
-    debug: true,
   });
 
   expect(await findByText("What's your name?")).toBeTruthy();
@@ -56,3 +54,8 @@ test("Plop to add and change file contents", async () => {
 
   fireEvent.sigterm();
 });
+
+test.todo("Test modify");
+test.todo("Test append");
+test.todo("Test built-in helpers");
+test.todo("Test custom helpers");
