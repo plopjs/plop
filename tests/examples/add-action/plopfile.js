@@ -29,7 +29,7 @@ module.exports = function (plop) {
     actions: [
       {
         type: "add",
-        path: "./output/to-add-change.txt",
+        path: "./output/new-output.txt",
         templateFile: "./templates/to-add-change.txt",
       },
     ],

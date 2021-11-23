@@ -2,6 +2,7 @@ const { renderScript, renderPlop } = require("./render");
 const { resolve } = require("path");
 const { waitFor } = require("cli-testing-library");
 const fs = require("fs");
+const { getFilePath } = require("./file-helper");
 
 const renderWrapper = (...props) => {
   return renderScript(
@@ -52,22 +53,19 @@ test("wrapper should bypass prompts with name", async () => {
 });
 
 test("can run actions (add)", async () => {
+  const expectedFilePath = await getFilePath(
+    "./examples/wrap-plop/output/added.txt"
+  );
+
   const { fireEvent } = await renderPlop(["Test", "Cheese"], {
     cwd: resolve(__dirname, "./examples/wrap-plop"),
   });
-
-  const expectedFilePath = resolve(
-    __dirname,
-    "./examples/wrap-plop/output/added.txt"
-  );
 
   await waitFor(() => fs.promises.stat(expectedFilePath));
 
   const data = fs.readFileSync(expectedFilePath, "utf8");
 
   expect(data).toMatch(/Hello/);
-
-  fs.unlinkSync(expectedFilePath);
 
   fireEvent.sigterm();
 });

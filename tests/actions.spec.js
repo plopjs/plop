@@ -2,8 +2,13 @@ const { renderPlop } = require("./render");
 const { resolve } = require("path");
 const { waitFor } = require("cli-testing-library");
 const fs = require("fs");
+const { getFilePath } = require("./file-helper");
 
 test("Plop to add and rename files", async () => {
+  const expectedFilePath = await getFilePath(
+    "./examples/add-action/output/new-output.txt"
+  );
+
   const { findByText, fireEvent } = await renderPlop(["addAndNameFile"], {
     cwd: resolve(__dirname, "./examples/add-action"),
   });
@@ -13,23 +18,20 @@ test("Plop to add and rename files", async () => {
   fireEvent.type("new-output");
   fireEvent.enter();
 
-  const expectedFilePath = resolve(
-    __dirname,
-    "./examples/add-action/output/new-output.txt"
-  );
-
   await waitFor(() => fs.promises.stat(expectedFilePath));
 
   const data = fs.readFileSync(expectedFilePath, "utf8");
 
   expect(data).toMatch(/Hello/);
 
-  fs.unlinkSync(expectedFilePath);
-
   fireEvent.sigterm();
 });
 
 test("Plop to add and change file contents", async () => {
+  const expectedFilePath = await getFilePath(
+    "./examples/add-action/output/new-output.txt"
+  );
+
   const { findByText, fireEvent } = await renderPlop(["addAndChangeFile"], {
     cwd: resolve(__dirname, "./examples/add-action"),
   });
@@ -39,18 +41,11 @@ test("Plop to add and change file contents", async () => {
   fireEvent.type("Corbin");
   fireEvent.enter();
 
-  const expectedFilePath = resolve(
-    __dirname,
-    "./examples/add-action/output/to-add-change.txt"
-  );
-
   await waitFor(() => fs.promises.stat(expectedFilePath));
 
-  const data = fs.readFileSync(expectedFilePath, "utf8");
+  const data = await fs.promises.readFile(expectedFilePath, "utf8");
 
   expect(data).toMatch(/Hi Corbin!/);
-
-  fs.unlinkSync(expectedFilePath);
 
   fireEvent.sigterm();
 });
