@@ -57,7 +57,7 @@ test("can run actions (add)", async () => {
     "./examples/wrap-plop/output/added.txt"
   );
 
-  const { fireEvent } = await renderPlop(["Test", "Cheese"], {
+  const { fireEvent } = await renderWrapper(["Test", "Cheese"], {
     cwd: resolve(__dirname, "./examples/wrap-plop"),
   });
 
