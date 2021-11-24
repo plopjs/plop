@@ -6,7 +6,10 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
-const plop = await nodePlop();
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 /////
 //

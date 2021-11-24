@@ -6,14 +6,21 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
-const plop = await nodePlop();
+var plop;
+var baseAction;
+var actionAdd;
+var actionAddWithSkip;
+test.before(async () => {
+	plop = await nodePlop();
 
-const baseAction = { type: 'add', template: '{{name}}', path: `${testSrcPath}/{{name}}.txt` };
-const actionAdd = plop.setGenerator('add-action', {
-	actions: [baseAction]
-});
-const actionAddWithSkip = plop.setGenerator('add-action-skip-exists-true', {
-	actions: [Object.assign({}, baseAction, {skipIfExists: true})]
+	baseAction = { type: 'add', template: '{{name}}', path: `${testSrcPath}/{{name}}.txt` };
+	actionAdd = plop.setGenerator('add-action', {
+		actions: [baseAction]
+	});
+	actionAddWithSkip = plop.setGenerator('add-action-skip-exists-true', {
+		actions: [Object.assign({}, baseAction, {skipIfExists: true})]
+	});
+
 });
 
 test('Check that the file is created', async function (t) {

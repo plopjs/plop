@@ -6,9 +6,14 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const { test, mockPath, testSrcPath, nodePlop } = (new AvaTest(__filename));
 
-const plop = await nodePlop(`${mockPath}/plopfile.js`);
-const dynamicTemplateAddMany = plop.getGenerator('dynamic-template-add-many');
+
+var plop;
+var dynamicTemplateAddMany;
 var multipleAddsResult;
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+	dynamicTemplateAddMany = plop.getGenerator('dynamic-template-add-many');
+});
 
 test.before(() => {
 	return dynamicTemplateAddMany

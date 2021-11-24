@@ -5,9 +5,13 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const { test, mockPath, testSrcPath, nodePlop } = new AvaTest(__filename);
 
-const plop = await nodePlop(`${mockPath}/plopfile.js`);
-const executableFlagAddMany = plop.getGenerator('executable-flag-add-many');
+var plop;
+var executableFlagAddMany;
 let res;
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+	executableFlagAddMany = plop.getGenerator('executable-flag-add-many');
+});
 
 test.before(() => {
 	res = executableFlagAddMany.runActions({ executableName: 'ls command' });

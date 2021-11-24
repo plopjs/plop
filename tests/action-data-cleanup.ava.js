@@ -5,7 +5,10 @@ const __filename = fileURLToPath(import.meta.url);
 const { test, testSrcPath, nodePlop } = new AvaTest(__filename);
 import { normalizePath } from '../src/actions/_common-action-utils.js';
 
-const plop = await nodePlop();
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 // Make sure that props added by the action's data attr are cleaned up
 // after the action executes

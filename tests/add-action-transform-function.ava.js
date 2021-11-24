@@ -7,7 +7,10 @@ const __filename = fileURLToPath(import.meta.url);
 
 const { test, testSrcPath, nodePlop } = new AvaTest(__filename);
 
-const plop = await nodePlop();
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 const baseAction = {
 	type: 'add',

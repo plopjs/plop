@@ -1,4 +1,4 @@
-export default function (plop) {
+export default async function (plop) {
 		// adds 4 dashes around some text (yes es6/es2015 is supported)
 	plop.setHelper('surround', (text) => '---- ' + text + ' ----');
 
@@ -11,5 +11,5 @@ export default function (plop) {
 		}]
 	});
 
-	plop.load('./nested/nested-plopfile.js');
+	await plop.load('./nested/nested-plopfile.js');
 };

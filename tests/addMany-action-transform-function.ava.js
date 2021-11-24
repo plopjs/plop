@@ -18,7 +18,10 @@ const avaTest = new AvaTest(__filename);
 const { test, testSrcPath, nodePlop, mockPath, clean } = avaTest;
 test.beforeEach(clean.bind(avaTest));
 
-const plop = await nodePlop();
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 const dataProp = 'testFile';
 const filePath1 = path.resolve(testSrcPath, 'file1.txt');
