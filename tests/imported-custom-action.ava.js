@@ -9,6 +9,8 @@ const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 /////
 // imported custom actions should execute
 //
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
 const customAction = require(path.resolve(mockPath, 'custom-action.js'));
 
 test('imported custom action should execute correctly', async function (t) {

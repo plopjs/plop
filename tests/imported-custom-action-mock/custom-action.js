@@ -1,5 +1,5 @@
-const del = require('del');
-const fspp = require('../../src/fs-promise-proxy');
+import del from 'del';
+import fspp from '../../src/fs-promise-proxy.js';
 import { normalizePath } from '../../src/actions/_common-action-utils.js';
 
 module.exports = async function (data, cfg /*, plop*/) {
