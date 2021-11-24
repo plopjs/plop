@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
 
 /**
  * We are creating files in each test,
@@ -69,7 +69,7 @@ test.serial('action throws if action.skip is not a function', async function(
 test.serial('skip function receives correct arguments', async function(t) {
 	const mainData = { fileName, a: 1 };
 	const configData = { a: 'a', b: 2 };
-	
+
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{

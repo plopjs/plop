@@ -1,9 +1,9 @@
 import path from 'path';
 import fs from 'fs';
 import globby from 'globby';
-import actionInterfaceTest from './_common-action-interface-check';
-import addFile from './_common-action-add-file';
-import { normalizePath } from './_common-action-utils';
+import actionInterfaceTest from './_common-action-interface-check.js';
+import addFile from './_common-action-add-file.js';
+import { normalizePath } from './_common-action-utils.js';
 
 const defaultConfig = {
 	verbose: true,

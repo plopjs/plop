@@ -1,4 +1,4 @@
-import * as fspp from '../fs-promise-proxy';
+import * as fspp from '../fs-promise-proxy.js';
 import {
 	getRenderedTemplate,
 	makeDestPath,
@@ -8,7 +8,7 @@ import {
 	getTransformedTemplate
 } from './_common-action-utils';
 
-import actionInterfaceTest from './_common-action-interface-check';
+import actionInterfaceTest from './_common-action-interface-check.js';
 
 export default async function (data, cfg, plop) {
 	const interfaceTestResult = actionInterfaceTest(cfg);

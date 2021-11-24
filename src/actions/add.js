@@ -1,6 +1,6 @@
-import actionInterfaceTest from './_common-action-interface-check';
-import addFile from './_common-action-add-file';
-import {getRenderedTemplatePath} from './_common-action-utils';
+import actionInterfaceTest from './_common-action-interface-check.js';
+import addFile from './_common-action-add-file.js';
+import {getRenderedTemplatePath} from './_common-action-utils.js';
 
 export default async function (data, cfg, plop) {
 	const interfaceTestResult = actionInterfaceTest(cfg);

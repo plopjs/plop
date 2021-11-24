@@ -1,5 +1,5 @@
-import AvaTest from './_base-ava-test';
-import promptBypass from '../lib/prompt-bypass';
+import AvaTest from './_base-ava-test.js';
+import promptBypass from '../lib/prompt-bypass.js';
 
 const {test, nodePlop} = (new AvaTest(__filename));
 const plop = nodePlop();
@@ -28,7 +28,7 @@ test('verify good bypass input', function (t) {
 	t.is(bypassThree.input, 'something');
 	t.is(bypassThree.filter, 'filter applied');
 	t.is(promptsAfterBypassThree.length, 3);
-	
+
 	//check correct parameters passed to inquirer function
 	prompts[3].filter = (input, answers) => {
 		t.is(input, 'unimportant');
@@ -48,5 +48,5 @@ test('verify good bypass input', function (t) {
 
 test('verify bad bypass input', function (t) {
 	// can't bypass conditional prompts
-	t.throws(() => promptBypass(prompts, ['a', 'something', 'something filtered', 'unimportant', 'something else'], plop));
+	t.throws(() => promptBypass(prompts, ['a', 'something', 'something filtered', 'unimportant', 'something else'], {is: plop}));
 });

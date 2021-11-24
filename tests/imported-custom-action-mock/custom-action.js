@@ -1,6 +1,6 @@
 const del = require('del');
 const fspp = require('../../src/fs-promise-proxy');
-import { normalizePath } from '../../src/actions/_common-action-utils';
+import { normalizePath } from '../../src/actions/_common-action-utils.js';
 
 module.exports = async function (data, cfg /*, plop*/) {
 	const removeFilePath = cfg.path;

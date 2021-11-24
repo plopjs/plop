@@ -1,5 +1,5 @@
-import AvaTest from './_base-ava-test';
-import promptBypass from '../lib/prompt-bypass';
+import AvaTest from './_base-ava-test.js';
+import promptBypass from '../lib/prompt-bypass.js';
 
 const {test, nodePlop} = (new AvaTest(__filename));
 const plop = nodePlop();
@@ -38,9 +38,9 @@ test('verify good bypass input', function (t) {
 });
 
 test('verify bad bypass input', function (t) {
-	t.throws(() => promptBypass([prompts[0]], ['asdf'], plop));
-	t.throws(() => promptBypass([prompts[0]], ['1'], plop));
-	t.throws(() => promptBypass([prompts[0]], ['0'], plop));
-	t.throws(() => promptBypass([prompts[0]], ['no way'], plop));
-	t.throws(() => promptBypass([prompts[0]], ['NOOOOOO'], plop));
+	t.throws(() => promptBypass([prompts[0]], ['asdf'], {is: plop}));
+	t.throws(() => promptBypass([prompts[0]], ['1'], {is: plop}));
+	t.throws(() => promptBypass([prompts[0]], ['0'], {is: plop}));
+	t.throws(() => promptBypass([prompts[0]], ['no way'], {is: plop}));
+	t.throws(() => promptBypass([prompts[0]], ['NOOOOOO'], {is: plop}));
 });

@@ -5,8 +5,8 @@ import handlebars from 'handlebars';
 import _get from 'lodash.get';
 import resolve from 'resolve';
 
-import bakedInHelpers from './baked-in-helpers';
-import generatorRunner from './generator-runner';
+import bakedInHelpers from './baked-in-helpers.js';
+import generatorRunner from './generator-runner.js';
 
 function nodePlop(plopfilePath = '', plopCfg = {}) {
 

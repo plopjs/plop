@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
 
 const { test, testSrcPath, nodePlop } = new AvaTest(__filename);
 

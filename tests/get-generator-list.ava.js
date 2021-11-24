@@ -1,4 +1,4 @@
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
 const {test, nodePlop} = (new AvaTest(__filename));
 
 const plop = nodePlop();

@@ -1,4 +1,4 @@
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
 const {test, mockPath, nodePlop} = (new AvaTest(__filename));
 
 let plop, dynamicPrompts;

@@ -1,6 +1,6 @@
-import {fileExists} from '../src/fs-promise-proxy';
+import {fileExists} from '../src/fs-promise-proxy.js';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
 const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 /////

@@ -1,4 +1,4 @@
-import nodePlop from './node-plop';
+import nodePlop from './node-plop.js';
 
 /**
  * Main node-plop module

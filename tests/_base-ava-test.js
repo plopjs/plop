@@ -3,7 +3,7 @@ import path from 'path';
 import del from 'del';
 import * as fspp from '../lib/fs-promise-proxy.js';
 import nodePlop from '../lib/index.js';
-import { normalizePath } from '../src/actions/_common-action-utils';
+import { normalizePath } from '../src/actions/_common-action-utils.js';
 
 class AvaTest {
 	constructor(testFile) {

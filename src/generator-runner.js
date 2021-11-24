@@ -1,7 +1,7 @@
 'use strict';
 
-import promptBypass from './prompt-bypass';
-import * as buildInActions from './actions';
+import promptBypass from './prompt-bypass.js';
+import * as buildInActions from './actions.js';
 
 
 export default function (plopfileApi, flags) {
@@ -118,7 +118,7 @@ export default function (plopfileApi, flags) {
 		if (typeof cfg.skip === 'function') {
 			// Merge main data and config data in new object
 			const reasonToSkip = await cfg.skip({ ...data, ...cfgData });
-			
+
 			if (typeof reasonToSkip === 'string') {
 				// Return actionResult instead of string
 				return {

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
 
 /**
  * We are creating files in each test,
@@ -272,7 +272,7 @@ test.serial(
 	'Modify action without pattern does not remove "undefined"',
 	async function(t) {
 		const template = 'type SomeType = string | undefined;';
-		
+
 		const gen = plop.setGenerator(genName, {
 			actions: [
 				{...addAction, template },

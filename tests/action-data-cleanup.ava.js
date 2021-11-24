@@ -1,6 +1,6 @@
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
 const { test, testSrcPath, nodePlop } = new AvaTest(__filename);
-import { normalizePath } from '../src/actions/_common-action-utils';
+import { normalizePath } from '../src/actions/_common-action-utils.js';
 
 const plop = nodePlop();
 

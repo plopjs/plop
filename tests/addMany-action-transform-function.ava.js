@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
 
 /**
  * We are creating files in each test,
