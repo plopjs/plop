@@ -6,7 +6,6 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, testSrcPath, nodePlop} = new AvaTest(__filename);
 
-
 var plop;
 var makeList;
 var appendToList;

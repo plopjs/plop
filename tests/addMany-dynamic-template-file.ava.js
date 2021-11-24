@@ -13,14 +13,8 @@ var multipleAddsResult;
 test.before(async () => {
 	plop = await nodePlop(`${mockPath}/plopfile.js`);
 	dynamicTemplateAddMany = plop.getGenerator('dynamic-template-add-many');
-});
-
-test.before(() => {
-	return dynamicTemplateAddMany
+	multipleAddsResult = await dynamicTemplateAddMany
 		.runActions({ name: 'John Doe', kind: 'BarChart' })
-		.then(function (res) {
-			multipleAddsResult = res;
-		});
 });
 
 test('Check that all files have been created', t => {

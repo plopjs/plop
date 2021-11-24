@@ -1,6 +1,7 @@
 {
 	"name": "basic-plopfile-test",
 	"private": true,
+	"type": "module",
 	"config": {
 		"nested": [
 			"basic-plopfile-test-propertyPath-value-index-0",

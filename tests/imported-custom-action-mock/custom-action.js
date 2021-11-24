@@ -1,5 +1,5 @@
 import del from 'del';
-import fspp from '../../src/fs-promise-proxy.js';
+import * as fspp from '../../src/fs-promise-proxy.js';
 import { normalizePath } from '../../src/actions/_common-action-utils.js';
 
 export default async function (data, cfg /*, plop*/) {
