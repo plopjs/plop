@@ -1,4 +1,4 @@
-module.exports = function (plop, config = {}) {
+export default function (plop, config = {}) {
 
 	const cfg = Object.assign({prefix: ''}, config);
 

@@ -1,4 +1,4 @@
-module.exports = function (plop) {
+export default function (plop) {
 	plop.setGenerator('test', {
 		actions: [{
 			type: 'add',

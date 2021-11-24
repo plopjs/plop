@@ -1,7 +1,5 @@
-module.exports = function (plop) {
-	'use strict';
-
-	// setGenerator creates a generator that can be run with "plop generatorName"
+export default function (plop) {
+		// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('executable-flag-add-many', {
 		description: 'adds multiple files from a glob',
 		prompts: [

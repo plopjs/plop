@@ -1,6 +1,6 @@
-module.exports = function (plop) {
-	'use strict';
+import fs from 'fs';
 
+export default function (plop) {
 	///////
 	// helpers are passed through to handlebars and made
 	// available for use in the generator templates
@@ -62,8 +62,7 @@ module.exports = function (plop) {
 				process.chdir(plop.getPlopfilePath());
 
 				// custom function can be synchronous or async (by returning a promise)
-				var fs = require('fs'),
-					existsMsg = 'psst {{name}}, change-me.txt already exists',
+				var existsMsg = 'psst {{name}}, change-me.txt already exists',
 					copiedMsg = 'hey {{name}}, I copied change-me.txt for you',
 					changeFile = 'change-me.txt';
 

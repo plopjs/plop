@@ -1,7 +1,5 @@
-module.exports = function (plop) {
-	'use strict';
-
-	// setGenerator creates a generator that can be run with "plop generatorName"
+export default function (plop) {
+		// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('multiple-adds', {
 		description: 'adds multiple files from a glob',
 		prompts: [

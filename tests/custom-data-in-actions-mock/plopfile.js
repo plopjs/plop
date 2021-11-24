@@ -1,4 +1,4 @@
-module.exports = function (plop) {
+export default function (plop) {
 	// test with dynamic actions, regarding responses to prompts
 	plop.setGenerator('custom-data-in-actions', {
 		description: 'A test that shows how to append data in action definitions',
