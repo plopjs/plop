@@ -2,16 +2,16 @@ Node-Plop
 ======
 
 [![npm](https://img.shields.io/npm/v/node-plop.svg)](https://www.npmjs.com/package/node-plop)
-[![CircleCI](https://circleci.com/gh/plopjs/node-plop/tree/master.svg?style=svg)](https://circleci.com/gh/plopjs/node-plop/tree/master)
+[![GitHub actions](https://img.shields.io/github/workflow/status/plopjs/node-plop/test)](https://github.com/plopjs/node-plop/actions/workflows/test.yml)
 
 This is an early publication of the plop core logic being removed from the CLI tool. Main purpose for this is to make it easier for others to automate code generation through processes and tools OTHER than the command line. This also makes it easier to test the code functionality of PLOP without needing to test via the CLI interface.
 
-Once I feel comfortable that this code functions as it should. I'll be driving the plop CLI tool using node-plop.
+This is the backend code that drives the plop CLI tool using node-plop.
 
 ``` javascript
-const nodePlop = require('node-plop');
+import nodePlop from 'node-plop';
 // load an instance of plop from a plopfile
-const plop = nodePlop(`./path/to/plopfile.js`);
+const plop = await nodePlop(`./path/to/plopfile.js`);
 // get a generator by name
 const basicAdd = plop.getGenerator('basic-add');
 
