@@ -18,7 +18,10 @@ const avaTest = new AvaTest(__filename);
 const { test, testSrcPath, nodePlop, clean } = avaTest;
 test.beforeEach(clean.bind(avaTest));
 
-const plop = await nodePlop();
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 const genName = 'add-then-modify';
 const fileName = 'testFile';

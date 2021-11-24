@@ -6,8 +6,12 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
-const plop = await nodePlop(`${mockPath}/plopfile.js`);
-const dynamicActions = plop.getGenerator('dynamic-actions');
+var plop;
+var dynamicActions;
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+	dynamicActions = plop.getGenerator('dynamic-actions');
+});
 
 test.before(() => {
 	return dynamicActions.runActions({name: 'potato man', yesPotatoes: true});

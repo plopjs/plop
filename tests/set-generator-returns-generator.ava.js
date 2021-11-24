@@ -3,7 +3,10 @@ const __filename = fileURLToPath(import.meta.url);
 const {test, nodePlop} = (new AvaTest(__filename));
 import {fileURLToPath} from 'node:url';
 
-const plop = await nodePlop();
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 /////
 // if an action has no path, the action should fail

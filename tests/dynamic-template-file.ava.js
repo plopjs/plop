@@ -6,8 +6,13 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, testSrcPath, nodePlop} = new AvaTest(__filename);
 
-const plop = await nodePlop(`${mockPath}/plopfile.js`);
-const dynamicTemplateAdd = plop.getGenerator('dynamic-template-add');
+
+var plop;
+var dynamicTemplateAdd;
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+	dynamicTemplateAdd = plop.getGenerator('dynamic-template-add');
+});
 
 test.before(() => {
 	return dynamicTemplateAdd.runActions({name: 'this is a test', kind: 'LineChart'});
