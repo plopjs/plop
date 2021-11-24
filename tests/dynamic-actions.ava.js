@@ -13,11 +13,8 @@ test.before(async () => {
 	dynamicActions = plop.getGenerator('dynamic-actions');
 });
 
-test.before(() => {
-	return dynamicActions.runActions({name: 'potato man', yesPotatoes: true});
-});
-
-test('Check that the potato-man-burger.txt file has been created', t => {
+test('Check that the potato-man-burger.txt file has been created', async t => {
+	await dynamicActions.runActions({name: 'potato man', yesPotatoes: true});
 	const burgerFilePath = path.resolve(testSrcPath, 'potato-man-burger.txt');
 	const potatoFilePath = path.resolve(testSrcPath, 'potato-man-burger.txt');
 
@@ -26,11 +23,8 @@ test('Check that the potato-man-burger.txt file has been created', t => {
 	t.true(fs.existsSync(potatoFilePath));
 });
 
-test.before(() => {
-	return dynamicActions.runActions({name: 'potato hater', yesPotatoes: false});
-});
-
-test('Check that the file potato-hater-burger.txt', t => {
+test('Check that the file potato-hater-burger.txt', async t => {
+	await dynamicActions.runActions({name: 'potato hater', yesPotatoes: false});
 	const burgerFilePath = path.resolve(testSrcPath, 'potato-hater-burger.txt');
 	const potatoFilePath = path.resolve(testSrcPath, 'potato-hater-potatoes.txt');
 

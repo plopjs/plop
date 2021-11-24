@@ -11,12 +11,10 @@ let res;
 test.before(async () => {
 	plop = await nodePlop(`${mockPath}/plopfile.js`);
 	executableFlagAddMany = plop.getGenerator('executable-flag-add-many');
+	res = executableFlagAddMany.runActions({ executableName: 'ls command' });
+	await res;
 });
 
-test.before(() => {
-	res = executableFlagAddMany.runActions({ executableName: 'ls command' });
-	return res;
-});
 if (process.platform !== 'win32') {
 	test('addMany action keeps the executable flag', t => {
 		const destStats = fs.statSync(`${testSrcPath}/ls-command.sh`);

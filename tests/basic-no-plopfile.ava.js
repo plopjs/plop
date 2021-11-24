@@ -7,11 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 var plop;
+
 test.before(async () => {
 	plop = await nodePlop();
-});
-
-test.before(() => {
 	const name = 'basic test name';
 	plop.setHelper('uCase', txt => txt.toUpperCase());
 	plop.setGenerator('basic-add-no-plopfile', {
@@ -33,7 +31,7 @@ test.before(() => {
 	});
 
 	const basicAdd = plop.getGenerator('basic-add-no-plopfile');
-	return basicAdd.runActions({name});
+	await basicAdd.runActions({name});
 });
 
 test('Check that the file has been created', t => {

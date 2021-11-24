@@ -11,9 +11,8 @@ var basicAdd;
 test.before(async () => {
 	plop = await nodePlop(`${mockPath}/plopfile.js`);
 	basicAdd = plop.getGenerator('basic-add');
+	await basicAdd.runActions({name: 'this is a test', age: '21'})
 });
-
-test.before(() => basicAdd.runActions({name: 'this is a test', age: '21'}));
 
 test('Check that the file has been created', t => {
 	const filePath = path.resolve(testSrcPath, 'this-is-a-test.txt');

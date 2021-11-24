@@ -12,10 +12,7 @@ var dynamicTemplateAdd;
 test.before(async () => {
 	plop = await nodePlop(`${mockPath}/plopfile.js`);
 	dynamicTemplateAdd = plop.getGenerator('dynamic-template-add');
-});
-
-test.before(() => {
-	return dynamicTemplateAdd.runActions({name: 'this is a test', kind: 'LineChart'});
+	await dynamicTemplateAdd.runActions({name: 'this is a test', kind: 'LineChart'});
 });
 
 test('Check that the file has been created', t => {

@@ -6,8 +6,8 @@ const {test, mockPath, nodePlop} = (new AvaTest(__filename));
 
 let plop, dynamicPrompts;
 
-test.before(() => {
-	plop = nodePlop(`${mockPath}/plopfile.js`);
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
 	dynamicPrompts = plop.getGenerator('dynamic-prompt');
 });
 
