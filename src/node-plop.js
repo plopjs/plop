@@ -198,7 +198,7 @@ async function nodePlop(plopfilePath = '', plopCfg = {}) {
 		const plopFileExport = await import(pathToFileURL(joinedPath).href);
 		const plop = typeof plopFileExport === 'function' ? plopFileExport : plopFileExport.default;
 
-		plop(plopfileApi, plopCfg);
+		await plop(plopfileApi, plopCfg);
 	} else {
 		setPlopfilePath(process.cwd());
 		loadPackageJson();
