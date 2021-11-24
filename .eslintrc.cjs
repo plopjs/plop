@@ -9,7 +9,8 @@ const ts = {
 	parserOptions: {
 		ecmaVersion: 2018,
 		sourceType: 'module',
-		project: './tsconfig.json'
+		project: './tsconfig.json',
+		"allowImportExportEverywhere": true
 	},
 	plugins: ['@typescript-eslint'],
 	rules: {
@@ -25,7 +26,8 @@ module.exports = {
 	extends: 'eslint:recommended',
 	parserOptions: {
 		sourceType: 'module',
-		ecmaVersion: 2018
+		ecmaVersion: 2018,
+		"allowImportExportEverywhere": true
 	},
 	rules: {
 		'require-atomic-updates': 0,
