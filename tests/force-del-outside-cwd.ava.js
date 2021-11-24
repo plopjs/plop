@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
-const plop = nodePlop(`${mockPath}/sub/plopfile.js`);
+const plop = await nodePlop(`${mockPath}/sub/plopfile.js`);
 
 test('Force del outside cwd test', async function (t) {
 	process.chdir(`${mockPath}/sub`);

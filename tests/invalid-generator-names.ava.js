@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const {test, nodePlop} = (new AvaTest(__filename));
 
-const plop = nodePlop();
+const plop = await nodePlop();
 
 test('Invalid generator names test', function (t) {
 	plop.setGenerator('test');

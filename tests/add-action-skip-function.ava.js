@@ -18,7 +18,7 @@ const avaTest = new AvaTest(__filename);
 const { test, testSrcPath, nodePlop, clean } = avaTest;
 test.beforeEach(clean.bind(avaTest));
 
-const plop = nodePlop();
+const plop = await nodePlop();
 
 const genName = 'add-action';
 const fileName = 'fileName';

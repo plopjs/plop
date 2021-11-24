@@ -8,7 +8,10 @@ import resolve from 'resolve';
 import bakedInHelpers from './baked-in-helpers.js';
 import generatorRunner from './generator-runner.js';
 
-function nodePlop(plopfilePath = '', plopCfg = {}) {
+import { createRequire } from 'node:module'
+const require = createRequire(import.meta.url)
+
+async function nodePlop(plopfilePath = '', plopCfg = {}) {
 
 	let pkgJson = {};
 	let defaultInclude = {generators: true};
@@ -190,7 +193,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		setPlopfilePath(plopfilePath);
 		loadPackageJson();
 
-		const plopFileExport = require(path.join(plopfilePath, plopFileName));
+		const plopFileExport = await import(path.join(plopfilePath, plopFileName));
 		const plop = typeof plopFileExport === 'function' ? plopFileExport : plopFileExport.default;
 
 		plop(plopfileApi, plopCfg);

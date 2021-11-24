@@ -11,8 +11,8 @@ const plopfilePath = path.join(mockPath, 'plopfile.js');
 // test the various ways to import all or part of a node module
 //
 
-test('plop.load should use the default include definition set by the pack', function (t) {
-	const plop = nodePlop();
+test('plop.load should use the default include definition set by the pack', async function (t) {
+	const plop = await nodePlop();
 	plop.load(packModuleName);
 
 	t.true(plop.getHelperList().includes('js-multi-line-header'));
@@ -21,8 +21,8 @@ test('plop.load should use the default include definition set by the pack', func
 	t.is(plop.getPartialList().length, 0);
 });
 
-test('plop.load should include all generators by default', function (t) {
-	const plop = nodePlop();
+test('plop.load should include all generators by default', async function (t) {
+	const plop = await nodePlop();
 	plop.load([packModuleName], {prefix: 'html-'});
 
 	t.true(plop.getHelperList().includes('html-multi-line-header'));
@@ -31,8 +31,8 @@ test('plop.load should include all generators by default', function (t) {
 	t.is(plop.getPartialList().length, 0);
 });
 
-test('plop.load should work with mixed types (packs and files)', function (t) {
-	const plop = nodePlop();
+test('plop.load should work with mixed types (packs and files)', async function (t) {
+	const plop = await nodePlop();
 	plop.load([packModuleName, plopfilePath]);
 
 	t.true(plop.getHelperList().includes('js-multi-line-header'));
@@ -41,8 +41,8 @@ test('plop.load should work with mixed types (packs and files)', function (t) {
 	t.is(plop.getPartialList().length, 0);
 });
 
-test('plop.load should allow consumer to override config', function (t) {
-	const plop = nodePlop();
+test('plop.load should allow consumer to override config', async function (t) {
+	const plop = await nodePlop();
 	plop.load([packModuleName, plopfilePath], {prefix: 'test-'});
 
 	t.true(plop.getHelperList().includes('test-multi-line-header'));
@@ -52,8 +52,8 @@ test('plop.load should allow consumer to override config', function (t) {
 	t.is(plop.getPartialList().length, 0);
 });
 
-test('plop.load should allow consumer to override include definition', function (t) {
-	const plop = nodePlop();
+test('plop.load should allow consumer to override include definition', async function (t) {
+	const plop = await nodePlop();
 	plop.load([packModuleName, plopfilePath], null, {helpers: true});
 
 	t.is(plop.getGeneratorList().length, 0);

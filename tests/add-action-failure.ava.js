@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
-const plop = nodePlop();
+const plop = await nodePlop();
 
 const baseAction = { type: 'add', template: '{{name}}', path: `${testSrcPath}/{{name}}.txt` };
 const actionAdd = plop.setGenerator('add-action', {

@@ -14,7 +14,7 @@ const require = createRequire(import.meta.url);
 const customAction = require(path.resolve(mockPath, 'custom-action.js'));
 
 test('imported custom action should execute correctly', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test.txt');
 	plop.setActionType('custom-del', customAction);
 
@@ -39,7 +39,7 @@ test('imported custom action should execute correctly', async function (t) {
 
 
 test('imported custom action can throw errors', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test2.txt');
 	plop.setActionType('custom-del', customAction);
 

@@ -10,7 +10,7 @@ const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 //
 
 test('Action force add (global force)', async function (t) {
-	const plop = nodePlop('', {force: true});
+	const plop = await nodePlop('', {force: true});
 	const filePath = `${testSrcPath}/test.txt`;
 	const gen = plop.setGenerator('Gen', {
 		actions: [{
@@ -39,7 +39,7 @@ test('Action force add (global force)', async function (t) {
 });
 
 test('Action force add (local action force)', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const filePath = `${testSrcPath}/test2.txt`;
 	const gen = plop.setGenerator('Gen', {
 		actions: [{

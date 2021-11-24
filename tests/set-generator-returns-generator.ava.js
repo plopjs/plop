@@ -3,7 +3,7 @@ const __filename = fileURLToPath(import.meta.url);
 const {test, nodePlop} = (new AvaTest(__filename));
 import {fileURLToPath} from 'node:url';
 
-const plop = nodePlop();
+const plop = await nodePlop();
 
 /////
 // if an action has no path, the action should fail

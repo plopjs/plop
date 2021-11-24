@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 const { test, mockPath, testSrcPath, nodePlop } = (new AvaTest(__filename));
 
-const plop = nodePlop(`${mockPath}/plopfile.js`);
+const plop = await nodePlop(`${mockPath}/plopfile.js`);
 const multipleAdds = plop.getGenerator('add-many-strip-extensions');
 
 test.before(() => {
