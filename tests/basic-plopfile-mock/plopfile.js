@@ -1,4 +1,5 @@
 import fs from 'fs';
+import {join} from 'path';
 
 export default function (plop) {
 	///////
@@ -59,25 +60,24 @@ export default function (plop) {
 				// move the current working directory to the plop file path
 				// this allows this action to work even when the generator is
 				// executed from inside a subdirectory
-				process.chdir(plop.getPlopfilePath());
+
+				var plopFilePath = plop.getPlopfilePath();
 
 				// custom function can be synchronous or async (by returning a promise)
-				var existsMsg = 'psst {{name}}, change-me.txt already exists',
-					copiedMsg = 'hey {{name}}, I copied change-me.txt for you',
-					changeFile = 'change-me.txt';
+				var copiedMsg = 'hey {{name}}, I copied change-me.txt for you',
+					changeFile = 'change-me.txt',
+					toPath = join(plopFilePath, 'src', changeFile),
+					fromPath = join(plopFilePath, 'plop-templates', changeFile);
 
 				// you can use plop.renderString to render templates
-				existsMsg = plop.renderString(existsMsg, answers);
 				copiedMsg = plop.renderString(copiedMsg, answers);
 
-				if (fs.existsSync(changeFile)) {
-					// returned value shows up in the console
-					return existsMsg;
-				} else {
-					// do a synchronous copy via node fs
-					fs.writeFileSync(`src/${changeFile}`, fs.readFileSync(`plop-templates/${changeFile}`));
-					return copiedMsg;
+				if (fs.existsSync(toPath)) {
+					fs.unlinkSync(toPath);
 				}
+
+				fs.writeFileSync(toPath, fs.readFileSync(fromPath));
+				return copiedMsg;
 			},{
 				type: 'modify',
 				path: 'src/change-me.txt',
