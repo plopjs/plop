@@ -23,19 +23,21 @@
     "url": "https://github.com/plopjs/plop/issues"
   },
   "scripts": {
-    "test": "npm run test:instrument && ava && nyc report",
+    "test": "npm run test:instrument && jest && nyc report",
     "test:instrument": "nyc instrument ./bin ./instrumented/bin && nyc instrument ./src ./instrumented/src && cp package.json ./instrumented",
     "format": "eslint --fix ./",
     "prepare": "husky install"
   },
   "devDependencies": {
-    "ava": "^3.15.0",
+    "cli-testing-library": "1.0.0-alpha.7",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "execa": "^5.0.0",
     "husky": "^7.0.2",
     "inquirer-directory": "^2.2.0",
+    "jest": "^27.3.1",
+    "jest-snapshot-serializer-ansi": "^1.0.0",
     "lint-staged": "^11.2.3",
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.0",

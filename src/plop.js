@@ -21,6 +21,14 @@ const Plop = new Liftoff({
   v8flags: v8flags,
 });
 
+// const isInJest = process.env.NODE_ENV === "test";
+//
+// const progressSpinner = ora({
+//   // Default is stderr
+//   stream: isInJest ? process.stdout : process.stderr,
+//   isEnabled: !isInJest,
+// });
+
 /**
  * The function to pass as the second argument to `Plop.launch`
  * @param env - This is passed implicitly
@@ -107,7 +115,7 @@ function doThePlop(generator, bypassArr) {
     .runPrompts(bypassArr)
     .then(async (answers) => {
       const ora = (await import("ora")).default;
-      return [answers, ora()]
+      return [answers, ora()];
     })
     .then(([answers, progressSpinner]) => {
       const noMap = argv["show-type-names"] || argv.t;
