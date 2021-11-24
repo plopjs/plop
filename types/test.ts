@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import nodePlop, { AddManyActionConfig, AddActionConfig } from './index';
 
-const plop = nodePlop('./file', {
+const plop = await nodePlop('./file', {
 	destBasePath: './',
 	force: false,
 });
@@ -14,8 +14,7 @@ const generator = plop.getGenerator(names[0]);
 
 plop.getWelcomeMessage();
 
-// @ts-expect-error
-// $ExpectError
+// @ts-expect-error "Undefined method on plop"
 plop.test();
 
 generator.runPrompts(['test']).then((answers) => {
@@ -141,8 +140,7 @@ const useAddActionTemplateFileOnly = (): AddActionConfig => ({
 	templateFile: 'path/to/some/template.hbs'
 });
 
-// @ts-expect-error
-// $ExpectError
+// @ts-expect-error "Only partial type"
 const useAddActionNoTemplateOrFileErrors = (): AddActionConfig => ({
 	type: 'add',
 	path: 'some/path'

@@ -1,4 +1,4 @@
-import inquirer = require('inquirer');
+import inquirer from 'inquirer';
 // @types/globby doesn't export types for GlobOptions, so we have to work a little bit to extract them:
 // GlobOptions is the second parameter of the sync function, which can be extracted with the Parameters<T> type
 import { sync as _sync } from 'globby';
@@ -17,6 +17,7 @@ export interface NodePlopAPI {
 	getPartial(name: string): string;
 	getPartialList(): string[];
 	setHelper(name: string, fn: HelperFunction): void;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	getHelper(name: string): Function;
 	getHelperList(): string[];
 	setActionType(name: string, fn: CustomActionFunction): void;
@@ -28,7 +29,7 @@ export interface NodePlopAPI {
 	getDestBasePath(): string;
 
 	// plop.load functionality
-	load(target: string[] | string, loadCfg?: PlopCfg, includeOverride?: boolean): void;
+	load(target: string[] | string, loadCfg?: PlopCfg, includeOverride?: boolean): Promise<void>;
 	setDefaultInclude(inc: object): void;
 	getDefaultInclude(): object;
 
@@ -37,6 +38,7 @@ export interface NodePlopAPI {
 	// passthroughs for backward compatibility
 	addPrompt(name: string, prompt: inquirer.PromptModule): void;
 	addPartial(name: string, str: string): void;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	addHelper(name: string, fn: Function): void;
 }
 
@@ -112,6 +114,7 @@ export interface ActionConfig {
 	force?: boolean;
 	data?: object;
 	abortOnFail?: boolean;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	skip?: Function;
 }
 
@@ -177,5 +180,5 @@ export interface PlopCfg {
 	destBasePath: string;
 }
 
-declare function nodePlop(plopfilePath: string, plopCfg?: PlopCfg): NodePlopAPI;
+declare function nodePlop(plopfilePath: string, plopCfg?: PlopCfg): Promise<NodePlopAPI>;
 export default nodePlop;

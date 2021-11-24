@@ -45,15 +45,10 @@
     "ava": "^4.0.0-rc.1",
     "dtslint": "^3.5.1",
     "eslint": "^8.3.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.1",
-    "eslint-plugin-standard": "^5.0.0",
     "plop": "^2.4.0",
     "plop-pack-fancy-comments": "^0.2.1",
     "pre-commit": "^1.x",
-    "typescript": "^3.8.2"
+    "typescript": "^4.5.2"
   },
   "dependencies": {
     "@types/inquirer": "^6.5.0",

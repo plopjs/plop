@@ -8,9 +8,9 @@ import resolve from 'resolve';
 import bakedInHelpers from './baked-in-helpers.js';
 import generatorRunner from './generator-runner.js';
 
-import { createRequire } from 'node:module'
-import {pathToFileURL} from "url";
-const require = createRequire(import.meta.url)
+import { createRequire } from 'node:module';
+import {pathToFileURL} from 'url';
+const require = createRequire(import.meta.url);
 
 async function nodePlop(plopfilePath = '', plopCfg = {}) {
 
