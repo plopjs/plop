@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import globby from 'globby';
+import {globbySync} from 'globby';
 import actionInterfaceTest from './_common-action-interface-check.js';
 import addFile from './_common-action-add-file.js';
 import { normalizePath } from './_common-action-utils.js';
@@ -52,7 +52,7 @@ export default async function (data, userConfig, plop) {
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
 	globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);
-	return globby.sync(templateFilesGlob, Object.assign({braceExpansion: false}, globOptions))
+	return globbySync(templateFilesGlob, Object.assign({braceExpansion: false}, globOptions))
 		.filter(isUnder(basePath))
 		.filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
 }
