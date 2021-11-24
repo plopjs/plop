@@ -14,7 +14,7 @@ const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 var customAction;
 test.before(async () => {
-	customAction = await import(pathToFileURL(path.resolve(mockPath, 'custom-action.js')).href);
+	customAction = (await import(pathToFileURL(path.resolve(mockPath, 'custom-action.js')).href)).default;
 });
 
 test('imported custom action should execute correctly', async function (t) {
