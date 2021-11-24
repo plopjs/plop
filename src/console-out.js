@@ -73,7 +73,7 @@ function displayHelpScreen() {
         "  --cwd                  Directory from which relative paths are calculated against while locating the plopfile"
       ),
       chalk.dim(
-        "  --require              String or array of modules to require before running plop"
+        "  --preload              String or array of modules to require before running plop"
       ),
       chalk.dim(
         "  --dest                 Output to this directory instead of the plopfile's parent directory"

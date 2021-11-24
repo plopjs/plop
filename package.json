@@ -24,8 +24,9 @@
     "url": "https://github.com/plopjs/plop/issues"
   },
   "scripts": {
-    "test": "npm run test:instrument && node --experimental-vm-modules node_modules/jest/bin/jest.js && nyc report",
+    "test": "npm run test:instrument && npm run jest && nyc report",
     "test:instrument": "nyc instrument ./bin ./instrumented/bin && nyc instrument ./src ./instrumented/src && cp package.json ./instrumented",
+    "jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "format": "eslint --fix ./",
     "prepare": "husky install"
   },
@@ -48,12 +49,12 @@
   "dependencies": {
     "@types/liftoff": "^2.5.1",
     "chalk": "^4.1.2",
-    "interpret": "^1.2.0",
-    "liftoff": "^2.5.0",
+    "interpret": "^2.2.0",
+    "liftoff": "^4.0.0",
     "minimist": "^1.2.5",
     "node-plop": "^0.26.3",
     "ora": "^6.0.1",
-    "v8flags": "^2.0.10"
+    "v8flags": "^4.0.0"
   },
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"

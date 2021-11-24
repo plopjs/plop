@@ -30,12 +30,12 @@ const progressSpinner = ora({
 });
 
 /**
- * The function to pass as the second argument to `Plop.launch`
+ * The function to pass as the second argument to `Plop.execute`
  * @param env - This is passed implicitly
  * @param _ - Passed implicitly. Not needed, but allows for `passArgsBeforeDashes` to be explicitly passed
  * @param passArgsBeforeDashes - An opt-in `true` boolean that will allow merging of plop CLI API and generator API
  * @example
- * Plop.launch({}, env => run(env, undefined, true))
+ * Plop.execute(env => run(env, undefined, true))
  *
  * !!!!!! WARNING !!!!!!
  * One of the reasons we default generator arguments as anything past `--` is a few reasons:
