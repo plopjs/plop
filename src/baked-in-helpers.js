@@ -1,20 +1,23 @@
-import changeCase from 'change-case';
+import * as changeCase from 'change-case';
+import {titleCase} from 'title-case';
+import {upperCase} from 'upper-case';
+import {lowerCase} from 'lower-case';
 
 export default {
-	camelCase: changeCase.camel,
-	snakeCase: changeCase.snake,
-	dotCase: changeCase.dot,
-	pathCase: changeCase.path,
-	lowerCase: changeCase.lower,
-	upperCase: changeCase.upper,
-	sentenceCase: changeCase.sentence,
-	constantCase: changeCase.constant,
-	titleCase: changeCase.title,
+	camelCase: changeCase.camelCase,
+	snakeCase: changeCase.snakeCase,
+	dotCase: changeCase.dotCase,
+	pathCase: changeCase.pathCase,
+	lowerCase: lowerCase,
+	upperCase: upperCase,
+	sentenceCase: changeCase.sentenceCase,
+	constantCase: changeCase.constantCase,
+	titleCase: titleCase,
 
-	dashCase: changeCase.param,
-	kabobCase: changeCase.param,
-	kebabCase: changeCase.param,
+	dashCase: changeCase.paramCase,
+	kabobCase: changeCase.paramCase,
+	kebabCase: changeCase.paramCase,
 
-	properCase: changeCase.pascal,
-	pascalCase: changeCase.pascal
+	properCase: changeCase.pascalCase,
+	pascalCase: changeCase.pascalCase
 };
