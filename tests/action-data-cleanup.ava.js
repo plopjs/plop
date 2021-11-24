@@ -1,4 +1,7 @@
 import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const { test, testSrcPath, nodePlop } = new AvaTest(__filename);
 import { normalizePath } from '../src/actions/_common-action-utils.js';
 

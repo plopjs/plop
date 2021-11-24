@@ -6,7 +6,7 @@ import {
 	getRelativeToBasePath,
 	getRenderedTemplatePath,
 	getTransformedTemplate
-} from './_common-action-utils';
+} from './_common-action-utils.js';
 
 import actionInterfaceTest from './_common-action-interface-check.js';
 

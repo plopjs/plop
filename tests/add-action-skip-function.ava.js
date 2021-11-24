@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 
 /**
  * We are creating files in each test,

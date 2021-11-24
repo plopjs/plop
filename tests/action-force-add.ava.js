@@ -1,5 +1,8 @@
 import * as fspp from '../src/fs-promise-proxy.js';
 import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 /////

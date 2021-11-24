@@ -6,7 +6,7 @@ import {
 	makeDestPath,
 	throwStringifiedError,
 	getRelativeToBasePath
-} from './_common-action-utils';
+} from './_common-action-utils.js';
 import {isBinaryFileSync} from 'isbinaryfile';
 import * as fspp from '../fs-promise-proxy.js';
 

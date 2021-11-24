@@ -2,20 +2,16 @@
   "name": "node-plop",
   "version": "0.26.3",
   "description": "programmatic plopping for fun and profit",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "type": "module",
   "types": "types/index.d.ts",
   "scripts": {
-    "clean": "node ./build-scripts/clean",
     "eslint": "eslint src/",
     "test": "npm run test:js && npm run test:typings",
     "test:typings": "dtslint types --localTs node_modules/typescript/lib --expectOnly",
-    "test:js": "npm run eslint && npm run compile && ava",
+    "test:js": "npm run eslint && ava",
     "test-watch": "ava --watch",
-    "compile": "npm run clean && babel src --out-dir lib",
-    "compile-watch": "babel src --watch --out-dir lib",
-    "prepublishOnly": "npm run compile",
-    "develop": "npm run clean && (npm run compile-watch & npm run test-watch)"
+    "develop": "npm run test-watch"
   },
   "pre-commit": [
     "eslint",
@@ -43,11 +39,6 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "@babel/register": "^7.16.0",
-    "@babel/plugin-transform-runtime": "^7.16.4",
     "@types/node": "^13.13.5",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
@@ -65,7 +56,6 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.16.3",
     "@types/inquirer": "^6.5.0",
     "change-case": "^3.1.0",
     "del": "^5.1.0",
@@ -80,10 +70,6 @@
   "ava": {
     "files": [
       "tests/*.ava.js"
-    ],
-    "ignoredByWatcher": [
-      "lib/**/*",
-      "node_modules/**/*"
     ],
     "tap": true
   }

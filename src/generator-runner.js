@@ -1,7 +1,7 @@
 'use strict';
 
 import promptBypass from './prompt-bypass.js';
-import * as buildInActions from './actions.js';
+import * as buildInActions from './actions/index.js';
 
 
 export default function (plopfileApi, flags) {

@@ -1,6 +1,8 @@
 import AvaTest from './_base-ava-test.js';
-import promptBypass from '../lib/prompt-bypass.js';
+import promptBypass from '../src/prompt-bypass.js';
+import {fileURLToPath} from 'node:url';
 
+const __filename = fileURLToPath(import.meta.url);
 const {test, nodePlop} = (new AvaTest(__filename));
 const plop = nodePlop();
 

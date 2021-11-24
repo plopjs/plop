@@ -1,6 +1,9 @@
 // import fs from 'fs';
 import path from 'path';
 import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, nodePlop} = (new AvaTest(__filename));
 const plopfilePath = path.join(mockPath, 'plopfile.js');
 
