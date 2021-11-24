@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 const args = process.argv.slice(2);
-const { Plop, run } = require("../src/plop");
-const argv = require("minimist")(args);
+import { Plop, run } from "../src/plop.js";
+import minimist from "minimist";
+const argv = minimist(args);
 
 Plop.launch(
   {

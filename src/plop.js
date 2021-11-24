@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 
-"use strict";
-
-const path = require("path");
-const Liftoff = require("liftoff");
+import ora from "ora";
+import path from "node:path";
+import Liftoff from "liftoff";
+import minimist from "minimist";
+import v8flags from "v8flags";
+import interpret from "interpret";
+import chalk from "chalk";
 const args = process.argv.slice(2);
-const argv = require("minimist")(args);
-const v8flags = require("v8flags");
-const interpret = require("interpret");
-const chalk = require("chalk");
+const argv = minimist(args);
 
-const nodePlop = require("node-plop");
-const out = require("./console-out");
-const { combineBypassData } = require("./bypass");
-const { getBypassAndGenerator, handleArgFlags } = require("./input-processing");
+import nodePlop from "node-plop";
+import * as out from "./console-out.js";
+import { combineBypassData } from "./bypass.js";
+import { getBypassAndGenerator, handleArgFlags } from "./input-processing.js";
 
 const Plop = new Liftoff({
   name: "plop",
@@ -21,13 +21,13 @@ const Plop = new Liftoff({
   v8flags: v8flags,
 });
 
-// const isInJest = process.env.NODE_ENV === "test";
-//
-// const progressSpinner = ora({
-//   // Default is stderr
-//   stream: isInJest ? process.stdout : process.stderr,
-//   isEnabled: !isInJest,
-// });
+const isInJest = process.env.NODE_ENV === "test";
+
+const progressSpinner = ora({
+  // Default is stderr
+  stream: isInJest ? process.stdout : process.stderr,
+  isEnabled: !isInJest,
+});
 
 /**
  * The function to pass as the second argument to `Plop.launch`
@@ -114,10 +114,9 @@ function doThePlop(generator, bypassArr) {
   generator
     .runPrompts(bypassArr)
     .then(async (answers) => {
-      const ora = (await import("ora")).default;
-      return [answers, ora()];
+      return answers;
     })
-    .then(([answers, progressSpinner]) => {
+    .then((answers) => {
       const noMap = argv["show-type-names"] || argv.t;
       const onComment = (msg) => {
         progressSpinner.info(msg);
@@ -160,7 +159,4 @@ function doThePlop(generator, bypassArr) {
     });
 }
 
-module.exports = {
-  Plop,
-  run,
-};
+export { Plop, run, progressSpinner };

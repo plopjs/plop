@@ -1,5 +1,8 @@
-const { renderPlop } = require("./render");
-const { resolve } = require("path");
+import { resolve, dirname } from "node:path";
+import { renderPlop } from "./render.js";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("should report a missing plopfile when not copied", async () => {
   await expect(() => renderPlop()).rejects.toMatchInlineSnapshot(

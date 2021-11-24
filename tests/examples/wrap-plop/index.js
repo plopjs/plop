@@ -1,17 +1,14 @@
 #!/usr/bin/env node
-const path = require("path");
-const args = process.argv.slice(2);
+import path from "node:path";
+import minimist from "minimist";
 // Test has same results with or without instrumentation
-const { Plop, run } = require("../../../src/plop.js");
-const argv = require("minimist")(args);
+import { Plop, run } from "../../../src/plop.js";
 
-// This is a load bearing console.log
-// It works because it outputs a stdout instead of an stderr
-// and the future stderr isn't caught because, well, it just isn't in the lib yet
-//
-// Why does this fail without this but the normal "plop" does not?
-// Does node-plop output to stderr??
-console.log();
+const args = process.argv.slice(2);
+const argv = minimist(args);
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 Plop.launch(
   {

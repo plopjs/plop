@@ -1,4 +1,4 @@
-import Liftoff = require("liftoff");
+import * as Liftoff from "liftoff";
 
 export {
     ActionConfig,

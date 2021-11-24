@@ -1,9 +1,12 @@
-const { renderScript, renderPlop } = require("./render");
-const { resolve } = require("path");
-const { waitFor } = require("cli-testing-library");
-const fs = require("fs");
-const { getFileHelper } = require("./file-helper");
+import fs from "node:fs";
+import { resolve, dirname } from "node:path";
+import { waitFor } from "cli-testing-library";
+import { renderScript } from "./render.js";
+import { getFileHelper } from "./file-helper.js";
 const { getFilePath } = getFileHelper();
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const renderWrapper = (...props) => {
   return renderScript(

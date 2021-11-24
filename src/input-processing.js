@@ -1,11 +1,11 @@
-const chalk = require("chalk");
-const minimist = require("minimist");
-const out = require("./console-out");
+import chalk from "chalk";
+import minimist from "minimist";
+import * as out from "./console-out.js";
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
 const globalPkg = require("../package.json");
 const args = process.argv.slice(2);
 const argv = minimist(args);
-
-module.exports = { getBypassAndGenerator, handleArgFlags };
 
 /**
  * Parses the user input to identify the generator to run and any bypass data
@@ -101,3 +101,5 @@ function handleArgFlags(env) {
     process.exit(1);
   }
 }
+
+export { getBypassAndGenerator, handleArgFlags };

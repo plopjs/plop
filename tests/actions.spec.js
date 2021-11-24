@@ -1,9 +1,12 @@
-const { renderPlop } = require("./render");
-const { resolve } = require("path");
-const { waitFor } = require("cli-testing-library");
-const fs = require("fs");
-const { getFileHelper } = require("./file-helper");
+import { resolve, dirname } from "node:path";
+import { waitFor } from "cli-testing-library";
+import * as fs from "node:fs";
+import { renderPlop } from "./render.js";
+import { getFileHelper } from "./file-helper.js";
 const { getFilePath } = getFileHelper();
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("Plop to add and rename files", async () => {
   const expectedFilePath = await getFilePath(
