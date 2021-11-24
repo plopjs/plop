@@ -9,6 +9,7 @@ import bakedInHelpers from './baked-in-helpers.js';
 import generatorRunner from './generator-runner.js';
 
 import { createRequire } from 'node:module'
+import {pathToFileURL} from "url";
 const require = createRequire(import.meta.url)
 
 async function nodePlop(plopfilePath = '', plopCfg = {}) {
@@ -79,15 +80,15 @@ async function nodePlop(plopfilePath = '', plopCfg = {}) {
 		}
 	};
 
-	function load(targets, loadCfg = {}, includeOverride) {
+	async function load(targets, loadCfg = {}, includeOverride) {
 		if (typeof targets === 'string') { targets = [targets]; }
 		const config = Object.assign({
 			destBasePath: getDestBasePath()
 		}, loadCfg);
 
-		targets.forEach(function (target) {
+		await Promise.all(targets.map(async function (target) {
 			const targetPath = resolve.sync(target, {basedir: getPlopfilePath()});
-			const proxy = nodePlop(targetPath, config);
+			const proxy = await nodePlop(targetPath, config);
 			const proxyDefaultInclude = proxy.getDefaultInclude() || {};
 			const includeCfg = includeOverride || proxyDefaultInclude;
 			const include = Object.assign({
@@ -102,7 +103,7 @@ async function nodePlop(plopfilePath = '', plopCfg = {}) {
 			loadAsset(proxy.getPartialList(), include.partials, setPartial, proxy.getPartial);
 			loadAsset(proxy.getHelperList(), include.helpers, setHelper, proxy.getHelper);
 			loadAsset(proxy.getActionTypeList(), include.actionTypes, setActionType, proxy.getActionType);
-		});
+		}));
 	}
 
 	function loadAsset(nameList, include, addFunc, getFunc) {
@@ -193,7 +194,8 @@ async function nodePlop(plopfilePath = '', plopCfg = {}) {
 		setPlopfilePath(plopfilePath);
 		loadPackageJson();
 
-		const plopFileExport = await import(path.join(plopfilePath, plopFileName));
+		const joinedPath = path.join(plopfilePath, plopFileName);
+		const plopFileExport = await import(pathToFileURL(joinedPath).href);
 		const plop = typeof plopFileExport === 'function' ? plopFileExport : plopFileExport.default;
 
 		plop(plopfileApi, plopCfg);

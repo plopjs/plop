@@ -12,7 +12,7 @@ const plopfilePath = path.join(mockPath, 'plopfile.js');
 //
 test('plop.load should include all generators by default', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath);
+	await plop.load(plopfilePath);
 
 	t.is(plop.getGeneratorList().length, 3);
 	t.is(plop.getHelperList().length, 0);
@@ -21,7 +21,7 @@ test('plop.load should include all generators by default', async function (t) {
 
 test('plop.load should be able to include a subset of generators', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath, {}, {generators: ['generator1']});
+	await plop.load(plopfilePath, {}, {generators: ['generator1']});
 
 	t.is(plop.getGeneratorList().length, 1);
 	t.is(plop.getGeneratorList()[0].name, 'generator1');
@@ -35,7 +35,7 @@ test('plop.load last in wins', async function (t) {
 	plop.setGenerator('generator1', { description: 'local' });
 	t.is(plop.getGenerator('generator1').description, 'local');
 
-	plop.load(plopfilePath, {}, {generators: ['generator1']});
+	await plop.load(plopfilePath, {}, {generators: ['generator1']});
 
 	t.is(plop.getGeneratorList().length, 1);
 	t.is(plop.getGeneratorList()[0].name, 'generator1');
@@ -48,7 +48,7 @@ test('plop.load can rename loaded assets', async function (t) {
 	plop.setGenerator('generator1', { description: 'local' });
 	t.is(plop.getGenerator('generator1').description, 'local');
 
-	plop.load(plopfilePath, {}, {
+	await plop.load(plopfilePath, {}, {
 		generators: {
 			'generator1':'gen1',
 			'generator3':'bob',
@@ -66,7 +66,7 @@ test('plop.load can rename loaded assets', async function (t) {
 
 test('plop.load passes a config object that can be used to change the plopfile output', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath, {prefix: 'test-'}, {
+	await plop.load(plopfilePath, {prefix: 'test-'}, {
 		generators: true,
 		helpers: true,
 		partials: true,
@@ -86,7 +86,7 @@ test('plop.load passes a config object that can be used to change the plopfile o
 
 test('plop.load should import functioning assets', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath, {prefix: 'test-'}, {
+	await plop.load(plopfilePath, {prefix: 'test-'}, {
 		generators: true,
 		helpers: true,
 		partials: true,
@@ -100,7 +100,7 @@ test('plop.load should import functioning assets', async function (t) {
 
 test('plop.load can include only helpers', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath, null, { helpers: true });
+	await plop.load(plopfilePath, null, { helpers: true });
 
 	const gNameList = plop.getGeneratorList().map(g => g.name);
 	t.is(gNameList.length, 0);
@@ -110,21 +110,21 @@ test('plop.load can include only helpers', async function (t) {
 
 test('plop.load can include only certain helpers', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath, null, { helpers: ['helper1'] });
+	await plop.load(plopfilePath, null, { helpers: ['helper1'] });
 	t.is(plop.getHelperList().length, 1);
 	t.is(plop.getHelperList()[0], 'helper1');
 });
 
 test('plop.load can include and rename helpers', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath, null, { helpers: {'helper1': 'h1'} });
+	await plop.load(plopfilePath, null, { helpers: {'helper1': 'h1'} });
 	t.is(plop.getHelperList().length, 1);
 	t.is(plop.getHelperList()[0], 'h1');
 });
 
 test('plop.load can include only partials', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath, null, { partials: true });
+	await plop.load(plopfilePath, null, { partials: true });
 
 	const gNameList = plop.getGeneratorList().map(g => g.name);
 	t.is(gNameList.length, 0);
@@ -134,14 +134,14 @@ test('plop.load can include only partials', async function (t) {
 
 test('plop.load can include only certain partials', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath, null, { partials: ['partial1'] });
+	await plop.load(plopfilePath, null, { partials: ['partial1'] });
 	t.is(plop.getPartialList().length, 1);
 	t.is(plop.getPartialList()[0], 'partial1');
 });
 
 test('plop.load can include and rename partials', async function (t) {
 	const plop = await nodePlop();
-	plop.load(plopfilePath, null, { partials: {'partial1': 'p1'} });
+	await plop.load(plopfilePath, null, { partials: {'partial1': 'p1'} });
 	t.is(plop.getPartialList().length, 1);
 	t.is(plop.getPartialList()[0], 'p1');
 });
