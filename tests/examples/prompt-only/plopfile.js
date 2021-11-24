@@ -1,4 +1,4 @@
-module.exports = function (plop) {
+export default function (plop) {
   plop.setGenerator("test", {
     description: "this is a test",
     prompts: [
@@ -27,4 +27,4 @@ module.exports = function (plop) {
       },
     ],
   });
-};
+}

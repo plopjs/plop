@@ -41,7 +41,7 @@ const progressSpinner = ora({
  * One of the reasons we default generator arguments as anything past `--` is a few reasons:
  * Primarily that there may be name-spacing issues when combining the arg order and named arg passing
  */
-function run(env, _, passArgsBeforeDashes) {
+async function run(env, _, passArgsBeforeDashes) {
   const plopfilePath = env.configPath;
 
   // handle basic argument flags like --help, --version, etc
@@ -49,11 +49,19 @@ function run(env, _, passArgsBeforeDashes) {
 
   // use base path from argv or env if any is present, otherwise set it to the plopfile directory
   const destBasePath = argv.dest || env.dest;
-  const plop = nodePlop(plopfilePath, {
-    destBasePath: destBasePath ? path.resolve(destBasePath) : undefined,
-    force: argv.force === true || argv.f === true || false,
-  });
-
+  let plop;
+  try {
+    plop = await nodePlop(plopfilePath, {
+      destBasePath: destBasePath ? path.resolve(destBasePath) : undefined,
+      force: argv.force === true || argv.f === true || false,
+    });
+  } catch (e) {
+    console.error(
+      chalk.red("[PLOP] ") + "Something went wrong with reading your plop file",
+      e
+    );
+    return;
+  }
   const generators = plop.getGeneratorList();
   const generatorNames = generators.map((v) => v.name);
   const { generatorName, bypassArr, plopArgV } = getBypassAndGenerator(

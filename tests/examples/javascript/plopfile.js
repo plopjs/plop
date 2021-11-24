@@ -1,7 +1,7 @@
-"use strict";
-const path = require("path");
-
-module.exports = function (plop) {
+import path from "path";
+import fs from "fs";
+import inquirerDirectory from "inquirer-directory";
+export default function (plop) {
   // starting prompt can be customized to display what you want
   // plop.setWelcomeMessage('[CUSTOM]'.yellow + ' What can I do for you?');
 
@@ -99,7 +99,6 @@ module.exports = function (plop) {
         process.chdir(plop.getPlopfilePath());
 
         // custom function can be synchronous or async (by returning a promise)
-        var fs = require("fs");
         var existsMsg = "psst {{name}}, change-me.txt already exists";
         var copiedMsg = "hey {{name}}, I copied change-me.txt for you";
         var changeFileName = "change-me.txt";
@@ -160,7 +159,7 @@ module.exports = function (plop) {
   });
 
   // adding a custom inquirer prompt type
-  plop.addPrompt("directory", require("inquirer-directory"));
+  plop.addPrompt("directory", inquirerDirectory);
 
   plop.setGenerator("custom-prompt", {
     description: "custom inquirer prompt example",
@@ -247,4 +246,4 @@ module.exports = function (plop) {
       return actions;
     },
   });
-};
+}
