@@ -39,11 +39,11 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "devDependencies": {
-    "@types/node": "^13.13.5",
+    "@types/node": "^16.11.10",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "ava": "^4.0.0-rc.1",
-    "dtslint": "^3.5.1",
+    "dtslint": "^4.2.1",
     "eslint": "^8.3.0",
     "plop": "^2.7.6",
     "plop-pack-fancy-comments": "^0.2.1",
@@ -59,7 +59,7 @@
     "inquirer": "^8.2.0",
     "isbinaryfile": "^4.0.8",
     "lodash.get": "^4.4.2",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.4",
     "resolve": "^1.20.0"
   },
   "ava": {
