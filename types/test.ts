@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import nodePlop, {NodePlopAPI, AddManyActionConfig, AddActionConfig, CustomActionConfig} from './index';
-import path from "node:path";
 import inquirer from "inquirer";
+import prompt from 'inquirer-autocomplete-prompt';
 
 const plop = await nodePlop('./file', {
 	destBasePath: './',
@@ -221,6 +221,15 @@ function e(plop: NodePlopAPI) {
 			speed: 'slow'
 		}  as CustomActionConfig<'doTheAsyncThing'>
 		]
+	});
+}
+
+function ee(plop: NodePlopAPI) {
+	plop.setPrompt('directory', prompt);
+	plop.setGenerator('test', {
+		prompts: [{
+			type: 'directory'
+		}]
 	});
 }
 

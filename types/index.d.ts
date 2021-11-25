@@ -6,12 +6,24 @@ import {globbySync} from 'globby';
 type GlobOptions = Parameters<typeof globbySync>[1];
 import {HelperDelegate as HelperFunction} from 'handlebars';
 
+export interface IncludeDefinitionConfig {
+    generators?: boolean;
+    helpers?: boolean;
+    partials?: boolean;
+    actionTypes?: boolean;
+}
+
+export type IncludeDefinition =
+    | boolean
+    | string[]
+    | IncludeDefinitionConfig;
+
 export interface NodePlopAPI {
     getGenerator(name: string): PlopGenerator;
 
     setGenerator(name: string, config: Partial<PlopGeneratorConfig>): PlopGenerator;
 
-    setPrompt(name: string, prompt: inquirer.PromptModule): void;
+    setPrompt(name: string, prompt: inquirer.prompts.PromptConstructor): void;
 
     setWelcomeMessage(message: string): void;
 
@@ -45,7 +57,7 @@ export interface NodePlopAPI {
     getDestBasePath(): string;
 
     // plop.load functionality
-    load(target: string[] | string, loadCfg?: PlopCfg, includeOverride?: boolean): Promise<void>;
+    load(target: string[] | string, loadCfg?: Partial<PlopCfg> | null, includeOverride?: IncludeDefinition): Promise<void>;
 
     setDefaultInclude(inc: object): void;
 
@@ -123,7 +135,7 @@ export interface CustomActionConfig<TypeString extends string> extends Omit<Acti
 }
 
 export type CustomActionFunction = (
-    answers: object,
+    answers: inquirer.Answers,
     config: CustomActionConfig<string>,
     plopfileApi: NodePlopAPI
 ) => Promise<string> | string; // Check return type?
