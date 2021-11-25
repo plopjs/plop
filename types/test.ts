@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import nodePlop, {NodePlopAPI, AddManyActionConfig, AddActionConfig, CustomActionConfig} from './index';
+import nodePlop, {
+	NodePlopAPI,
+	AddManyActionConfig,
+	AddActionConfig,
+	CustomActionConfig,
+	Actions,
+	ModifyActionConfig, AppendActionConfig
+} from './index';
 import inquirer from "inquirer";
 import prompt from 'inquirer-autocomplete-prompt';
 
@@ -241,7 +248,7 @@ function f(plop: NodePlopAPI) {
 			message: 'Do you want tacos?'
 		}],
 		actions: function(data) {
-			var actions = [];
+			var actions: Actions = [];
 
 			if(data && data.wantTacos) {
 				actions.push({
@@ -323,3 +330,75 @@ _ = (async () => {
 			process.exit(1);
 		});
 })
+
+function addActionTests(plop: NodePlopAPI) {
+	let action;
+	// @ts-expect-error "Only template or template file on add"
+	action = {
+		type: 'add',
+		template: '',
+		templateFile: ''
+	} as AddActionConfig
+
+	action = {
+		type: 'add',
+		templateFile: ''
+	} as AddActionConfig
+
+	action = {
+		type: 'add',
+		template: ''
+	} as AddActionConfig
+}
+
+function modifyActionTests(plop: NodePlopAPI) {
+	let action;
+	// @ts-expect-error "Only template or template file on modify"
+	action = {
+		type: 'modify',
+		template: '',
+		templateFile: '',
+		path: '',
+		pattern: ''
+	} as ModifyActionConfig
+
+	action = {
+		type: 'modify',
+		templateFile: '',
+		path: '',
+		pattern: ''
+	} as ModifyActionConfig
+
+	action = {
+		type: 'modify',
+		template: '',
+		path: '',
+		pattern: ''
+	} as ModifyActionConfig
+}
+
+function appendActionTests(plop: NodePlopAPI) {
+	let action;
+	// @ts-expect-error "Only template or template file on modify"
+	action = {
+		type: 'append',
+		template: '',
+		templateFile: '',
+		path: '',
+		pattern: ''
+	} as AppendActionConfig
+
+	action = {
+		type: 'append',
+		templateFile: '',
+		path: '',
+		pattern: ''
+	} as AppendActionConfig
+
+	action = {
+		type: 'append',
+		template: '',
+		path: '',
+		pattern: ''
+	} as AppendActionConfig
+}

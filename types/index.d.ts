@@ -19,8 +19,6 @@ export type IncludeDefinition =
     | IncludeDefinitionConfig;
 
 export interface NodePlopAPI {
-    getGenerator(name: string): PlopGenerator;
-
     setGenerator(name: string, config: Partial<PlopGeneratorConfig>): PlopGenerator;
 
     setPrompt(name: string, prompt: inquirer.prompts.PromptConstructor): void;
@@ -28,6 +26,8 @@ export interface NodePlopAPI {
     setWelcomeMessage(message: string): void;
 
     getWelcomeMessage(): string;
+
+    getGenerator(name: string): PlopGenerator;
 
     getGeneratorList(): { name: string; description: string }[];
 
@@ -46,6 +46,10 @@ export interface NodePlopAPI {
 
     setActionType(name: string, fn: CustomActionFunction): void;
 
+    /**
+     * This does not include a `CustomActionConfig` for the same reasons
+     * Listed in the `ActionType` declaration. Please see that JSDoc for more
+     */
     getActionType(name: string): ActionType;
 
     getActionTypeList(): string[];
@@ -66,10 +70,19 @@ export interface NodePlopAPI {
     renderString(template: string, data: any): string; //set to any matching handlebars declaration
 
     // passthroughs for backward compatibility
+    /**
+     * @deprecated Use "setPrompt" instead. This will be removed in the next major release
+     */
     addPrompt(name: string, prompt: inquirer.PromptModule): void;
 
+    /**
+     * @deprecated Use "setPartial" instead. This will be removed in the next major release
+     */
     addPartial(name: string, str: string): void;
 
+    /**
+     * @deprecated Use "setHelper" instead. This will be removed in the next major release
+     */
     // eslint-disable-next-line @typescript-eslint/ban-types
     addHelper(name: string, fn: Function): void;
 }
@@ -126,6 +139,32 @@ export type DynamicActionsFunction = (data?: inquirer.Answers) => ActionType[];
 export type Prompts = DynamicPromptsFunction | PromptQuestion[]
 export type Actions = DynamicActionsFunction | ActionType[];
 
+interface Template {
+    template: string;
+    templateFile?: never;
+}
+
+interface TemplateFile {
+    template?: never;
+    templateFile: string;
+}
+
+type TemplateStrOrFile = Template | TemplateFile;
+
+/**
+ * "TypeString" is a type generic of what type is present. It allows us
+ * to pass arbitrary keys to a field alongside any type name that doesn't
+ * intersect with built-ins. This is an unfortunate limitation of TypeScript
+ *
+ * We strongly suggest you actually use a const type (so, 'customActionName' instead of `string`),
+ * that way, you can make sure that your custom action doesn't interfere with built-ins in
+ * the future.
+ *
+ * However, keep in mind that by doing so it means your config object MUST have the same `type` value
+ * as the generic input string.
+ *
+ * To ignore this limitation, simply pass "string"
+ */
 export interface CustomActionConfig<TypeString extends string> extends Omit<ActionConfig, 'type'> {
     type: TypeString extends 'addMany' |
         'modify' |
@@ -138,8 +177,18 @@ export type CustomActionFunction = (
     answers: inquirer.Answers,
     config: CustomActionConfig<string>,
     plopfileApi: NodePlopAPI
-) => Promise<string> | string; // Check return type?
+) => Promise<string> | string;
 
+/**
+ * Ideally, we'd have `CustomActionConfig` here,
+ * but if we do, we lose the ability to strictly type an action,
+ * since "type: 'append'" is now considered a custom action config
+ * and not an append action config.
+ *
+ * See `CustomActionConfig` declaration for more usage instructions
+ *
+ * If you know of a solution, please open a GitHub issue to discuss
+ */
 export type ActionType =
     | string
     | ActionConfig
@@ -147,14 +196,6 @@ export type ActionType =
     | AddManyActionConfig
     | ModifyActionConfig
     | AppendActionConfig
-    /**
-     * Ideally, we'd have `CustomActionConfig` here,
-     * but if we do, we lose the ability to strictly type an action,
-     * since "type: 'append'" is now considered a custom action config
-     * and not an append action config
-     *
-     * If you know of a solution, please open a GitHub issue to discuss
-     */
     | CustomActionFunction;
 
 export interface ActionConfig {
@@ -172,26 +213,10 @@ interface AddActionConfigBase extends ActionConfig {
     type: 'add';
     path: string;
     skipIfExists?: boolean;
+    transform?: TransformFn<AddActionConfig>;
 }
 
-interface AddActionConfigWithTemplate extends AddActionConfigBase {
-    template: string;
-}
-
-interface AddActionConfigWithTemplateFile extends AddActionConfigBase {
-    templateFile: string;
-}
-
-interface AddActionConfigWithTransform extends AddActionConfigBase {
-    transform: TransformFn<AddActionConfig>;
-    template?: string;
-    templateFile?: string;
-}
-
-export type AddActionConfig =
-    | AddActionConfigWithTemplate
-    | AddActionConfigWithTemplateFile
-    | AddActionConfigWithTransform;
+export type AddActionConfig = AddActionConfigBase & TemplateStrOrFile;
 
 export interface AddManyActionConfig extends Pick<AddActionConfig, Exclude<keyof AddActionConfig, 'type' | 'templateFile' | 'template' | 'transform'>> {
     type: 'addMany';
@@ -204,24 +229,24 @@ export interface AddManyActionConfig extends Pick<AddActionConfig, Exclude<keyof
     transform?: TransformFn<AddManyActionConfig>;
 }
 
-export interface ModifyActionConfig extends ActionConfig {
+interface ModifyActionConfigBase extends ActionConfig {
     type: 'modify';
     path: string;
     pattern: string | RegExp;
-    template: string;
-    templateFile: string;
     transform?: TransformFn<ModifyActionConfig>;
 }
 
-export interface AppendActionConfig extends ActionConfig {
+export type ModifyActionConfig = ModifyActionConfigBase & TemplateStrOrFile;
+
+interface AppendActionConfigBase extends ActionConfig {
     type: 'append';
     path: string;
     pattern: string | RegExp;
     unique: boolean;
     separator: string;
-    template: string;
-    templateFile: string;
 }
+
+export type AppendActionConfig = AppendActionConfigBase & TemplateStrOrFile;
 
 export interface PlopCfg {
     force: boolean;
