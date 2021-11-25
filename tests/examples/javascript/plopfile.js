@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import inquirerDirectory from "inquirer-directory";
+
 export default function (plop) {
   // starting prompt can be customized to display what you want
   // plop.setWelcomeMessage('[CUSTOM]'.yellow + ' What can I do for you?');

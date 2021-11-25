@@ -24,8 +24,8 @@ function getHelpMessage(generator) {
   );
 }
 
-function chooseOptionFromList(plopList, message) {
-  const plop = nodePlop();
+async function chooseOptionFromList(plopList, message) {
+  const plop = await nodePlop();
   const generator = plop.setGenerator("choose", {
     prompts: [
       {
