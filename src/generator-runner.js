@@ -21,7 +21,7 @@ export default function (plopfileApi, flags) {
 		}
 
 		// handle bypass data when provided
-		const [promptsAfterBypass, bypassAnswers] = promptBypass(prompts, bypassArr, plopfileApi);
+		const [promptsAfterBypass, bypassAnswers] = await promptBypass(prompts, bypassArr, plopfileApi);
 
 		return await plopfileApi.inquirer
 			.prompt(promptsAfterBypass)
