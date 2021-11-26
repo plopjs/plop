@@ -17,7 +17,9 @@ import { getBypassAndGenerator, handleArgFlags } from "./input-processing.js";
 
 const Plop = new Liftoff({
   name: "plop",
-  extensions: interpret.jsVariants,
+  // Remove this when this PR is merged:
+  // https://github.com/gulpjs/interpret/pull/75
+  extensions: { ...interpret.jsVariants, [".cjs"]: null },
   v8flags: v8flags,
 });
 
@@ -103,11 +105,11 @@ async function run(env, _, passArgsBeforeDashes) {
     runGeneratorByName(generatorName);
   } else {
     // we just can't make sense of your input... sorry :-(
-    const fuzyGenName = (generatorName + " " + args.join(" ")).trim();
+    const fuzzyGenName = (generatorName + " " + args.join(" ")).trim();
     console.error(
       chalk.red("[PLOP] ") +
         'Could not find a generator for "' +
-        fuzyGenName +
+        fuzzyGenName +
         '"'
     );
     process.exit(1);

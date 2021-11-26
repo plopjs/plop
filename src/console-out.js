@@ -90,7 +90,7 @@ function displayHelpScreen() {
 
 function createInitPlopfile(force = false) {
   var initString =
-    "module.exports = function (plop) {\n\n" +
+    "export default function (plop) {\n\n" +
     "\tplop.setGenerator('basics', {\n" +
     "\t\tdescription: 'this is a skeleton plopfile',\n" +
     "\t\tprompts: [],\n" +
@@ -100,6 +100,10 @@ function createInitPlopfile(force = false) {
 
   if (fs.existsSync(process.cwd() + "/plopfile.js") && force === false) {
     throw Error('"plopfile.js" already exists at this location.');
+  }
+
+  if (fs.existsSync(process.cwd() + "/plopfile.cjs") && force === false) {
+    throw Error('"plopfile.cjs" already exists at this location.');
   }
 
   fs.writeFileSync(process.cwd() + "/plopfile.js", initString);
