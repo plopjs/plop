@@ -26,12 +26,10 @@ test('verify valid bypass input', async function (t) {
 test('verify valid bypass input with access to answers', async function (t) {
 	const promptsCopy = [...prompts];
 	promptsCopy[1].validate = (value, answers) => {
-		console.log({answers})
 		t.is(answers.input, 'valid');
 		return !!value;
 	};
 	const [, isValid] = await promptBypass(promptsCopy, ['valid', 'also valid'], plop);
-	console.log({isValid})
 	t.is(isValid.input, 'valid');
 	t.is(isValid['dependent-input'], 'also valid');
 });
@@ -40,12 +38,10 @@ test('verify valid bypass input with access to answers', async function (t) {
 test('verify valid bypass async input with access to answers', async function (t) {
 	const promptsCopy = [...prompts];
 	promptsCopy[1].validate = async (value, answers) => {
-		console.log({answers})
 		t.is(answers.input, 'valid');
 		return !!value;
 	};
 	const [, isValid] = await promptBypass(promptsCopy, ['valid', 'also valid'], plop);
-	console.log({isValid})
 	t.is(isValid.input, 'valid');
 	t.is(isValid['dependent-input'], 'also valid');
 });

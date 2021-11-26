@@ -37,6 +37,10 @@ test.serial('Check that CJS doesn\'t load', async t => {
 	await t.throwsAsync(() => nodePlop(`${mockPath}/plopfile-cjs.js`));
 });
 
-test.serial('Check that incorrect MJS doesn\'t load', async t => {
+test.serial('Check that incorrect (CJS) JS file doesn\'t load', async t => {
 	await t.throwsAsync(() => nodePlop(`${mockPath}/plopfile-cjs.js`));
+});
+
+test.serial('Check that incorrect MJS doesn\'t load', async t => {
+	await t.throwsAsync(() => nodePlop(`${mockPath}/plopfile-cjs.mjs`));
 });
