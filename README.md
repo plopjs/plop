@@ -158,7 +158,7 @@ These are the methods you will commonly use when creating a plopfile. Other meth
 
 Method | Parameters | Returns | Description
 ------ | ---------- | ------- | -----------
-[**setGenerator**](#setgenerator) | *String, [GeneratorConfig](#interface-generatorconfig)* | *[GeneratorConfig](#interface-generatorconfig)* | setup a generator
+[**setGenerator**](#setgenerator) | *String, [PlopGenerator](#interface-plopgenerator)* | *[PlopGenerator](#interface-plopgenerator)* | setup a generator
 [**setHelper**](#sethelper) | *String, Function* | | setup handlebars helper
 [**setPartial**](#setpartial) | *String, String* | | setup a handlebars partial
 [**setActionType**](#setactiontype) | *String, [CustomAction](#functionsignature-custom-action)* | | register a custom action type
@@ -265,6 +265,14 @@ Property | Type | Default | Description
 
 > If your list of actions needs to be dynamic, take a look at [using a dynamic actions array.](#using-a-dynamic-actions-array)
 
+### *Interface* `PlopGenerator`
+Property | Type | Default | Description
+-------- | ---- | ------- | -----------
+ **runPrompts** | *Function* | | a function to run the prompts within a generator 
+**runActions** | *Function* | | a function to run the actions within a generator 
+
+> This interface also contains all properties from [GeneratorConfig](#interface-generatorconfig)
+
 ### *Interface* `ActionConfig`
 The following properties are the standard properties that plop handles internally. Other properties will be required depending on the *type* of action. Also take a look at the [built-in actions](#built-in-actions).
 
@@ -292,7 +300,7 @@ Method | Parameters | Returns | Description
 **getActionType** | *String* | *[CustomAction](#functionsignature-custom-action)* | get an actionType by name
 **getActionTypeList** | | *Array[String]* | get a list of actionType names
 **setWelcomeMessage** | *String* | | Customizes the displayed message that asks you to choose a generator when you run `plop`.
-**getGenerator** | *String* | *[GeneratorConfig](#interface-generatorconfig)* | get the [GeneratorConfig](#interface-generatorconfig) by name
+**getGenerator** | *String* | *[PlopGenerator](#interface-plopgenerator)* | get the [PlopGenerator](#interface-plopgenerator) by name
 **getGeneratorList** | | *Array[Object]* | gets an array of generator names and descriptions
 **setPlopfilePath** | *String* | | set the `plopfilePath` value which is used internally to locate resources like template files
 **getPlopfilePath** | | *String* | returns the absolute path to the plopfile in use
