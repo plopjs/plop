@@ -31,7 +31,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "cli-testing-library": "1.0.0-alpha.7",
+    "cli-testing-library": "^1.0.0-alpha.9",
     "eslint": "^8.3.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",

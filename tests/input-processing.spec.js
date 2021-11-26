@@ -39,13 +39,13 @@ test("should display inquirer prompts", async () => {
 });
 
 test("Should handle generator prompt", async () => {
-  const { findByText, cleanup, fireEvent } = await renderPlop([""], {
+  const { findByText, clear, fireEvent } = await renderPlop([""], {
     cwd: resolve(__dirname, "./examples/javascript"),
   });
 
   await findByText("Please choose a generator");
 
-  cleanup();
+  clear();
   fireEvent.up();
   fireEvent.down();
   fireEvent.enter();
