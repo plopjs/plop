@@ -1,9 +1,13 @@
-const path = require("path");
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-module.exports = {
-  rootDir: path.join(__dirname, "../.."),
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export default {
+  rootDir: join(__dirname, "../.."),
   displayName: "node",
   testEnvironment: "jest-environment-node",
   testMatch: ["**/tests/**.spec.js"],
   snapshotSerializers: ["jest-snapshot-serializer-ansi"],
+  transform: {},
 };

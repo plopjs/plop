@@ -1,8 +1,9 @@
 {
   "name": "plop",
-  "version": "2.7.6",
+  "version": "3.0.0-alpha.1",
   "description": "Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity",
   "main": "./src/plop",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/plopjs/plop.git"
@@ -23,40 +24,40 @@
     "url": "https://github.com/plopjs/plop/issues"
   },
   "scripts": {
-    "test": "npm run test:instrument && jest && nyc report",
+    "test": "npm run test:instrument && npm run jest && nyc report",
     "test:instrument": "nyc instrument ./bin ./instrumented/bin && nyc instrument ./src ./instrumented/src && cp package.json ./instrumented",
+    "jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "format": "eslint --fix ./",
     "prepare": "husky install"
   },
   "devDependencies": {
-    "cli-testing-library": "1.0.0-alpha.7",
-    "eslint": "^8.0.1",
+    "cli-testing-library": "1.0.0-alpha.9",
+    "eslint": "^8.3.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "execa": "^5.0.0",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "inquirer-directory": "^2.2.0",
     "jest": "^27.3.1",
     "jest-snapshot-serializer-ansi": "^1.0.0",
-    "lint-staged": "^11.2.3",
+    "lint-staged": "^12.1.2",
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.0",
-    "prettier": "^2.4.1",
+    "prettier": "^2.5.0",
     "queue-microtask": "^1.2.3"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {
-    "@types/liftoff": "^2.5.1",
-    "chalk": "^1.1.3",
-    "interpret": "^1.2.0",
-    "liftoff": "^2.5.0",
+    "@types/liftoff": "^4.0.0",
+    "chalk": "^5.0.0",
+    "interpret": "^2.2.0",
+    "liftoff": "^4.0.0",
     "minimist": "^1.2.5",
-    "node-plop": "^0.26.3",
-    "ora": "^3.4.0",
-    "v8flags": "^2.0.10"
+    "node-plop": "^0.30.0-alpha.1",
+    "ora": "^6.0.1",
+    "v8flags": "^4.0.0"
   },
   "engines": {
-    "node": ">=8.9.4"
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "preferGlobal": true,
   "bin": {

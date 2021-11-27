@@ -1,9 +1,7 @@
-const chalk = require("chalk");
-const out = require("./console-out");
+import chalk from "chalk";
+import * as out from "./console-out.js";
 
-module.exports = {
-  combineBypassData,
-};
+export { combineBypassData };
 
 /**
  * Combine different types of bypass data

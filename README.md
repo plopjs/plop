@@ -31,7 +31,7 @@ $ npm install -g plop
 ```
 ### 3. Create a plopfile.js at the root of your project
 ``` javascript
-module.exports = function (plop) {
+export default function (plop) {
 	// create your generators here
 	plop.setGenerator('basics', {
 		description: 'this is a skeleton plopfile',
@@ -42,18 +42,18 @@ module.exports = function (plop) {
 ```
 
 ## Your First Plopfile
-A plopfile starts its life as a lowly node module that exports a function which accepts the `plop` object as its first parameter.
+A plopfile starts its life as a node module that exports a function which accepts the `plop` object as its first parameter.
 
 ``` javascript
-module.exports = function (plop) {};
+export default function (plop) {};
 ```
 
-The `plop` object exposes the plop api object which contains the `setGenerator(name, config)` function. This is the function that you use to (wait for it) create a generator for this plopfile. When `plop` is run from the terminal in this directory (or any sub-directory), a list of these generators will be displayed.
+The `plop` object exposes the plop API object which contains the `setGenerator(name, config)` function. This is the function that you use to (wait for it) create a generator for this plopfile. When `plop` is run from the terminal in this directory (or any sub-directory), a list of these generators will be displayed.
 
 Let's try setting up a basic generator to see how that looks.
 
 ``` javascript
-module.exports = function (plop) {
+export default function (plop) {
 	// controller generator
 	plop.setGenerator('controller', {
 		description: 'application controller logic',
@@ -127,7 +127,7 @@ Because saving your team (or yourself) 5-15 minutes when creating every route, c
 
 Because [context switching is expensive](https://www.petrikainulainen.net/software-development/processes/the-cost-of-context-switching/) and saving time is not the only [benefit to automating workflows](https://kentcdodds.com/blog/automation)
 
-# Plopfile Api
+# Plopfile API
 The plopfile api is the collection of methods that are exposed by the `plop` object. Most of the work is done by [`setGenerator`](#setgenerator) but this section documents the other methods that you may also find useful in your plopfile.
 
 ## TypeScript Declarations
@@ -145,7 +145,7 @@ export default function (plop: NodePlopAPI) {
 
 ```javascript
 // plopfile.js
-module.exports = function (
+export default function (
 	/** @type {import('plop').NodePlopAPI} */
 	plop
 ) {
@@ -158,7 +158,7 @@ These are the methods you will commonly use when creating a plopfile. Other meth
 
 Method | Parameters | Returns | Description
 ------ | ---------- | ------- | -----------
-[**setGenerator**](#setgenerator) | *String, [GeneratorConfig](#interface-generatorconfig)* | *[GeneratorConfig](#interface-generatorconfig)* | setup a generator
+[**setGenerator**](#setgenerator) | *String, [GeneratorConfig](#interface-generatorconfig)* | *[PlopGenerator](#interface-plopgenerator)* | setup a generator
 [**setHelper**](#sethelper) | *String, Function* | | setup handlebars helper
 [**setPartial**](#setpartial) | *String, String* | | setup a handlebars partial
 [**setActionType**](#setactiontype) | *String, [CustomAction](#functionsignature-custom-action)* | | register a custom action type
@@ -169,7 +169,7 @@ Method | Parameters | Returns | Description
 `setHelper` directly corresponds to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](https://handlebarsjs.com/guide/expressions.html#helpers), then you already know how this works.
 
 ``` javascript
-module.exports = function (plop) {
+export default function (plop) {
 	plop.setHelper('upperCase', function (text) {
 		return text.toUpperCase();
 	});
@@ -183,7 +183,7 @@ module.exports = function (plop) {
 `setPartial` directly corresponds to the handlebars method `registerPartial`. So if you are familiar with [handlebars partials](https://handlebarsjs.com/guide/partials.html), then you already know how this works.
 
 ``` javascript
-module.exports = function (plop) {
+export default function (plop) {
 	plop.setPartial('myTitlePartial', '<h1>{{titleCase name}}</h1>');
 	// used in template as {{> myTitlePartial }}
 };
@@ -200,8 +200,7 @@ Parameters | Type | Description
 **plop** | *[PlopfileApi](#plopfile-api)* | The plop api for the plopfile where this action is being run
 
 ``` javascript
-module.exports = function (plop) {
-
+export default function (plop) {
 	plop.setActionType('doTheThing', function (answers, config, plop) {
 		// do something
 		doSomething(config.configProp);
@@ -241,12 +240,12 @@ module.exports = function (plop) {
 [Inquirer](https://github.com/SBoudrias/Inquirer.js) provides many types of prompts out of the box, but it also allows developers to build prompt plugins. If you'd like to use a prompt plugin, you can register it with `setPrompt`. For more details see the [Inquirer documentation for registering prompts](https://github.com/SBoudrias/Inquirer.js#inquirerregisterpromptname-prompt). Also check out the [plop community driven list of custom prompts](https://github.com/plopjs/plop/blob/master/inquirer-prompts.md).
 
 ``` javascript
-const promptDirectory = require('inquirer-directory');
-module.exports = function (plop) {
-	plop.setPrompt('directory', promptDirectory);
+import autocompletePrompt from 'inquirer-autocomplete-prompt';
+export default function (plop) {
+	plop.setPrompt('autocomplete', autocompletePrompt);
 	plop.setGenerator('test', {
 		prompts: [{
-			type: 'directory',
+			type: 'autocomplete',
 			...
 		}]
 	});
@@ -264,6 +263,14 @@ Property | Type | Default | Description
 **actions** | *Array[[ActionConfig](#interface-actionconfig)]* | | actions to perform
 
 > If your list of actions needs to be dynamic, take a look at [using a dynamic actions array.](#using-a-dynamic-actions-array)
+
+### *Interface* `PlopGenerator`
+Property | Type | Default | Description
+-------- | ---- | ------- | -----------
+ **runPrompts** | *Function* | | a function to run the prompts within a generator 
+**runActions** | *Function* | | a function to run the actions within a generator 
+
+> This interface also contains all properties from [GeneratorConfig](#interface-generatorconfig)
 
 ### *Interface* `ActionConfig`
 The following properties are the standard properties that plop handles internally. Other properties will be required depending on the *type* of action. Also take a look at the [built-in actions](#built-in-actions).
@@ -292,7 +299,7 @@ Method | Parameters | Returns | Description
 **getActionType** | *String* | *[CustomAction](#functionsignature-custom-action)* | get an actionType by name
 **getActionTypeList** | | *Array[String]* | get a list of actionType names
 **setWelcomeMessage** | *String* | | Customizes the displayed message that asks you to choose a generator when you run `plop`.
-**getGenerator** | *String* | *[GeneratorConfig](#interface-generatorconfig)* | get the [GeneratorConfig](#interface-generatorconfig) by name
+**getGenerator** | *String* | *[GeneratorConfig](#interface-generatorconfig)* | get the [PlopGenerator](#interface-plopgenerator) by name
 **getGeneratorList** | | *Array[Object]* | gets an array of generator names and descriptions
 **setPlopfilePath** | *String* | | set the `plopfilePath` value which is used internally to locate resources like template files
 **getPlopfilePath** | | *String* | returns the absolute path to the plopfile in use
@@ -407,7 +414,7 @@ Alternatively, the `actions` property of the [GeneratorConfig](#interface-genera
 This allows you to adapt the actions array based on provided answers:
 
 ``` javascript
-module.exports = function (plop) {
+export default function (plop) {
 	plop.setGenerator('test', {
 		prompts: [{
 			type: 'confirm',
@@ -442,7 +449,7 @@ If you have written an inquirer prompt plugin and want to support plop's bypass 
 
 ``` javascript
 // My confirmation inquirer plugin
-module.exports = MyConfirmPluginConstructor;
+export default MyConfirmPluginConstructor;
 function MyConfirmPluginConstructor() {
 	// ...your main plugin code
 	this.bypass = (rawValue, promptConfig) => {
@@ -470,31 +477,25 @@ Your `index.js` file should look like the following:
 
 ```javascript
 #!/usr/bin/env node
-const path = require('path');
+import path from "node:path";
+import minimist from "minimist";
+import { Plop, run } from "plop";
+
 const args = process.argv.slice(2);
-const {Plop, run} = require('plop');
-const argv = require('minimist')(args);
+const argv = minimist(args);
 
-Plop.launch({
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+Plop.prepare({
   cwd: argv.cwd,
-  // In order for `plop` to always pick up the `plopfile.js` despite the CWD, you must use `__dirname`
   configPath: path.join(__dirname, 'plopfile.js'),
-  require: argv.require,
+  preload: argv.preload || [],
   completion: argv.completion
-// This will merge the `plop` argv and the generator argv.
-// This means that you don't need to use `--` anymore
-}, env => run(env, undefined, true));
+}, env => Plop.execute(env, run));
 ```
-
-> Be aware that if you choose to use the `env => run(env, undefined, true))`, you may run into command merging issues
-> when using generator arg passing.
->
-> If you'd like to opt-out of this behavior and act like plop does (requiring `--` before passing named arguments to generators)
-> simply replace the `env =>` arrow function with `run`:
->
->```javascript
->Plop.launch({}, run);
->```
 
 And your `package.json` should look like the following:
 
@@ -511,7 +512,7 @@ And your `package.json` should look like the following:
   },
   "preferGlobal": true,
   "dependencies": {
-    "plop": "^2.6.0"
+    "plop": "^3.0.0"
   }
 }
 ```
@@ -521,15 +522,17 @@ And your `package.json` should look like the following:
 When wrapping plop, you might want to have the destination path to be based on the cwd when running the wrapper. You can configure the `dest` base path like this:
 
 ```javascript
-Plop.launch({
+Plop.prepare({
 	// config like above
-}, env => {
-	const options = {
-		...env,
-		dest: process.cwd() // this will make the destination path to be based on the cwd when calling the wrapper
-	}
-	return run(options, undefined, true)
-})
+}, env => 
+    Plop.execute(env, (env) => {
+        const options = {
+            ...env,
+            dest: process.cwd() // this will make the destination path to be based on the cwd when calling the wrapper
+        }
+        return run(options, undefined, true)
+    })
+)
 ```
 
 ### Adding General CLI Actions

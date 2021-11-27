@@ -1,24 +1,25 @@
 #!/usr/bin/env node
 
-"use strict";
-
-const path = require("path");
-const Liftoff = require("liftoff");
+import ora from "ora";
+import path from "node:path";
+import Liftoff from "liftoff";
+import minimist from "minimist";
+import v8flags from "v8flags";
+import interpret from "interpret";
+import chalk from "chalk";
 const args = process.argv.slice(2);
-const argv = require("minimist")(args);
-const v8flags = require("v8flags");
-const interpret = require("interpret");
-const chalk = require("chalk");
-const ora = require("ora");
+const argv = minimist(args);
 
-const nodePlop = require("node-plop");
-const out = require("./console-out");
-const { combineBypassData } = require("./bypass");
-const { getBypassAndGenerator, handleArgFlags } = require("./input-processing");
+import nodePlop from "node-plop";
+import * as out from "./console-out.js";
+import { combineBypassData } from "./bypass.js";
+import { getBypassAndGenerator, handleArgFlags } from "./input-processing.js";
 
 const Plop = new Liftoff({
   name: "plop",
-  extensions: interpret.jsVariants,
+  // Remove this when this PR is merged:
+  // https://github.com/gulpjs/interpret/pull/75
+  extensions: { ...interpret.jsVariants, [".cjs"]: null },
   v8flags: v8flags,
 });
 
@@ -31,18 +32,18 @@ const progressSpinner = ora({
 });
 
 /**
- * The function to pass as the second argument to `Plop.launch`
+ * The function to pass as the second argument to `Plop.execute`
  * @param env - This is passed implicitly
  * @param _ - Passed implicitly. Not needed, but allows for `passArgsBeforeDashes` to be explicitly passed
  * @param passArgsBeforeDashes - An opt-in `true` boolean that will allow merging of plop CLI API and generator API
  * @example
- * Plop.launch({}, env => run(env, undefined, true))
+ * Plop.execute(env => run(env, undefined, true))
  *
  * !!!!!! WARNING !!!!!!
  * One of the reasons we default generator arguments as anything past `--` is a few reasons:
  * Primarily that there may be name-spacing issues when combining the arg order and named arg passing
  */
-function run(env, _, passArgsBeforeDashes) {
+async function run(env, _, passArgsBeforeDashes) {
   const plopfilePath = env.configPath;
 
   // handle basic argument flags like --help, --version, etc
@@ -50,11 +51,19 @@ function run(env, _, passArgsBeforeDashes) {
 
   // use base path from argv or env if any is present, otherwise set it to the plopfile directory
   const destBasePath = argv.dest || env.dest;
-  const plop = nodePlop(plopfilePath, {
-    destBasePath: destBasePath ? path.resolve(destBasePath) : undefined,
-    force: argv.force === true || argv.f === true || false,
-  });
-
+  let plop;
+  try {
+    plop = await nodePlop(plopfilePath, {
+      destBasePath: destBasePath ? path.resolve(destBasePath) : undefined,
+      force: argv.force === true || argv.f === true || false,
+    });
+  } catch (e) {
+    console.error(
+      chalk.red("[PLOP] ") + "Something went wrong with reading your plop file",
+      e
+    );
+    return;
+  }
   const generators = plop.getGeneratorList();
   const generatorNames = generators.map((v) => v.name);
   const { generatorName, bypassArr, plopArgV } = getBypassAndGenerator(
@@ -96,11 +105,11 @@ function run(env, _, passArgsBeforeDashes) {
     runGeneratorByName(generatorName);
   } else {
     // we just can't make sense of your input... sorry :-(
-    const fuzyGenName = (generatorName + " " + args.join(" ")).trim();
+    const fuzzyGenName = (generatorName + " " + args.join(" ")).trim();
     console.error(
       chalk.red("[PLOP] ") +
         'Could not find a generator for "' +
-        fuzyGenName +
+        fuzzyGenName +
         '"'
     );
     process.exit(1);
@@ -114,6 +123,9 @@ function run(env, _, passArgsBeforeDashes) {
 function doThePlop(generator, bypassArr) {
   generator
     .runPrompts(bypassArr)
+    .then(async (answers) => {
+      return answers;
+    })
     .then((answers) => {
       const noMap = argv["show-type-names"] || argv.t;
       const onComment = (msg) => {
@@ -157,8 +169,4 @@ function doThePlop(generator, bypassArr) {
     });
 }
 
-module.exports = {
-  Plop,
-  run,
-  progressSpinner,
-};
+export { Plop, run, progressSpinner };

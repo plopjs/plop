@@ -1,5 +1,8 @@
-const { renderPlop } = require("./render");
-const { resolve } = require("path");
+import { resolve, dirname } from "node:path";
+import { renderPlop } from "./render.js";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("should report a missing plopfile when not copied", async () => {
   await expect(() => renderPlop()).rejects.toMatchInlineSnapshot(
@@ -36,13 +39,13 @@ test("should display inquirer prompts", async () => {
 });
 
 test("Should handle generator prompt", async () => {
-  const { findByText, cleanup, fireEvent } = await renderPlop([""], {
+  const { findByText, clear, fireEvent } = await renderPlop([""], {
     cwd: resolve(__dirname, "./examples/javascript"),
   });
 
   await findByText("Please choose a generator");
 
-  cleanup();
+  clear();
   fireEvent.up();
   fireEvent.down();
   fireEvent.enter();

@@ -1,4 +1,4 @@
-module.exports = function (plop) {
+export default function (plop) {
   plop.setGenerator("addAndNameFile", {
     description: "Name that file",
     prompts: [
@@ -34,4 +34,4 @@ module.exports = function (plop) {
       },
     ],
   });
-};
+}

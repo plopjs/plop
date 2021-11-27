@@ -19,7 +19,7 @@ Options:
 
   --plopfile             Path to the plopfile
   --cwd                  Directory from which relative paths are calculated against while locating the plopfile
-  --require              String or array of modules to require before running plop
+  --preload              String or array of modules to require before running plop
   --dest                 Output to this directory instead of the plopfile's parent directory
 
 Examples:

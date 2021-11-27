@@ -1,7 +1,10 @@
-const fs = require("fs");
-const { resolve } = require("path");
+import fs from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-exports.getFileHelper = () => {
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export const getFileHelper = () => {
   let cleanupFile = null;
 
   afterEach(() => {

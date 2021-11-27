@@ -1,29 +1,27 @@
 #!/usr/bin/env node
-const path = require("path");
+import path from "node:path";
+import minimist from "minimist";
+import { Plop, run } from "../../../instrumented/src/plop.js";
+
 const args = process.argv.slice(2);
-// Test has same results with or without instrumentation
-const { Plop, run } = require("../../../src/plop.js");
-const argv = require("minimist")(args);
+const argv = minimist(args);
+import { fileURLToPath } from "node:url";
 
-// This is a load bearing console.log
-// It works because it outputs a stdout instead of an stderr
-// and the future stderr isn't caught because, well, it just isn't in the lib yet
-//
-// Why does this fail without this but the normal "plop" does not?
-// Does node-plop output to stderr??
-console.log();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-Plop.launch(
+Plop.prepare(
   {
     cwd: argv.cwd,
+    preload: argv.preload || [],
     // In order for `plop` to always pick up the `plopfile.js` despite the CWD, you must use `__dirname`
-    configPath: path.join(__dirname, "plopfile.js"),
-    require: argv.require,
+    configPath: path.join(__dirname, "plopfile.cjs"),
     completion: argv.completion,
     // This will merge the `plop` argv and the generator argv.
     // This means that you don't need to use `--` anymore
   },
-  (env) => {
-    return run(env, undefined, true);
+  function (env) {
+    Plop.execute(env, function (env) {
+      return run(env, undefined, true);
+    });
   }
 );

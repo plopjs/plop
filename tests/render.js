@@ -1,12 +1,15 @@
-const { render, ...props } = require("cli-testing-library");
-const { resolve } = require("path");
+import { render } from "cli-testing-library";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
  * @param {String} script
  * @param {Array} args
  * @param {Object} opts
  */
-function renderScript(script, args = [], opts = {}) {
+export function renderScript(script, args = [], opts = {}) {
   const { cwd = __dirname } = opts;
 
   const rendered = render(
@@ -27,7 +30,7 @@ function renderScript(script, args = [], opts = {}) {
  * @param {Array} args
  * @param {Object} opts
  */
-function renderPlop(args = [], opts = {}) {
+export function renderPlop(args = [], opts = {}) {
   return renderScript(
     resolve(__dirname, "../instrumented/bin/plop.js"),
     args,
@@ -35,8 +38,4 @@ function renderPlop(args = [], opts = {}) {
   );
 }
 
-module.exports = {
-  ...props,
-  renderScript,
-  renderPlop,
-};
+export * from "cli-testing-library";

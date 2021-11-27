@@ -1,5 +1,4 @@
-import Liftoff = require("liftoff");
-import * as ora from "ora";
+import * as Liftoff from "liftoff";
 
 export {
     ActionConfig,
@@ -16,4 +15,3 @@ export {
 
 export const Plop: Liftoff;
 export const run: (env: Liftoff.LiftoffEnv, _: any, passArgsBeforeDashes: boolean) => void;
-export const progressSpinner: ora.Ora;

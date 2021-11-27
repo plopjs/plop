@@ -1,4 +1,6 @@
-module.exports = {
+import { resolve } from "node:path";
+
+export default {
   coverageThreshold: {
     global: {
       branches: 40,
@@ -7,5 +9,6 @@ module.exports = {
       statements: 50,
     },
   },
-  projects: [require.resolve("./tests/config/jest.config.js")],
+  projects: [resolve("./tests/config/jest.config.js")],
+  transform: {},
 };
