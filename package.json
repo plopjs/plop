@@ -42,13 +42,13 @@
     "lint-staged": "^12.1.2",
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.0",
-    "prettier": "^2.4.1",
+    "prettier": "^2.5.0",
     "queue-microtask": "^1.2.3"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {
-    "@types/liftoff": "^2.5.1",
-    "chalk": "^4.1.2",
+    "@types/liftoff": "^4.0.0",
+    "chalk": "^5.0.0",
     "interpret": "^2.2.0",
     "liftoff": "^4.0.0",
     "minimist": "^1.2.5",
