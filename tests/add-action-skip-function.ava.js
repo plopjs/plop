@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 
 /**
  * We are creating files in each test,
@@ -15,7 +18,10 @@ const avaTest = new AvaTest(__filename);
 const { test, testSrcPath, nodePlop, clean } = avaTest;
 test.beforeEach(clean.bind(avaTest));
 
-const plop = nodePlop();
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 const genName = 'add-action';
 const fileName = 'fileName';
@@ -69,7 +75,7 @@ test.serial('action throws if action.skip is not a function', async function(
 test.serial('skip function receives correct arguments', async function(t) {
 	const mainData = { fileName, a: 1 };
 	const configData = { a: 'a', b: 2 };
-	
+
 	const action = plop.setGenerator(genName, {
 		actions: [
 			{

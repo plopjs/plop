@@ -1,11 +1,15 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
-const plop = nodePlop();
+var plop;
 
-test.before(() => {
+test.before(async () => {
+	plop = await nodePlop();
 	const name = 'basic test name';
 	plop.setHelper('uCase', txt => txt.toUpperCase());
 	plop.setGenerator('basic-add-no-plopfile', {
@@ -27,7 +31,7 @@ test.before(() => {
 	});
 
 	const basicAdd = plop.getGenerator('basic-add-no-plopfile');
-	return basicAdd.runActions({name});
+	await basicAdd.runActions({name});
 });
 
 test('Check that the file has been created', t => {

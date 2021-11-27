@@ -1,11 +1,14 @@
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const {test, nodePlop} = (new AvaTest(__filename));
 
 const errAction = () => {throw Error('');};
 
 // onSuccess and onFailure Lifecycle hooks
 test('Lifecycle hooks test (onSuccess, onFailure)', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const onSuccess = () => onSuccess.called++; onSuccess.called = 0;
 	const onFailure = () => onFailure.called++; onFailure.called = 0;
 
@@ -18,7 +21,7 @@ test('Lifecycle hooks test (onSuccess, onFailure)', async function (t) {
 });
 
 test('Lifecycle hooks negative scenario test (onSuccess)', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const onSuccess = () => onSuccess.called++; onSuccess.called = 0;
 	const onFailure = () => onFailure.called++; onFailure.called = 0;
 
@@ -31,7 +34,7 @@ test('Lifecycle hooks negative scenario test (onSuccess)', async function (t) {
 });
 
 test('Lifecycle hooks negative scenario test (onFailure)', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const onSuccess = () => onSuccess.called++; onSuccess.called = 0;
 	const onFailure = () => onFailure.called++; onFailure.called = 0;
 
@@ -44,7 +47,7 @@ test('Lifecycle hooks negative scenario test (onFailure)', async function (t) {
 });
 
 test('Lifecycle hook test (onComment)', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const onSuccess = () => onSuccess.called++; onSuccess.called = 0;
 	const onFailure = () => onFailure.called++; onFailure.called = 0;
 	const onComment = () => onComment.called++; onComment.called = 0;

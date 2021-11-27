@@ -1,6 +1,6 @@
-import add from './add';
-import addMany from './addMany';
-import modify from './modify';
-import append from './append';
+import add from './add.js';
+import addMany from './addMany.js';
+import modify from './modify.js';
+import append from './append.js';
 
 export { add, addMany, modify, append };

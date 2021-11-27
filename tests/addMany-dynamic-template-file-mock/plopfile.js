@@ -1,7 +1,5 @@
-module.exports = function (plop) {
-	'use strict';
-
-	// setGenerator creates a generator that can be run with "plop generatorName"
+export default function (plop) {
+		// setGenerator creates a generator that can be run with "plop generatorName"
 	plop.setGenerator('dynamic-template-add-many', {
 		description: 'adds multiple files using dynamic templates',
 		prompts: [

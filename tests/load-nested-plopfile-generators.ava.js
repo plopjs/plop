@@ -1,15 +1,21 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
-const plop = nodePlop(`${mockPath}/plopfile.js`);
+var plop;
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+});
 
 /////
 // if an action has no path, the action should fail
 //
 
-test('nested generator should add file to main directory', async function (t) {
+test.serial('nested generator should add file to main directory', async function (t) {
 	const filePath = path.resolve(testSrcPath, 'nested-nestman.txt');
 	const generator = plop.getGenerator('basic-nested');
 	t.is(typeof generator.runPrompts, 'function');
@@ -22,7 +28,7 @@ test('nested generator should add file to main directory', async function (t) {
 	t.true(fs.existsSync(filePath));
 });
 
-test('nested generator should not override existing helpers', async function (t) {
+test.serial('nested generator should not override existing helpers', async function (t) {
 	const filePath = path.resolve(testSrcPath, 'addman.txt');
 	const generator = plop.getGenerator('basic-add');
 	t.is(typeof generator.runPrompts, 'function');

@@ -1,8 +1,14 @@
-import AvaTest from './_base-ava-test';
-const { test, testSrcPath, nodePlop } = new AvaTest(__filename);
-import { normalizePath } from '../src/actions/_common-action-utils';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
 
-const plop = nodePlop();
+const __filename = fileURLToPath(import.meta.url);
+const { test, testSrcPath, nodePlop } = new AvaTest(__filename);
+import { normalizePath } from '../src/actions/_common-action-utils.js';
+
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 // Make sure that props added by the action's data attr are cleaned up
 // after the action executes

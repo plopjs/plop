@@ -1,4 +1,4 @@
-import nodePlop from './node-plop';
+import nodePlop from './node-plop.js';
 
 /**
  * Main node-plop module
@@ -7,4 +7,4 @@ import nodePlop from './node-plop';
  * @param {object} plopCfg - A config object to be passed into the plopfile when it's executed
  * @returns {object} the node-plop API for the plopfile requested
  */
-module.exports = nodePlop;
+export default nodePlop;

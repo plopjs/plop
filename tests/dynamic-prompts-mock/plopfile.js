@@ -1,4 +1,4 @@
-module.exports = function (plop) {
+export default function (plop) {
 	// test with dynamic actions, regarding responses to prompts
 	plop.setGenerator('dynamic-prompt', {
 		description: 'A test using a dynamic prompt defined by a function',

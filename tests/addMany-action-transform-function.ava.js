@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 
 /**
  * We are creating files in each test,
@@ -15,7 +18,10 @@ const avaTest = new AvaTest(__filename);
 const { test, testSrcPath, nodePlop, mockPath, clean } = avaTest;
 test.beforeEach(clean.bind(avaTest));
 
-const plop = nodePlop();
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 const dataProp = 'testFile';
 const filePath1 = path.resolve(testSrcPath, 'file1.txt');

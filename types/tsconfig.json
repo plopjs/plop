@@ -1,19 +1,15 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "lib": ["es6"],
+    "module": "ESNext",
+    "lib": ["ESNext"],
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "noEmit": true,
+    "target": "ES2020",
     "esModuleInterop": true,
-
-    // If the library is an external module (uses `export`), this allows your test file to import "mylib" instead of "./index".
-    // If the library is global (cannot be imported via `import` or `require`), leave this out.
-    "baseUrl": "../",
-    "paths": {
-      "mylib": ["."]
-    }
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node"
   }
 }

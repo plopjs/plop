@@ -1,14 +1,18 @@
-import AvaTest from './_base-ava-test';
-const {test, nodePlop} = (new AvaTest(__filename));
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
 
-const plop = nodePlop();
+const __filename = fileURLToPath(import.meta.url);
+const {test, nodePlop} = (new AvaTest(__filename));
 
 ///////
 // generator name should be defaulted
 // runPrompts should reject if there are no prompts
 //
 
-test.before(() => {
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+
 	plop.setGenerator('', {});
 	plop.setGenerator('bad-actions-function', {
 		actions: () => {

@@ -1,9 +1,15 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const { test, mockPath, testSrcPath, nodePlop } = (new AvaTest(__filename));
 
-const plop = nodePlop(`${mockPath}/plopfile.js`);
+var plop;
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+});
 
 test('Check that all files have been created', async function (t) {
 	const multipleAddsResult = await plop.getGenerator('multiple-adds').runActions({ name: 'John Doe' });

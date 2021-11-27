@@ -1,7 +1,5 @@
-module.exports = function (plop) {
-	'use strict';
-
-	plop.setGenerator('dynamic-template-add', {
+export default function (plop) {
+		plop.setGenerator('dynamic-template-add', {
 		description: 'adds a file using a dynamic template',
 		prompts: [
 			{

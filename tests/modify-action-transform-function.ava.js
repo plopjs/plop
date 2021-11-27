@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 
 /**
  * We are creating files in each test,
@@ -15,7 +18,10 @@ const avaTest = new AvaTest(__filename);
 const { test, testSrcPath, nodePlop, clean } = avaTest;
 test.beforeEach(clean.bind(avaTest));
 
-const plop = nodePlop();
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
 
 const genName = 'add-then-modify';
 const fileName = 'testFile';
@@ -272,7 +278,7 @@ test.serial(
 	'Modify action without pattern does not remove "undefined"',
 	async function(t) {
 		const template = 'type SomeType = string | undefined;';
-		
+
 		const gen = plop.setGenerator(genName, {
 			actions: [
 				{...addAction, template },

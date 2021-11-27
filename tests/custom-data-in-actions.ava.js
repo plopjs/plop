@@ -1,11 +1,18 @@
 // import fs from 'fs';
-import * as fspp from '../src/fs-promise-proxy';
+import * as fspp from '../src/fs-promise-proxy.js';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
-const plop = nodePlop(`${mockPath}/plopfile.js`);
-const customData = plop.getGenerator('custom-data-in-actions');
+var plop;
+var customData;
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+	customData = plop.getGenerator('custom-data-in-actions');
+});
 
 test('Check that custom data is in template', async function (t) {
 	await customData.runActions({});

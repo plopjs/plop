@@ -1,11 +1,19 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, testSrcPath, nodePlop} = new AvaTest(__filename);
 
-const plop = nodePlop(`${mockPath}/plopfile.js`);
-const makeList = plop.getGenerator('make-list');
-const appendToList = plop.getGenerator('append-to-list');
+var plop;
+var makeList;
+var appendToList;
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+	makeList = plop.getGenerator('make-list');
+	appendToList = plop.getGenerator('append-to-list');
+});
 
 test('Check if list has been created', async function (t) {
 	await makeList.runActions({listName: 'test'});

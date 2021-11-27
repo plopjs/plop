@@ -1,15 +1,24 @@
-import {fileExists} from '../src/fs-promise-proxy';
+import {fileExists} from '../src/fs-promise-proxy.js';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+import {pathToFileURL} from "url";
+
+const __filename = fileURLToPath(import.meta.url);
 const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 /////
 // imported custom actions should execute
 //
-const customAction = require(path.resolve(mockPath, 'custom-action.js'));
+
+
+var customAction;
+test.before(async () => {
+	customAction = (await import(pathToFileURL(path.resolve(mockPath, 'custom-action.js')).href)).default;
+});
 
 test('imported custom action should execute correctly', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test.txt');
 	plop.setActionType('custom-del', customAction);
 
@@ -34,7 +43,7 @@ test('imported custom action should execute correctly', async function (t) {
 
 
 test('imported custom action can throw errors', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test2.txt');
 	plop.setActionType('custom-del', customAction);
 

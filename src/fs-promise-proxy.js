@@ -6,7 +6,7 @@ const _readFile = promisify(fs.readFile);
 const _writeFile = promisify(fs.writeFile);
 const _access = promisify(fs.access);
 
-export const makeDir = promisify(mkdirp);
+export const makeDir = mkdirp;
 export const readdir = promisify(fs.readdir);
 export const stat = promisify(fs.stat);
 export const chmod = promisify(fs.chmod);

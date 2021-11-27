@@ -1,5 +1,8 @@
-import * as fspp from '../src/fs-promise-proxy';
-import AvaTest from './_base-ava-test';
+import * as fspp from '../src/fs-promise-proxy.js';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 /////
@@ -7,7 +10,7 @@ const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
 //
 
 test('Action force add (global force)', async function (t) {
-	const plop = nodePlop('', {force: true});
+	const plop = await nodePlop('', {force: true});
 	const filePath = `${testSrcPath}/test.txt`;
 	const gen = plop.setGenerator('Gen', {
 		actions: [{
@@ -36,7 +39,7 @@ test('Action force add (global force)', async function (t) {
 });
 
 test('Action force add (local action force)', async function (t) {
-	const plop = nodePlop();
+	const plop = await nodePlop();
 	const filePath = `${testSrcPath}/test2.txt`;
 	const gen = plop.setGenerator('Gen', {
 		actions: [{

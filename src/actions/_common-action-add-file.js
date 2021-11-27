@@ -6,9 +6,9 @@ import {
 	makeDestPath,
 	throwStringifiedError,
 	getRelativeToBasePath
-} from './_common-action-utils';
+} from './_common-action-utils.js';
 import {isBinaryFileSync} from 'isbinaryfile';
-import * as fspp from '../fs-promise-proxy';
+import * as fspp from '../fs-promise-proxy.js';
 
 export default async function addFile(data, cfg, plop) {
 	const fileDestPath = makeDestPath(data, cfg, plop);

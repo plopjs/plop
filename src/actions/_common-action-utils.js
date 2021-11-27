@@ -1,5 +1,5 @@
 import path from 'path';
-import * as fspp from '../fs-promise-proxy';
+import * as fspp from '../fs-promise-proxy.js';
 
 const getFullData = (data, cfg) => Object.assign({}, cfg.data, data);
 

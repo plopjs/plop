@@ -1,7 +1,5 @@
-module.exports = function (plop) {
-	'use strict';
-
-	plop.setGenerator('make-list', {
+export default function (plop) {
+		plop.setGenerator('make-list', {
 		prompts: [
 			{
 				type: 'input',

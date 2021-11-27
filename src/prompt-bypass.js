@@ -73,7 +73,7 @@ const typeBypass = {
 		if (valuesNoMatch.length) {
 			throw Error (`no match for "${valuesNoMatch.join('", "')}"`);
 		}
-		
+
 		return valList.map(
 			val => getChoiceValue(prompt.choices.find(
 				(c, idx) => choiceMatchesValue(c, idx, val)
@@ -91,40 +91,50 @@ const typeBypass = {
 //
 
 // returns new prompts, initial answers object, and any failures
-export default function (prompts, bypassArr, plop) {
+export default async function (prompts, bypassArr, plop) {
 	const noop = [prompts, {}, []];
 	// bail out if we don't have prompts or bypass data
 	if (!Array.isArray(prompts)) { return noop; }
 	if (bypassArr.length === 0) { return noop; }
-	
+
 	// pull registered prompts out of inquirer
 	const {prompts: inqPrompts} = plop.inquirer.prompt;
-	
+
 	const answers = {};
 	const bypassFailures = [];
-	
-	// generate a list of pompts that the user is bypassing
-	const bypassedPrompts = prompts.filter(function (p, idx) {
+
+	let bypassedPromptValues = [];
+
+	/**
+	 * For loop to await a promise on each of these. This allows us to `await` validate functions just like
+	 * inquirer
+	 *
+	 * Do not turn into a Promise.all
+	 * We need to make sure these turn into sequential results to pass answers from one to the next
+	 */
+	for (let idx = 0; idx < prompts.length; idx++) {
+		const p = prompts[idx];
+
 		// if the user didn't provide value for this prompt, skip it
-		if (idx >= bypassArr.length) { return false; }
+		if (idx >= bypassArr.length) { bypassedPromptValues.push(false); continue; }
 		const val = bypassArr[idx].toString();
-		
+
 		// if the user asked to be given this prompt, skip it
-		if (flag.isPrompt(val)) { return false; }
-		
+		if (flag.isPrompt(val)) { bypassedPromptValues.push(false); continue; }
+
 		// if this prompt is dynamic, throw error because we can't know if
 		// the pompt bypass values given line up with the path this user
 		// has taken through the prompt tree.
 		if (typeof p.when === 'function') {
 			bypassFailures.push(`You can not bypass conditional prompts: ${p.name}`);
-			return false;
+			bypassedPromptValues.push(false); continue;
 		}
-		
+
 		try {
 			const inqPrompt = inqPrompts[p.type] || {};
 			// try to find a bypass function to run
 			const bypass = p.bypass || inqPrompt.bypass || typeBypass[p.type] || null;
-			
+
 			// get the real answer data out of the bypass function and attach it
 			// to the answer data object
 			const bypassIsFunc = typeof bypass === 'function';
@@ -135,25 +145,29 @@ export default function (prompts, bypassArr, plop) {
 
 			// if inquirer prompt has a validate function - call it
 			if (p.validate) {
-				const validation = p.validate(value, answers);
+				const validation = await p.validate(value, answers);
 				if (validation !== true) {
 					// if validation failed return validation error
 					bypassFailures.push(validation);
-					return false;
+					bypassedPromptValues.push(false); continue;
 				}
 			}
 
-			answers[p.name] = answer; 
+			answers[p.name] = answer;
 		} catch(err) {
 			// if we encounter an error above... assume the bypass value was invalid
 			bypassFailures.push(`The "${p.name}" prompt did not recognize "${val}" as a valid ${p.type} value (ERROR: ${err.message})`);
-			return false;
+			bypassedPromptValues.push(false);
+			continue;
 		}
-		
+
 		// if we got this far, we successfully bypassed this prompt
-		return true;
-	});
-	
+		bypassedPromptValues.push(true);
+	}
+
+	// generate a list of prompts that the user is bypassing
+	const bypassedPrompts = prompts.filter((_, i) => bypassedPromptValues[i]);
+
 	// rip out any prompts that have been bypassed
 	const promptsAfterBypass = [
 		// first prompt will copy the bypass answer data so it's available
@@ -162,7 +176,7 @@ export default function (prompts, bypassArr, plop) {
 		// inlcude any prompts that were NOT bypassed
 		...prompts.filter(p => !bypassedPrompts.includes(p))
 	];
-	
+
 	// if we have failures, throw the first one
 	if (bypassFailures.length) {
 		throw Error(bypassFailures[0]);

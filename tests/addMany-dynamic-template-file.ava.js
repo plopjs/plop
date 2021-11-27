@@ -1,18 +1,20 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const { test, mockPath, testSrcPath, nodePlop } = (new AvaTest(__filename));
 
-const plop = nodePlop(`${mockPath}/plopfile.js`);
-const dynamicTemplateAddMany = plop.getGenerator('dynamic-template-add-many');
-var multipleAddsResult;
 
-test.before(() => {
-	return dynamicTemplateAddMany
+var plop;
+var dynamicTemplateAddMany;
+var multipleAddsResult;
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+	dynamicTemplateAddMany = plop.getGenerator('dynamic-template-add-many');
+	multipleAddsResult = await dynamicTemplateAddMany
 		.runActions({ name: 'John Doe', kind: 'BarChart' })
-		.then(function (res) {
-			multipleAddsResult = res;
-		});
 });
 
 test('Check that all files have been created', t => {

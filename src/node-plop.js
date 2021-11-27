@@ -5,10 +5,14 @@ import handlebars from 'handlebars';
 import _get from 'lodash.get';
 import resolve from 'resolve';
 
-import bakedInHelpers from './baked-in-helpers';
-import generatorRunner from './generator-runner';
+import bakedInHelpers from './baked-in-helpers.js';
+import generatorRunner from './generator-runner.js';
 
-function nodePlop(plopfilePath = '', plopCfg = {}) {
+import { createRequire } from 'node:module';
+import {pathToFileURL} from 'url';
+const require = createRequire(import.meta.url);
+
+async function nodePlop(plopfilePath = '', plopCfg = {}) {
 
 	let pkgJson = {};
 	let defaultInclude = {generators: true};
@@ -76,15 +80,15 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		}
 	};
 
-	function load(targets, loadCfg = {}, includeOverride) {
+	async function load(targets, loadCfg = {}, includeOverride) {
 		if (typeof targets === 'string') { targets = [targets]; }
 		const config = Object.assign({
 			destBasePath: getDestBasePath()
 		}, loadCfg);
 
-		targets.forEach(function (target) {
+		await Promise.all(targets.map(async function (target) {
 			const targetPath = resolve.sync(target, {basedir: getPlopfilePath()});
-			const proxy = nodePlop(targetPath, config);
+			const proxy = await nodePlop(targetPath, config);
 			const proxyDefaultInclude = proxy.getDefaultInclude() || {};
 			const includeCfg = includeOverride || proxyDefaultInclude;
 			const include = Object.assign({
@@ -99,7 +103,7 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 			loadAsset(proxy.getPartialList(), include.partials, setPartial, proxy.getPartial);
 			loadAsset(proxy.getHelperList(), include.helpers, setHelper, proxy.getHelper);
 			loadAsset(proxy.getActionTypeList(), include.actionTypes, setActionType, proxy.getActionType);
-		});
+		}));
 	}
 
 	function loadAsset(nameList, include, addFunc, getFunc) {
@@ -190,10 +194,11 @@ function nodePlop(plopfilePath = '', plopCfg = {}) {
 		setPlopfilePath(plopfilePath);
 		loadPackageJson();
 
-		const plopFileExport = require(path.join(plopfilePath, plopFileName));
+		const joinedPath = path.join(plopfilePath, plopFileName);
+		const plopFileExport = await import(pathToFileURL(joinedPath).href);
 		const plop = typeof plopFileExport === 'function' ? plopFileExport : plopFileExport.default;
 
-		plop(plopfileApi, plopCfg);
+		await plop(plopfileApi, plopCfg);
 	} else {
 		setPlopfilePath(process.cwd());
 		loadPackageJson();

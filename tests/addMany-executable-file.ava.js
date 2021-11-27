@@ -1,15 +1,20 @@
 import fs from 'fs';
-import AvaTest from './_base-ava-test';
+import AvaTest from './_base-ava-test.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 const { test, mockPath, testSrcPath, nodePlop } = new AvaTest(__filename);
 
-const plop = nodePlop(`${mockPath}/plopfile.js`);
-const executableFlagAddMany = plop.getGenerator('executable-flag-add-many');
+var plop;
+var executableFlagAddMany;
 let res;
-
-test.before(() => {
+test.before(async () => {
+	plop = await nodePlop(`${mockPath}/plopfile.js`);
+	executableFlagAddMany = plop.getGenerator('executable-flag-add-many');
 	res = executableFlagAddMany.runActions({ executableName: 'ls command' });
-	return res;
+	await res;
 });
+
 if (process.platform !== 'win32') {
 	test('addMany action keeps the executable flag', t => {
 		const destStats = fs.statSync(`${testSrcPath}/ls-command.sh`);

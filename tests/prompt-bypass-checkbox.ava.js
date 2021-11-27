@@ -1,8 +1,17 @@
-import AvaTest from './_base-ava-test';
-import promptBypass from '../lib/prompt-bypass';
+import AvaTest from './_base-ava-test.js';
+import promptBypass from '../src/prompt-bypass.js';
+import {fileURLToPath} from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
 
 const {test, nodePlop} = (new AvaTest(__filename));
-const plop = nodePlop();
+
+
+var plop;
+test.before(async () => {
+	plop = await nodePlop();
+});
+
 
 const prompts = [{
 	type:'checkbox', name:'checkbox', message:'checkboxMsg',
@@ -13,34 +22,34 @@ const prompts = [{
 	]
 }];
 
-test('verify good bypass input', function (t) {
-	const [, allAnswersByValue] = promptBypass(prompts, ['one,two,three'], plop);
+test('verify good bypass input', async function (t) {
+	const [, allAnswersByValue] = await promptBypass(prompts, ['one,two,three'], plop);
 	t.true(Array.isArray(allAnswersByValue.checkbox));
 	t.is(JSON.stringify(allAnswersByValue.checkbox), '["one","two","three"]');
 
-	const [, someAnswersByValue] = promptBypass(prompts, ['one,three'], plop);
+	const [, someAnswersByValue] = await promptBypass(prompts, ['one,three'], plop);
 	t.true(Array.isArray(someAnswersByValue.checkbox));
 	t.is(JSON.stringify(someAnswersByValue.checkbox), '["one","three"]');
 
-	const [, allAnswersByIndex] = promptBypass(prompts, ['0,1,2'], plop);
+	const [, allAnswersByIndex] = await promptBypass(prompts, ['0,1,2'], plop);
 	t.true(Array.isArray(allAnswersByIndex.checkbox));
 	t.is(JSON.stringify(allAnswersByIndex.checkbox), '["one","two","three"]');
 
-	const [, someAnswersByIndex] = promptBypass(prompts, ['0,2'], plop);
+	const [, someAnswersByIndex] = await promptBypass(prompts, ['0,2'], plop);
 	t.true(Array.isArray(someAnswersByIndex.checkbox));
 	t.is(JSON.stringify(someAnswersByIndex.checkbox), '["one","three"]');
 
-	const [, allAnswersByMixed] = promptBypass(prompts, ['0,t,three'], plop);
+	const [, allAnswersByMixed] = await promptBypass(prompts, ['0,t,three'], plop);
 	t.true(Array.isArray(allAnswersByMixed.checkbox));
 	t.is(JSON.stringify(allAnswersByMixed.checkbox), '["one","two","three"]');
 
-	const [, someAnswersByMixed] = promptBypass(prompts, ['0,three'], plop);
+	const [, someAnswersByMixed] = await promptBypass(prompts, ['0,three'], plop);
 	t.true(Array.isArray(someAnswersByMixed.checkbox));
 	t.is(JSON.stringify(someAnswersByMixed.checkbox), '["one","three"]');
 });
 
-test('verify bad bypass input', function (t) {
-	t.throws(() => promptBypass(prompts, ['one,four'], plop));
-	t.throws(() => promptBypass(prompts, ['four'], plop));
-	t.throws(() => promptBypass(prompts, ['3'], plop));
+test('verify bad bypass input', async function (t) {
+	await t.throwsAsync(() => promptBypass(prompts, ['one,four'], {is: plop}));
+	await t.throwsAsync(() => promptBypass(prompts, ['four'], {is: plop}));
+	await t.throwsAsync(() => promptBypass(prompts, ['3'], {is: plop}));
 });

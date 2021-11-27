@@ -1,1 +1,3 @@
-require('del').sync('./lib');
+import * as del from 'del'
+
+del.sync('./lib');

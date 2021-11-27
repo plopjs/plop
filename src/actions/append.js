@@ -1,13 +1,13 @@
-import * as fspp from '../fs-promise-proxy';
+import * as fspp from '../fs-promise-proxy.js';
 
 import {
 	getRenderedTemplate,
 	makeDestPath,
 	throwStringifiedError,
 	getRelativeToBasePath
-} from './_common-action-utils';
+} from './_common-action-utils.js';
 
-import actionInterfaceTest from './_common-action-interface-check';
+import actionInterfaceTest from './_common-action-interface-check.js';
 
 const doAppend = async function (data, cfg, plop, fileData) {
 	const stringToAppend = await getRenderedTemplate(data, cfg, plop);
