@@ -41,6 +41,16 @@ export default function (plop) {
 };
 ```
 
+> `export default` is only allowed in NodeJS inside "ESM" supported files.
+> To use this syntax, your `plopfile` must be either:
+> - An ESM .js file with type: "module" in package.json
+> - An ESM .mjs file with any type declared in package.json
+>
+> Alternatively, you can have a `plopfile` with `module.exports = function (plop)` instead.
+> For _this_ syntax, your `plopfile` must be either:
+> - A CommonJS .js file with type: "commonjs" in package.json
+> - A CommonJS .cjs file with any type declared in package.json
+
 ## Your First Plopfile
 A plopfile starts its life as a node module that exports a function which accepts the `plop` object as its first parameter.
 
