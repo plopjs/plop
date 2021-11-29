@@ -14,4 +14,4 @@ export {
 } from 'node-plop';
 
 export const Plop: Liftoff;
-export const run: (env: Liftoff.LiftoffEnv, _: any, passArgsBeforeDashes: boolean) => void;
+export const run: (env: Liftoff.LiftoffEnv, _: any, passArgsBeforeDashes: boolean) => Promise<void>;
