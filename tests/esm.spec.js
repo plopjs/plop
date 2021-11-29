@@ -27,7 +27,7 @@ test("should load MJS file", async () => {
   fireEvent.sigterm();
 });
 
-test.only("should load CJS file", async () => {
+test("should load CJS file", async () => {
   const { findByText, fireEvent } = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/cjs"),
   });
