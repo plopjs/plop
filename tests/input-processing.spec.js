@@ -28,56 +28,49 @@ test("should show version on v flag", async () => {
 });
 
 test("should display inquirer prompts", async () => {
-  const { findByText, fireEvent } = await renderPlop([], {
+  const { findByText, userEvent } = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/prompt-only"),
   });
   expect(await findByText("What is your name?")).toBeTruthy();
-  fireEvent.type("Joe");
+  userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeTruthy();
-  fireEvent.enter();
-  fireEvent.sigterm();
+  userEvent.keyboard("[Enter]");
 });
 
 test("Should handle generator prompt", async () => {
-  const { findByText, clear, fireEvent } = await renderPlop([""], {
+  const { findByText, clear, userEvent } = await renderPlop([""], {
     cwd: resolve(__dirname, "./examples/javascript"),
   });
 
   await findByText("Please choose a generator");
 
   clear();
-  fireEvent.up();
-  fireEvent.down();
-  fireEvent.enter();
+  userEvent.keyboard("[ArrowUp]");
+  userEvent.keyboard("[ArrowDown]");
+  userEvent.keyboard("[Enter]");
 
   expect(await findByText("this is a test")).toBeTruthy();
-
-  fireEvent.sigterm();
 });
 
 test("Should bypass generator prompt", async () => {
-  const { findByText, fireEvent } = await renderPlop(["test"], {
+  const { findByText } = await renderPlop(["test"], {
     cwd: resolve(__dirname, "./examples/javascript"),
   });
 
   expect(await findByText("What is your name?")).toBeTruthy();
-
-  fireEvent.sigterm();
 });
 
 test("Should bypass prompt by input", async () => {
-  const { queryByText, findByText, fireEvent } = await renderPlop(["Frank"], {
+  const { queryByText, findByText } = await renderPlop(["Frank"], {
     cwd: resolve(__dirname, "./examples/prompt-only"),
   });
 
   expect(await queryByText("What is your name?")).toBeFalsy();
   expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
-
-  fireEvent.sigterm();
 });
 
 test("Should bypass prompt by input placeholder", async () => {
-  const { queryByText, findByText, fireEvent } = await renderPlop(
+  const { queryByText, findByText, userEvent } = await renderPlop(
     ["_", "Cheese"],
     {
       cwd: resolve(__dirname, "./examples/prompt-only"),
@@ -85,14 +78,12 @@ test("Should bypass prompt by input placeholder", async () => {
   );
 
   expect(await findByText("What is your name?")).toBeTruthy();
-  fireEvent.enter();
+  userEvent.keyboard("[Enter]");
   expect(await queryByText("What pizza toppings do you like?")).toBeFalsy();
-
-  fireEvent.sigterm();
 });
 
 test("Should bypass prompt by name", async () => {
-  const { queryByText, findByText, fireEvent } = await renderPlop(
+  const { queryByText, findByText } = await renderPlop(
     ["--", "--name", "Frank"],
     {
       cwd: resolve(__dirname, "./examples/prompt-only"),
@@ -101,8 +92,6 @@ test("Should bypass prompt by name", async () => {
 
   expect(await queryByText("What is your name?")).toBeFalsy();
   expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
-
-  fireEvent.sigterm();
 });
 
 test.todo("Dynamic actions");

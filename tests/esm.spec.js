@@ -6,45 +6,41 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("should load ESM file", async () => {
-  const { findByText, fireEvent } = await renderPlop([], {
+  const { findByText, userEvent } = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/esm"),
   });
   expect(await findByText("What is your name?")).toBeTruthy();
-  fireEvent.type("Joe");
+  userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeTruthy();
-  fireEvent.enter();
-  fireEvent.sigterm();
+  userEvent.keyboard("[Enter]");
 });
 
 test("should load MJS file", async () => {
-  const { findByText, fireEvent } = await renderPlop([], {
+  const { findByText, userEvent } = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/mjs"),
   });
   expect(await findByText("What is your name?")).toBeTruthy();
-  fireEvent.type("Joe");
+  userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeTruthy();
-  fireEvent.enter();
-  fireEvent.sigterm();
+  userEvent.keyboard("[Enter]");
 });
 
 test("should load CJS file", async () => {
-  const { findByText, fireEvent } = await renderPlop([], {
+  const { findByText, userEvent } = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/cjs"),
   });
   expect(await findByText("What is your name?")).toBeTruthy();
-  fireEvent.type("Joe");
+  userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeTruthy();
-  fireEvent.enter();
-  fireEvent.sigterm();
+  userEvent.keyboard("[Enter]");
 });
 
 test("should load JS module='commonjs' file", async () => {
-  const { findByText, fireEvent } = await renderPlop([], {
+  const { findByText, userEvent } = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/cjs-js"),
   });
   expect(await findByText("What is your name?")).toBeTruthy();
-  fireEvent.type("Joe");
+  userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeTruthy();
-  fireEvent.enter();
-  fireEvent.sigterm();
+  userEvent.keyboard("[Enter]");
 });

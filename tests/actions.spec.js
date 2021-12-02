@@ -13,22 +13,20 @@ test("Plop to add and rename files", async () => {
     "./examples/add-action/output/new-output.txt"
   );
 
-  const { findByText, fireEvent } = await renderPlop(["addAndNameFile"], {
+  const { findByText, userEvent } = await renderPlop(["addAndNameFile"], {
     cwd: resolve(__dirname, "./examples/add-action"),
   });
 
   expect(await findByText("What should the file name be?")).toBeTruthy();
 
-  fireEvent.type("new-output");
-  fireEvent.enter();
+  userEvent.keyboard("new-output");
+  userEvent.keyboard("[Enter]");
 
   await waitFor(() => fs.promises.stat(expectedFilePath));
 
   const data = fs.readFileSync(expectedFilePath, "utf8");
 
   expect(data).toMatch(/Hello/);
-
-  fireEvent.sigterm();
 });
 
 test("Plop to add and change file contents", async () => {
@@ -36,22 +34,20 @@ test("Plop to add and change file contents", async () => {
     "./examples/add-action/output/new-output.txt"
   );
 
-  const { findByText, fireEvent } = await renderPlop(["addAndChangeFile"], {
+  const { findByText, userEvent } = await renderPlop(["addAndChangeFile"], {
     cwd: resolve(__dirname, "./examples/add-action"),
   });
 
   expect(await findByText("What's your name?")).toBeTruthy();
 
-  fireEvent.type("Corbin");
-  fireEvent.enter();
+  userEvent.keyboard("Corbin");
+  userEvent.keyboard("[Enter]");
 
   await waitFor(() => fs.promises.stat(expectedFilePath));
 
   const data = await fs.promises.readFile(expectedFilePath, "utf8");
 
   expect(data).toMatch(/Hi Corbin!/);
-
-  fireEvent.sigterm();
 });
 
 test.todo("Test modify");

@@ -27,7 +27,6 @@ test("wrapper should prompts", async () => {
   });
 
   expect(await findByText("What is your name?")).toBeTruthy();
-  fireEvent.sigterm();
 });
 
 test("wrapper should bypass prompts with index", async () => {
@@ -40,7 +39,6 @@ test("wrapper should bypass prompts with index", async () => {
 
   expect(await queryByText("What is your name?")).toBeFalsy();
   expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
-  fireEvent.sigterm();
 });
 
 test("wrapper should bypass prompts with name", async () => {
@@ -53,7 +51,6 @@ test("wrapper should bypass prompts with name", async () => {
 
   expect(await queryByText("What is your name?")).toBeFalsy();
   expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
-  fireEvent.sigterm();
 });
 
 test("can run actions (add)", async () => {
@@ -70,6 +67,4 @@ test("can run actions (add)", async () => {
   const data = fs.readFileSync(expectedFilePath, "utf8");
 
   expect(data).toMatch(/Hello/);
-
-  fireEvent.sigterm();
 });
