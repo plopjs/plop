@@ -121,6 +121,7 @@ async function run(env, _, passArgsBeforeDashes) {
 // everybody to the plop!
 //
 function doThePlop(generator, bypassArr) {
+  let failedActions = false;
   generator
     .runPrompts(bypassArr)
     .then(async (answers) => {
@@ -156,12 +157,16 @@ function doThePlop(generator, bypassArr) {
           line += ` ${errMsg}`;
         }
         progressSpinner.fail(line);
+        failedActions = true;
         progressSpinner.start();
       };
       progressSpinner.start();
       return generator
         .runActions(answers, { onSuccess, onFailure, onComment })
-        .then(() => progressSpinner.stop());
+        .then(() => {
+          progressSpinner.stop();
+          if (failedActions) process.exit(1);
+        });
     })
     .catch(function (err) {
       console.error(chalk.red("[ERROR]"), err.message);
