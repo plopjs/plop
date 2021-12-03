@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-test("should load ESM file", async () => {
+test("should exit with code 1 when failed actions", async () => {
   const result = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/action-failure"),
   });
