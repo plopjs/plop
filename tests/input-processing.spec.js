@@ -94,4 +94,13 @@ test("Should bypass prompt by name", async () => {
   expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
 });
 
+test("Should allow for empty string bypassing", async () => {
+  const { queryByText, findByText } = await renderPlop(["--", "--name", `""`], {
+    cwd: resolve(__dirname, "./examples/prompt-only"),
+  });
+
+  expect(await queryByText("What is your name?")).toBeFalsy();
+  expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
+});
+
 test.todo("Dynamic actions");

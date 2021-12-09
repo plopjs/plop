@@ -52,7 +52,7 @@ function combineBypassData(generator, bypassArr, plopArgV) {
       process.exit(1);
     }
     namedBypassArr = promptNames.map((name) =>
-      plopArgV[name] ? plopArgV[name] : undefined
+      plopArgV[name] !== undefined ? plopArgV[name] : undefined
     );
   }
 

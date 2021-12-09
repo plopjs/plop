@@ -6,12 +6,6 @@ export default function (plop) {
         type: "input",
         name: "name",
         message: "What is your name?",
-        validate: function (value) {
-          if (/.+/.test(value)) {
-            return true;
-          }
-          return "name is required";
-        },
       },
       {
         type: "checkbox",
