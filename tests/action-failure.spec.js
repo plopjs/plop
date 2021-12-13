@@ -7,13 +7,12 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("should exit with code 1 when failed actions", async () => {
-  const result = await renderPlop([], {
+  const { findByText, userEvent } = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/action-failure"),
   });
-  const { findByText, userEvent } = result;
-  expect(await findByText("What is your name?")).toBeTruthy();
+  expect(await findByText("What is your name?")).toBeInTheConsole();
   userEvent.keyboard("Joe");
-  expect(await findByText("Joe")).toBeTruthy();
+  expect(await findByText("Joe")).toBeInTheConsole();
   userEvent.keyboard("[Enter]");
   const actionOutput = await findByText("Action failed");
   await waitFor(() =>

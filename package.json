@@ -48,7 +48,7 @@
   "dependencies": {
     "@types/liftoff": "^4.0.0",
     "chalk": "^5.0.0",
-    "cli-testing-library": "^1.0.0-alpha.10",
+    "cli-testing-library": "^1.0.0-alpha.14",
     "interpret": "^2.2.0",
     "liftoff": "^4.0.0",
     "minimist": "^1.2.5",
