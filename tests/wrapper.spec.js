@@ -18,7 +18,7 @@ const renderWrapper = (...props) => {
 test("wrapper should show version on v flag", async () => {
   const { findByText } = await renderWrapper(["-v"]);
 
-  expect(await findByText(/^[\w\.-]+$/)).toBeTruthy();
+  expect(await findByText(/^[\w\.-]+$/)).toBeInTheConsole();
 });
 
 test("wrapper should prompts", async () => {
@@ -26,7 +26,7 @@ test("wrapper should prompts", async () => {
     cwd: resolve(__dirname, "./examples/wrap-plop"),
   });
 
-  expect(await findByText("What is your name?")).toBeTruthy();
+  expect(await findByText("What is your name?")).toBeInTheConsole();
 });
 
 test("wrapper should bypass prompts with index", async () => {
@@ -37,8 +37,10 @@ test("wrapper should bypass prompts with index", async () => {
     }
   );
 
-  expect(await queryByText("What is your name?")).toBeFalsy();
-  expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
+  expect(await queryByText("What is your name?")).not.toBeInTheConsole();
+  expect(
+    await findByText("What pizza toppings do you like?")
+  ).toBeInTheConsole();
 });
 
 test("wrapper should bypass prompts with name", async () => {
@@ -49,8 +51,10 @@ test("wrapper should bypass prompts with name", async () => {
     }
   );
 
-  expect(await queryByText("What is your name?")).toBeFalsy();
-  expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
+  expect(await queryByText("What is your name?")).not.toBeInTheConsole();
+  expect(
+    await findByText("What pizza toppings do you like?")
+  ).toBeInTheConsole();
 });
 
 test("can run actions (add)", async () => {

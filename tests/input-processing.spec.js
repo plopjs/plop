@@ -17,21 +17,21 @@ test("should show help information on help flag", async () => {
 
 test("should show version on version flag", async () => {
   const { findByText } = await renderPlop(["--version"]);
-  expect(await findByText(/^[\w\.-]+$/)).toBeTruthy();
+  expect(await findByText(/^[\w\.-]+$/)).toBeInTheConsole();
 });
 
 test("should show version on v flag", async () => {
   const { findByText } = await renderPlop(["-v"]);
-  expect(await findByText(/^[\w\.-]+$/)).toBeTruthy();
+  expect(await findByText(/^[\w\.-]+$/)).toBeInTheConsole();
 });
 
 test("should display inquirer prompts", async () => {
   const { findByText, userEvent } = await renderPlop([], {
     cwd: resolve(__dirname, "./examples/prompt-only"),
   });
-  expect(await findByText("What is your name?")).toBeTruthy();
+  expect(await findByText("What is your name?")).toBeInTheConsole();
   userEvent.keyboard("Joe");
-  expect(await findByText("Joe")).toBeTruthy();
+  expect(await findByText("Joe")).toBeInTheConsole();
   userEvent.keyboard("[Enter]");
 });
 
@@ -47,7 +47,7 @@ test("Should handle generator prompt", async () => {
   userEvent.keyboard("[ArrowDown]");
   userEvent.keyboard("[Enter]");
 
-  expect(await findByText("this is a test")).toBeTruthy();
+  expect(await findByText("this is a test")).toBeInTheConsole();
 });
 
 test("Should bypass generator prompt", async () => {
@@ -55,7 +55,7 @@ test("Should bypass generator prompt", async () => {
     cwd: resolve(__dirname, "./examples/javascript"),
   });
 
-  expect(await findByText("What is your name?")).toBeTruthy();
+  expect(await findByText("What is your name?")).toBeInTheConsole();
 });
 
 test("Should bypass prompt by input", async () => {
@@ -63,8 +63,10 @@ test("Should bypass prompt by input", async () => {
     cwd: resolve(__dirname, "./examples/prompt-only"),
   });
 
-  expect(await queryByText("What is your name?")).toBeFalsy();
-  expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
+  expect(await queryByText("What is your name?")).not.toBeInTheConsole();
+  expect(
+    await findByText("What pizza toppings do you like?")
+  ).toBeInTheConsole();
 });
 
 test("Should bypass prompt by input placeholder", async () => {
@@ -75,9 +77,11 @@ test("Should bypass prompt by input placeholder", async () => {
     }
   );
 
-  expect(await findByText("What is your name?")).toBeTruthy();
+  expect(await findByText("What is your name?")).toBeInTheConsole();
   userEvent.keyboard("[Enter]");
-  expect(await queryByText("What pizza toppings do you like?")).toBeFalsy();
+  expect(
+    await queryByText("What pizza toppings do you like?")
+  ).not.toBeInTheConsole();
 });
 
 test("Should bypass prompt by name", async () => {
@@ -88,8 +92,10 @@ test("Should bypass prompt by name", async () => {
     }
   );
 
-  expect(await queryByText("What is your name?")).toBeFalsy();
-  expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
+  expect(await queryByText("What is your name?")).not.toBeInTheConsole();
+  expect(
+    await findByText("What pizza toppings do you like?")
+  ).toBeInTheConsole();
 });
 
 test("Should allow for empty string bypassing", async () => {
@@ -97,8 +103,10 @@ test("Should allow for empty string bypassing", async () => {
     cwd: resolve(__dirname, "./examples/prompt-only"),
   });
 
-  expect(await queryByText("What is your name?")).toBeFalsy();
-  expect(await findByText("What pizza toppings do you like?")).toBeTruthy();
+  expect(await queryByText("What is your name?")).not.toBeInTheConsole();
+  expect(
+    await findByText("What pizza toppings do you like?")
+  ).toBeInTheConsole();
 });
 
 test.todo("Dynamic actions");

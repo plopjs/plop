@@ -17,7 +17,7 @@ test("Plop to add and rename files", async () => {
     cwd: resolve(__dirname, "./examples/add-action"),
   });
 
-  expect(await findByText("What should the file name be?")).toBeTruthy();
+  expect(await findByText("What should the file name be?")).toBeInTheConsole();
 
   userEvent.keyboard("new-output");
   userEvent.keyboard("[Enter]");
@@ -38,7 +38,7 @@ test("Plop to add and change file contents", async () => {
     cwd: resolve(__dirname, "./examples/add-action"),
   });
 
-  expect(await findByText("What's your name?")).toBeTruthy();
+  expect(await findByText("What's your name?")).toBeInTheConsole();
 
   userEvent.keyboard("Corbin");
   userEvent.keyboard("[Enter]");
