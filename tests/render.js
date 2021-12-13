@@ -12,7 +12,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export function renderScript(script, args = [], opts = {}) {
   const { cwd = __dirname } = opts;
 
-  const rendered = render(
+  return render(
     resolve(__dirname, "../node_modules/.bin/nyc"),
     ["--silent", "node", script, ...args],
     {
@@ -22,8 +22,6 @@ export function renderScript(script, args = [], opts = {}) {
       },
     }
   );
-
-  return rendered;
 }
 
 /**

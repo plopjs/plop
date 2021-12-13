@@ -5,16 +5,14 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("should report a missing plopfile when not copied", async () => {
-  await expect(() => renderPlop()).rejects.toMatchInlineSnapshot(
-    /\[PLOP\] No plopfile found/,
-    `Object {}`
-  );
+  const { findByError } = await renderPlop();
+  expect(await findByError(/\[PLOP\] No plopfile found/)).toBeInTheConsole();
 });
 
 test("should show help information on help flag", async () => {
   const { findByText } = await renderPlop(["--help"]);
-  const { stdoutStr } = await findByText("Usage:");
-  expect(stdoutStr).toMatchSnapshot();
+  const { stdoutArr } = await findByText("Usage:");
+  expect(stdoutArr.join("\n")).toMatchSnapshot();
 });
 
 test("should show version on version flag", async () => {

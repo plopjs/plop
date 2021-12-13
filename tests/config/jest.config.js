@@ -10,4 +10,5 @@ export default {
   testMatch: ["**/tests/**.spec.js"],
   snapshotSerializers: ["jest-snapshot-serializer-ansi"],
   transform: {},
+  setupFilesAfterEnv: [join(__dirname, "./jest.setup.js")],
 };
