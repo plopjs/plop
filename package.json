@@ -1,6 +1,6 @@
 {
   "name": "plop",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity",
   "main": "./src/plop.js",
   "type": "module",
@@ -43,7 +43,7 @@
     "plop-pack-fancy-comments": "^0.2.0",
     "prettier": "^2.5.0",
     "queue-microtask": "^1.2.3",
-    "cli-testing-library": "^1.0.0-alpha.15"
+    "cli-testing-library": "^1.0.1"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {
