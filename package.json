@@ -42,13 +42,13 @@
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.0",
     "prettier": "^2.5.0",
-    "queue-microtask": "^1.2.3"
+    "queue-microtask": "^1.2.3",
+    "cli-testing-library": "^1.0.0-alpha.15"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {
     "@types/liftoff": "^4.0.0",
     "chalk": "^5.0.0",
-    "cli-testing-library": "^1.0.0-alpha.15",
     "interpret": "^2.2.0",
     "liftoff": "^4.0.0",
     "minimist": "^1.2.5",
