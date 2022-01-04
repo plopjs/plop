@@ -384,6 +384,15 @@ Property | Type | Default | Description
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
 
+The following example shows how to append a new `import` line into a file (notice that we don't use the pattern here):
+```javascript
+{
+	type: 'append',
+	path: 'the/path/to/your/file/index.ts',
+    	template: `import React from 'react'`,
+},
+```
+
 ## Custom (Action Function)
 The `Add` and `Modify` actions will take care of almost every case that plop is designed to handle. However, plop does offer custom action functions for the node/js guru. A custom action function is a function that is provided in the actions array.
 - Custom action functions are executed by plop with the same [CustomAction](#functionsignature-custom-action) function signature.
