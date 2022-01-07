@@ -391,7 +391,7 @@ The `Add` and `Modify` actions will take care of almost every case that plop is 
 - The function must let plop known what’s happening through the return value. If you return a `Promise`, we won’t start other actions until the promise resolves. If you return a message (*String*), we know that the action is done and we’ll report the message in the status of the action.
 - A custom action fails if the promise is rejected, or the function throws an `Exception`
 
-_See the [example plopfile](https://github.com/plopjs/plop/blob/master/example/plopfile.js) for a sample synchronous custom action._
+_See the [example plopfile](https://github.com/plopjs/plop/blob/master/tests/examples/javascript/plopfile.js) for a sample synchronous custom action._
 
 ## Comments
 Comment lines can be added to the actions array by adding a string in place of an action config object. Comments are printed to the screen when plop comes to them and have no functionality of their own.
