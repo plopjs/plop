@@ -1,16 +1,18 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test.js';
-import {fileURLToPath} from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-const { test, mockPath, testSrcPath, nodePlop } = (new AvaTest(__filename));
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
 
+const {clean, testSrcPath, mockPath} = setupMockPath(import.meta.url);
+
+afterAll(clean);
 
 var plop;
 var dynamicTemplateAddMany;
 var multipleAddsResult;
-test.before(async () => {
+
+beforeAll(async () => {
 	plop = await nodePlop(`${mockPath}/plopfile.js`);
 	dynamicTemplateAddMany = plop.getGenerator('dynamic-template-add-many');
 	multipleAddsResult = await dynamicTemplateAddMany
