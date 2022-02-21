@@ -1,13 +1,13 @@
-import AvaTest from './_base-ava-test.js';
-import {fileURLToPath} from 'node:url';
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
+const {clean} = setupMockPath(import.meta.url);
 
-const __filename = fileURLToPath(import.meta.url);
-const {test, nodePlop} = (new AvaTest(__filename));
+afterEach(clean);
 
 const errAction = () => {throw Error('');};
 
 // onSuccess and onFailure Lifecycle hooks
-test('Lifecycle hooks test (onSuccess, onFailure)', async function (t) {
+test('Lifecycle hooks test (onSuccess, onFailure)', async function () {
 	const plop = await nodePlop();
 	const onSuccess = () => onSuccess.called++; onSuccess.called = 0;
 	const onFailure = () => onFailure.called++; onFailure.called = 0;
@@ -16,11 +16,11 @@ test('Lifecycle hooks test (onSuccess, onFailure)', async function (t) {
 		.setGenerator('', {actions: [() => 'yes', errAction]})
 		.runActions({}, {onSuccess, onFailure});
 
-	t.is(onSuccess.called, 1);
-	t.is(onFailure.called, 1);
+	expect(onSuccess.called).toBe(1);
+	expect(onFailure.called).toBe(1);
 });
 
-test('Lifecycle hooks negative scenario test (onSuccess)', async function (t) {
+test('Lifecycle hooks negative scenario test (onSuccess)', async function () {
 	const plop = await nodePlop();
 	const onSuccess = () => onSuccess.called++; onSuccess.called = 0;
 	const onFailure = () => onFailure.called++; onFailure.called = 0;
@@ -29,11 +29,11 @@ test('Lifecycle hooks negative scenario test (onSuccess)', async function (t) {
 		.setGenerator('', {actions: [errAction, errAction]})
 		.runActions({}, {onSuccess, onFailure});
 
-	t.is(onSuccess.called, 0);
-	t.is(onFailure.called, 2);
+	expect(onSuccess.called).toBe(0);
+	expect(onFailure.called).toBe(2);
 });
 
-test('Lifecycle hooks negative scenario test (onFailure)', async function (t) {
+test('Lifecycle hooks negative scenario test (onFailure)', async function () {
 	const plop = await nodePlop();
 	const onSuccess = () => onSuccess.called++; onSuccess.called = 0;
 	const onFailure = () => onFailure.called++; onFailure.called = 0;
@@ -42,11 +42,11 @@ test('Lifecycle hooks negative scenario test (onFailure)', async function (t) {
 		.setGenerator('', {actions: [() => 'yes', () => 'yes']})
 		.runActions({}, {onSuccess, onFailure});
 
-	t.is(onSuccess.called, 2);
-	t.is(onFailure.called, 0);
+	expect(onSuccess.called).toBe(2);
+	expect(onFailure.called).toBe(0);
 });
 
-test('Lifecycle hook test (onComment)', async function (t) {
+test('Lifecycle hook test (onComment)', async function () {
 	const plop = await nodePlop();
 	const onSuccess = () => onSuccess.called++; onSuccess.called = 0;
 	const onFailure = () => onFailure.called++; onFailure.called = 0;
@@ -56,7 +56,7 @@ test('Lifecycle hook test (onComment)', async function (t) {
 		.setGenerator('', {actions: ['yes', () => 'yes', errAction, 'yes']})
 		.runActions({}, {onSuccess, onFailure, onComment});
 
-	t.is(onSuccess.called, 1);
-	t.is(onFailure.called, 1);
-	t.is(onComment.called, 1);
+	expect(onSuccess.called).toBe(1);
+	expect(onFailure.called).toBe(1);
+	expect(onComment.called).toBe(1);
 });

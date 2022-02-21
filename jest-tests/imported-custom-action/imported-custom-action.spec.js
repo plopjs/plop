@@ -1,11 +1,11 @@
-import {fileExists} from '../src/fs-promise-proxy.js';
+import {fileExists} from '../../src/fs-promise-proxy.js';
 import path from 'path';
-import AvaTest from './_base-ava-test.js';
-import {fileURLToPath} from 'node:url';
-import {pathToFileURL} from "url";
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
+const {clean, testSrcPath, mockPath} = setupMockPath(import.meta.url);
+import {pathToFileURL} from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
+afterEach(clean);
 
 /////
 // imported custom actions should execute
@@ -13,11 +13,11 @@ const {test, mockPath, testSrcPath, nodePlop} = (new AvaTest(__filename));
 
 
 var customAction;
-test.before(async () => {
+beforeEach(async () => {
 	customAction = (await import(pathToFileURL(path.resolve(mockPath, 'custom-action.js')).href)).default;
 });
 
-test('imported custom action should execute correctly', async function (t) {
+test('imported custom action should execute correctly', async function () {
 	const plop = await nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test.txt');
 	plop.setActionType('custom-del', customAction);
@@ -31,18 +31,18 @@ test('imported custom action should execute correctly', async function (t) {
 		actions: [addTestFile, deleteTestFile]
 	});
 
-	t.is(typeof plop.getActionType('custom-del'), 'function');
+	expect(typeof plop.getActionType('custom-del')).toBe('function');
 
 	const results = await generator.runActions({});
 	const testFileExists = await fileExists(testFilePath);
 
-	t.is(results.failures.length, 0);
-	t.is(results.changes.length, 2);
-	t.false(testFileExists);
+	expect(results.failures.length).toBe(0);
+	expect(results.changes.length).toBe(2);
+	expect(testFileExists).toBe(false);
 });
 
 
-test('imported custom action can throw errors', async function (t) {
+test('imported custom action can throw errors', async function () {
 	const plop = await nodePlop();
 	const testFilePath = path.resolve(testSrcPath, 'test2.txt');
 	plop.setActionType('custom-del', customAction);
@@ -54,6 +54,6 @@ test('imported custom action can throw errors', async function (t) {
 	const generator = plop.setGenerator('', {actions: [deleteTestFile]});
 	const results = await generator.runActions({});
 
-	t.is(results.failures.length, 1);
-	t.true(results.failures[0].error.startsWith('Path does not exist'));
+	expect(results.failures.length).toBe(1);
+	expect(results.failures[0].error.startsWith('Path does not exist')).toBe(true);
 });
