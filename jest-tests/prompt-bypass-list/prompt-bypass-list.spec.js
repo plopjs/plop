@@ -1,13 +1,12 @@
-import AvaTest from './_base-ava-test.js';
-import promptBypass from '../src/prompt-bypass.js';
-import {fileURLToPath} from 'node:url';
+import promptBypass from '../../src/prompt-bypass.js';
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
+const {clean} = setupMockPath(import.meta.url);
 
-const __filename = fileURLToPath(import.meta.url);
-
-const {test, nodePlop} = (new AvaTest(__filename));
+afterEach(clean);
 
 var plop;
-test.before(async () => {
+beforeEach(async () => {
 	plop = await nodePlop();
 });
 
@@ -25,52 +24,52 @@ const prompts = [{
 	]
 }];
 
-test('verify good bypass input', async function (t) {
+test('verify good bypass input', async function () {
 	const [, byValue] = await promptBypass(prompts, ['eh'], plop);
-	t.is(byValue.list, 'eh');
+	expect(byValue.list).toBe('eh');
 
 	const [, byKey] = await promptBypass(prompts, ['b'], plop);
-	t.is(byKey.list, 'bee');
+	expect(byKey.list).toBe('bee');
 
 	const [, byName] = await promptBypass(prompts, ['c'], plop);
-	t.is(byName.list, 'see');
+	expect(byName.list).toBe('see');
 
 	const [, byValueProp] = await promptBypass(prompts, ['d'], plop);
-	t.is(byValueProp.list, 'd');
+	expect(byValueProp.list).toBe('d');
 
 	const [, byNameNoValue] = await promptBypass(prompts, ['e'], plop);
-	t.is(byNameNoValue.list, 'e');
+	expect(byNameNoValue.list).toBe('e');
 
 	const [, byIndexValue] = await promptBypass(prompts, ['0'], plop);
-	t.is(byIndexValue.list, 'eh');
+	expect(byIndexValue.list).toBe('eh');
 
 	const [, byIndexKey] = await promptBypass(prompts, ['1'], plop);
-	t.is(byIndexKey.list, 'bee');
+	expect(byIndexKey.list).toBe('bee');
 
 	const [, byIndexName] = await promptBypass(prompts, ['2'], plop);
-	t.is(byIndexName.list, 'see');
+	expect(byIndexName.list).toBe('see');
 
 	const [, byIndexValueProp] = await promptBypass(prompts, ['3'], plop);
-	t.is(byIndexValueProp.list, 'd');
+	expect(byIndexValueProp.list).toBe('d');
 
 	const [, byIndexNameNoValue] = await promptBypass(prompts, ['4'], plop);
-	t.is(byIndexNameNoValue.list, 'e');
+	expect(byIndexNameNoValue.list).toBe('e');
 
 	const [, byIndexNumber] = await promptBypass(prompts, [4], plop);
-	t.is(byIndexNumber.list, 'e');
+	expect(byIndexNumber.list).toBe('e');
 
 	const [, byIndexNumberObject] = await promptBypass(prompts, [5], plop);
-	t.deepEqual(byIndexNumberObject.list, { prop: 'value' });
+	expect(byIndexNumberObject.list).toEqual({ prop: 'value' });
 
 	const [, byKeyObject] = await promptBypass(prompts, 'f', plop);
-	t.deepEqual(byKeyObject.list, { prop: 'value' });
+	expect(byKeyObject.list).toEqual({ prop: 'value' });
 
 	const [, byNameObject] = await promptBypass(prompts, 'ff', plop);
-	t.deepEqual(byNameObject.list, { prop: 'value' });
+	expect(byNameObject.list).toEqual({ prop: 'value' });
 });
 
-test('verify bad bypass input', async function (t) {
-	await t.throwsAsync(() => promptBypass(prompts, ['asdf'], {is: plop}));
-	await t.throwsAsync(() => promptBypass(prompts, ['6'], {is: plop}));
-	await t.throwsAsync(() => promptBypass(prompts, [6], {is: plop}));
+test('verify bad bypass input', async function () {
+	await expect(() => promptBypass(prompts, ['asdf'], {is: plop})).rejects.toThrow();
+	await expect(() => promptBypass(prompts, ['6'], {is: plop})).rejects.toThrow();
+	await expect(() => promptBypass(prompts, [6], {is: plop})).rejects.toThrow();
 });

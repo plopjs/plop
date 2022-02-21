@@ -1,25 +1,13 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test.js';
-import {fileURLToPath} from 'node:url';
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
+const {clean, testSrcPath} = setupMockPath(import.meta.url);
 
-const __filename = fileURLToPath(import.meta.url);
-
-/**
- * We are creating files in each test,
- * but Ava runs tests in parallel by default,
- * which can make the tests unreliable,
- * so we need to implement the these tests with test.serial.
- *
- * Also we need to clean before each test, b/c we are creating files in each test.
- * (AvaTest only cleans once before and after the test file)
- */
-const avaTest = new AvaTest(__filename);
-const { test, testSrcPath, nodePlop, clean } = avaTest;
-test.beforeEach(clean.bind(avaTest));
+afterEach(clean);
 
 var plop;
-test.before(async () => {
+beforeAll(async () => {
 	plop = await nodePlop();
 });
 
@@ -37,8 +25,8 @@ const modifyAction = {
 	path: addAction.path
 };
 
-test.serial('Modify action fails without pattern or transform', async function(
-	t
+test('Modify action fails without pattern or transform', async function(
+
 ) {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
@@ -48,17 +36,13 @@ test.serial('Modify action fails without pattern or transform', async function(
 
 	const { failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length > 0, 'modify action did not fail');
+	expect(failures.length > 0).toBe(true);
 
-	t.true(fs.existsSync(filePath), 'file was not created');
-	t.is(
-		fs.readFileSync(filePath, 'utf8'),
-		fileName + genName,
-		'file contents are not correct'
-	);
+	expect(fs.existsSync(filePath)).toBe(true);
+	expect(fs.readFileSync(filePath, 'utf8')).toBe(fileName + genName);
 });
 
-test.serial('Modify action with standard usage', async function(t) {
+test('Modify action with standard usage', async function() {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 	const template = 'template1';
 
@@ -70,19 +54,15 @@ test.serial('Modify action with standard usage', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length === 0, 'action failed');
-	t.true(changes.length > 0, 'no action changes');
+	expect(failures.length === 0).toBe(true);
+	expect(changes.length > 0).toBe(true);
 
-	t.true(fs.existsSync(filePath), 'file was not created');
+	expect(fs.existsSync(filePath)).toBe(true);
 
-	t.is(
-		fs.readFileSync(filePath, 'utf8'),
-		fileName + template,
-		'file contents are not correct'
-	);
+	expect(fs.readFileSync(filePath, 'utf8')).toBe(fileName + template);
 });
 
-test.serial('Modify action with both pattern and transform', async function(t) {
+test('Modify action with both pattern and transform', async function() {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 	const template = 'template2';
 
@@ -94,11 +74,7 @@ test.serial('Modify action with both pattern and transform', async function(t) {
 				pattern: new RegExp(genName),
 				template,
 				transform(templateOutput) {
-					t.is(
-						templateOutput,
-						fileName + template,
-						'transform does not receive pattern result'
-					);
+					expect(templateOutput).toBe(fileName + template);
 
 					return templateOutput.length.toString();
 				}
@@ -107,19 +83,15 @@ test.serial('Modify action with both pattern and transform', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length === 0, 'action failed');
-	t.true(changes.length > 0, 'no action changes');
+	expect(failures.length === 0).toBe(true);
+	expect(changes.length > 0).toBe(true);
 
-	t.true(fs.existsSync(filePath), 'file was not created');
+	expect(fs.existsSync(filePath)).toBe(true);
 
-	t.is(
-		fs.readFileSync(filePath, 'utf8'),
-		(fileName + template).length.toString(),
-		'file contents are not correct'
-	);
+	expect(fs.readFileSync(filePath, 'utf8')).toBe((fileName + template).length.toString());
 });
 
-test.serial('Modify action with transform function only', async function(t) {
+test('Modify action with transform function only', async function() {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
 	const gen = plop.setGenerator(genName, {
@@ -135,19 +107,15 @@ test.serial('Modify action with transform function only', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length === 0, 'action failed');
-	t.true(changes.length > 0, 'no action changes');
+	expect(failures.length === 0).toBe(true);
+	expect(changes.length > 0).toBe(true);
 
-	t.true(fs.existsSync(filePath), 'file was not created');
+	expect(fs.existsSync(filePath)).toBe(true);
 
-	t.is(
-		fs.readFileSync(filePath, 'utf8'),
-		(fileName + genName).length.toString(),
-		'file contents are not correct'
-	);
+	expect(fs.readFileSync(filePath, 'utf8')).toBe((fileName + genName).length.toString());
 });
 
-test.serial('Modify action with async transform function', async function(t) {
+test('Modify action with async transform function', async function() {
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
 	const gen = plop.setGenerator(genName, {
@@ -163,19 +131,15 @@ test.serial('Modify action with async transform function', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length === 0, 'action failed');
-	t.true(changes.length > 0, 'no action changes');
+	expect(failures.length === 0).toBe(true);
+	expect(changes.length > 0).toBe(true);
 
-	t.true(fs.existsSync(filePath), 'file was not created');
+	expect(fs.existsSync(filePath)).toBe(true);
 
-	t.is(
-		fs.readFileSync(filePath, 'utf8'),
-		(fileName + genName).length.toString(),
-		'file contents are not correct'
-	);
+	expect(fs.readFileSync(filePath, 'utf8')).toBe((fileName + genName).length.toString());
 });
 
-test.serial('Modify action with transform error', async function(t) {
+test('Modify action with transform error', async function() {
 	const gen = plop.setGenerator(genName, {
 		actions: [
 			addAction,
@@ -189,11 +153,11 @@ test.serial('Modify action with transform error', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length > 0, 'action did not fail');
-	t.true(changes.length === 1, 'modify action made changes');
+	expect(failures.length > 0).toBe(true);
+	expect(changes.length === 1).toBe(true);
 });
 
-test.serial('Modify action with async transform rejection', async function(t) {
+test('Modify action with async transform rejection', async function() {
 	const gen = plop.setGenerator(genName, {
 		actions: [
 			addAction,
@@ -207,13 +171,13 @@ test.serial('Modify action with async transform rejection', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length > 0, 'action did not fail');
-	t.true(changes.length === 1, 'modify action made changes');
+	expect(failures.length > 0).toBe(true);
+	expect(changes.length === 1).toBe(true);
 });
 
-test.serial(
+test(
 	'Modify action with async transform returns undefined',
-	async function(t) {
+	async function() {
 		const gen = plop.setGenerator(genName, {
 			actions: [
 				addAction,
@@ -227,13 +191,13 @@ test.serial(
 		});
 		const { changes, failures } = await gen.runActions({ fileName });
 
-		t.true(failures.length > 0, 'action did not fail');
-		t.true(changes.length === 1, 'modify action made changes');
+		expect(failures.length > 0).toBe(true);
+		expect(changes.length === 1).toBe(true);
 	}
 );
 
-test.serial('Modify action with async transform returns null', async function(
-	t
+test('Modify action with async transform returns null', async function(
+
 ) {
 	const gen = plop.setGenerator(genName, {
 		actions: [
@@ -248,13 +212,13 @@ test.serial('Modify action with async transform returns null', async function(
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length > 0, 'action did not fail');
-	t.true(changes.length === 1, 'modify action made changes');
+	expect(failures.length > 0).toBe(true);
+	expect(changes.length === 1).toBe(true);
 });
 
-test.serial(
+test(
 	'Modify action with async transform returns invalid',
-	async function(t) {
+	async function() {
 		const gen = plop.setGenerator(genName, {
 			actions: [
 				addAction,
@@ -269,14 +233,14 @@ test.serial(
 
 		const { changes, failures } = await gen.runActions({ fileName });
 
-		t.true(failures.length > 0, 'action did not fail');
-		t.true(changes.length === 1, 'modify action made changes');
+		expect(failures.length > 0).toBe(true);
+		expect(changes.length === 1).toBe(true);
 	}
 );
 
-test.serial(
+test(
 	'Modify action without pattern does not remove "undefined"',
-	async function(t) {
+	async function() {
 		const template = 'type SomeType = string | undefined;';
 
 		const gen = plop.setGenerator(genName, {
@@ -285,7 +249,7 @@ test.serial(
 				{
 					...modifyAction,
 					async transform(code) {
-						t.true(/undefined/.test(code), 'modify action removed "undefined"');
+						expect(/undefined/.test(code)).toBe(true);
 						return code;
 					}
 				}]
@@ -293,7 +257,7 @@ test.serial(
 
 		const { changes, failures } = await gen.runActions({ fileName });
 
-		t.true(failures.length === 0, 'an action failed');
-		t.true(changes.length === 2, 'not enough change were made');
+		expect(failures.length === 0).toBe(true);
+		expect(changes.length === 2).toBe(true);
 	}
 );
