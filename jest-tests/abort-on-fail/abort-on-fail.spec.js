@@ -1,4 +1,4 @@
-import nodePlop from '../src/index.js';
+import nodePlop from '../../src/index.js';
 
 let plop;
 beforeEach(async () => {

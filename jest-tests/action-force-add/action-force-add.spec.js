@@ -1,8 +1,8 @@
-import nodePlop from '../src/index.js';
-import * as fspp from '../src/fs-promise-proxy.js';
-import {setupMockPath} from "./helpers/path.js";
+import nodePlop from '../../src/index.js';
+import * as fspp from '../../src/fs-promise-proxy.js';
+import {setupMockPath} from "../helpers/path.js";
 
-const {clean, testSrcPath} = setupMockPath('action-force-add');
+const {clean, testSrcPath} = setupMockPath(import.meta.url);
 
 afterEach(clean);
 

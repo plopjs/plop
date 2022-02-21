@@ -4,14 +4,12 @@ import del from "del";
 import * as fspp from "../../src/fs-promise-proxy.js";
 import {fileURLToPath} from "node:url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 /**
- * @param {string} testFile
+ * @param {string} importMetaUrl
  */
-export function setupMockPath(testFile) {
-    const testName = path.basename(testFile).split('.')[0];
-    const mockPath = normalizePath(path.resolve(__dirname, '..', testName + '-mock'));
+export function setupMockPath(importMetaUrl) {
+    const __dirname = path.dirname(fileURLToPath(importMetaUrl));
+    const mockPath = __dirname;
     const testSrcPath = path.resolve(mockPath, 'src');
 
     async function clean() {
@@ -29,6 +27,6 @@ export function setupMockPath(testFile) {
     }
 
     return {
-        testName, mockPath, testSrcPath, clean
+        mockPath, testSrcPath, clean
     }
 }

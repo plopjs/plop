@@ -1,8 +1,8 @@
-import nodePlop from '../src/index.js';
-import {setupMockPath} from "./helpers/path.js";
-import { normalizePath } from '../src/actions/_common-action-utils.js';
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
+import { normalizePath } from '../../src/actions/_common-action-utils.js';
 
-const {clean, testSrcPath} = setupMockPath('action-data-cleanup');
+const {clean, testSrcPath} = setupMockPath(import.meta.url);
 
 let plop;
 beforeEach(async () => {
