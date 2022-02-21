@@ -1,18 +1,19 @@
 import fs from 'fs';
-import AvaTest from './_base-ava-test.js';
-import {fileURLToPath} from 'node:url';
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const {test, mockPath, testSrcPath, nodePlop} = new AvaTest(__filename);
+const {clean, testSrcPath, mockPath} = setupMockPath(import.meta.url);
+
+afterEach(clean);
 
 var plop;
-test.before(async () => {
+beforeEach(async () => {
     plop = await nodePlop();
 });
 
 test(
     'Add action keeps the executable flag',
-    async function (t) {
+    async function () {
         if (process.platform !== 'win32') {
             plop.setGenerator('addExecutable', {
                 actions: [
@@ -26,11 +27,11 @@ test(
 
             await plop.getGenerator('addExecutable').runActions();
             const destStats = fs.statSync(`${testSrcPath}/added.sh`);
-            t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
+            expect(destStats.mode & fs.constants.S_IXUSR).toBe(fs.constants.S_IXUSR);
         } else {
             // Windows, skip
             if (true) {
-                t.is(true, true);
+                expect(true).toBe(true);
                 return;
             }
             plop.setGenerator('addExecutable', {
@@ -46,7 +47,7 @@ test(
             await plop.getGenerator('addExecutable').runActions();
 
             const destStats = fs.statSync(`${testSrcPath}/added.sh`);
-            t.is(destStats.mode & fs.constants.S_IXUSR, fs.constants.S_IXUSR);
+            expect(destStats.mode & fs.constants.S_IXUSR).toBe(fs.constants.S_IXUSR);
         }
     }
 );
