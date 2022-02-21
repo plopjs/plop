@@ -1,14 +1,15 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test.js';
-import {fileURLToPath} from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
 
-const { test, testSrcPath, nodePlop } = new AvaTest(__filename);
+const {clean, testSrcPath} = setupMockPath(import.meta.url);
+
+afterEach(clean);
 
 var plop;
-test.before(async () => {
+beforeAll(async () => {
 	plop = await nodePlop();
 });
 
@@ -18,25 +19,21 @@ const baseAction = {
 	path: `${testSrcPath}/{{fileName}}.txt`
 };
 
-test('Add action without transform function', async function(t) {
+test('Add action without transform function', async function() {
 	const fileName = 'testFile1';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
 	const gen = plop.setGenerator('add-action', { actions: [baseAction] });
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length === 0, 'action failed');
-	t.true(changes.length > 0, 'no action changes');
+	expect(failures.length === 0).toBe(true);
+	expect(changes.length > 0).toBe(true);
 
-	t.true(fs.existsSync(filePath), 'file was not created');
-	t.is(
-		fs.readFileSync(filePath, 'utf8'),
-		fileName,
-		'file contents are not correct'
-	);
+	expect(fs.existsSync(filePath)).toBe(true);
+	expect(fs.readFileSync(filePath, 'utf8')).toBe(fileName);
 });
 
-test('Add action transform function', async function(t) {
+test('Add action transform function', async function() {
 	const fileName = 'testFile2';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
@@ -52,18 +49,14 @@ test('Add action transform function', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length === 0, 'action failed');
-	t.true(changes.length > 0, 'no action changes');
+	expect(failures.length === 0).toBe(true);
+	expect(changes.length > 0).toBe(true);
 
-	t.true(fs.existsSync(filePath), 'file was not created');
-	t.is(
-		fs.readFileSync(filePath, 'utf8'),
-		fileName.length.toString(),
-		'file contents are not correct'
-	);
+	expect(fs.existsSync(filePath)).toBe(true);
+	expect(fs.readFileSync(filePath, 'utf8')).toBe(fileName.length.toString());
 });
 
-test('Add action async transform function', async function(t) {
+test('Add action async transform function', async function() {
 	const fileName = 'testFile3';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
@@ -79,18 +72,14 @@ test('Add action async transform function', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length === 0, 'action failed');
-	t.true(changes.length > 0, 'no action changes');
+	expect(failures.length === 0).toBe(true);
+	expect(changes.length > 0).toBe(true);
 
-	t.true(fs.existsSync(filePath), 'file was not created');
-	t.is(
-		fs.readFileSync(filePath, 'utf8'),
-		fileName.length.toString(),
-		'file contents are not correct'
-	);
+	expect(fs.existsSync(filePath)).toBe(true);
+	expect(fs.readFileSync(filePath, 'utf8')).toBe(fileName.length.toString());
 });
 
-test('Add action transform error', async function(t) {
+test('Add action transform error', async function() {
 	const fileName = 'testFile4';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
@@ -106,13 +95,13 @@ test('Add action transform error', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length > 0, 'action did not fail');
-	t.true(changes.length === 0, 'action made changes');
+	expect(failures.length > 0).toBe(true);
+	expect(changes.length === 0).toBe(true);
 
-	t.false(fs.existsSync(filePath), 'file was created');
+	expect(fs.existsSync(filePath)).toBe(false);
 });
 
-test('Add action async transform rejection', async function(t) {
+test('Add action async transform rejection', async function() {
 	const fileName = 'testFile5';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
@@ -128,13 +117,13 @@ test('Add action async transform rejection', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length > 0, 'action did not fail');
-	t.true(changes.length === 0, 'action made changes');
+	expect(failures.length > 0).toBe(true);
+	expect(changes.length === 0).toBe(true);
 
-	t.false(fs.existsSync(filePath), 'file was created');
+	expect(fs.existsSync(filePath)).toBe(false);
 });
 
-test('Add action async transform returns undefined', async function(t) {
+test('Add action async transform returns undefined', async function() {
 	const fileName = 'testFile6';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
@@ -150,13 +139,13 @@ test('Add action async transform returns undefined', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length > 0, 'action did not fail');
-	t.true(changes.length === 0, 'action made changes');
+	expect(failures.length > 0).toBe(true);
+	expect(changes.length === 0).toBe(true);
 
-	t.false(fs.existsSync(filePath), 'file was created');
+	expect(fs.existsSync(filePath)).toBe(false);
 });
 
-test('Add action async transform returns null', async function(t) {
+test('Add action async transform returns null', async function() {
 	const fileName = 'testFile7';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
@@ -172,13 +161,13 @@ test('Add action async transform returns null', async function(t) {
 	});
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length > 0, 'action did not fail');
-	t.true(changes.length === 0, 'action made changes');
+	expect(failures.length > 0).toBe(true);
+	expect(changes.length === 0).toBe(true);
 
-	t.false(fs.existsSync(filePath), 'file was created');
+	expect(fs.existsSync(filePath)).toBe(false);
 });
 
-test('Add action async transform returns invalid', async function(t) {
+test('Add action async transform returns invalid', async function() {
 	const fileName = 'testFile8';
 	const filePath = path.resolve(testSrcPath, fileName + '.txt');
 
@@ -195,8 +184,8 @@ test('Add action async transform returns invalid', async function(t) {
 
 	const { changes, failures } = await gen.runActions({ fileName });
 
-	t.true(failures.length > 0, 'action did not fail');
-	t.true(changes.length === 0, 'action made changes');
+	expect(failures.length > 0).toBe(true);
+	expect(changes.length === 0).toBe(true);
 
-	t.false(fs.existsSync(filePath), 'file was created');
+	expect(fs.existsSync(filePath)).toBe(false);
 });

@@ -9,7 +9,7 @@ import {fileURLToPath} from "node:url";
  */
 export function setupMockPath(importMetaUrl) {
     const __dirname = path.dirname(fileURLToPath(importMetaUrl));
-    const mockPath = __dirname;
+    const mockPath = normalizePath(__dirname);
     const testSrcPath = path.resolve(mockPath, 'src');
 
     async function clean() {

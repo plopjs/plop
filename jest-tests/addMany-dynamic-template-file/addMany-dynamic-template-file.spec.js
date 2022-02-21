@@ -17,7 +17,7 @@ test.before(async () => {
 		.runActions({ name: 'John Doe', kind: 'BarChart' })
 });
 
-test('Check that all files have been created', t => {
+test('Check that all files have been created', () => {
 	const expectedFiles = [
 		'john-doe-bar-chart/john-doe-bar-ctrl.js',
 		'john-doe-bar-chart/john-doe-bar-tmpl.html',
@@ -25,15 +25,17 @@ test('Check that all files have been created', t => {
 	];
 	expectedFiles.map((file) => {
 		const filePath = path.resolve(testSrcPath, file);
-		t.true(fs.existsSync(filePath), `Can't resolve ${filePath}`);
+		expect(fs.existsSync(filePath)).toBe(true);
 	});
 
-	t.true(multipleAddsResult.changes[0].path.includes(`${expectedFiles.length} files added`));
+	expect(
+        multipleAddsResult.changes[0].path.includes(`${expectedFiles.length} files added`)
+    ).toBe(true);
 });
 
-test('Test the content of the rendered file', t => {
+test('Test the content of the rendered file', () => {
 	const filePath = path.resolve(testSrcPath, 'john-doe-bar-chart/john-doe-bar-tmpl.html');
 	const content = fs.readFileSync(filePath).toString();
 
-	t.true(content.includes('name: John Doe'));
+	expect(content.includes('name: John Doe')).toBe(true);
 });
