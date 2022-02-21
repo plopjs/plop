@@ -1,14 +1,14 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test.js';
-import {fileURLToPath} from 'node:url';
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
+const {clean, testSrcPath, mockPath} = setupMockPath(import.meta.url);
 
-const __filename = fileURLToPath(import.meta.url);
-const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
+afterEach(clean);
 
 var plop;
 
-test.before(async () => {
+beforeEach(async () => {
 	plop = await nodePlop();
 	const name = 'basic test name';
 	plop.setHelper('uCase', txt => txt.toUpperCase());
@@ -34,15 +34,15 @@ test.before(async () => {
 	await basicAdd.runActions({name});
 });
 
-test('Check that the file has been created', t => {
+test('Check that the file has been created', () => {
 	const filePath = path.resolve(testSrcPath, 'basic-test-name.txt');
 
-	t.true(fs.existsSync(filePath));
+	expect(fs.existsSync(filePath)).toBe(true);
 });
 
-test('Test the content of the rendered file', t => {
+test('Test the content of the rendered file', () => {
 	const filePath = path.resolve(testSrcPath, 'basic-test-name.txt');
 	const content = fs.readFileSync(filePath).toString();
 
-	t.true(content === 'BASIC TEST NAME');
+	expect(content === 'BASIC TEST NAME').toBe(true);
 });
