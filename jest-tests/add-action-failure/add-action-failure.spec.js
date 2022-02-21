@@ -1,16 +1,17 @@
 import fs from 'fs';
 import path from 'path';
-import AvaTest from './_base-ava-test.js';
-import {fileURLToPath} from 'node:url';
+import nodePlop from '../../src/index.js';
+import {setupMockPath} from "../helpers/path.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
+const {clean, testSrcPath} = setupMockPath(import.meta.url);
+
+afterEach(clean);
 
 var plop;
 var baseAction;
 var actionAdd;
 var actionAddWithSkip;
-test.before(async () => {
+beforeEach(async () => {
 	plop = await nodePlop();
 
 	baseAction = { type: 'add', template: '{{name}}', path: `${testSrcPath}/{{name}}.txt` };
@@ -23,38 +24,38 @@ test.before(async () => {
 
 });
 
-test('Check that the file is created', async function (t) {
+test('Check that the file is created', async function () {
 	const filePath = path.resolve(testSrcPath, 'test1.txt');
 	const result = await actionAdd.runActions({name: 'test1'});
-	t.is(result.changes.length, 1);
-	t.is(result.failures.length, 0);
-	t.true(fs.existsSync(filePath));
+	expect(result.changes.length).toBe(1);
+	expect(result.failures.length).toBe(0);
+	expect(fs.existsSync(filePath)).toBeTruthy();
 });
 
-test('If run twice, should fail due to file already exists', async function (t) {
+test('If run twice, should fail due to file already exists', async function () {
 	const filePath = path.resolve(testSrcPath, 'test2.txt');
 	// add the test file
 	const result = await actionAdd.runActions({name: 'test2'});
-	t.is(result.changes.length, 1);
-	t.is(result.failures.length, 0);
-	t.true(fs.existsSync(filePath));
+	expect(result.changes.length).toBe(1);
+	expect(result.failures.length).toBe(0);
+	expect(fs.existsSync(filePath)).toBeTruthy();
 	// try to add it again
 	const result2 = await actionAdd.runActions({name: 'test2'});
-	t.is(result2.changes.length, 0);
-	t.is(result2.failures.length, 1);
-	t.true(fs.existsSync(filePath));
+	expect(result2.changes.length).toBe(0);
+	expect(result2.failures.length).toBe(1);
+	expect(fs.existsSync(filePath)).toBeTruthy();
 });
 
-test('If skipIfExists is true, it should not fail', async function (t) {
+test('If skipIfExists is true, it should not fail', async function () {
 	const filePath = path.resolve(testSrcPath, 'test3.txt');
 	// add the test file
 	const result = await actionAdd.runActions({name: 'test3'});
-	t.is(result.changes.length, 1);
-	t.is(result.failures.length, 0);
-	t.true(fs.existsSync(filePath));
+	expect(result.changes.length).toBe(1);
+	expect(result.failures.length).toBe(0);
+	expect(fs.existsSync(filePath)).toBeTruthy();
 	// try to add it again
 	const result2 = await actionAddWithSkip.runActions({name: 'test3'});
-	t.is(result2.changes.length, 1);
-	t.is(result2.failures.length, 0);
-	t.true(fs.existsSync(filePath));
+	expect(result2.changes.length).toBe(1);
+	expect(result2.failures.length).toBe(0);
+	expect(fs.existsSync(filePath)).toBeTruthy();
 });
