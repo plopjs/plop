@@ -1,15 +1,16 @@
+import nodePlop from '../src/index.js';
 import * as fspp from '../src/fs-promise-proxy.js';
-import AvaTest from './_base-ava-test.js';
-import {fileURLToPath} from 'node:url';
+import {setupMockPath} from "./helpers/path.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const {test, testSrcPath, nodePlop} = (new AvaTest(__filename));
+const {clean, testSrcPath} = setupMockPath('action-force-add');
+
+afterEach(clean);
 
 /////
 // global and local "force" flag that can be used to push through failures
 //
 
-test('Action force add (global force)', async function (t) {
+test('Action force add (global force)', async function () {
 	const plop = await nodePlop('', {force: true});
 	const filePath = `${testSrcPath}/test.txt`;
 	const gen = plop.setGenerator('Gen', {
@@ -32,13 +33,13 @@ test('Action force add (global force)', async function (t) {
 	const {changes, failures} = await gen.runActions({});
 	const content = await fspp.readFile(filePath);
 
-	t.is(changes.length, 3);
-	t.is(failures.length, 0);
-	t.true(await fspp.fileExists(filePath));
-	t.is(content, 'success');
+	expect(changes.length).toBe(3);
+	expect(failures.length).toBe(0);
+	expect(await fspp.fileExists(filePath)).toBeTruthy();
+	expect(content).toBe('success');
 });
 
-test('Action force add (local action force)', async function (t) {
+test('Action force add (local action force)', async function () {
 	const plop = await nodePlop();
 	const filePath = `${testSrcPath}/test2.txt`;
 	const gen = plop.setGenerator('Gen', {
@@ -62,8 +63,8 @@ test('Action force add (local action force)', async function (t) {
 	const {changes, failures} = await gen.runActions({});
 	const content = await fspp.readFile(filePath);
 
-	t.is(changes.length, 2);
-	t.is(failures.length, 1);
-	t.true(await fspp.fileExists(filePath));
-	t.is(content, 'success');
+	expect(changes.length).toBe(2);
+	expect(failures.length).toBe(1);
+	expect(await fspp.fileExists(filePath)).toBeTruthy();
+	expect(content).toBe('success');
 });
