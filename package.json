@@ -7,6 +7,7 @@
   "types": "types/index.d.ts",
   "scripts": {
     "eslint": "eslint src/",
+    "jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test": "npm run test:js && npm run test:typings",
     "test:typings": "dtslint types --localTs node_modules/typescript/lib --expectOnly",
     "test:js": "npm run eslint && ava",
@@ -59,6 +60,8 @@
     "handlebars": "^4.4.3",
     "inquirer": "^8.2.0",
     "isbinaryfile": "^4.0.8",
+    "jest": "^27.5.1",
+    "jest-watch-typeahead": "^1.0.0",
     "lodash.get": "^4.4.2",
     "lower-case": "^2.0.2",
     "mkdirp": "^1.0.4",
