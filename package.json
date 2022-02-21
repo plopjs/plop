@@ -10,8 +10,8 @@
     "jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test": "npm run test:js && npm run test:typings",
     "test:typings": "dtslint types --localTs node_modules/typescript/lib --expectOnly",
-    "test:js": "npm run eslint && ava",
-    "test-watch": "ava --watch",
+    "test:js": "npm run eslint && npm run jest",
+    "test-watch": "jest --watch",
     "develop": "npm run test-watch"
   },
   "pre-commit": [
@@ -44,7 +44,6 @@
     "@types/node": "^16.11.10",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "ava": "^4.0.0-rc.1",
     "dtslint": "^4.2.1",
     "eslint": "^8.3.0",
     "plop": "^2.7.6",
@@ -68,11 +67,5 @@
     "resolve": "^1.20.0",
     "title-case": "^3.0.3",
     "upper-case": "^2.0.2"
-  },
-  "ava": {
-    "files": [
-      "tests/*.ava.js"
-    ],
-    "tap": true
   }
 }

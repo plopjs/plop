@@ -1,5 +1,5 @@
 export default {
-    testMatch: ["**/jest-tests/**/*.spec.js"],
+    testMatch: ["**/tests/**/*.spec.js"],
     watchPlugins: [
         "jest-watch-typeahead/filename",
         "jest-watch-typeahead/testname",
