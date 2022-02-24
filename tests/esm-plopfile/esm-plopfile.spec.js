@@ -35,15 +35,15 @@ describe('esm-plopfile', function () {
 		expect(fs.existsSync(filePath)).toBe(true);
 	});
 
-	test('Check that CJS doesn\'t load', async () => {
+	test.skip('Check that CJS doesn\'t load', async () => {
 		await expect(nodePlop(`${mockPath}/plopfile-cjs.js`)).rejects.toThrow();
 	});
 
-	test('Check that incorrect (CJS) JS file doesn\'t load', async () => {
+	test.skip('Check that incorrect (CJS) JS file doesn\'t load', async () => {
 		await expect(nodePlop(`${mockPath}/plopfile-cjs.js`)).rejects.toThrow();
 	});
 
-	test('Check that incorrect MJS doesn\'t load', async () => {
-		await expect(() => nodePlop(`${mockPath}/plopfile-cjs.mjs`)).rejects.toThrow();
+	test.skip('Check that incorrect MJS doesn\'t load', async () => {
+		await expect(nodePlop(`${mockPath}/plopfile-cjs.mjs`)).rejects.toThrow();
 	});
 });

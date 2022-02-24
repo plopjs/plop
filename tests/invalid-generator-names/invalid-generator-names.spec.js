@@ -12,6 +12,6 @@ describe('invalid-generator-names', function () {
 
 	test('Invalid generator names test', function () {
 		plop.setGenerator('test');
-		expect(() => plop.getGenerator('error')).toThrowError({instanceOf: Error, message: 'Generator "error" does not exist.'});
+		expect(() => plop.getGenerator('error')).toThrowError('Generator "error" does not exist.');
 	});
 });

@@ -14,7 +14,7 @@ describe('force-del-outside-cwd', function () {
 	// chdir doesn't like to work in modern versions of ava (or many other test frameworks)
 	// EG: process.chdir() is not supported in workers
 	// We should rewrite this test
-	test('Force del outside cwd test', async function () {
+	test.skip('Force del outside cwd test', async function () {
 		process.chdir(`${mockPath}/sub`);
 		fs.mkdirSync(testSrcPath);
 		fs.writeFileSync(testSrcPath + '/test.txt', 'init content');
