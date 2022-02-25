@@ -1,3 +1,3 @@
-import * as del from 'del'
+import * as del from "del";
 
-del.sync('./lib');
+del.sync("./lib");
