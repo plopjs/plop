@@ -9,8 +9,8 @@
     "eslint": "eslint src/",
     "test": "npm run test:js && npm run test:typings",
     "test:typings": "dtslint types --localTs node_modules/typescript/lib --expectOnly",
-    "test:js": "npm run eslint && ava",
-    "test-watch": "ava --watch",
+    "test:js": "npm run eslint && vitest run",
+    "test-watch": "vitest watch",
     "develop": "npm run test-watch"
   },
   "pre-commit": [
@@ -43,13 +43,13 @@
     "@types/node": "^16.11.10",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "ava": "^4.0.0-rc.1",
     "dtslint": "^4.2.1",
     "eslint": "^8.3.0",
     "plop": "^2.7.6",
     "plop-pack-fancy-comments": "^0.2.1",
     "pre-commit": "^1.x",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "vitest": "^0.5.5"
   },
   "dependencies": {
     "@types/inquirer": "^8.1.3",
@@ -65,11 +65,5 @@
     "resolve": "^1.20.0",
     "title-case": "^3.0.3",
     "upper-case": "^2.0.2"
-  },
-  "ava": {
-    "files": [
-      "tests/*.ava.js"
-    ],
-    "tap": true
   }
 }
