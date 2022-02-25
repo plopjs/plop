@@ -43,7 +43,7 @@
     "interpret": "^2.2.0",
     "liftoff": "^4.0.0",
     "minimist": "^1.2.5",
-    "node-plop": "^0.30.0",
+    "node-plop": "*",
     "ora": "^6.0.1",
     "v8flags": "^4.0.0"
   },

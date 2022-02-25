@@ -5,12 +5,14 @@
   "workspaces": [
     "packages/*"
   ],
+  "type": "module",
   "scripts": {
     "bootstrap": "lerna exec yarn install",
     "build": "lerna run build",
     "test": "lerna run --parallel test",
     "format": "eslint -c .eslintrc.cjs --fix ./",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "plop": "node ./packages/plop/bin/plop.js"
   },
   "bugs": {
     "url": "https://github.com/plopjs/plop/issues"

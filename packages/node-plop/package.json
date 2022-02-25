@@ -37,7 +37,6 @@
     "@types/inquirer-autocomplete-prompt": "^1.3.3",
     "@types/node": "^16.11.10",
     "dtslint": "^4.2.1",
-    "plop": "^3.0.5",
     "plop-pack-fancy-comments": "^0.2.1",
     "typescript": "^4.5.2",
     "vitest": "^0.5.5"
