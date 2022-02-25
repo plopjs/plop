@@ -24,26 +24,25 @@
     "url": "https://github.com/plopjs/plop/issues"
   },
   "scripts": {
-    "test": "npm run test:instrument && npm run jest && nyc report",
+    "test": "npm run test:instrument && npm run vitest && nyc report",
     "test:instrument": "nyc instrument ./bin ./instrumented/bin && nyc instrument ./src ./instrumented/src && cp package.json ./instrumented",
-    "jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "vitest": "vitest run",
     "format": "eslint --fix ./",
     "prepare": "husky install"
   },
   "devDependencies": {
+    "cli-testing-library": "^1.0.1",
     "eslint": "^8.3.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "inquirer-directory": "^2.2.0",
-    "jest": "^27.3.1",
-    "jest-snapshot-serializer-ansi": "^1.0.0",
     "lint-staged": "^12.1.2",
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.0",
     "prettier": "^2.5.0",
     "queue-microtask": "^1.2.3",
-    "cli-testing-library": "^1.0.1"
+    "vitest": "^0.5.5"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {
