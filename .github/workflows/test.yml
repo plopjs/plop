@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        node: [ 12, 14, 16 ]
+        node: [ 14, 16 ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
