@@ -1,4 +1,4 @@
-module.exports = function (plop) {
+export default function (plop) {
 	plop.setGenerator('test', {
 		prompts: [{
 			type: 'input',
@@ -11,8 +11,8 @@ module.exports = function (plop) {
 		}],
 		actions: [{
 			type: 'add',
-			path: 'tests/{{dashCase name}}.ava.js',
-			templateFile: 'plop-templates/ava-test.js'
+			path: 'tests/{{dashCase name}}/{{dashCase name}}.spec.js',
+			templateFile: 'plop-templates/template-test.js'
 		}]
 	});
 };

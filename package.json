@@ -45,7 +45,7 @@
     "@typescript-eslint/parser": "^5.4.0",
     "dtslint": "^4.2.1",
     "eslint": "^8.3.0",
-    "plop": "^2.7.6",
+    "plop": "^3.0.5",
     "plop-pack-fancy-comments": "^0.2.1",
     "pre-commit": "^1.x",
     "typescript": "^4.5.2",
