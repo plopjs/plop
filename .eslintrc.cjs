@@ -6,7 +6,7 @@ module.exports = {
   },
   parserOptions: {
     sourceType: "module",
-    "allowImportExportEverywhere": true
+    allowImportExportEverywhere: true,
   },
   extends: ["plugin:prettier/recommended"],
   rules: {

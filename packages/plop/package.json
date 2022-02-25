@@ -26,18 +26,13 @@
   "scripts": {
     "test": "npm run test:instrument && npm run vitest && nyc report",
     "test:instrument": "nyc instrument ./bin ./instrumented/bin && nyc instrument ./src ./instrumented/src && cp package.json ./instrumented",
-    "vitest": "vitest run",
-    "format": "eslint --fix ./"
+    "vitest": "vitest run"
   },
   "devDependencies": {
     "cli-testing-library": "^1.0.1",
-    "eslint": "^8.3.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "inquirer-directory": "^2.2.0",
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.0",
-    "prettier": "^2.5.0",
     "queue-microtask": "^1.2.3",
     "vitest": "^0.5.5"
   },
