@@ -3,3 +3,4 @@ node_modules/
 .vscode
 .eslintcache
 yarn-error.log
+.nyc_output

@@ -5,7 +5,9 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("should report a missing plopfile when not copied", async () => {
-  const { findByError } = await renderPlop();
+  // The directory above this repo. We look up towards `plopfile.js` and found one at root otherwise.
+  const cwd = resolve(__dirname, '../../../..');
+  const { findByError } = await renderPlop([], {cwd});
   expect(await findByError(/\[PLOP\] No plopfile found/)).toBeInTheConsole();
 });
 

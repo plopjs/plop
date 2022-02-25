@@ -2,9 +2,14 @@
   "name": "plop-monorepo",
   "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+   "packages": [
+     "packages/*"
+   ],
+    "nohoist": [
+      "**/plop-pack-fancy-comments"
+    ]
+  },
   "type": "module",
   "scripts": {
     "bootstrap": "lerna exec yarn install",
