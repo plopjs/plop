@@ -35,6 +35,8 @@ describe('esm-plopfile', function () {
 		expect(fs.existsSync(filePath)).toBe(true);
 	});
 
+	// TODO: Add these back once the following is fixed:
+	// @see https://github.com/vitest-dev/vitest/issues/326
 	test.skip('Check that CJS doesn\'t load', async () => {
 		await expect(nodePlop(`${mockPath}/plopfile-cjs.js`)).rejects.toThrow();
 	});
