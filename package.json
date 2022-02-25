@@ -25,13 +25,16 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
     "lint-staged": "^12.1.2",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.2"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
