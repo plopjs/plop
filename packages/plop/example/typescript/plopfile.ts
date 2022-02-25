@@ -1,4 +1,4 @@
-import {CustomActionFunction, NodePlopAPI} from 'plop';
+import { CustomActionFunction, NodePlopAPI } from "plop";
 import path = require("path");
 
 module.exports = function (plop: NodePlopAPI) {
@@ -27,10 +27,12 @@ module.exports = function (plop: NodePlopAPI) {
     "{{ greeting }}, my name is {{ properCase name }} and I am {{ age }}."
   );
 
-  const delayLog = (msg: string): CustomActionFunction => () =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(msg), 1000);
-    });
+  const delayLog =
+    (msg: string): CustomActionFunction =>
+    () =>
+      new Promise((resolve) => {
+        setTimeout(() => resolve(msg), 1000);
+      });
 
   // setGenerator creates a generator that can be run with "plop generatorName"
   plop.setGenerator("test", {
@@ -52,7 +54,7 @@ module.exports = function (plop: NodePlopAPI) {
         name: "age",
         message: "How old are you?",
         validate: function (value) {
-          var digitsOnly = /\d+/;
+          const digitsOnly = /\d+/;
           if (digitsOnly.test(value)) {
             return true;
           }
@@ -91,11 +93,11 @@ module.exports = function (plop: NodePlopAPI) {
         process.chdir(plop.getPlopfilePath());
 
         // custom function can be synchronous or async (by returning a promise)
-        var fs = require("fs");
-        var existsMsg = "psst {{name}}, change-me.txt already exists";
-        var copiedMsg = "hey {{name}}, I copied change-me.txt for you";
-        var changeFileName = "change-me.txt";
-        var changeFilePath =
+        const fs = require("fs");
+        let existsMsg = "psst {{name}}, change-me.txt already exists";
+        let copiedMsg = "hey {{name}}, I copied change-me.txt for you";
+        const changeFileName = "change-me.txt";
+        const changeFilePath =
           plop.getDestBasePath() + "/folder/" + changeFileName;
 
         // you can use plop.renderString to render templates
@@ -204,7 +206,7 @@ module.exports = function (plop: NodePlopAPI) {
       },
     ],
     actions: function (data) {
-      var actions = [
+      const actions = [
         {
           type: "add",
           path: "folder/{{dashCase name}}-burger.txt",
