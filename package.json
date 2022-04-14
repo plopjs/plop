@@ -32,6 +32,8 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.4.4",
+    "@changesets/cli": "^2.22.0",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "eslint": "^8.9.0",
@@ -45,8 +47,5 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
-  },
-  "dependencies": {
-    "@changesets/cli": "^2.22.0"
   }
 }
