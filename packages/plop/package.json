@@ -26,7 +26,9 @@
   "scripts": {
     "test": "npm run test:instrument && npm run vitest && nyc report",
     "test:instrument": "nyc instrument ./bin ./instrumented/bin && nyc instrument ./src ./instrumented/src && cp package.json ./instrumented",
-    "vitest": "vitest run"
+    "vitest": "vitest run",
+    "prepublishOnly": "node ./scripts/prepublishOnly.js",
+    "postpublish": "node ./scripts/postpublish.js"
   },
   "devDependencies": {
     "cli-testing-library": "^1.0.1",
