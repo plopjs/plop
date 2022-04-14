@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "workspaces": {
-   "packages": [
-     "packages/*"
-   ],
+    "packages": [
+      "packages/*"
+    ],
     "nohoist": [
       "**/plop-pack-fancy-comments"
     ]
@@ -45,5 +45,8 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.22.0"
   }
 }
