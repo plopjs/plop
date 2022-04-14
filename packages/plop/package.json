@@ -6,7 +6,8 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/plopjs/plop.git"
+    "url": "https://github.com/plopjs/plop.git",
+    "directory": "packages/plop"
   },
   "keywords": [
     "generator",

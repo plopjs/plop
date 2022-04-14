@@ -14,7 +14,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amwmedia/node-plop.git"
+    "url": "https://github.com/plopjs/plop.git",
+    "directory": "packages/node-plop"
   },
   "keywords": [
     "plop",
@@ -27,9 +28,8 @@
   "author": "Andrew Worcester <andrew@amwmedia.com> (http://amwmedia.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/amwmedia/node-plop/issues"
+    "url": "https://github.com/plopjs/plop/issues"
   },
-  "homepage": "https://github.com/amwmedia/node-plop#readme",
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
