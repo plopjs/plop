@@ -77,3 +77,12 @@ export async function getTransformedTemplate(template, data, cfg) {
     return template;
   }
 }
+
+/**
+ * Escape special characters in a regular expression string.
+ * This ensures that replacement text with special chars like *
+ * work when they are used in template replacements.
+ */
+export function escapeRegExp(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}

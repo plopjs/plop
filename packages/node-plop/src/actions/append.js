@@ -5,6 +5,7 @@ import {
   makeDestPath,
   throwStringifiedError,
   getRelativeToBasePath,
+  escapeRegExp,
 } from "./_common-action-utils.js";
 
 import actionInterfaceTest from "./_common-action-interface-check.js";
@@ -20,7 +21,7 @@ const doAppend = async function (data, cfg, plop, fileData) {
     const parts = fileData.split(cfg.pattern);
     const lastPart = parts[parts.length - 1];
     const lastPartWithoutDuplicates = lastPart.replace(
-      new RegExp(separator + stringToAppend, "g"),
+      new RegExp(escapeRegExp(separator + stringToAppend), "g"),
       ""
     );
     fileData = fileData.replace(lastPart, lastPartWithoutDuplicates);
