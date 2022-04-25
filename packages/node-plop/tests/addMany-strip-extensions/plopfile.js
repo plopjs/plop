@@ -22,6 +22,7 @@ export default function (plop) {
         stripExtensions: ["hbs"],
         templateFiles: "plop-templates/remove-hbs/*",
         abortOnFail: true,
+        globOptions: { dot: true },
       },
       {
         type: "addMany",
@@ -29,6 +30,7 @@ export default function (plop) {
         stripExtensions: true,
         templateFiles: "plop-templates/remove-all/*",
         abortOnFail: true,
+        globOptions: { dot: true },
       },
     ],
   });
