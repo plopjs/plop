@@ -108,7 +108,10 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
 
     await Promise.all(
       targets.map(async function (target) {
-        const targetPath = resolve.sync(target, { basedir: getPlopfilePath() });
+        const targetPath = resolve.sync(target, {
+          basedir: getPlopfilePath(),
+          preserveSymlinks: false,
+        });
         const proxy = await nodePlop(targetPath, config);
         const proxyDefaultInclude = proxy.getDefaultInclude() || {};
         const includeCfg = includeOverride || proxyDefaultInclude;
