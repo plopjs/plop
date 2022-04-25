@@ -125,25 +125,25 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
         const genNameList = proxy.getGeneratorList().map((g) => g.name);
         loadAsset(
           genNameList,
-          include.generators,
+          includeCfg === true || include.generators,
           setGenerator,
           (proxyName) => ({ proxyName, proxy })
         );
         loadAsset(
           proxy.getPartialList(),
-          include.partials,
+          includeCfg === true || include.partials,
           setPartial,
           proxy.getPartial
         );
         loadAsset(
           proxy.getHelperList(),
-          include.helpers,
+          includeCfg === true || include.helpers,
           setHelper,
           proxy.getHelper
         );
         loadAsset(
           proxy.getActionTypeList(),
-          include.actionTypes,
+          includeCfg === true || include.actionTypes,
           setActionType,
           proxy.getActionType
         );
