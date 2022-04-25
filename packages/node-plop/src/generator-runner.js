@@ -1,7 +1,6 @@
 "use strict";
 
 import promptBypass from "./prompt-bypass.js";
-import * as buildInActions from "./actions/index.js";
 
 export default function (plopfileApi, flags) {
   let abort;
@@ -46,8 +45,7 @@ export default function (plopfileApi, flags) {
     const changes = []; // array of changed made by the actions
     const failures = []; // array of actions that failed
     let { actions } = genObject; // the list of actions to execute
-    const customActionTypes = getCustomActionTypes();
-    const actionTypes = Object.assign({}, customActionTypes, buildInActions);
+    const actionTypes = getActionTypes();
 
     abort = false;
 
@@ -185,7 +183,7 @@ export default function (plopfileApi, flags) {
   };
 
   // request the list of custom actions from the plopfile
-  function getCustomActionTypes() {
+  function getActionTypes() {
     return plopfileApi.getActionTypeList().reduce(function (types, name) {
       types[name] = plopfileApi.getActionType(name);
       return types;
