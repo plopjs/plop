@@ -20,7 +20,11 @@ const doAppend = async function (data, cfg, plop, fileData) {
     const parts = fileData.split(cfg.pattern);
     const lastPart = parts[parts.length - 1];
     const lastPartWithoutDuplicates = lastPart.replace(
-      new RegExp(separator + stringToAppend, "g"),
+      new RegExp(
+        separator.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") +
+          stringToAppend.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        "g"
+      ),
       ""
     );
     fileData = fileData.replace(lastPart, lastPartWithoutDuplicates);
