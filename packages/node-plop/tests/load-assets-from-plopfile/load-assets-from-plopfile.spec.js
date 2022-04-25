@@ -86,7 +86,7 @@ describe("load-assets-from-plopfile", function () {
     expect(gNameList.length).toBe(3);
     expect(plop.getHelperList().length).toBe(3);
     expect(plop.getPartialList().length).toBe(3);
-    expect(plop.getActionTypeList().length).toBe(1);
+    expect(plop.getActionTypeList().length).toBe(5);
     expect(gNameList.includes("test-generator1")).toBe(true);
     expect(plop.getHelperList().includes("test-helper2")).toBe(true);
     expect(plop.getPartialList().includes("test-partial3")).toBe(true);
