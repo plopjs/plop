@@ -32,7 +32,7 @@
     "postpublish": "node ./scripts/postpublish.js"
   },
   "devDependencies": {
-    "cli-testing-library": "^1.0.1",
+    "cli-testing-library": "^1.0.2",
     "inquirer-directory": "^2.2.0",
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.0",
@@ -42,10 +42,10 @@
   "homepage": "https://plopjs.com",
   "dependencies": {
     "@types/liftoff": "^4.0.0",
-    "chalk": "^5.0.0",
+    "chalk": "^5.0.1",
     "interpret": "^2.2.0",
     "liftoff": "^4.0.0",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "node-plop": "^0.30.1",
     "ora": "^6.0.1",
     "v8flags": "^4.0.0"
