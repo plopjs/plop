@@ -37,7 +37,7 @@
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.0",
     "queue-microtask": "^1.2.3",
-    "vitest": "^0.5.5"
+    "vitest": "^0.10.0"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {
