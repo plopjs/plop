@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     // Required
-    "module": "commonjs",
+    "module": "esnext",
     "esModuleInterop": true,
     "moduleResolution": "node",
     // Not required
     "strict": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "plop": ["../../src/plop.d.ts"]
     }
