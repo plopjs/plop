@@ -18,11 +18,11 @@ plop.load
 `config` is an object that can be passed to the plopfile or `plop-pack` when they are run. This allows the consumer of the plopfile or `plop-pack` to configure certain aspects of its functionality. To know what properties should be in this object, see the documentation provided by the author.
 
 #### include
-- **type:** `Object`
+- **type:** `Object` or `Boolean`
 - **default:** `{ generators:true, helpers:false, partials:false, actionTypes:false }`
 - **optional**
 
-`include` is an object that can contain 4 properties (`generators`, `helpers`, `partials`, and `actionTypes`). Each of these properties should have an [`IncludeDefinition`](#IncludeDefinition) as its value. Most of the time this object is not needed because the plopfile or `plop-pack` is able to specify a default [`IncludeDefinition`](#IncludeDefinition) to be used.
+If `include` is `true` all assets from the target will be included (none if `false`). Otherwise, `include` should be an object that can contain 4 properties (`generators`, `helpers`, `partials`, and `actionTypes`). Each of these properties should have an [`IncludeDefinition`](#Interface-IncludeDefinition) as its value. Most of the time this object is not needed because the plopfile or `plop-pack` is able to specify a default [`IncludeDefinition`](#Interface-IncludeDefinition) to be used.
 
 #### Interface `IncludeDefinition`
 - **Boolean:** `true` will include all assets, `false` will include non of them.
@@ -34,6 +34,11 @@ plop.load
 ```javascript
 	// loads all 5 generators, no helpers, actionTypes or partials (even if they exist)
 	plop.load('./plopfiles/component.js');
+```
+*load all assets from a path*
+```javascript
+	// loads all 5 generators, all helpers, actionTypes and partials (if they exist)
+	plop.load('./plopfiles/component.js', {}, true);
 ```
 *load via a path with a custom include config*
 ```javascript
