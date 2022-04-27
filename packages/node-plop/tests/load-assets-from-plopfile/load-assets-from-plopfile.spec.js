@@ -93,6 +93,21 @@ describe("load-assets-from-plopfile", function () {
     expect(plop.getActionTypeList().includes("test-actionType1")).toBe(true);
   });
 
+  test("plop.load passes a config option that can be used to include all the plopfile output", async function () {
+    const plop = await nodePlop();
+    await plop.load(plopfilePath, { prefix: "test-" }, true);
+
+    const gNameList = plop.getGeneratorList().map((g) => g.name);
+    expect(gNameList.length).toBe(3);
+    expect(plop.getHelperList().length).toBe(3);
+    expect(plop.getPartialList().length).toBe(3);
+    expect(plop.getActionTypeList().length).toBe(1);
+    expect(gNameList.includes("test-generator1")).toBe(true);
+    expect(plop.getHelperList().includes("test-helper2")).toBe(true);
+    expect(plop.getPartialList().includes("test-partial3")).toBe(true);
+    expect(plop.getActionTypeList().includes("test-actionType1")).toBe(true);
+  });
+
   test("plop.load should import functioning assets", async function () {
     const plop = await nodePlop();
     await plop.load(
