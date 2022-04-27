@@ -95,7 +95,7 @@ describe("load-assets-from-plopfile", function () {
 
   test("plop.load passes a config option that can be used to include all the plopfile output", async function () {
     const plop = await nodePlop();
-    plop.load(plopfilePath, { prefix: "test-" }, true);
+    await plop.load(plopfilePath, { prefix: "test-" }, true);
 
     const gNameList = plop.getGeneratorList().map((g) => g.name);
     expect(gNameList.length).toBe(3);
