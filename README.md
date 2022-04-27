@@ -173,7 +173,7 @@ Method | Parameters | Returns | Description
 [**setPartial**](#setpartial) | *String, String* | | setup a handlebars partial
 [**setActionType**](#setactiontype) | *String, [CustomAction](#functionsignature-custom-action)* | | register a custom action type
 [**setPrompt**](#setprompt) | *String, InquirerPrompt* | | registers a custom prompt type with inquirer
-[**load**](https://github.com/plopjs/plop/blob/master/plop-load.md) | *Array[String], Object, Object* | | loads generators, helpers and/or partials from another plopfile or npm module
+[**load**](https://github.com/plopjs/plop/blob/main/plop-load.md) | *Array[String], Object, Object* | | loads generators, helpers and/or partials from another plopfile or npm module
 
 ## setHelper
 `setHelper` directly corresponds to the handlebars method `registerHelper`. So if you are familiar with [handlebars helpers](https://handlebarsjs.com/guide/expressions.html#helpers), then you already know how this works.
@@ -247,7 +247,7 @@ export default function (plop) {
 ```
 
 ## setPrompt
-[Inquirer](https://github.com/SBoudrias/Inquirer.js) provides many types of prompts out of the box, but it also allows developers to build prompt plugins. If you'd like to use a prompt plugin, you can register it with `setPrompt`. For more details see the [Inquirer documentation for registering prompts](https://github.com/SBoudrias/Inquirer.js#inquirerregisterpromptname-prompt). Also check out the [plop community driven list of custom prompts](https://github.com/plopjs/plop/blob/master/inquirer-prompts.md).
+[Inquirer](https://github.com/SBoudrias/Inquirer.js) provides many types of prompts out of the box, but it also allows developers to build prompt plugins. If you'd like to use a prompt plugin, you can register it with `setPrompt`. For more details see the [Inquirer documentation for registering prompts](https://github.com/SBoudrias/Inquirer.js#inquirerregisterpromptname-prompt). Also check out the [plop community driven list of custom prompts](https://github.com/plopjs/plop/blob/main/inquirer-prompts.md).
 
 ``` javascript
 import autocompletePrompt from 'inquirer-autocomplete-prompt';
@@ -391,7 +391,7 @@ The `Add` and `Modify` actions will take care of almost every case that plop is 
 - The function must let plop known what’s happening through the return value. If you return a `Promise`, we won’t start other actions until the promise resolves. If you return a message (*String*), we know that the action is done and we’ll report the message in the status of the action.
 - A custom action fails if the promise is rejected, or the function throws an `Exception`
 
-_See the [example plopfile](https://github.com/plopjs/plop/blob/master/tests/examples/javascript/plopfile.js) for a sample synchronous custom action._
+_See the [example plopfile](https://github.com/plopjs/plop/blob/main/packages/plop/tests/examples/javascript/plopfile.js) for a sample synchronous custom action._
 
 ## Comments
 Comment lines can be added to the actions array by adding a string in place of an action config object. Comments are printed to the screen when plop comes to them and have no functionality of their own.
