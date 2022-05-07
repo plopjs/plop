@@ -27,8 +27,5 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Bootstrap Dependencies
-        run: yarn bootstrap
-
       - name: Test
         run: yarn test

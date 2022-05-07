@@ -12,9 +12,7 @@
   },
   "type": "module",
   "scripts": {
-    "bootstrap": "lerna exec yarn install",
-    "build": "lerna run build",
-    "test": "lerna run --parallel test",
+    "test": "turbo run test --parallel",
     "format": "eslint -c .eslintrc.cjs --fix ./",
     "prepare": "husky install",
     "plop": "node ./packages/plop/bin/plop.js"
@@ -40,9 +38,9 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
-    "lerna": "^4.0.0",
     "lint-staged": "^12.4.0",
     "prettier": "^2.6.2",
+    "turbo": "^1.2.5",
     "typescript": "^4.6.3"
   },
   "lint-staged": {

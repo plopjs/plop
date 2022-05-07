@@ -1,6 +1,7 @@
 node_modules/
-.idea
-.vscode
+.idea/
+.vscode/
+.nyc_output/
+.turbo/
 .eslintcache
 yarn-error.log
-.nyc_output
