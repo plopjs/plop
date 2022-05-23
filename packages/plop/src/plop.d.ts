@@ -11,6 +11,7 @@ export {
   PlopCfg,
   PlopGenerator,
   NodePlopAPI,
+  PlopGeneratorConfig,
 } from "node-plop";
 
 export const Plop: Liftoff;
