@@ -6,6 +6,8 @@ Micro-generator framework that makes it easy for an entire team to create files 
 
 > [Documentation also available on plopjs.com](https://plopjs.com/documentation/)
 
+> [Chinese document available on plop-js.com](http://plop-js.com)
+
 # Getting Started
 [![npm](https://img.shields.io/npm/dm/plop.svg)](https://www.npmjs.com/package/plop)
 &nbsp;
