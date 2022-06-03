@@ -1,0 +1,4 @@
+add test
+name: {{name}}
+upperCase: {{constantCase name}}
+{{> salutation}}

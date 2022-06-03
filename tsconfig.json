@@ -1,0 +1,4 @@
+// Used by eslint for linting
+{
+	"extends": "./packages/node-plop/types/tsconfig.json",
+}

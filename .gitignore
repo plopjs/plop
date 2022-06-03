@@ -1,7 +1,6 @@
 node_modules/
-*.sublime-*
-example/folder/
-example/change-me.txt
 .idea
 .vscode
-.DS_STORE
+.eslintcache
+yarn-error.log
+.nyc_output
