@@ -427,7 +427,7 @@ export default function (plop) {
 
 >此处文档翻译有待推敲，欢迎提出pr进行修正和补充
 
-## Custom (Action Function) 自定义（Action方法)
+## Custom (Action Function)
 `Add`和`Modify`几乎可以完成plop设计的所有功能，不过plop也提供了更加进阶的自定义action方法。在actions数组中填入自定义的action函数即可使用这一功能。
 - 自行以action在执行时与官方action使用相同的[函数接口](#函数定义-自定义action)
 - Plop会等待自定义action方法执行完毕后才会继续执行下一个action
