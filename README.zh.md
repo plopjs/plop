@@ -10,7 +10,7 @@
 
 ## 什么是 Plop？
 
-Plop是一个“微生成器框架”——之所以这样定义它，是因为Plop是一个用于生成代码文件或其他纯文本文件的小工具。并且简单、高效、同时保证一致性。在开发中我们的代码往往基于“框架”和“关键字”的组合（路由、控制器、模板、等等）。这些组合往往随着时间的推移和开发的进行不断的会被完善和调整。当你需要创建一个同类型的文件时，你往往很难在浩如烟海的代码仓库中找到当初的那个“最佳实践”。而Plop专为解决此类问题而生，通过使用Plop，你只要在控制台输入`Plop`命令，即可创建任何格式的已经提前编写好的“最佳实现”代码。这不仅节约了你在搜寻合适代码来复制粘贴的时间，同时他也带给你最“正确”也最“方便”的创建新文件的方法。
+Plop是一个“微生成器框架”——之所以这样定义它，是因为Plop是一个用于生成代码文件或其他纯文本文件的小工具。并且简单、高效、同时保证一致性。在开发中我们的代码往往基于“框架”和“关键字”的组合（路由、控制器、模板、等等）。这些组合往往随着时间的推移和开发的进行不断的会被完善和调整。当你需要创建一个同类型的文件时，你往往很难在浩如烟海的代码仓库中找到当初的那个“最佳实践”。而Plop专为解决此类问题而生，通过使用Plop，你只需要在控制台输入`Plop`命令，即可创建任何格式的、已经提前编写好的“最佳实现”代码。这不仅节约了你在搜寻合适代码来复制粘贴的时间，同时它也提供给你一种最“正确”也最“方便”的创建新文件的方法。
 
 Plop的核心其实主要是[inquirer](https://github.com/SBoudrias/Inquirer.js/)命令行工具和[handlebar](https://github.com/wycats/handlebars.js/)模板引擎的整合。
 
@@ -113,9 +113,9 @@ Plop成功安装并且创建了`generator`之后，你就可以使用命令行�
 
 ### 直接传入参数
 
-如果你对一个项目（以及它的生成器）十分了解，你可能在调用生成器时就可以传递回答参数了。如果项目中有一个名为`component`的生成器，其接受一个名为`name`的参数，可以直接通过`plop component "名字"`直接传入参数。如果生成器接受更多参数，只要按照这种规则依次传入即可。
+如果你对一个项目（以及它的生成器）十分了解，你就可能希望在调用生成器时直接传递回答参数了。例如项目中有一个名为`component`的生成器，其接受一个名为`name`的参数，可以直接通过`plop component "名字"`直接传入参数。如果生成器接受更多参数，只要按照这种规则依次传入即可。
 
-例如`confirm`和`list`类型问题会最大程度尝试理解你的输入。比如为`confirm`类型问题传入"y"，"yes"，"t"，或者"true"都会被解析成布尔值`true`。同时你可以使用选项的确切值，数组下标，键名，或者名称等等表示从列表中选中某选项。多选问题允许你传入以逗号分隔的值的列表，来表示多选项。
+例如`confirm`和`list`类型的问题会最大程度尝试理解你的输入。比如为`confirm`类型问题传入参数"y"，"yes"，"t"，或者"true"都会被解析成布尔值`true`。同时你可以使用选项的确切值，数组下标，键名，或者名称等等表示从列表中选中某选项。多选问题允许你传入以逗号分隔的值的列表，来表示多选项。
 
 #### 操作示例
 
@@ -147,7 +147,7 @@ $ plop component -- --type react
 
 ### 强制执行生成器
 
-通常情况下Plop的`action`在发现执行可以操作时会执行失败，以此来尽可能确保文件安全。最常见的情况可能是不允许[`add`](#add) 操作覆盖一个已存在文件。但是Plop支持特殊的`force`属性，你也可以在命令行输入指令是加上`--force`选项开启强制模式，在这一模式下所有操作均会强制完成。不惜一切代价...🕷
+通常情况下Plop的`action`在发现执行可以操作时会执行失败，以此来尽可能确保文件安全。最常见的情况可能是不允许[`add`](#add) 操作覆盖一个已存在文件。但是Plop支持特殊的`force`属性，你也可以在命令行输入的指令后加上`--force`选项来开启强制模式，在这一模式下所有操作均会强制完成。不惜一切代价...🕷
 
 ## 为什么是“生成器”机制
 
@@ -168,7 +168,7 @@ Plopfile api是一系列`plop`对象暴露出的方法，其实[`setGenerator`](
 ```javascript
 // plopfile.ts
 
-import {NodePlopAPI} from 'plop';
+import { NodePlopAPI } from 'plop';
 
 
 
@@ -197,7 +197,7 @@ module.exports = function (
 
 ## 常用方法
 
-这些是你创建plopfile时所需要用到的常用方法，调方法通常都是为内部服务，你可以查看[其他方法](#其他方法)。
+这些是创建plopfile时常用的方法。其他主要供内部使用的方法在[其他方法](#其他方法)部分列出。
 
 | 方法名                                                       | 入参                                                       | 返回值                                          | 描述                                                         |
 | ------------------------------------------------------------ | ---------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------ |
@@ -312,7 +312,7 @@ export default function (plop) {
 
 | 参数            | 类型                                                         | 默认值 | 描述                        |
 | --------------- | ------------------------------------------------------------ | ------ | --------------------------- |
-| **description** | *[String]*                                                   |        | 关于generator用提的简要描述 |
+| **description** | *[String]*                                                   |        | 此生成器功能的简短描述 |
 | **prompts**     | *Array[[InquirerQuestion](https://github.com/SBoudrias/Inquirer.js/#question)]* |        | 需要询问用户的问题          |
 | **actions**     | *Array[[ActionConfig](#interface-actionconfig)]*             |        | 需要执行的操作              |
 
@@ -379,12 +379,12 @@ export default function (plop) {
 
 ## AddMany
 
-`addMany`action可以在一个action中向项目添加多个文件。`destination`属性为生成文件的目标文件夹，`base`属性可以用于更改创建文件时需要忽略的文件路径。如果你需要生成特定文件名的文件，你可以在`templateFiles`属性处使用handlebars语法，例如“` { { dashCase name } }.spec.js `” 
+`addMany`action可以在一个action中向项目添加多个文件。`destination`属性为生成文件的目标文件夹，`base`属性可以用于更改创建文件时需要忽略的文件路径。如果你需要生成特定文件名的文件，你可以在`templateFiles`属性处使用handlebars语法，例如“` { { dashCase name } }.spec.js `”
 
 属性 | 类型 | 默认值 | 描述
 -------- | ---- | ------- | -----------
 **destination** | *String* | | 渲染结果文件的目标文件夹
-**base** | *String* | | 向destination中写入文件㤇被排除的文件路径
+**base** | *String* | | 向destination中写入文件时排除的文件路径
 **templateFiles** | *[Glob](https://github.com/sindresorhus/globby#globbing-patterns)* | | 用于匹配需要添加的模板
 **stripExtensions** | *[String]* | `['hbs']` | 模板文件的后缀名
 **globOptions** | *[Object](https://github.com/sindresorhus/globby#options)* | | 改变模板文件匹配方法的glob选项
@@ -404,7 +404,7 @@ export default function (plop) {
 -------- | ---- | ------- | -----------
 **path** | *String* | | 需要被修改的文件渲染时使用的handlebars模板
 **pattern** | *RegExp* | _end&#x2011;of&#x2011;file_ | 用以匹配和替换的正则表达式
-**template** | *String* | | 模板中需要被匹配替换的内容，可以使用$1, $2等等作为占位符
+**template** | *String* | | 模板中需要被匹配替换的内容，可以使用```$1```， ```$2```等等作为占位符
 **templateFile** | *String* | | 包含`template`的文件路径
 **transform** | *Function* | | [可选方法](#内置actions)，可以在内容被写入文件之前做出修改
 **skip** | *Function* | | *继承自 [ActionConfig](#接口-actionconfig)*
@@ -418,7 +418,7 @@ export default function (plop) {
 -------- | ------ | ------- | -----------
 **path** | *String* | | 需要被修改的文件渲染时使用的handlebars模板
 **pattern** | *RegExp, String* | | 用以匹配和替换的正则表达式
-**unique** | *Boolean* | `true` | 相同内容是否需要被移除 
+**unique** | *Boolean* | `true` | 相同内容是否需要被移除
 **separator** | *String* | `new line` | 分隔条目的值
 **template** | *String* | | 需要被修改的文件渲染时使用的handlebars模板
 **templateFile** | *String* | | 包含`template`的文件路径
@@ -427,11 +427,11 @@ export default function (plop) {
 
 >此处文档翻译有待推敲，欢迎提出pr进行修正和补充
 
-## 自定义Action方法
+## Custom (Action Function)
 `Add`和`Modify`几乎可以完成plop设计的所有功能，不过plop也提供了更加进阶的自定义action方法。在actions数组中填入自定义的action函数即可使用这一功能。
 - 自行以action在执行时与官方action使用相同的[函数接口](#函数定义-自定义action)
 - Plop会等待自定义action方法执行完毕后才会继续执行下一个action
-- 函数必须返回一个Plop可以理解的确切值，如果返回了一个`promise`，那么在这个promise完成之前plop不会进行任何操作。如果函数返回了一个字符串类型的消息(*String*), plop便可得知action已经成功执行，并将此信息输出到action的状态提示信息上。
+- 函数必须返回一个Plop可以理解的确切值，如果返回了一个`promise`，那么在这个promise完成之前plop不会进行任何操作。如果函数返回了一个字符串类型的消息(*String*)， plop便可得知action已经成功执行，并将此信息输出到action的状态提示信息上。
 - 当返回的promise被reject，会程序抛出了一个异常，plop会视为action执行失败
 
 _你也可以查看官方提供的 [同步自定义action案例](https://github.com/amwmedia/plop/blob/master/example/plopfile.js)_
@@ -452,7 +452,7 @@ _你也可以查看官方提供的 [同步自定义action案例](https://github.
 - **pathCase**: change/format/to/this
 - **properCase/pascalCase**: ChangeFormatToThis
 - **lowerCase**: change format to this
-- **sentenceCase**: Change format to this,
+- **sentenceCase**: Change format to this
 - **constantCase**: CHANGE_FORMAT_TO_THIS
 - **titleCase**: Change Format To This
 
@@ -532,7 +532,7 @@ Plop额外提供了很多非常强大的功能，你甚至可以基于这些功�
 #!/usr/bin/env node
 const path = require('path');
 const args = process.argv.slice(2);
-const {Plop, run} = require('plop');
+const { Plop, run } = require('plop');
 const argv = require('minimist')(args);
 
 Plop.launch({
@@ -595,14 +595,14 @@ Plop.launch({
 
 ### 添加自动CLI Actions
 
-许多CLI都会自动帮你进行某些人物,比如说项目生成完成后自动运行 `git init` 或 `npm install`
+许多CLI都会自动帮你进行某些行为，比如说在项目生成完成后自动运行 `git init` 或 `npm install`
 
-这些操作非常普遍，但是我们处于保持核心功能简洁的目的并没有默认添加。即便如此，我们维护了一个 [功能集](https://github.com/plopjs/awesome-plop)来方便用户在使用Plop时方便的提供这些功能。你可以在这里寻找你需要的action，或者将你编写的action添加到这个列表。
+这些行为非常普遍，但是我们出于保持核心功能简洁的目的并没有默认添加它们。因此，我们维护了一个 [库集合](https://github.com/plopjs/awesome-plop)，用于将这些行为添加到[our Awesome Plop list](https://github.com/plopjs/awesome-plop)中，在那里，您可以找到这些行为，甚至可以构建自己的行为并将其添加到列表中！。
 
 ### 更加进阶的自定义
 
-虽然`plop`已经提供了高度可自定义的CLI包装支持，但也可能有些场景下你可能需要在借助模板代码生成功能的基础上更进一步的掌控CLI工作体验。
+虽然`plop`已经提供了高度可自定义的CLI包装支持，但也有可能某些场景下你需要在借助模板代码生成功能的基础上更进一步的掌控CLI的工作体验。
 
-幸运的是, [`node-plop`](https://github.com/plopjs/node-plop/) 可能更适合你! `plop` CLI本身就是基于此构建的你可以基于此构建其他功能更加丰富的CLI。只是这部分的文档可能有待更进一步的完善，不过风险往往与机会并存 :)
+幸运的是， [`node-plop`](https://github.com/plopjs/node-plop/) 可能更适合你! `plop` CLI本身就是基于此构建的，你可以基于此构建其他功能更加丰富的CLI。只是这部分的文档可能有待更进一步的完善，不过风险往往与机会并存 :)
 
 >我们注意到关于`node-plop` 集成的乏善可陈的文档可能是我们的一项短板。如果您希望为项目贡献文档，欢迎您积极参与进来！
