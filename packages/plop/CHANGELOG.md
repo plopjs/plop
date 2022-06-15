@@ -1,5 +1,11 @@
 # plop
 
+## 3.1.1
+
+### Patch Changes
+
+- Export PlopGeneratorConfig TypeScript type
+
 ## 3.1.0
 
 ### Minor Changes
