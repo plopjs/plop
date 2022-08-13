@@ -2,6 +2,7 @@ import * as fspp from "../fs-promise-proxy.js";
 
 import {
   getRenderedTemplate,
+  getRenderedTemplatePath,
   makeDestPath,
   throwStringifiedError,
   getRelativeToBasePath,
@@ -10,6 +11,7 @@ import {
 import actionInterfaceTest from "./_common-action-interface-check.js";
 
 const doAppend = async function (data, cfg, plop, fileData) {
+  cfg.templateFile = getRenderedTemplatePath(data, cfg, plop);
   const stringToAppend = await getRenderedTemplate(data, cfg, plop);
   // if the appended string should be unique (default),
   // remove any occurence of it (but only if pattern would match)
