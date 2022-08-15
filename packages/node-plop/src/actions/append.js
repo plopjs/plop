@@ -11,7 +11,6 @@ import {
 import actionInterfaceTest from "./_common-action-interface-check.js";
 
 const doAppend = async function (data, cfg, plop, fileData) {
-  cfg.templateFile = getRenderedTemplatePath(data, cfg, plop);
   const stringToAppend = await getRenderedTemplate(data, cfg, plop);
   // if the appended string should be unique (default),
   // remove any occurence of it (but only if pattern would match)
@@ -54,6 +53,7 @@ export default async function (data, cfg, plop) {
       throw "File does not exist";
     } else {
       let fileData = await fspp.readFile(fileDestPath);
+      cfg.templateFile = getRenderedTemplatePath(data, cfg, plop);
       fileData = await doAppend(data, cfg, plop, fileData);
       await fspp.writeFile(fileDestPath, fileData);
     }
