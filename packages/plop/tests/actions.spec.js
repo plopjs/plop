@@ -27,6 +27,7 @@ test("Plop to add and rename files", async () => {
   const data = fs.readFileSync(expectedFilePath, "utf8");
 
   expect(data).toMatch(/Hello/);
+  expect(await findByText("++ /output/new-output.txt")).toBeInTheConsole();
 });
 
 test("Plop to add and change file contents", async () => {
@@ -48,9 +49,24 @@ test("Plop to add and change file contents", async () => {
   const data = await fs.promises.readFile(expectedFilePath, "utf8");
 
   expect(data).toMatch(/Hi Corbin!/);
+  expect(await findByText("++ /output/new-output.txt")).toBeInTheConsole();
 });
 
 test.todo("Test modify");
 test.todo("Test append");
 test.todo("Test built-in helpers");
 test.todo("Test custom helpers");
+
+test("Plop to display a custom string for a given action type", async () => {
+  const expectedFilePath = await getFilePath(
+    "./examples/custom-action-display/output/out.txt"
+  );
+
+  const { findByText } = await renderPlop(["addFile"], {
+    cwd: resolve(__dirname, "./examples/custom-action-display"),
+  });
+
+  await waitFor(() => fs.promises.stat(expectedFilePath));
+
+  expect(await findByText(">< /output/out.txt")).toBeInTheConsole();
+});
