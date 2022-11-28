@@ -117,6 +117,11 @@ const typeDisplay = {
   append: chalk.green("_+"),
   skip: chalk.green("--"),
 };
+
+const addToTypeDisplay = (name, characters) => {
+  typeDisplay[name] = characters;
+};
+
 const typeMap = (name, noMap) => {
   const dimType = chalk.dim(name);
   return noMap ? dimType : typeDisplay[name] || dimType;
@@ -126,6 +131,7 @@ export {
   chooseOptionFromList,
   displayHelpScreen,
   createInitPlopfile,
+  addToTypeDisplay,
   typeMap,
   getHelpMessage,
 };
