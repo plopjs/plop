@@ -36,4 +36,18 @@ describe("addMany-strip-extensions", function () {
     expect(fs.existsSync(nonSpecPath)).toBe(true);
     expect(fs.existsSync(specPath)).toBe(true);
   });
+
+  test("Check that dot files generated without hbs extension", () => {
+    const dotPath = path.resolve(
+      testSrcPath,
+      "remove-dotfile-hbs/.gitignore"
+    );
+    const dotPathWithExtension = path.resolve(
+      testSrcPath,
+      "remove-dotfile-hbs/.eslintrc.cjs"
+    );
+
+    expect(fs.existsSync(dotPath)).toBe(true);
+    expect(fs.existsSync(dotPathWithExtension)).toBe(true);
+  });
 });
