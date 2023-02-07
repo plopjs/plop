@@ -60,7 +60,7 @@ test("Should bypass generator prompt", async () => {
   expect(await findByText("What is your name?")).toBeInTheConsole();
 });
 
-test("Should bypass prompt by input", async () => {
+test("Should bypass input prompt with input", async () => {
   const { queryByText, findByText } = await renderPlop(["Frank"], {
     cwd: resolve(__dirname, "./examples/prompt-only"),
   });
@@ -71,7 +71,7 @@ test("Should bypass prompt by input", async () => {
   ).toBeInTheConsole();
 });
 
-test("Should bypass prompt by input placeholder", async () => {
+test("Should bypass input prompt with placeholder", async () => {
   const { queryByText, findByText, userEvent } = await renderPlop(
     ["_", "Cheese"],
     {
@@ -86,7 +86,7 @@ test("Should bypass prompt by input placeholder", async () => {
   ).not.toBeInTheConsole();
 });
 
-test("Should bypass prompt by name", async () => {
+test("Should bypass input prompt with name", async () => {
   const { queryByText, findByText } = await renderPlop(
     ["--", "--name", "Frank"],
     {
@@ -100,7 +100,7 @@ test("Should bypass prompt by name", async () => {
   ).toBeInTheConsole();
 });
 
-test("Should allow for empty string bypassing", async () => {
+test("Should bypass input prompt with empty string", async () => {
   const { queryByText, findByText } = await renderPlop(["--", "--name", `""`], {
     cwd: resolve(__dirname, "./examples/prompt-only"),
   });
@@ -109,6 +109,58 @@ test("Should allow for empty string bypassing", async () => {
   expect(
     await findByText("What pizza toppings do you like?")
   ).toBeInTheConsole();
+});
+
+test("Should bypass checkbox prompt with input", async () => {
+  const { queryByText } = await renderPlop(["Frank", "Cheese"], {
+    cwd: resolve(__dirname, "./examples/prompt-only"),
+  });
+
+  expect(await queryByText("What is your name?")).not.toBeInTheConsole();
+  expect(
+    await queryByText("What pizza toppings do you like?")
+  ).not.toBeInTheConsole();
+});
+
+test("Should bypass checkbox prompt with placeholder", async () => {
+  const { queryByText, findByText } = await renderPlop(["Frank", "_"], {
+    cwd: resolve(__dirname, "./examples/prompt-only"),
+  });
+
+  expect(await queryByText("What is your name?")).not.toBeInTheConsole();
+  expect(
+    await findByText("What pizza toppings do you like?")
+  ).toBeInTheConsole();
+});
+
+test("Should bypass checkbox prompt with name", async () => {
+  const { queryByText, findByText, userEvent } = await renderPlop(
+    ["--", "--toppings", "Cheese"],
+    {
+      cwd: resolve(__dirname, "./examples/prompt-only"),
+    }
+  );
+
+  expect(await findByText("What is your name?")).toBeInTheConsole();
+  userEvent.keyboard("[Enter]");
+  expect(
+    await queryByText("What pizza toppings do you like?")
+  ).not.toBeInTheConsole();
+});
+
+test("Should bypass checkbox prompt with empty string", async () => {
+  const { queryByText, findByText, userEvent } = await renderPlop(
+    ["--", "--toppings", `""`],
+    {
+      cwd: resolve(__dirname, "./examples/prompt-only"),
+    }
+  );
+
+  expect(await findByText("What is your name?")).toBeInTheConsole();
+  userEvent.keyboard("[Enter]");
+  expect(
+    await queryByText("What pizza toppings do you like?")
+  ).not.toBeInTheConsole();
 });
 
 test.todo("Dynamic actions");

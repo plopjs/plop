@@ -66,6 +66,10 @@ describe("prompt-bypass-checkbox", function () {
     );
     expect(Array.isArray(someAnswersByMixed.checkbox)).toBe(true);
     expect(JSON.stringify(someAnswersByMixed.checkbox)).toBe('["one","three"]');
+
+    const [, noAnswers] = await promptBypass(prompts, [""], plop);
+    expect(Array.isArray(noAnswers.checkbox)).toBe(true);
+    expect(JSON.stringify(noAnswers.checkbox)).toBe("[]");
   });
 
   test("verify bad bypass input", async function () {

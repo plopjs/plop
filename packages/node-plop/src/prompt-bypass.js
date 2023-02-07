@@ -80,6 +80,10 @@ const typeBypass = {
     throw Error("invalid input");
   },
   checkbox(v, prompt) {
+    if (v === "") {
+      return [];
+    }
+
     const valList = v.split(",");
     const valuesNoMatch = valList.filter(
       (val) => !prompt.choices.some((c, idx) => choiceMatchesValue(c, idx, val))
