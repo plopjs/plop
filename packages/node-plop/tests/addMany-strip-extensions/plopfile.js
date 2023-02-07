@@ -30,6 +30,14 @@ export default function (plop) {
         templateFiles: "plop-templates/remove-all/*",
         abortOnFail: true,
       },
+      {
+        type: "addMany",
+        destination: "src/",
+        stripExtensions: ["hbs"],
+        templateFiles: "plop-templates/remove-dotfile-hbs/*",
+        abortOnFail: true,
+        globOptions: { dot: true },
+      },
     ],
   });
 }
