@@ -33,6 +33,12 @@ export default function (plop) {
         templateFile: "plop-templates/change-me.txt",
       },
       {
+        type: "append",
+        path: "src/change-me.txt",
+        pattern: /(-- APPEND ITEMS HERE --)/gi,
+        templateFile: "plop-templates/{{dashCase kind}}.txt",
+      },
+      {
         type: "modify",
         path: "src/change-me.txt",
         pattern: /(-- APPEND ITEMS HERE --)/gi,

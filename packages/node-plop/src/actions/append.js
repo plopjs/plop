@@ -2,6 +2,7 @@ import * as fspp from "../fs-promise-proxy.js";
 
 import {
   getRenderedTemplate,
+  getRenderedTemplatePath,
   makeDestPath,
   throwStringifiedError,
   getRelativeToBasePath,
@@ -52,6 +53,7 @@ export default async function (data, cfg, plop) {
       throw "File does not exist";
     } else {
       let fileData = await fspp.readFile(fileDestPath);
+      cfg.templateFile = getRenderedTemplatePath(data, cfg, plop);
       fileData = await doAppend(data, cfg, plop, fileData);
       await fspp.writeFile(fileDestPath, fileData);
     }
