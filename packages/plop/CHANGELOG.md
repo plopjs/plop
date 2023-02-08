@@ -1,5 +1,20 @@
 # plop
 
+## 3.1.2
+
+### Patch Changes
+
+- Append action should now allow handlebars for template path
+
+* Fix addMany dotfile extension stripping
+
+- Fix Inquirer TypeScript typings
+
+* Fix empty checkboxes not bypassing properly
+
+* Updated dependencies []:
+  - node-plop@0.31.1
+
 ## 3.1.1
 
 ### Patch Changes
