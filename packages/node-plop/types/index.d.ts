@@ -251,7 +251,7 @@ export interface AddManyActionConfig
 interface ModifyActionConfigBase extends ActionConfig {
   type: "modify";
   path: string;
-  pattern: string | RegExp;
+  pattern?: string | RegExp;
   transform?: TransformFn<ModifyActionConfig>;
 }
 
@@ -260,7 +260,7 @@ export type ModifyActionConfig = ModifyActionConfigBase & TemplateStrOrFile;
 interface AppendActionConfigBase extends ActionConfig {
   type: "append";
   path: string;
-  pattern: string | RegExp;
+  pattern?: string | RegExp;
   unique: boolean;
   separator: string;
 }
