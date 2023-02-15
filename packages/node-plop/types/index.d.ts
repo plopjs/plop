@@ -235,7 +235,7 @@ export interface AddManyActionConfig
     AddActionConfig,
     Exclude<
       keyof AddActionConfig,
-      "type" | "templateFile" | "template" | "transform"
+      "path" | "type" | "templateFile" | "template" | "transform"
     >
   > {
   type: "addMany";
