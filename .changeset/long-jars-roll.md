@@ -2,4 +2,7 @@
 "node-plop": patch
 ---
 
-Fix types for `AppendActionConfig` and `ModifyActionConfig` - the property `pattern` is now optional`
+Fix types:
+
+- `AppendActionConfig` and `ModifyActionConfig` - the property `pattern` is now optional`
+- `AddManyActionConfig` removed property `path` from options config
