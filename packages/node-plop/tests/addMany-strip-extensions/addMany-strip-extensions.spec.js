@@ -38,10 +38,7 @@ describe("addMany-strip-extensions", function () {
   });
 
   test("Check that dot files generated without hbs extension", () => {
-    const dotPath = path.resolve(
-      testSrcPath,
-      "remove-dotfile-hbs/.gitignore"
-    );
+    const dotPath = path.resolve(testSrcPath, "remove-dotfile-hbs/.gitignore");
     const dotPathWithExtension = path.resolve(
       testSrcPath,
       "remove-dotfile-hbs/.eslintrc.cjs"
@@ -49,5 +46,19 @@ describe("addMany-strip-extensions", function () {
 
     expect(fs.existsSync(dotPath)).toBe(true);
     expect(fs.existsSync(dotPathWithExtension)).toBe(true);
+  });
+
+  test("Check that hbs is removed even when there are no other extensions", () => {
+    const noExtensionPath = path.resolve(
+      testSrcPath,
+      "remove-noextension-hbs/Dockerfile"
+    );
+    const extensionPath = path.resolve(
+      testSrcPath,
+      "remove-noextension-hbs/Dockerfile.test"
+    );
+
+    expect(fs.existsSync(noExtensionPath)).toBe(true);
+    expect(fs.existsSync(extensionPath)).toBe(true);
   });
 });
