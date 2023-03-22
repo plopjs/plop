@@ -27,6 +27,38 @@ describe("prompt-bypass-list", function () {
     },
   ];
 
+  const dynamicPrompts = [
+    {
+      type: "list",
+      name: "country",
+      message: "Country",
+      choices: [
+        { key: "UK", value: "United Kingdom" }, 
+        'US'
+      ]
+    },
+    {
+      type: "list",
+      name: "city",
+      message: "City",
+      choices: ({ country }) => {
+        if (country === "United Kingdom") {
+          return [
+            "London",
+            "Manchested"
+          ]
+        } else if (country === "US") {
+          return [
+            "New York",
+            "Dallas"
+          ]
+        } else {
+          return [];
+        }
+      }
+    }
+  ]
+
   test("verify good bypass input", async function () {
     const [, byValue] = await promptBypass(prompts, ["eh"], plop);
     expect(byValue.list).toBe("eh");
@@ -69,6 +101,14 @@ describe("prompt-bypass-list", function () {
 
     const [, byNameObject] = await promptBypass(prompts, "ff", plop);
     expect(byNameObject.list).toEqual({ prop: "value" });
+
+    const [, byNameDynamic] = await promptBypass(dynamicPrompts, ["UK", "London"], plop);
+    expect(byNameDynamic.city).toBe("London");
+    expect(byNameDynamic.country).toBe("United Kingdom");
+
+    const [, byIndexNumberDynamic] = await promptBypass(dynamicPrompts, [1, 1], plop);
+    expect(byIndexNumberDynamic.city).toBe("Dallas");
+    expect(byIndexNumberDynamic.country).toBe("US");
   });
 
   test("verify bad bypass input", async function () {
@@ -80,6 +120,12 @@ describe("prompt-bypass-list", function () {
     ).rejects.toThrow();
     await expect(() =>
       promptBypass(prompts, [6], { is: plop })
+    ).rejects.toThrow();
+    await expect(() =>
+      promptBypass(dynamicPrompts, ["UK", "Dallas"], { is: plop })
+    ).rejects.toThrow();
+    await expect(() =>
+      promptBypass(dynamicPrompts, ["asdf", "asdf"], { is: plop })
     ).rejects.toThrow();
   });
 });
