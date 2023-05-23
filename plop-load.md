@@ -1,7 +1,7 @@
 plop.load
 =========
 
-`plop.load` can be used to load generators, actionTypes, helpers, and partials from a other plopfiles that are in your project or on NPM (`plop-pack`). Example code below.
+`plop.load` can be used to load generators, actionTypes, helpers, and partials from a other plopfiles that are in your project or on NPM (`plop-pack`). `plop.load` executes async when used within es6 modules and requires `async/await`. Example code below.
 
 ### plop.load([targets](#targets), [[config](#config)], [[include](#include)])
 
@@ -30,6 +30,14 @@ If `include` is `true` all assets from the target will be included (none if `fal
 - **Object:** the include object allows the consumer to rename assets when for use in their own plopfile. the property name in this object is the asset name, the value is the name that will be given to the asset when loaded.
 
 ## Examples
+*Usage in es6 modules*
+```javascript
+// plop.load has to be within an async function
+export default async function(plop) {
+	// Use await to actually load the external files
+	await plop.load('./plopfiles/component.js`);
+}
+```
 *load via a path*
 ```javascript
 	// loads all 5 generators, no helpers, actionTypes or partials (even if they exist)
@@ -63,7 +71,6 @@ If `include` is `true` all assets from the target will be included (none if `fal
 ```javascript
 	// loads all 3 helpers
 	plop.load('plop-pack-fancy-comments');
-};
 ```
 *load via npm module with a renaming include config*
 ```javascript
