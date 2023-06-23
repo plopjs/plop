@@ -13,6 +13,7 @@ export interface IncludeDefinitionConfig {
   helpers?: boolean;
   partials?: boolean;
   actionTypes?: boolean;
+  actionTypeDisplays?: boolean;
 }
 
 export type IncludeDefinition = boolean | string[] | IncludeDefinitionConfig;
@@ -48,6 +49,8 @@ export interface NodePlopAPI {
 
   setActionType(name: string, fn: CustomActionFunction): void;
 
+  setActionTypeDisplay(name: string, typeDisplay: string): void;
+
   /**
    * This does not include a `CustomActionConfig` for the same reasons
    * Listed in the `ActionType` declaration. Please see that JSDoc for more
@@ -55,6 +58,10 @@ export interface NodePlopAPI {
   getActionType(name: string): ActionType;
 
   getActionTypeList(): string[];
+
+  getActionTypeDisplay(name: string): string;
+
+  getActionTypeDisplayList(): string[];
 
   setPlopfilePath(filePath: string): void;
 

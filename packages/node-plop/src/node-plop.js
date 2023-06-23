@@ -21,6 +21,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
   const generators = {};
   const partials = {};
   const actionTypes = {};
+  const actionTypeDisplays = {};
   const helpers = Object.assign(
     {
       pkg: (propertyPath) => _get(pkgJson, propertyPath, ""),
@@ -38,6 +39,9 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
   };
   const setPartial = (name, str) => {
     partials[name] = str;
+  };
+  const setActionTypeDisplay = (name, typeDisplay) => {
+    actionTypeDisplays[name] = typeDisplay;
   };
   const setActionType = (name, fn) => {
     actionTypes[name] = fn;
@@ -57,6 +61,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
   const getHelper = (name) => helpers[name];
   const getPartial = (name) => partials[name];
   const getActionType = (name) => actionTypes[name];
+  const getActionTypeDisplay = (name) => actionTypeDisplays[name];
   const getGenerator = (name) => generators[name];
   function setGenerator(name = "", config = {}) {
     // if no name is provided, use a default
@@ -75,6 +80,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
     Object.keys(helpers).filter((h) => !baseHelpers.includes(h));
   const getPartialList = () => Object.keys(partials);
   const getActionTypeList = () => Object.keys(actionTypes);
+  const getActionTypeDisplayList = () => Object.keys(actionTypeDisplays);
   function getGeneratorList() {
     return Object.keys(generators).map(function (name) {
       const { description } = generators[name];
@@ -118,6 +124,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
             helpers: false,
             partials: false,
             actionTypes: false,
+            actionTypeDisplays: false,
           },
           includeCfg
         );
@@ -146,6 +153,12 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
           includeCfg === true || include.actionTypes,
           setActionType,
           proxy.getActionType
+        );
+        loadAsset(
+          proxy.getActionTypeDisplayList(),
+          includeCfg === true || include.actionTypeDisplays,
+          setActionTypeDisplay,
+          proxy.getActionTypeDisplay
         );
       })
     );
@@ -202,6 +215,9 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
     setActionType,
     getActionType,
     getActionTypeList,
+    setActionTypeDisplay,
+    getActionTypeDisplay,
+    getActionTypeDisplayList,
 
     // path context methods
     setPlopfilePath,
