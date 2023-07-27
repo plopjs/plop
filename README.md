@@ -362,7 +362,7 @@ The `modify` action can be used two ways. You can use a `pattern` property to fi
 Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **path** | *String* | | handlebars template that (when rendered) is the path of the file to be modified
-**pattern** | *RegExp* | _end&#x2011;of&#x2011;file_ | regular expression used to match text that should be replaced
+**pattern** | *RegExp* | | regular expression used to match text that should be replaced
 **template** | *String* | | handlebars template that should replace what was matched by the `pattern`. capture groups are available as $1, $2, etc
 **templateFile** | *String* | | path a file containing the `template`
 **transform** | *Function* | | [an optional function](#built-in-actions) that can be used to transform the file before writing it to disk
@@ -376,7 +376,7 @@ The `append` action is a commonly used subset of `modify`. It is used to append 
 Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **path** | *String* | | handlebars template that (when rendered) is the path of the file to be modified
-**pattern** | *RegExp, String* | | regular expression used to match text where the append should happen
+**pattern** | *RegExp, String* | _end&#x2011;of&#x2011;file_ | regular expression used to match text where the append should happen
 **unique** | *Boolean* | `true` | whether identical entries should be removed
 **separator** | *String* | `new line` | the value that separates entries
 **template** | *String* | | handlebars template to be used for the entry
