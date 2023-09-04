@@ -173,4 +173,15 @@ describe("load-assets-from-plopfile", function () {
     expect(plop.getPartialList().length).toBe(1);
     expect(plop.getPartialList()[0]).toBe("p1");
   });
+
+  test.todo("plop.load loaded plopfile inherits config", async function () {
+    const plop = await nodePlop("", {
+      force: true,
+    });
+
+    await plop.load(plopfilePath, null, {});
+
+    // not a working test
+    expect(plop.config.force).toBe(true);
+  });
 });
