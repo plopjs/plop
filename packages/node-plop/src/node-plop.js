@@ -100,6 +100,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
       targets = [targets];
     }
     const config = Object.assign(
+      plopCfg,
       {
         destBasePath: getDestBasePath(),
       },
