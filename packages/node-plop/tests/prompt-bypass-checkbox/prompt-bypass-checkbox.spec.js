@@ -24,17 +24,17 @@ describe("prompt-bypass-checkbox", function () {
     const [, allAnswersByValue] = await promptBypass(
       prompts,
       ["one,two,three"],
-      plop
+      plop,
     );
     expect(Array.isArray(allAnswersByValue.checkbox)).toBe(true);
     expect(JSON.stringify(allAnswersByValue.checkbox)).toBe(
-      '["one","two","three"]'
+      '["one","two","three"]',
     );
 
     const [, someAnswersByValue] = await promptBypass(
       prompts,
       ["one,three"],
-      plop
+      plop,
     );
     expect(Array.isArray(someAnswersByValue.checkbox)).toBe(true);
     expect(JSON.stringify(someAnswersByValue.checkbox)).toBe('["one","three"]');
@@ -42,7 +42,7 @@ describe("prompt-bypass-checkbox", function () {
     const [, allAnswersByIndex] = await promptBypass(prompts, ["0,1,2"], plop);
     expect(Array.isArray(allAnswersByIndex.checkbox)).toBe(true);
     expect(JSON.stringify(allAnswersByIndex.checkbox)).toBe(
-      '["one","two","three"]'
+      '["one","two","three"]',
     );
 
     const [, someAnswersByIndex] = await promptBypass(prompts, ["0,2"], plop);
@@ -52,17 +52,17 @@ describe("prompt-bypass-checkbox", function () {
     const [, allAnswersByMixed] = await promptBypass(
       prompts,
       ["0,t,three"],
-      plop
+      plop,
     );
     expect(Array.isArray(allAnswersByMixed.checkbox)).toBe(true);
     expect(JSON.stringify(allAnswersByMixed.checkbox)).toBe(
-      '["one","two","three"]'
+      '["one","two","three"]',
     );
 
     const [, someAnswersByMixed] = await promptBypass(
       prompts,
       ["0,three"],
-      plop
+      plop,
     );
     expect(Array.isArray(someAnswersByMixed.checkbox)).toBe(true);
     expect(JSON.stringify(someAnswersByMixed.checkbox)).toBe('["one","three"]');
@@ -74,13 +74,13 @@ describe("prompt-bypass-checkbox", function () {
 
   test("verify bad bypass input", async function () {
     await expect(() =>
-      promptBypass(prompts, ["one,four"]).reject.toThrow({ is: plop })
+      promptBypass(prompts, ["one,four"]).reject.toThrow({ is: plop }),
     );
     await expect(() =>
-      promptBypass(prompts, ["four"]).reject.toThrow({ is: plop })
+      promptBypass(prompts, ["four"]).reject.toThrow({ is: plop }),
     );
     await expect(() =>
-      promptBypass(prompts, ["3"]).reject.toThrow({ is: plop })
+      promptBypass(prompts, ["3"]).reject.toThrow({ is: plop }),
     );
   });
 });

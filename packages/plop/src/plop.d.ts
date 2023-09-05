@@ -18,5 +18,5 @@ export const Plop: Liftoff;
 export const run: (
   env: Liftoff.LiftoffEnv,
   _: any,
-  passArgsBeforeDashes: boolean
+  passArgsBeforeDashes: boolean,
 ) => Promise<void>;

@@ -38,7 +38,7 @@ describe("abort-on-fail", () => {
     expect(changes.length).toBe(0);
     expect(failures.length).toBe(2);
     expect(failures[1].error).not.toBe(
-      "Aborted due to previous action failure"
+      "Aborted due to previous action failure",
     );
   });
 });

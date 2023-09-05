@@ -22,7 +22,7 @@ export default function (plop) {
   // greet the user using a partial
   plop.setPartial(
     "salutation",
-    "my name is {{ properCase name }} and I am {{ age }}."
+    "my name is {{ properCase name }} and I am {{ age }}.",
   );
 
   // setGenerator creates a generator that can be run with "plop generatorName"

@@ -57,7 +57,7 @@ describe("load-assets-from-plopfile", function () {
           generator1: "gen1",
           generator3: "bob",
         },
-      }
+      },
     );
 
     const gNameList = plop.getGeneratorList().map((g) => g.name);
@@ -79,7 +79,7 @@ describe("load-assets-from-plopfile", function () {
         helpers: true,
         partials: true,
         actionTypes: true,
-      }
+      },
     );
 
     const gNameList = plop.getGeneratorList().map((g) => g.name);
@@ -118,7 +118,7 @@ describe("load-assets-from-plopfile", function () {
         helpers: true,
         partials: true,
         actionTypes: true,
-      }
+      },
     );
 
     expect(plop.getHelper("test-helper2")("test")).toBe("helper 2: test");

@@ -10,7 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("Plop to add and rename files", async () => {
   const expectedFilePath = await getFilePath(
-    "./examples/add-action/output/new-output.txt"
+    "./examples/add-action/output/new-output.txt",
   );
 
   const { findByText, userEvent } = await renderPlop(["addAndNameFile"], {
@@ -31,7 +31,7 @@ test("Plop to add and rename files", async () => {
 
 test("Plop to add and change file contents", async () => {
   const expectedFilePath = await getFilePath(
-    "./examples/add-action/output/new-output.txt"
+    "./examples/add-action/output/new-output.txt",
   );
 
   const { findByText, userEvent } = await renderPlop(["addAndChangeFile"], {

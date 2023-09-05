@@ -38,7 +38,7 @@ describe("prompt-bypass-validate", function () {
     const [, isValid] = await promptBypass(
       promptsCopy,
       ["valid", "also valid"],
-      plop
+      plop,
     );
     expect(isValid.input).toBe("valid");
     expect(isValid["dependent-input"]).toBe("also valid");
@@ -53,7 +53,7 @@ describe("prompt-bypass-validate", function () {
     const [, isValid] = await promptBypass(
       promptsCopy,
       ["valid", "also valid"],
-      plop
+      plop,
     );
     expect(isValid.input).toBe("valid");
     expect(isValid["dependent-input"]).toBe("also valid");
@@ -61,7 +61,7 @@ describe("prompt-bypass-validate", function () {
 
   test("verify bad bypass input", async function () {
     await expect(() =>
-      promptBypass(prompts, ["invalid"], { is: plop })
+      promptBypass(prompts, ["invalid"], { is: plop }),
     ).rejects.toThrow();
   });
 });

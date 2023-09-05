@@ -43,7 +43,7 @@ describe("prompt-bypass-mixed", function () {
     const [promptsAfterBypassOne, bypassOne] = await promptBypass(
       prompts,
       ["0"],
-      plop
+      plop,
     );
     expect(bypassOne.list).toBe("a");
     expect(promptsAfterBypassOne.length).toBe(5);
@@ -52,7 +52,7 @@ describe("prompt-bypass-mixed", function () {
     const [promptsAfterBypassTwo, bypassTwo] = await promptBypass(
       prompts,
       ["b", "something"],
-      plop
+      plop,
     );
     expect(bypassTwo.list).toBe("B");
     expect(bypassTwo.input).toBe("something");
@@ -61,7 +61,7 @@ describe("prompt-bypass-mixed", function () {
     const [promptsAfterBypassThree, bypassThree] = await promptBypass(
       prompts,
       ["b", "something", "something filtered"],
-      plop
+      plop,
     );
     expect(bypassThree.list).toBe("B");
     expect(bypassThree.input).toBe("something");
@@ -79,7 +79,7 @@ describe("prompt-bypass-mixed", function () {
     const [promptsAfterBypassFour, bypassFour] = await promptBypass(
       prompts,
       ["b", "something", "something filtered", "unimportant"],
-      plop
+      plop,
     );
     expect(bypassFour.list).toBe("B");
     expect(bypassFour.input).toBe("something");
@@ -100,8 +100,8 @@ describe("prompt-bypass-mixed", function () {
           "unimportant",
           "something else",
         ],
-        { is: plop }
-      )
+        { is: plop },
+      ),
     ).rejects.toThrow();
   });
 });

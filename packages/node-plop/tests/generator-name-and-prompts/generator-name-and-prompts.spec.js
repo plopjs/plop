@@ -27,7 +27,7 @@ describe("generator-name-and-prompts", function () {
     expect(typeof generatorOne).toBe("object");
 
     await expect(() => generatorOne.runPrompts()).rejects.toThrow(
-      "generator-1 has no prompts"
+      "generator-1 has no prompts",
     );
   });
 
@@ -36,7 +36,7 @@ describe("generator-name-and-prompts", function () {
     expect(typeof generatorOne).toBe("object");
 
     await expect(() => generatorOne.runActions()).rejects.toThrow(
-      "generator-1 has no actions"
+      "generator-1 has no actions",
     );
   });
 
@@ -44,7 +44,7 @@ describe("generator-name-and-prompts", function () {
     const generatorBadActions = plop.getGenerator("bad-actions-function");
 
     await expect(() => generatorBadActions.runActions()).rejects.toThrow(
-      "bad-actions-function has no actions"
+      "bad-actions-function has no actions",
     );
   });
 });

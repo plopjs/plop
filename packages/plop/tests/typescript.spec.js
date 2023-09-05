@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const renderWrapper = (...props) => {
   return renderScript(
     resolve(__dirname, "./examples/wrap-plop/index.js"),
-    ...props
+    ...props,
   );
 };
 

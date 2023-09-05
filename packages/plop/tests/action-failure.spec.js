@@ -16,6 +16,6 @@ test("should exit with code 1 when failed actions", async () => {
   userEvent.keyboard("[Enter]");
   const actionOutput = await findByText("Action failed");
   await waitFor(() =>
-    expect(actionOutput.hasExit()).toStrictEqual({ exitCode: 1 })
+    expect(actionOutput.hasExit()).toStrictEqual({ exitCode: 1 }),
   );
 });

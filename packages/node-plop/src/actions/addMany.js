@@ -40,7 +40,7 @@ export default async function (data, userConfig, plop) {
     cfg.templateFiles,
     cfg.base,
     cfg.globOptions,
-    plop
+    plop,
   );
 
   const filesAdded = [];
@@ -49,7 +49,7 @@ export default async function (data, userConfig, plop) {
     const fileCfg = Object.assign({}, cfg, {
       path: stripExtensions(
         cfg.stripExtensions,
-        resolvePath(cfg.destination, templateFile, cfg.base)
+        resolvePath(cfg.destination, templateFile, cfg.base),
       ),
       templateFile: absTemplatePath,
     });
@@ -66,7 +66,7 @@ function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
   globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);
   return globbySync(
     templateFilesGlob,
-    Object.assign({ braceExpansion: false }, globOptions)
+    Object.assign({ braceExpansion: false }, globOptions),
   )
     .filter(isUnder(basePath))
     .filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
@@ -82,7 +82,7 @@ function isUnder(basePath = "") {
 
 function resolvePath(destination, file, rootPath) {
   return normalizePath(
-    path.join(destination, dropFileRootPath(file, rootPath))
+    path.join(destination, dropFileRootPath(file, rootPath)),
   );
 }
 

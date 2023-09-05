@@ -10,7 +10,7 @@ export const normalizePath = (path) => {
 export const makeDestPath = (data, cfg, plop) => {
   return path.resolve(
     plop.getDestBasePath(),
-    plop.renderString(normalizePath(cfg.path) || "", getFullData(data, cfg))
+    plop.renderString(normalizePath(cfg.path) || "", getFullData(data, cfg)),
   );
 };
 
@@ -18,11 +18,11 @@ export function getRenderedTemplatePath(data, cfg, plop) {
   if (cfg.templateFile) {
     const absTemplatePath = path.resolve(
       plop.getPlopfilePath(),
-      cfg.templateFile
+      cfg.templateFile,
     );
     return plop.renderString(
       normalizePath(absTemplatePath),
-      getFullData(data, cfg)
+      getFullData(data, cfg),
     );
   }
   return null;
@@ -68,8 +68,8 @@ export async function getTransformedTemplate(template, data, cfg) {
     if (typeof result !== "string")
       throw new TypeError(
         `Invalid return value for transform (${JSON.stringify(
-          result
-        )} is not a string)`
+          result,
+        )} is not a string)`,
       );
 
     return result;

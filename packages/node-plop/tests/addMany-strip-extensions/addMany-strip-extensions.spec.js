@@ -18,11 +18,11 @@ describe("addMany-strip-extensions", function () {
   test("Check that all files generated without hbs extension", () => {
     const nonSpecPath = path.resolve(
       testSrcPath,
-      "remove-hbs/john-doe-my-view.js"
+      "remove-hbs/john-doe-my-view.js",
     );
     const specPath = path.resolve(
       testSrcPath,
-      "remove-hbs/john-doe-my-view._test.js"
+      "remove-hbs/john-doe-my-view._test.js",
     );
 
     expect(fs.existsSync(nonSpecPath)).toBe(true);
@@ -38,13 +38,10 @@ describe("addMany-strip-extensions", function () {
   });
 
   test("Check that dot files generated without hbs extension", () => {
-    const dotPath = path.resolve(
-      testSrcPath,
-      "remove-dotfile-hbs/.gitignore"
-    );
+    const dotPath = path.resolve(testSrcPath, "remove-dotfile-hbs/.gitignore");
     const dotPathWithExtension = path.resolve(
       testSrcPath,
-      "remove-dotfile-hbs/.eslintrc.cjs"
+      "remove-dotfile-hbs/.eslintrc.cjs",
     );
 
     expect(fs.existsSync(dotPath)).toBe(true);

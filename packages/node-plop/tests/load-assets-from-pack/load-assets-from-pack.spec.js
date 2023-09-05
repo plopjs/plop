@@ -52,7 +52,7 @@ describe("load-assets-from-pack", function () {
       plop
         .getGeneratorList()
         .map((g) => g.name)
-        .includes("test-generator1")
+        .includes("test-generator1"),
     ).toBe(true);
     expect(plop.getGeneratorList().length).toBe(3);
     expect(plop.getHelperList().length > 0).toBe(true);

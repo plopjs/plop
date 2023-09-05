@@ -86,7 +86,8 @@ const typeBypass = {
 
     const valList = v.split(",");
     const valuesNoMatch = valList.filter(
-      (val) => !prompt.choices.some((c, idx) => choiceMatchesValue(c, idx, val))
+      (val) =>
+        !prompt.choices.some((c, idx) => choiceMatchesValue(c, idx, val)),
     );
     if (valuesNoMatch.length) {
       throw Error(`no match for "${valuesNoMatch.join('", "')}"`);
@@ -94,8 +95,8 @@ const typeBypass = {
 
     return valList.map((val) =>
       getChoiceValue(
-        prompt.choices.find((c, idx) => choiceMatchesValue(c, idx, val))
-      )
+        prompt.choices.find((c, idx) => choiceMatchesValue(c, idx, val)),
+      ),
     );
   },
   list: listTypeBypass,
@@ -186,7 +187,7 @@ export default async function (prompts, bypassArr, plop) {
     } catch (err) {
       // if we encounter an error above... assume the bypass value was invalid
       bypassFailures.push(
-        `The "${p.name}" prompt did not recognize "${val}" as a valid ${p.type} value (ERROR: ${err.message})`
+        `The "${p.name}" prompt did not recognize "${val}" as a valid ${p.type} value (ERROR: ${err.message})`,
       );
       bypassedPromptValues.push(false);
       continue;

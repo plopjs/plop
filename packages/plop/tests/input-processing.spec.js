@@ -67,7 +67,7 @@ test("Should bypass input prompt with input", async () => {
 
   expect(await queryByText("What is your name?")).not.toBeInTheConsole();
   expect(
-    await findByText("What pizza toppings do you like?")
+    await findByText("What pizza toppings do you like?"),
   ).toBeInTheConsole();
 });
 
@@ -76,13 +76,13 @@ test("Should bypass input prompt with placeholder", async () => {
     ["_", "Cheese"],
     {
       cwd: resolve(__dirname, "./examples/prompt-only"),
-    }
+    },
   );
 
   expect(await findByText("What is your name?")).toBeInTheConsole();
   userEvent.keyboard("[Enter]");
   expect(
-    await queryByText("What pizza toppings do you like?")
+    await queryByText("What pizza toppings do you like?"),
   ).not.toBeInTheConsole();
 });
 
@@ -91,12 +91,12 @@ test("Should bypass input prompt with name", async () => {
     ["--", "--name", "Frank"],
     {
       cwd: resolve(__dirname, "./examples/prompt-only"),
-    }
+    },
   );
 
   expect(await queryByText("What is your name?")).not.toBeInTheConsole();
   expect(
-    await findByText("What pizza toppings do you like?")
+    await findByText("What pizza toppings do you like?"),
   ).toBeInTheConsole();
 });
 
@@ -107,7 +107,7 @@ test("Should bypass input prompt with empty string", async () => {
 
   expect(await queryByText("What is your name?")).not.toBeInTheConsole();
   expect(
-    await findByText("What pizza toppings do you like?")
+    await findByText("What pizza toppings do you like?"),
   ).toBeInTheConsole();
 });
 
@@ -118,7 +118,7 @@ test("Should bypass checkbox prompt with input", async () => {
 
   expect(await queryByText("What is your name?")).not.toBeInTheConsole();
   expect(
-    await queryByText("What pizza toppings do you like?")
+    await queryByText("What pizza toppings do you like?"),
   ).not.toBeInTheConsole();
 });
 
@@ -129,7 +129,7 @@ test("Should bypass checkbox prompt with placeholder", async () => {
 
   expect(await queryByText("What is your name?")).not.toBeInTheConsole();
   expect(
-    await findByText("What pizza toppings do you like?")
+    await findByText("What pizza toppings do you like?"),
   ).toBeInTheConsole();
 });
 
@@ -138,13 +138,13 @@ test("Should bypass checkbox prompt with name", async () => {
     ["--", "--toppings", "Cheese"],
     {
       cwd: resolve(__dirname, "./examples/prompt-only"),
-    }
+    },
   );
 
   expect(await findByText("What is your name?")).toBeInTheConsole();
   userEvent.keyboard("[Enter]");
   expect(
-    await queryByText("What pizza toppings do you like?")
+    await queryByText("What pizza toppings do you like?"),
   ).not.toBeInTheConsole();
 });
 
@@ -153,13 +153,13 @@ test("Should bypass checkbox prompt with empty string", async () => {
     ["--", "--toppings", `""`],
     {
       cwd: resolve(__dirname, "./examples/prompt-only"),
-    }
+    },
   );
 
   expect(await findByText("What is your name?")).toBeInTheConsole();
   userEvent.keyboard("[Enter]");
   expect(
-    await queryByText("What pizza toppings do you like?")
+    await queryByText("What pizza toppings do you like?"),
   ).not.toBeInTheConsole();
 });
 

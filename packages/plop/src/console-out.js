@@ -7,7 +7,7 @@ const defaultChoosingMessage =
 
 function getHelpMessage(generator) {
   const maxLen = Math.max(
-    ...generator.prompts.map((prompt) => prompt.name.length)
+    ...generator.prompts.map((prompt) => prompt.name.length),
   );
   console.log(
     [
@@ -18,9 +18,9 @@ function getHelpMessage(generator) {
           "  --" +
           prompt.name +
           " ".repeat(maxLen - prompt.name.length + 2) +
-          chalk.dim(prompt.help ? prompt.help : prompt.message)
+          chalk.dim(prompt.help ? prompt.help : prompt.message),
       ),
-    ].join("\n")
+    ].join("\n"),
   );
 }
 
@@ -70,13 +70,13 @@ function displayHelpScreen() {
       "",
       chalk.dim("  --plopfile             Path to the plopfile"),
       chalk.dim(
-        "  --cwd                  Directory from which relative paths are calculated against while locating the plopfile"
+        "  --cwd                  Directory from which relative paths are calculated against while locating the plopfile",
       ),
       chalk.dim(
-        "  --preload              String or array of modules to require before running plop"
+        "  --preload              String or array of modules to require before running plop",
       ),
       chalk.dim(
-        "  --dest                 Output to this directory instead of the plopfile's parent directory"
+        "  --dest                 Output to this directory instead of the plopfile's parent directory",
       ),
       "",
       chalk.bold("Examples:"),
@@ -84,7 +84,7 @@ function displayHelpScreen() {
       "  $ " + chalk.blue("plop component"),
       "  $ " + chalk.blue('plop component "name of component"'),
       "",
-    ].join("\n")
+    ].join("\n"),
   );
 }
 

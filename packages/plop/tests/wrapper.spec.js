@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const renderWrapper = (...props) => {
   return renderScript(
     resolve(__dirname, "./examples/wrap-plop/index.js"),
-    ...props
+    ...props,
   );
 };
 
@@ -34,12 +34,12 @@ test("wrapper should bypass prompts with index", async () => {
     ["Corbin"],
     {
       cwd: resolve(__dirname, "./examples/wrap-plop"),
-    }
+    },
   );
 
   expect(await queryByText("What is your name?")).not.toBeInTheConsole();
   expect(
-    await findByText("What pizza toppings do you like?")
+    await findByText("What pizza toppings do you like?"),
   ).toBeInTheConsole();
 });
 
@@ -48,18 +48,18 @@ test("wrapper should bypass prompts with name", async () => {
     ["--name", "Corbin"],
     {
       cwd: resolve(__dirname, "./examples/wrap-plop"),
-    }
+    },
   );
 
   expect(await queryByText("What is your name?")).not.toBeInTheConsole();
   expect(
-    await findByText("What pizza toppings do you like?")
+    await findByText("What pizza toppings do you like?"),
   ).toBeInTheConsole();
 });
 
 test("can run actions (add)", async () => {
   const expectedFilePath = await getFilePath(
-    "./examples/wrap-plop/output/added.txt"
+    "./examples/wrap-plop/output/added.txt",
   );
 
   const { fireEvent } = await renderWrapper(["Test", "Cheese"], {

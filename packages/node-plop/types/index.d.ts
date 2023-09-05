@@ -20,7 +20,7 @@ export type IncludeDefinition = boolean | string[] | IncludeDefinitionConfig;
 export interface NodePlopAPI {
   setGenerator(
     name: string,
-    config: Partial<PlopGeneratorConfig>
+    config: Partial<PlopGeneratorConfig>,
   ): PlopGenerator;
 
   setPrompt(name: string, prompt: inquirer.prompts.PromptConstructor): void;
@@ -66,7 +66,7 @@ export interface NodePlopAPI {
   load(
     target: string[] | string,
     loadCfg?: Partial<PlopCfg> | null,
-    includeOverride?: IncludeDefinition
+    includeOverride?: IncludeDefinition,
   ): Promise<void>;
 
   setDefaultInclude(inc: object): void;
@@ -121,7 +121,7 @@ export interface PlopGenerator extends PlopGeneratorConfig {
   runPrompts: (bypassArr?: string[]) => Promise<any>;
   runActions: (
     answers: inquirer.Answers,
-    hooks?: PlopActionHooks
+    hooks?: PlopActionHooks,
   ) => Promise<{
     changes: PlopActionHooksChanges[];
     failures: PlopActionHooksFailures[];
@@ -141,7 +141,7 @@ export type PromptQuestion =
   | inquirer.InputQuestion;
 
 export type DynamicPromptsFunction = (
-  inquirer: Inquirer
+  inquirer: Inquirer,
 ) => Promise<inquirer.Answers>;
 export type DynamicActionsFunction = (data?: inquirer.Answers) => ActionType[];
 
@@ -184,7 +184,7 @@ export interface CustomActionConfig<TypeString extends string>
 export type CustomActionFunction = (
   answers: inquirer.Answers,
   config: CustomActionConfig<string>,
-  plopfileApi: NodePlopAPI
+  plopfileApi: NodePlopAPI,
 ) => Promise<string> | string;
 
 /**
@@ -218,7 +218,7 @@ export interface ActionConfig {
 type TransformFn<T> = (
   template: string,
   data: any,
-  cfg: T
+  cfg: T,
 ) => string | Promise<string>;
 
 interface AddActionConfigBase extends ActionConfig {
@@ -274,7 +274,7 @@ export interface PlopCfg {
 
 declare function nodePlop(
   plopfilePath?: string,
-  plopCfg?: PlopCfg
+  plopCfg?: PlopCfg,
 ): Promise<NodePlopAPI>;
 
 export default nodePlop;

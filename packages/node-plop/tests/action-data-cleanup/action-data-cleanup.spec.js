@@ -30,7 +30,7 @@ describe("action-data-cleanup", () => {
       .map((c) => normalizePath(c.path).split("/").slice(-1))
       .join("|");
     expect(addedFiles).toBe(
-      "one-unchanged.txt|two-unchanged.txt|three-unchanged.txt"
+      "one-unchanged.txt|two-unchanged.txt|three-unchanged.txt",
     );
     expect(changes.length).toBe(3);
     expect(failures.length).toBe(0);

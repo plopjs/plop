@@ -14,7 +14,7 @@ export const writeFileRaw = (path, data) =>
 export const fileExists = (path) =>
   fs.promises.access(path).then(
     () => true,
-    () => false
+    () => false,
   );
 
 export const constants = fs.constants;

@@ -46,7 +46,7 @@ export default async function addFile(data, cfg, plop) {
         const transformedTemplate = await getTransformedTemplate(
           renderedTemplate,
           data,
-          cfg
+          cfg,
         );
 
         await fspp.writeFile(fileDestPath, transformedTemplate);
