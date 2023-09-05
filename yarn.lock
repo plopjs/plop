@@ -1038,32 +1038,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/inquirer-autocomplete-prompt@npm:^1.3.4":
-  version: 1.3.4
-  resolution: "@types/inquirer-autocomplete-prompt@npm:1.3.4"
+"@types/inquirer-autocomplete-prompt@npm:^1.3.5":
+  version: 1.3.5
+  resolution: "@types/inquirer-autocomplete-prompt@npm:1.3.5"
   dependencies:
-    "@types/inquirer": "*"
-  checksum: 054983d573ff6fe04997653606c54dc717da835eaea21408b495a72fbf865190afa8b1e441b3914ce91532cc626022115ab4d9325458d164eb272b6db7b84503
+    "@types/inquirer": ^8
+  checksum: db1e2ca68e13efc16e257a39639d35bfe712cc9ec62f63ff4e49d2aee0db61f9338b5d23e6bb1c2cb25e5ff339e51769a7396bf66fe60ce50fa100dc4da8e796
   languageName: node
   linkType: hard
 
-"@types/inquirer@npm:*":
-  version: 8.2.0
-  resolution: "@types/inquirer@npm:8.2.0"
+"@types/inquirer@npm:^8, @types/inquirer@npm:^8.2.6":
+  version: 8.2.6
+  resolution: "@types/inquirer@npm:8.2.6"
   dependencies:
     "@types/through": "*"
     rxjs: ^7.2.0
-  checksum: bb4b550ca01e892bab9483dfc8f8122dc4eb3291e8b9e1d038fbb6d883335f6ff61692331ae90af452e878c0335b119269ad9909c1ba4b6ec10da6fcf1568011
-  languageName: node
-  linkType: hard
-
-"@types/inquirer@npm:^8.2.1":
-  version: 8.2.1
-  resolution: "@types/inquirer@npm:8.2.1"
-  dependencies:
-    "@types/through": "*"
-    rxjs: ^7.2.0
-  checksum: 5362d0b1cbec3887c9d5a671a0b19c58cf54066456c8967dd7ee799dfcc242cc8cd8959440c0f2fe7768becaf721b45fd30c222e6b9bcca378f45c68af43bab5
+  checksum: d09c3b6bbfb1aff8bdb8fc938d43536be55dfb51af0c91d0105e3f7c5e3950c12618ac00e2e91f10b5abeba38f4b903289be1df5aa31f213b58c3cc675a19f81
   languageName: node
   linkType: hard
 
@@ -5732,8 +5722,8 @@ dts-critic@latest:
   version: 0.0.0-use.local
   resolution: "node-plop@workspace:packages/node-plop"
   dependencies:
-    "@types/inquirer": ^8.2.1
-    "@types/inquirer-autocomplete-prompt": ^1.3.4
+    "@types/inquirer": ^8.2.6
+    "@types/inquirer-autocomplete-prompt": ^1.3.5
     "@types/node": ^20.5.9
     change-case: ^4.1.2
     del: ^6.0.0
