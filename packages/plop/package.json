@@ -47,7 +47,7 @@
     "liftoff": "^4.0.0",
     "minimist": "^1.2.8",
     "node-plop": "^0.31.1",
-    "ora": "^6.0.1",
+    "ora": "^7.0.1",
     "v8flags": "^4.0.1"
   },
   "engines": {

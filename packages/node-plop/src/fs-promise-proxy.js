@@ -1,5 +1,5 @@
 import fs from "fs";
-import mkdirp from "mkdirp";
+import { mkdirp } from "mkdirp";
 
 export const makeDir = mkdirp;
 export const readdir = fs.promises.readdir;
