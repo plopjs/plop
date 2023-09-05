@@ -37,8 +37,8 @@
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.4.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
     "turbo": "^1.10.13",
     "typescript": "^5.2.2"
