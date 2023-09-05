@@ -59,7 +59,7 @@ describe("imported-custom-action", function () {
 
     expect(results.failures.length).toBe(1);
     expect(results.failures[0].error.startsWith("Path does not exist")).toBe(
-      true
+      true,
     );
   });
 });

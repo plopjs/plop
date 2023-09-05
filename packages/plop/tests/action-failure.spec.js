@@ -11,11 +11,11 @@ test("should exit with code 1 when failed actions", async () => {
     cwd: resolve(__dirname, "./examples/action-failure"),
   });
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("Joe");
+  await userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
   const actionOutput = await findByText("Action failed");
   await waitFor(() =>
-    expect(actionOutput.hasExit()).toStrictEqual({ exitCode: 1 })
+    expect(actionOutput.hasExit()).toStrictEqual({ exitCode: 1 }),
   );
 });

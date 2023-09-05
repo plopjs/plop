@@ -40,8 +40,8 @@ describe("basic-plopfile", function () {
     expect(content.includes("test: basic-plopfile-test")).toBe(true);
     expect(
       content.includes(
-        "propertyPathTest: basic-plopfile-test-propertyPath-value-index-1"
-      )
+        "propertyPathTest: basic-plopfile-test-propertyPath-value-index-1",
+      ),
     ).toBe(true);
   });
 
@@ -54,7 +54,7 @@ describe("basic-plopfile", function () {
 
     expect(content.includes("this is a test: 21")).toBe(true);
     expect(
-      content.includes("this is prepended! replaced => this-is-a-test: 21")
+      content.includes("this is prepended! replaced => this-is-a-test: 21"),
     ).toBe(true);
   });
 });

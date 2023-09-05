@@ -32,7 +32,7 @@ describe("dynamic-actions", function () {
     const burgerFilePath = path.resolve(testSrcPath, "potato-hater-burger.txt");
     const potatoFilePath = path.resolve(
       testSrcPath,
-      "potato-hater-potatoes.txt"
+      "potato-hater-potatoes.txt",
     );
 
     // only the burger file should have been created

@@ -20,7 +20,7 @@ export function renderScript(script, args = [], opts = {}) {
       spawnOpts: {
         env: { ...process.env, NODE_ENV: "test" },
       },
-    }
+    },
   );
 }
 
@@ -32,7 +32,7 @@ export function renderPlop(args = [], opts = {}) {
   return renderScript(
     resolve(__dirname, "../instrumented/bin/plop.js"),
     args,
-    opts
+    opts,
   );
 }
 

@@ -35,15 +35,15 @@ describe("addMany-dynamic-template-file", function () {
 
     expect(
       multipleAddsResult.changes[0].path.includes(
-        `${expectedFiles.length} files added`
-      )
+        `${expectedFiles.length} files added`,
+      ),
     ).toBe(true);
   });
 
   test("Test the content of the rendered file", () => {
     const filePath = path.resolve(
       testSrcPath,
-      "john-doe-bar-chart/john-doe-bar-tmpl.html"
+      "john-doe-bar-chart/john-doe-bar-tmpl.html",
     );
     const content = fs.readFileSync(filePath).toString();
 

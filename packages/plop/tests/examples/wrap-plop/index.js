@@ -23,5 +23,5 @@ Plop.prepare(
     Plop.execute(env, function (env) {
       return run(env, undefined, true);
     });
-  }
+  },
 );

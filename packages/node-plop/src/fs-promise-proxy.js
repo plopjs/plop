@@ -1,23 +1,20 @@
 import fs from "fs";
-import mkdirp from "mkdirp";
-import { promisify } from "util";
-
-const _readFile = promisify(fs.readFile);
-const _writeFile = promisify(fs.writeFile);
-const _access = promisify(fs.access);
+import { mkdirp } from "mkdirp";
 
 export const makeDir = mkdirp;
-export const readdir = promisify(fs.readdir);
-export const stat = promisify(fs.stat);
-export const chmod = promisify(fs.chmod);
-export const readFile = (path) => _readFile(path, "utf8");
-export const writeFile = (path, data) => _writeFile(path, data, "utf8");
-export const readFileRaw = (path) => _readFile(path, null);
-export const writeFileRaw = (path, data) => _writeFile(path, data, null);
+export const readdir = fs.promises.readdir;
+export const stat = fs.promises.stat;
+export const chmod = fs.promises.chmod;
+export const readFile = (path) => fs.promises.readFile(path, "utf8");
+export const writeFile = (path, data) =>
+  fs.promises.writeFile(path, data, "utf8");
+export const readFileRaw = (path) => fs.promises.readFile(path, null);
+export const writeFileRaw = (path, data) =>
+  fs.promises.writeFile(path, data, null);
 export const fileExists = (path) =>
-  _access(path).then(
+  fs.promises.access(path).then(
     () => true,
-    () => false
+    () => false,
   );
 
 export const constants = fs.constants;

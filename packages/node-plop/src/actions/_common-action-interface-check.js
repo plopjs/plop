@@ -1,6 +1,6 @@
 export default function (
   action,
-  { checkPath = true, checkAbortOnFail = true } = {}
+  { checkPath = true, checkAbortOnFail = true } = {},
 ) {
   // it's not even an object, you fail!
   if (typeof action !== "object") {

@@ -1,3 +1,3 @@
-import * as del from "del";
+import { deleteSync } from "del";
 
-del.sync("./lib");
+deleteSync("./lib");

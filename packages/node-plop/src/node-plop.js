@@ -25,7 +25,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
     {
       pkg: (propertyPath) => _get(pkgJson, propertyPath, ""),
     },
-    bakedInHelpers
+    bakedInHelpers,
   );
   const baseHelpers = Object.keys(helpers);
 
@@ -45,10 +45,10 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
 
   function renderString(template, data) {
     Object.keys(helpers).forEach((h) =>
-      handlebars.registerHelper(h, helpers[h])
+      handlebars.registerHelper(h, helpers[h]),
     );
     Object.keys(partials).forEach((p) =>
-      handlebars.registerPartial(p, partials[p])
+      handlebars.registerPartial(p, partials[p]),
     );
     return handlebars.compile(template)(data);
   }
@@ -103,7 +103,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
       {
         destBasePath: getDestBasePath(),
       },
-      loadCfg
+      loadCfg,
     );
 
     await Promise.all(
@@ -119,7 +119,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
             partials: false,
             actionTypes: false,
           },
-          includeCfg
+          includeCfg,
         );
 
         const genNameList = proxy.getGeneratorList().map((g) => g.name);
@@ -127,27 +127,27 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
           genNameList,
           includeCfg === true || include.generators,
           setGenerator,
-          (proxyName) => ({ proxyName, proxy })
+          (proxyName) => ({ proxyName, proxy }),
         );
         loadAsset(
           proxy.getPartialList(),
           includeCfg === true || include.partials,
           setPartial,
-          proxy.getPartial
+          proxy.getPartial,
         );
         loadAsset(
           proxy.getHelperList(),
           includeCfg === true || include.helpers,
           setHelper,
-          proxy.getHelper
+          proxy.getHelper,
         );
         loadAsset(
           proxy.getActionTypeList(),
           includeCfg === true || include.actionTypes,
           setActionType,
-          proxy.getActionType
+          proxy.getActionType,
         );
-      })
+      }),
     );
   }
 

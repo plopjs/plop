@@ -1,5 +1,5 @@
 import path from "path";
-import del from "del";
+import { deleteAsync } from "del";
 import {
   getRenderedTemplate,
   getTransformedTemplate,
@@ -19,7 +19,7 @@ export default async function addFile(data, cfg, plop) {
 
     // if we are forcing and the file already exists, delete the file
     if (force === true && destExists) {
-      await del([fileDestPath], { force });
+      await deleteAsync([fileDestPath], { force });
       destExists = false;
     }
 
@@ -46,7 +46,7 @@ export default async function addFile(data, cfg, plop) {
         const transformedTemplate = await getTransformedTemplate(
           renderedTemplate,
           data,
-          cfg
+          cfg,
         );
 
         await fspp.writeFile(fileDestPath, transformedTemplate);

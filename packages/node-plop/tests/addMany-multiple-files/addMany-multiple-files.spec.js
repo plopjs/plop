@@ -32,8 +32,8 @@ describe("addMany-multiple-files", function () {
 
     expect(
       multipleAddsResult.changes[0].path.includes(
-        `${expectedFiles.length} files added`
-      )
+        `${expectedFiles.length} files added`,
+      ),
     ).toBe(true);
   });
 
@@ -52,8 +52,8 @@ describe("addMany-multiple-files", function () {
 
     expect(
       multipleAddsResult.changes[0].path.includes(
-        `${expectedFiles.length} files added`
-      )
+        `${expectedFiles.length} files added`,
+      ),
     ).toBe(true);
   });
 
@@ -90,7 +90,7 @@ describe("addMany-multiple-files", function () {
   test("Test the content of the rendered file in nested folder", () => {
     const filePath = path.resolve(
       testSrcPath,
-      "john-doe/nested-folder/a-nested-add.txt"
+      "john-doe/nested-folder/a-nested-add.txt",
     );
     const content = fs.readFileSync(filePath).toString();
 
@@ -132,8 +132,8 @@ describe("addMany-multiple-files", function () {
     });
     expect(
       multipleAddsResult.changes[4].path.includes(
-        `${expectedFiles.length} files added`
-      )
+        `${expectedFiles.length} files added`,
+      ),
     ).toBe(true);
   });
 });

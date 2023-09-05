@@ -17,9 +17,7 @@ import { getBypassAndGenerator, handleArgFlags } from "./input-processing.js";
 
 const Plop = new Liftoff({
   name: "plop",
-  // Remove this when this PR is merged:
-  // https://github.com/gulpjs/interpret/pull/75
-  extensions: { ...interpret.jsVariants, [".cjs"]: null },
+  extensions: interpret.jsVariants,
   v8flags: v8flags,
 });
 
@@ -60,7 +58,7 @@ async function run(env, _, passArgsBeforeDashes) {
   } catch (e) {
     console.error(
       chalk.red("[PLOP] ") + "Something went wrong with reading your plop file",
-      e
+      e,
     );
     return;
   }
@@ -68,7 +66,7 @@ async function run(env, _, passArgsBeforeDashes) {
   const generatorNames = generators.map((v) => v.name);
   const { generatorName, bypassArr, plopArgV } = getBypassAndGenerator(
     plop,
-    passArgsBeforeDashes
+    passArgsBeforeDashes,
   );
 
   // look up a generator and run it with calculated bypass data
@@ -97,7 +95,7 @@ async function run(env, _, passArgsBeforeDashes) {
         console.error(
           chalk.red("[PLOP] ") +
             "Something went wrong with selecting a generator",
-          err
+          err,
         );
       });
   } else if (generatorNames.includes(generatorName)) {
@@ -110,7 +108,7 @@ async function run(env, _, passArgsBeforeDashes) {
       chalk.red("[PLOP] ") +
         'Could not find a generator for "' +
         fuzzyGenName +
-        '"'
+        '"',
     );
     process.exit(1);
   }

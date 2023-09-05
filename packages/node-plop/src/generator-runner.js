@@ -23,7 +23,7 @@ export default function (plopfileApi, flags) {
     const [promptsAfterBypass, bypassAnswers] = await promptBypass(
       prompts,
       bypassArr,
-      plopfileApi
+      plopfileApi,
     );
 
     return await plopfileApi.inquirer
@@ -35,7 +35,7 @@ export default function (plopfileApi, flags) {
   const runGeneratorActions = async function (
     genObject,
     data = {},
-    hooks = {}
+    hooks = {},
   ) {
     const noop = () => {};
     const {
@@ -114,7 +114,7 @@ export default function (plopfileApi, flags) {
         const actionResult = await executeActionLogic(
           actionLogic,
           actionCfg,
-          data
+          data,
         );
         onSuccess(actionResult);
         changes.push(actionResult);
@@ -156,7 +156,7 @@ export default function (plopfileApi, flags) {
 
     // track keys that can be applied to the main data scope
     const cfgDataKeys = Object.keys(cfgData).filter(
-      (k) => typeof data[k] === "undefined"
+      (k) => typeof data[k] === "undefined",
     );
     // copy config data into main data scope so it's available for templates
     cfgDataKeys.forEach((k) => {
@@ -174,13 +174,13 @@ export default function (plopfileApi, flags) {
         // a rejected promise is treated as a failure
         (err) => {
           throw { type, path: "", error: err.message || err.toString() };
-        }
+        },
       )
       // cleanup main data scope so config data doesn't leak
       .finally(() =>
         cfgDataKeys.forEach((k) => {
           delete data[k];
-        })
+        }),
       );
   };
 

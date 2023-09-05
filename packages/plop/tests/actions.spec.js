@@ -10,7 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("Plop to add and rename files", async () => {
   const expectedFilePath = await getFilePath(
-    "./examples/add-action/output/new-output.txt"
+    "./examples/add-action/output/new-output.txt",
   );
 
   const { findByText, userEvent } = await renderPlop(["addAndNameFile"], {
@@ -19,8 +19,8 @@ test("Plop to add and rename files", async () => {
 
   expect(await findByText("What should the file name be?")).toBeInTheConsole();
 
-  userEvent.keyboard("new-output");
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("new-output");
+  await userEvent.keyboard("[Enter]");
 
   await waitFor(() => fs.promises.stat(expectedFilePath));
 
@@ -31,7 +31,7 @@ test("Plop to add and rename files", async () => {
 
 test("Plop to add and change file contents", async () => {
   const expectedFilePath = await getFilePath(
-    "./examples/add-action/output/new-output.txt"
+    "./examples/add-action/output/new-output.txt",
   );
 
   const { findByText, userEvent } = await renderPlop(["addAndChangeFile"], {
@@ -40,8 +40,8 @@ test("Plop to add and change file contents", async () => {
 
   expect(await findByText("What's your name?")).toBeInTheConsole();
 
-  userEvent.keyboard("Corbin");
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("Corbin");
+  await userEvent.keyboard("[Enter]");
 
   await waitFor(() => fs.promises.stat(expectedFilePath));
 

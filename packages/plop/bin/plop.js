@@ -13,5 +13,5 @@ Plop.prepare(
   },
   function (env) {
     Plop.execute(env, run);
-  }
+  },
 );

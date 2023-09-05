@@ -23,7 +23,7 @@ function combineBypassData(generator, bypassArr, plopArgV) {
       chalk.red("[PLOP] ") +
         'Too many bypass arguments passed for "' +
         generator.name +
-        '"'
+        '"',
     );
     out.getHelpMessage(generator);
     process.exit(1);
@@ -42,7 +42,7 @@ function combineBypassData(generator, bypassArr, plopArgV) {
             '"' +
             ' is an invalid argument for "' +
             generator.name +
-            '"'
+            '"',
         );
         errors = true;
       }
@@ -52,7 +52,7 @@ function combineBypassData(generator, bypassArr, plopArgV) {
       process.exit(1);
     }
     namedBypassArr = promptNames.map((name) =>
-      plopArgV[name] !== undefined ? plopArgV[name] : undefined
+      plopArgV[name] !== undefined ? plopArgV[name] : undefined,
     );
   }
 

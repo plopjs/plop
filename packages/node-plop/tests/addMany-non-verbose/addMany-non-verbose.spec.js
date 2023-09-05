@@ -33,7 +33,7 @@ describe("addMany-non-verbose", function () {
 
     // has the summary line
     expect(multipleAddsResult.changes[0].path.includes("5 files added")).toBe(
-      true
+      true,
     );
     // does not have additional lines
     expect(multipleAddsResult.changes[0].path.includes("\n")).toBe(false);

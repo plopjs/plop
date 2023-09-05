@@ -88,7 +88,7 @@ describe("modify-action-transform-function", function () {
     expect(fs.existsSync(filePath)).toBe(true);
 
     expect(fs.readFileSync(filePath, "utf8")).toBe(
-      (fileName + template).length.toString()
+      (fileName + template).length.toString(),
     );
   });
 
@@ -114,7 +114,7 @@ describe("modify-action-transform-function", function () {
     expect(fs.existsSync(filePath)).toBe(true);
 
     expect(fs.readFileSync(filePath, "utf8")).toBe(
-      (fileName + genName).length.toString()
+      (fileName + genName).length.toString(),
     );
   });
 
@@ -140,7 +140,7 @@ describe("modify-action-transform-function", function () {
     expect(fs.existsSync(filePath)).toBe(true);
 
     expect(fs.readFileSync(filePath, "utf8")).toBe(
-      (fileName + genName).length.toString()
+      (fileName + genName).length.toString(),
     );
   });
 

@@ -1,4 +1,17 @@
-import inquirer from "inquirer";
+import inquirer, {
+  Answers,
+  CheckboxQuestion,
+  ConfirmQuestion,
+  EditorQuestion,
+  ExpandQuestion,
+  InputQuestion,
+  ListQuestion,
+  NumberQuestion,
+  PasswordQuestion,
+  PromptModule,
+  Question,
+  RawListQuestion,
+} from "inquirer";
 
 type Inquirer = typeof inquirer;
 
@@ -20,7 +33,7 @@ export type IncludeDefinition = boolean | string[] | IncludeDefinitionConfig;
 export interface NodePlopAPI {
   setGenerator(
     name: string,
-    config: Partial<PlopGeneratorConfig>
+    config: Partial<PlopGeneratorConfig>,
   ): PlopGenerator;
 
   setPrompt(name: string, prompt: inquirer.prompts.PromptConstructor): void;
@@ -66,7 +79,7 @@ export interface NodePlopAPI {
   load(
     target: string[] | string,
     loadCfg?: Partial<PlopCfg> | null,
-    includeOverride?: IncludeDefinition
+    includeOverride?: IncludeDefinition,
   ): Promise<void>;
 
   setDefaultInclude(inc: object): void;
@@ -79,7 +92,7 @@ export interface NodePlopAPI {
   /**
    * @deprecated Use "setPrompt" instead. This will be removed in the next major release
    */
-  addPrompt(name: string, prompt: inquirer.PromptModule): void;
+  addPrompt(name: string, prompt: PromptModule): void;
 
   /**
    * @deprecated Use "setPartial" instead. This will be removed in the next major release
@@ -120,8 +133,8 @@ export interface PlopGeneratorConfig {
 export interface PlopGenerator extends PlopGeneratorConfig {
   runPrompts: (bypassArr?: string[]) => Promise<any>;
   runActions: (
-    answers: inquirer.Answers,
-    hooks?: PlopActionHooks
+    answers: Answers,
+    hooks?: PlopActionHooks,
   ) => Promise<{
     changes: PlopActionHooksChanges[];
     failures: PlopActionHooksFailures[];
@@ -129,21 +142,19 @@ export interface PlopGenerator extends PlopGeneratorConfig {
 }
 
 export type PromptQuestion =
-  | inquirer.Question
-  | inquirer.CheckboxQuestion
-  | inquirer.ListQuestion
-  | inquirer.ExpandQuestion
-  | inquirer.ConfirmQuestion
-  | inquirer.EditorQuestion
-  | inquirer.RawListQuestion
-  | inquirer.PasswordQuestion
-  | inquirer.NumberQuestion
-  | inquirer.InputQuestion;
+  | Question
+  | CheckboxQuestion
+  | ListQuestion
+  | ExpandQuestion
+  | ConfirmQuestion
+  | EditorQuestion
+  | RawListQuestion
+  | PasswordQuestion
+  | NumberQuestion
+  | InputQuestion;
 
-export type DynamicPromptsFunction = (
-  inquirer: Inquirer
-) => Promise<inquirer.Answers>;
-export type DynamicActionsFunction = (data?: inquirer.Answers) => ActionType[];
+export type DynamicPromptsFunction = (inquirer: Inquirer) => Promise<Answers>;
+export type DynamicActionsFunction = (data?: Answers) => ActionType[];
 
 export type Prompts = DynamicPromptsFunction | PromptQuestion[];
 export type Actions = DynamicActionsFunction | ActionType[];
@@ -182,9 +193,9 @@ export interface CustomActionConfig<TypeString extends string>
 }
 
 export type CustomActionFunction = (
-  answers: inquirer.Answers,
+  answers: Answers,
   config: CustomActionConfig<string>,
-  plopfileApi: NodePlopAPI
+  plopfileApi: NodePlopAPI,
 ) => Promise<string> | string;
 
 /**
@@ -218,7 +229,7 @@ export interface ActionConfig {
 type TransformFn<T> = (
   template: string,
   data: any,
-  cfg: T
+  cfg: T,
 ) => string | Promise<string>;
 
 interface AddActionConfigBase extends ActionConfig {
@@ -274,7 +285,7 @@ export interface PlopCfg {
 
 declare function nodePlop(
   plopfilePath?: string,
-  plopCfg?: PlopCfg
+  plopCfg?: PlopCfg,
 ): Promise<NodePlopAPI>;
 
 export default nodePlop;

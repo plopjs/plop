@@ -25,7 +25,7 @@ export default function (plop) {
   // greet the user using a partial
   plop.addPartial(
     "salutation",
-    "{{ greeting }}, my name is {{ properCase name }} and I am {{ age }}."
+    "{{ greeting }}, my name is {{ properCase name }} and I am {{ age }}.",
   );
 
   // load some additional helpers from a module installed using npm
@@ -117,7 +117,7 @@ export default function (plop) {
           // do a synchronous copy via node fs
           fs.writeFileSync(
             changeFilePath,
-            fs.readFileSync("templates/" + changeFileName)
+            fs.readFileSync("templates/" + changeFileName),
           );
           return copiedMsg;
         }

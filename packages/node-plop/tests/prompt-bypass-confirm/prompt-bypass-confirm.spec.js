@@ -22,7 +22,7 @@ describe("prompt-bypass-confirm", function () {
     const [, isTrue] = await promptBypass(
       prompts,
       ["y", "true", "yes", "t"],
-      plop
+      plop,
     );
     expect(isTrue.confirm1).toBe(true);
     expect(isTrue.confirm2).toBe(true);
@@ -32,7 +32,7 @@ describe("prompt-bypass-confirm", function () {
     const [, isTrueCap] = await promptBypass(
       prompts,
       ["Y", "True", "YES", "T"],
-      plop
+      plop,
     );
     expect(isTrueCap.confirm1).toBe(true);
     expect(isTrueCap.confirm2).toBe(true);
@@ -42,7 +42,7 @@ describe("prompt-bypass-confirm", function () {
     const [, notTrue] = await promptBypass(
       prompts,
       ["n", "false", "no", "n"],
-      plop
+      plop,
     );
     expect(notTrue.confirm1).toBe(false);
     expect(notTrue.confirm2).toBe(false);
@@ -52,7 +52,7 @@ describe("prompt-bypass-confirm", function () {
     const [, notTrueCap] = await promptBypass(
       prompts,
       ["N", "False", "NO", "N"],
-      plop
+      plop,
     );
     expect(notTrueCap.confirm1).toBe(false);
     expect(notTrueCap.confirm2).toBe(false);
@@ -62,19 +62,19 @@ describe("prompt-bypass-confirm", function () {
 
   test("verify bad bypass input", async function () {
     await expect(() =>
-      promptBypass([prompts[0]], ["asdf"], { is: plop })
+      promptBypass([prompts[0]], ["asdf"], { is: plop }),
     ).rejects.toThrow();
     await expect(() =>
-      promptBypass([prompts[0]], ["1"], { is: plop })
+      promptBypass([prompts[0]], ["1"], { is: plop }),
     ).rejects.toThrow();
     await expect(() =>
-      promptBypass([prompts[0]], ["0"], { is: plop })
+      promptBypass([prompts[0]], ["0"], { is: plop }),
     ).rejects.toThrow();
     await expect(() =>
-      promptBypass([prompts[0]], ["no way"], { is: plop })
+      promptBypass([prompts[0]], ["no way"], { is: plop }),
     ).rejects.toThrow();
     await expect(() =>
-      promptBypass([prompts[0]], ["NOOOOOO"], { is: plop })
+      promptBypass([prompts[0]], ["NOOOOOO"], { is: plop }),
     ).rejects.toThrow();
   });
 });

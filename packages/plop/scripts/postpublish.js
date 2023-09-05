@@ -12,7 +12,7 @@ if (exists) {
   // Restore version of README previously there.
   fs.copyFileSync(
     path.join(__dirname, "./README.md"),
-    path.join(__dirname, "../README.md")
+    path.join(__dirname, "../README.md"),
   );
 
   fs.unlinkSync(path.join(__dirname, "./README.md"));

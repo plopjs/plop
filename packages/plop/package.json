@@ -1,6 +1,6 @@
 {
   "name": "plop",
-  "version": "3.1.2",
+  "version": "4.0.0",
   "description": "Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity",
   "main": "./src/plop.js",
   "type": "module",
@@ -32,29 +32,27 @@
     "postpublish": "node ./scripts/postpublish.js"
   },
   "devDependencies": {
-    "cli-testing-library": "^1.0.2",
+    "cli-testing-library": "^2.0.1",
     "inquirer-directory": "^2.2.0",
     "nyc": "^15.1.0",
-    "plop-pack-fancy-comments": "^0.2.0",
+    "plop-pack-fancy-comments": "^0.2.1",
     "queue-microtask": "^1.2.3",
-    "vitest": "^0.10.0"
+    "vitest": "^0.34.3"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {
-    "@types/liftoff": "^4.0.0",
-    "chalk": "^5.0.1",
-    "interpret": "^2.2.0",
+    "@types/liftoff": "^4.0.1",
+    "chalk": "^5.3.0",
+    "interpret": "^3.1.1",
     "liftoff": "^4.0.0",
-    "minimist": "^1.2.6",
-    "node-plop": "^0.31.1",
-    "ora": "^6.0.1",
-    "v8flags": "^4.0.0"
+    "minimist": "^1.2.8",
+    "node-plop": "^0.32.0",
+    "ora": "^7.0.1",
+    "v8flags": "^4.0.1"
   },
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "preferGlobal": true,
-  "bin": {
-    "plop": "./bin/plop.js"
-  }
+  "bin": "./bin/plop.js"
 }

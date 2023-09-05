@@ -41,7 +41,7 @@ function getBypassAndGenerator(plop, passArgsBeforeDashes) {
       index = index !== -1 ? index : argv._.length;
       // Force `'_'` to become undefined in nameless bypassArr
       bypassArr = argv._.slice(i, index).map((arg) =>
-        /^_+$/.test(arg) ? undefined : arg
+        /^_+$/.test(arg) ? undefined : arg,
       );
       break;
     }

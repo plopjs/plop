@@ -73,13 +73,13 @@ describe("prompt-bypass-list", function () {
 
   test("verify bad bypass input", async function () {
     await expect(() =>
-      promptBypass(prompts, ["asdf"], { is: plop })
+      promptBypass(prompts, ["asdf"], { is: plop }),
     ).rejects.toThrow();
     await expect(() =>
-      promptBypass(prompts, ["6"], { is: plop })
+      promptBypass(prompts, ["6"], { is: plop }),
     ).rejects.toThrow();
     await expect(() =>
-      promptBypass(prompts, [6], { is: plop })
+      promptBypass(prompts, [6], { is: plop }),
     ).rejects.toThrow();
   });
 });
