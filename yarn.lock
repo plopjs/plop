@@ -2177,9 +2177,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cli-testing-library@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "cli-testing-library@npm:1.0.2"
+"cli-testing-library@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "cli-testing-library@npm:2.0.1"
   dependencies:
     "@babel/code-frame": ^7.10.4
     "@babel/runtime": ^7.12.5
@@ -2191,7 +2191,7 @@ __metadata:
     strip-ansi: ^6.0.1
     strip-final-newline: ^2.0.0
     tree-kill: ^1.2.2
-  checksum: 5a0c977d0fe48db5e7137b36af2151f824a789e668c780632926e242b64ff429a8959e9fb72061e8fde48ac8232cb73d581b597eb2516c307279b0d6131020f3
+  checksum: a08e00755c51939c32990e4f3abefa767577f99df0461b682459033fb133a8e416ddb7597a2b263e560db75f23d48acfd698a4682303b20f18449b4b7d981661
   languageName: node
   linkType: hard
 
@@ -4374,10 +4374,10 @@ dts-critic@latest:
   languageName: node
   linkType: hard
 
-"interpret@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "interpret@npm:2.2.0"
-  checksum: f51efef7cb8d02da16408ffa3504cd6053014c5aeb7bb8c223727e053e4235bf565e45d67028b0c8740d917c603807aa3c27d7bd2f21bf20b6417e2bb3e5fd6e
+"interpret@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "interpret@npm:3.1.1"
+  checksum: 35cebcf48c7351130437596d9ab8c8fe131ce4038da4561e6d665f25640e0034702a031cf7e3a5cea60ac7ac548bf17465e0571ede126f3d3a6933152171ac82
   languageName: node
   linkType: hard
 
@@ -6521,9 +6521,9 @@ dts-critic@latest:
   dependencies:
     "@types/liftoff": ^4.0.1
     chalk: ^5.3.0
-    cli-testing-library: ^1.0.2
+    cli-testing-library: ^2.0.1
     inquirer-directory: ^2.2.0
-    interpret: ^2.2.0
+    interpret: ^3.1.1
     liftoff: ^4.0.0
     minimist: ^1.2.8
     node-plop: ^0.31.1

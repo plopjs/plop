@@ -14,7 +14,7 @@ test("should report a missing plopfile when not copied", async () => {
 test("should show help information on help flag", async () => {
   const { findByText } = await renderPlop(["--help"]);
   const { stdoutArr } = await findByText("Usage:");
-  expect(stdoutArr.join("\n")).toMatchSnapshot();
+  expect(stdoutArr.map((item) => item.contents).join("\n")).toMatchSnapshot();
 });
 
 test("should show version on version flag", async () => {

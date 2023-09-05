@@ -1,5 +1,4 @@
 import { resolve, dirname } from "node:path";
-import { waitFor } from "cli-testing-library";
 import { renderScript } from "./render.js";
 import { fileURLToPath } from "node:url";
 
@@ -12,11 +11,7 @@ const renderWrapper = (...props) => {
   );
 };
 
-test("wrapper should prompts", async () => {
-  const props = await renderScript("yarn", ["tsc"], {
-    cwd: resolve(__dirname, "./examples/typescript"),
-  });
-  await waitFor(() => props.hasExit());
+test("support typescript out of the box", async () => {
   const { findByText } = await renderWrapper([""], {
     cwd: resolve(__dirname, "./examples/typescript"),
   });

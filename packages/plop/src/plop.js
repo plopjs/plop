@@ -17,9 +17,7 @@ import { getBypassAndGenerator, handleArgFlags } from "./input-processing.js";
 
 const Plop = new Liftoff({
   name: "plop",
-  // Remove this when this PR is merged:
-  // https://github.com/gulpjs/interpret/pull/75
-  extensions: { ...interpret.jsVariants, [".cjs"]: null },
+  extensions: interpret.jsVariants,
   v8flags: v8flags,
 });
 
