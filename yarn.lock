@@ -5798,7 +5798,7 @@ dts-critic@latest:
   languageName: node
   linkType: hard
 
-"node-plop@^0.31.1, node-plop@workspace:packages/node-plop":
+"node-plop@^0.32.0, node-plop@workspace:packages/node-plop":
   version: 0.0.0-use.local
   resolution: "node-plop@workspace:packages/node-plop"
   dependencies:
@@ -6535,7 +6535,7 @@ dts-critic@latest:
     interpret: ^3.1.1
     liftoff: ^4.0.0
     minimist: ^1.2.8
-    node-plop: ^0.31.1
+    node-plop: ^0.32.0
     nyc: ^15.1.0
     ora: ^7.0.1
     plop-pack-fancy-comments: ^0.2.1
