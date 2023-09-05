@@ -34,7 +34,7 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "devDependencies": {
-    "@types/inquirer-autocomplete-prompt": "^1.3.5",
+    "@types/inquirer-autocomplete-prompt": "^3.0.0",
     "@types/node": "^20.5.9",
     "dtslint": "^4.2.1",
     "plop-pack-fancy-comments": "^0.2.1",
@@ -42,12 +42,12 @@
     "vitest": "^0.34.3"
   },
   "dependencies": {
-    "@types/inquirer": "^8.2.6",
+    "@types/inquirer": "^9.0.3",
     "change-case": "^4.1.2",
     "del": "^7.1.0",
     "globby": "^13.2.2",
     "handlebars": "^4.7.8",
-    "inquirer": "^8.2.2",
+    "inquirer": "^9.2.10",
     "isbinaryfile": "^5.0.0",
     "lodash.get": "^4.4.2",
     "lower-case": "^2.0.2",
