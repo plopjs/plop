@@ -10,9 +10,9 @@ test("should load ESM file", async () => {
     cwd: resolve(__dirname, "./examples/esm"),
   });
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("Joe");
+  await userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
 });
 
 test("should load MJS file", async () => {
@@ -20,9 +20,9 @@ test("should load MJS file", async () => {
     cwd: resolve(__dirname, "./examples/mjs"),
   });
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("Joe");
+  await userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
 });
 
 test("should load CJS file", async () => {
@@ -30,9 +30,9 @@ test("should load CJS file", async () => {
     cwd: resolve(__dirname, "./examples/cjs"),
   });
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("Joe");
+  await userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
 });
 
 test("should load JS module='commonjs' file", async () => {
@@ -40,7 +40,7 @@ test("should load JS module='commonjs' file", async () => {
     cwd: resolve(__dirname, "./examples/cjs-js"),
   });
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("Joe");
+  await userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
 });

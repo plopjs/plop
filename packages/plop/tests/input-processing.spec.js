@@ -32,9 +32,9 @@ test("should display inquirer prompts", async () => {
     cwd: resolve(__dirname, "./examples/prompt-only"),
   });
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("Joe");
+  await userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
 });
 
 test("Should handle generator prompt", async () => {
@@ -45,9 +45,9 @@ test("Should handle generator prompt", async () => {
   await findByText("Please choose a generator");
 
   clear();
-  userEvent.keyboard("[ArrowUp]");
-  userEvent.keyboard("[ArrowDown]");
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[ArrowUp]");
+  await userEvent.keyboard("[ArrowDown]");
+  await userEvent.keyboard("[Enter]");
 
   expect(await findByText("this is a test")).toBeInTheConsole();
 });
@@ -80,7 +80,7 @@ test("Should bypass input prompt with placeholder", async () => {
   );
 
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
   expect(
     await queryByText("What pizza toppings do you like?"),
   ).not.toBeInTheConsole();
@@ -142,7 +142,7 @@ test("Should bypass checkbox prompt with name", async () => {
   );
 
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
   expect(
     await queryByText("What pizza toppings do you like?"),
   ).not.toBeInTheConsole();
@@ -157,7 +157,7 @@ test("Should bypass checkbox prompt with empty string", async () => {
   );
 
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
   expect(
     await queryByText("What pizza toppings do you like?"),
   ).not.toBeInTheConsole();

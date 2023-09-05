@@ -10,7 +10,7 @@ test("should load ESM file", async () => {
     cwd: resolve(__dirname, "./examples/esm"),
   });
   expect(await findByText("What is your name?")).toBeInTheConsole();
-  userEvent.keyboard("Joe");
+  await userEvent.keyboard("Joe");
   expect(await findByText("Joe")).toBeInTheConsole();
-  userEvent.keyboard("[Enter]");
+  await userEvent.keyboard("[Enter]");
 });
