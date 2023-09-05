@@ -1,5 +1,11 @@
 # node-plop
 
+## 0.32.0
+
+### Minor Changes
+
+- [#396](https://github.com/plopjs/plop/pull/396) [`a22e33f`](https://github.com/plopjs/plop/commit/a22e33f416340352e83a1e9c0d470baf2aff1c4b) Thanks [@crutchcorn](https://github.com/crutchcorn)! - Drop support for Node 12, 14, & 16. Update all dependencies
+
 ## 0.31.1
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # plop
 
+## 4.0.0
+
+### Major Changes
+
+- [#396](https://github.com/plopjs/plop/pull/396) [`a22e33f`](https://github.com/plopjs/plop/commit/a22e33f416340352e83a1e9c0d470baf2aff1c4b) Thanks [@crutchcorn](https://github.com/crutchcorn)! - Support TypeScript config files OOTB. Drop support for Node 12, 14, & 16. Update all deps.
+
+### Patch Changes
+
+- Updated dependencies [[`a22e33f`](https://github.com/plopjs/plop/commit/a22e33f416340352e83a1e9c0d470baf2aff1c4b)]:
+  - node-plop@0.32.0
+
 ## 3.1.2
 
 ### Patch Changes
