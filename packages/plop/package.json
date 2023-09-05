@@ -54,7 +54,5 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "preferGlobal": true,
-  "bin": {
-    "plop": "./bin/plop.js"
-  }
+  "bin": "./bin/plop.js"
 }

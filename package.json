@@ -45,5 +45,6 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
-  }
+  },
+  "packageManager": "yarn@3.6.3"
 }
