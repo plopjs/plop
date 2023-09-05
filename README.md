@@ -16,7 +16,7 @@ Micro-generator framework that makes it easy for an entire team to create files 
 ## What is Plop?
 Plop is what I like to call a "micro-generator framework." Now, I call it that because it is a small tool that gives you a simple way to generate code or any other type of flat text files in a consistent way. You see, we all create structures and patterns in our code (routes, controllers, components, helpers, etc). These patterns change and improve over time so when you need to create a NEW *insert-name-of-pattern-here*, it's not always easy to locate the files in your codebase that represent the current "best practice." That's where plop saves you. With plop, you have your "best practice" method of creating any given pattern in CODE. Code that can easily be run from the terminal by typing `plop`. Not only does this save you from hunting around in your codebase for the right files to copy, but it also turns "the right way" into "the easiest way" to make new files.
 
-If you boil plop down to its core, it is basically glue code between  [inquirer](https://github.com/SBoudrias/Inquirer.js/) prompts and [handlebar](https://github.com/wycats/handlebars.js/) templates.
+If you boil plop down to its core, it is basically glue code between  [inquirer](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md) prompts and [handlebar](https://github.com/wycats/handlebars.js/) templates.
 
 > This documentation is a work in progress. If you have great ideas, I'd love to hear them.
 
@@ -84,7 +84,7 @@ export default function (plop) {
 The *controller* generator we created above will ask us 1 question, and create 1 file. This can be expanded to ask as many questions as needed, and create as many files as needed. There are also additional actions that can be used to alter our codebase in different ways.
 
 ## Using Prompts
-Plop uses the [inquirer.js](https://github.com/SBoudrias/Inquirer.js) library to gather user data. A list of [prompt types](https://github.com/SBoudrias/Inquirer.js/#prompt-types) can be found on the inquirer official website.
+Plop uses the [inquirer.js](https://github.com/SBoudrias/Inquirer.js) library to gather user data. A list of [prompt types](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md#prompt-types) can be found on the inquirer official website.
 
 ## CLI Usage
 Once plop is installed, and you have created a generator, you are ready to run plop from the terminal. Running `plop` with no parameters will present you with a list of generators to pick from. You can also run `plop [generatorName]` to trigger a generator directly. If you did not install plop globally, you will need to setup an npm script to run plop for you.
@@ -247,7 +247,7 @@ export default function (plop) {
 ```
 
 ## setPrompt
-[Inquirer](https://github.com/SBoudrias/Inquirer.js) provides many types of prompts out of the box, but it also allows developers to build prompt plugins. If you'd like to use a prompt plugin, you can register it with `setPrompt`. For more details see the [Inquirer documentation for registering prompts](https://github.com/SBoudrias/Inquirer.js#inquirerregisterpromptname-prompt). Also check out the [plop community driven list of custom prompts](https://github.com/plopjs/awesome-plop#inquirer-prompts).
+[Inquirer](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md) provides many types of prompts out of the box, but it also allows developers to build prompt plugins. If you'd like to use a prompt plugin, you can register it with `setPrompt`. For more details see the [Inquirer documentation for registering prompts](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md#inquirerregisterpromptname-prompt). Also check out the [plop community driven list of custom prompts](https://github.com/plopjs/awesome-plop#inquirer-prompts).
 
 ``` javascript
 import autocompletePrompt from 'inquirer-autocomplete-prompt';
@@ -263,13 +263,13 @@ export default function (plop) {
 ```
 
 ## setGenerator
-The config object needs to include `prompts` and `actions` (`description` is optional). The prompts array is passed to [inquirer](https://github.com/SBoudrias/Inquirer.js/#objects). The `actions` array is a list of actions to take (described in greater detail below)
+The config object needs to include `prompts` and `actions` (`description` is optional). The prompts array is passed to [inquirer](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md/#objects). The `actions` array is a list of actions to take (described in greater detail below)
 
 ### *Interface* `GeneratorConfig`
 Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **description** | *[String]* | | short description of what this generator does
-**prompts** | *Array[[InquirerQuestion](https://github.com/SBoudrias/Inquirer.js/#question)]* | | questions to ask the user
+**prompts** | *Array[[InquirerQuestion](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md/#question)]* | | questions to ask the user
 **actions** | *Array[[ActionConfig](#interface-actionconfig)]* | | actions to perform
 
 > If your list of actions needs to be dynamic, take a look at [using a dynamic actions array.](#using-a-dynamic-actions-array)
