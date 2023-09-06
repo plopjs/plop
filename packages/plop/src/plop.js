@@ -5,7 +5,7 @@ import path from "node:path";
 import Liftoff from "liftoff";
 import minimist from "minimist";
 import v8flags from "v8flags";
-import interpret from "interpret";
+import * as interpret from "interpret";
 import chalk from "chalk";
 const args = process.argv.slice(2);
 const argv = minimist(args);

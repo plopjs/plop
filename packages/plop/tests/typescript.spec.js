@@ -1,19 +1,20 @@
 import { resolve, dirname } from "node:path";
-import { renderScript } from "./render.js";
+import { renderPlop } from "./render.js";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const renderWrapper = (...props) => {
-  return renderScript(
-    resolve(__dirname, "./examples/wrap-plop/index.js"),
-    ...props,
-  );
-};
+test("support typescript CJS out of the box", async () => {
+  const { findByText } = await renderPlop([""], {
+    cwd: resolve(__dirname, "./examples/typescript-cjs"),
+  });
 
-test("support typescript out of the box", async () => {
-  const { findByText } = await renderWrapper([""], {
-    cwd: resolve(__dirname, "./examples/typescript"),
+  expect(await findByText("What is your name?")).toBeInTheConsole();
+});
+
+test("support typescript even when 'modules' is set to esnext", async () => {
+  const { findByText } = await renderPlop([""], {
+    cwd: resolve(__dirname, "./examples/typescript-fake-esm"),
   });
 
   expect(await findByText("What is your name?")).toBeInTheConsole();

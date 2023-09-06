@@ -48,10 +48,11 @@
     "minimist": "^1.2.8",
     "node-plop": "^0.32.0",
     "ora": "^7.0.1",
+    "ts-node": "^10.9.1",
     "v8flags": "^4.0.1"
   },
   "engines": {
-    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+    "node": ">=18"
   },
   "preferGlobal": true,
   "bin": "./bin/plop.js"

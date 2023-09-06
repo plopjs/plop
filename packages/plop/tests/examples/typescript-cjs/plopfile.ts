@@ -1,4 +1,4 @@
-import { NodePlopAPI } from "plop";
+import type { NodePlopAPI } from "plop";
 
 module.exports = function (plop: NodePlopAPI) {
   plop.setGenerator("test", {
