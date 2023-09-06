@@ -12,7 +12,7 @@ const require = createRequire(import.meta.url);
  * This is required as otherwise ts-node may not resolve in paths outside of the
  * plop node_modules directory
  */
-const esm = require.resolve("ts-node/esm");
+const esm = require.resolve("tsx");
 const loaderString = `--loader=${pathToFileURL(esm).href}`;
 
 if (!process.execArgv.includes(loaderString)) {
