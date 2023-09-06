@@ -262,24 +262,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
     loadPackageJson();
 
     const joinedPath = path.join(plopfilePath, plopFileName);
-
-    let plopFileExport;
-
-    // ts-node only supports CommonJS today
-    // TODO: Migrate to rechoir - I tried and I could _not_ get it to work :/
-    if (joinedPath.endsWith(".ts")) {
-      require("ts-node").register({
-        cwd: process.cwd(),
-        compilerOptions: {
-          module: "commonjs",
-        },
-      });
-      plopFileExport = require(joinedPath);
-    } else {
-      const modulePath = pathToFileURL(joinedPath).href;
-      plopFileExport = await import(modulePath);
-    }
-
+    const plopFileExport = await import(pathToFileURL(joinedPath).href);
     const plop =
       typeof plopFileExport === "function"
         ? plopFileExport

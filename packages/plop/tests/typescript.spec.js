@@ -12,9 +12,9 @@ test("support typescript CJS out of the box", async () => {
   expect(await findByText("What is your name?")).toBeInTheConsole();
 });
 
-test("support typescript even when 'modules' is set to esnext", async () => {
+test("support typescript ESM out of the box", async () => {
   const { findByText } = await renderPlop([""], {
-    cwd: resolve(__dirname, "./examples/typescript-fake-esm"),
+    cwd: resolve(__dirname, "./examples/typescript-esm"),
   });
 
   expect(await findByText("What is your name?")).toBeInTheConsole();
