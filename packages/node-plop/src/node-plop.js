@@ -127,7 +127,11 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
           genNameList,
           includeCfg === true || include.generators,
           setGenerator,
-          (proxyName) => ({ proxyName, proxy }),
+          (proxyName) => ({
+            proxyName,
+            proxy,
+            description: proxy.getGenerator(proxyName).description,
+          }),
         );
         loadAsset(
           proxy.getPartialList(),
