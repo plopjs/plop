@@ -62,7 +62,7 @@ export default function (plopfileApi, flags) {
     }
 
     // if actions are not an array, invalid!
-    if (!(actions instanceof Array)) {
+    if (!Array.isArray(actions)) {
       throw Error(`${genObject.name} has invalid actions`);
     }
 
