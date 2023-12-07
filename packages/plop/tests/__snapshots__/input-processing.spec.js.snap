@@ -21,6 +21,7 @@ Options:
   --cwd                  Directory from which relative paths are calculated against while locating the plopfile
   --preload              String or array of modules to require before running plop
   --dest                 Output to this directory instead of the plopfile's parent directory
+  --no-progress          Disable the progress bar
 
 Examples:
   $ plop

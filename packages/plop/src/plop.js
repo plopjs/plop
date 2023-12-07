@@ -26,7 +26,7 @@ const isInJest = process.env.NODE_ENV === "test";
 const progressSpinner = ora({
   // Default is stderr
   stream: isInJest ? process.stdout : process.stderr,
-  isEnabled: !isInJest,
+  isEnabled: !isInJest && argv.progress !== false,
 });
 
 /**
