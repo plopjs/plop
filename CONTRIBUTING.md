@@ -19,9 +19,7 @@ When a maintainer is ready to publish, run the following command to generate a c
 yarn changeset version
 ```
 
-You should then verify, using your Git CLI or Git GUI, that the CHANGELOG is correct, everything is up-to-date, and that you're ready to release!
-
-> **Do not create a commit manually after "yarn changeset version"**.
+You should then verify, using your Git CLI or Git GUI, that the CHANGELOG is correct, everything is up-to-date, make a commit, and that you're ready to release!
 
 Then, once you've ran `version`, run the following command to publish to NPM:
 

@@ -1,5 +1,11 @@
 # plop
 
+## 4.0.1
+
+### Patch Changes
+
+- [#408](https://github.com/plopjs/plop/pull/408) [`49c0029`](https://github.com/plopjs/plop/commit/49c00296b478efa5a212458ae1781acc93a16fa8) Thanks [@rznzippy](https://github.com/rznzippy)! - Adds --no-progress flag that disables the progress bar
+
 ## 4.0.0
 
 ### Major Changes
