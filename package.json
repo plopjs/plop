@@ -5,9 +5,6 @@
   "workspaces": {
     "packages": [
       "packages/*"
-    ],
-    "nohoist": [
-      "**/plop-pack-fancy-comments"
     ]
   },
   "type": "module",
@@ -46,5 +43,5 @@
   "lint-staged": {
     "*.js": "eslint --cache --fix"
   },
-  "packageManager": "yarn@3.6.3"
+  "packageManager": "yarn@4.0.2"
 }
