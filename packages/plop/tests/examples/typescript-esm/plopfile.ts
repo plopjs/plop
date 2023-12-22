@@ -1,6 +1,6 @@
-import { NodePlopAPI } from "plop";
+import type { NodePlopAPI } from "plop";
 
-module.exports = function (plop: NodePlopAPI) {
+export default function (plop: NodePlopAPI) {
   plop.setGenerator("test", {
     description: "this is a test",
     prompts: [
@@ -29,4 +29,4 @@ module.exports = function (plop: NodePlopAPI) {
       },
     ],
   });
-};
+}
