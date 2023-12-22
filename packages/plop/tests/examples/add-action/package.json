@@ -2,6 +2,6 @@
   "name": "plop-example-add-action",
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   }
 }
