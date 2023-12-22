@@ -78,6 +78,7 @@ function displayHelpScreen() {
       chalk.dim(
         "  --dest                 Output to this directory instead of the plopfile's parent directory",
       ),
+      chalk.dim("  --no-progress          Disable the progress bar"),
       "",
       chalk.bold("Examples:"),
       "  $ " + chalk.blue("plop"),
