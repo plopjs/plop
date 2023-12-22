@@ -25,6 +25,6 @@ Options:
 Examples:
   $ plop
   $ plop component
-  $ plop component \\"name of component\\"
+  $ plop component "name of component"
 "
 `;
