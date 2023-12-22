@@ -51,7 +51,7 @@
     "v8flags": "^4.0.1"
   },
   "engines": {
-    "node": ">=18"
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "preferGlobal": true,
   "bin": "./bin/plop.js"
