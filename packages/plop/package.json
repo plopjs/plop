@@ -32,7 +32,7 @@
     "postpublish": "node ./scripts/postpublish.js"
   },
   "devDependencies": {
-    "cli-testing-library": "^2.0.1",
+    "cli-testing-library": "^2.0.2",
     "inquirer-directory": "^2.2.0",
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.1",
