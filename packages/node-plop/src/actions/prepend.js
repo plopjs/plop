@@ -20,11 +20,11 @@ const doPrepend = async function (data, cfg, plop, fileData) {
     // only remove after "pattern", so that we remove not too much accidentally
     const parts = fileData.split(cfg.pattern);
     const firstPart = parts[0];
-    const lastPartWithoutDuplicates = firstPart.replace(
+    const firstPartWithoutDuplicates = firstPart.replace(
       new RegExp(stringToPrepend + separator, "g"),
       "",
     );
-    fileData = fileData.replace(firstPart, lastPartWithoutDuplicates);
+    fileData = fileData.replace(firstPart, firstPartWithoutDuplicates);
   }
 
   // add the prepended string to the start of the "fileData" if "pattern"
