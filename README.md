@@ -384,6 +384,20 @@ Property | Type | Default | Description
 **data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
 **abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
 
+## Prepend
+The `prepend` action is a similar to `append`. The only difference is that it used to prepend the data in a file at a particular location.
+
+Property | Type | Default | Description
+-------- | ---- | ------- | -----------
+**path** | *String* | | handlebars template that (when rendered) is the path of the file to be modified
+**pattern** | *RegExp, String* | | regular expression used to match text where the prepend should happen
+**unique** | *Boolean* | `true` | whether identical entries should be removed
+**separator** | *String* | `new line` | the value that separates entries
+**template** | *String* | | handlebars template to be used for the entry
+**templateFile** | *String* | | path a file containing the `template`
+**data** | *Object* | `{}` | *inherited from [ActionConfig](#interface-actionconfig)*
+**abortOnFail** | *Boolean* | `true` | *inherited from [ActionConfig](#interface-actionconfig)*
+
 ## Custom (Action Function)
 The `Add` and `Modify` actions will take care of almost every case that plop is designed to handle. However, plop does offer custom action functions for the node/js guru. A custom action function is a function that is provided in the actions array.
 - Custom action functions are executed by plop with the same [CustomAction](#functionsignature-custom-action) function signature.

@@ -7,6 +7,7 @@ import nodePlop, {
   Actions,
   ModifyActionConfig,
   AppendActionConfig,
+  PrependActionConfig,
 } from "./index";
 import inquirer from "inquirer";
 import prompt from "inquirer-autocomplete-prompt";
