@@ -154,7 +154,7 @@ export type PromptQuestion =
   | InputQuestion;
 
 export type DynamicPromptsFunction = (inquirer: Inquirer) => Promise<Answers>;
-export type DynamicActionsFunction = (data?: Answers) => ActionType[];
+export type DynamicActionsFunction = (data?: Answers) => ActionType[] | Promise<ActionType[]>;
 
 export type Prompts = DynamicPromptsFunction | PromptQuestion[];
 export type Actions = DynamicActionsFunction | ActionType[];
@@ -224,6 +224,7 @@ export interface ActionConfig {
   abortOnFail?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   skip?: Function;
+  [_:string]: any
 }
 
 type TransformFn<T> = (
