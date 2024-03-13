@@ -270,7 +270,7 @@ Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **description** | *[String]* | | short description of what this generator does
 **prompts** | *Array[[InquirerQuestion](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md/#question)]* | | questions to ask the user
-**actions** | *Array[[ActionConfig](#interface-actionconfig)]* | | actions to perform
+**actions** | *Array[[ActionConfig](#interface-actionconfig)] / Function[[DynamicActionsFunction](#interface-dynamicactionsfunction)]* | | actions to perform
 
 > If your list of actions needs to be dynamic, take a look at [using a dynamic actions array.](#using-a-dynamic-actions-array)
 
@@ -298,6 +298,24 @@ Property | Type | Default | Description
 > The `skip` function on any `ActionConfig` is optional and should return a string if the action should be skipped. The return value is the reason to skip the action.
 
 > Instead of an Action Object, a [function can also be used](#custom-action-function)
+
+### *Interface* `DynamicActionsFunction`
+
+The dynamic actions function is a function that accepts an *Answers* collection and returns *Array[[ActionConfig](#interface-actionconfig)]* or *Promise<Array[[ActionConfig](#interface-actionconfig)]>*.
+
+**Example**
+
+```js
+plop.setGenerator('test', {
+	actions: async (answers)=>{
+		return Promise.resolve([
+			...ActionConfig...
+			...ActionConfig...
+			...ActionConfig...
+		])
+	}
+});
+```
 
 ## Other Methods
 Method | Parameters | Returns | Description
