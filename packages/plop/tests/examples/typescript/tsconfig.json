@@ -8,7 +8,7 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
-      "plop": ["../../src/plop.d.ts"]
+      "plop": ["../../../src/plop.d.ts"]
     }
   }
 }

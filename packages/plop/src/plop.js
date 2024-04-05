@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import "tsx";
 import ora from "ora";
 import path from "node:path";
 import Liftoff from "liftoff";

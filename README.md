@@ -140,9 +140,9 @@ Because [context switching is expensive](https://www.petrikainulainen.net/softwa
 # Plopfile API
 The plopfile api is the collection of methods that are exposed by the `plop` object. Most of the work is done by [`setGenerator`](#setgenerator) but this section documents the other methods that you may also find useful in your plopfile.
 
-## TypeScript Declarations
+## TypeScript Support
 
-`plop` bundles TypeScript declarations.  Whether or not you write your plopfile in TypeScript, many editors will offer code assistance via these declarations.
+`plop` bundles TypeScript declarations and supports `plopfile.ts` using `plop --init-ts`.  Whether or not you write your plopfile in TypeScript, many editors will offer code assistance via these declarations.
 
 ```javascript
 // plopfile.ts
@@ -270,7 +270,7 @@ Property | Type | Default | Description
 -------- | ---- | ------- | -----------
 **description** | *[String]* | | short description of what this generator does
 **prompts** | *Array[[InquirerQuestion](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md/#question)]* | | questions to ask the user
-**actions** | *Array[[ActionConfig](#interface-actionconfig)]* | | actions to perform
+**actions** | *Array[[ActionConfig](#interface-actionconfig)] / Function[[DynamicActionsFunction](#interface-dynamicactionsfunction)]* | | actions to perform
 
 > If your list of actions needs to be dynamic, take a look at [using a dynamic actions array.](#using-a-dynamic-actions-array)
 
@@ -298,6 +298,24 @@ Property | Type | Default | Description
 > The `skip` function on any `ActionConfig` is optional and should return a string if the action should be skipped. The return value is the reason to skip the action.
 
 > Instead of an Action Object, a [function can also be used](#custom-action-function)
+
+### *Interface* `DynamicActionsFunction`
+
+The dynamic actions function is a function that accepts an *Answers* collection and returns *Array[[ActionConfig](#interface-actionconfig)]* or *Promise<Array[[ActionConfig](#interface-actionconfig)]>*.
+
+**Example**
+
+```js
+plop.setGenerator('test', {
+	actions: async (answers)=>{
+		return Promise.resolve([
+			...ActionConfig...
+			...ActionConfig...
+			...ActionConfig...
+		])
+	}
+});
+```
 
 ## Other Methods
 Method | Parameters | Returns | Description

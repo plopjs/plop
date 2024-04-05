@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "cli-testing-library": "^2.0.2",
+    "glob": "^10.3.12",
     "inquirer-directory": "^2.2.0",
     "nyc": "^15.1.0",
     "plop-pack-fancy-comments": "^0.2.1",
@@ -48,6 +49,7 @@
     "minimist": "^1.2.8",
     "node-plop": "^0.32.0",
     "ora": "^8.0.0",
+    "tsx": "^4.7.2",
     "v8flags": "^4.0.1"
   },
   "engines": {
