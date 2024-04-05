@@ -140,9 +140,9 @@ Because [context switching is expensive](https://www.petrikainulainen.net/softwa
 # Plopfile API
 The plopfile api is the collection of methods that are exposed by the `plop` object. Most of the work is done by [`setGenerator`](#setgenerator) but this section documents the other methods that you may also find useful in your plopfile.
 
-## TypeScript Declarations
+## TypeScript Support
 
-`plop` bundles TypeScript declarations.  Whether or not you write your plopfile in TypeScript, many editors will offer code assistance via these declarations.
+`plop` bundles TypeScript declarations and supports `plopfile.ts` using `plop --init-ts`.  Whether or not you write your plopfile in TypeScript, many editors will offer code assistance via these declarations.
 
 ```javascript
 // plopfile.ts
