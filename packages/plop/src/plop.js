@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import "tsx";
 import ora from "ora";
 import path from "node:path";
 import Liftoff from "liftoff";
@@ -16,9 +15,10 @@ import * as out from "./console-out.js";
 import { combineBypassData } from "./bypass.js";
 import { getBypassAndGenerator, handleArgFlags } from "./input-processing.js";
 
+const extensions = { ...interpret.jsVariants, '.ts': 'tsx/dist/loader.cjs' }
 const Plop = new Liftoff({
   name: "plop",
-  extensions: interpret.jsVariants,
+  extensions,
   v8flags: v8flags,
 });
 

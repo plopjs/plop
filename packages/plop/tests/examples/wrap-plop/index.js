@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import path from "node:path";
+import { cwd } from 'process';
 import { globSync } from "glob";
 import minimist from "minimist";
 import { Plop, run } from "../../../instrumented/src/plop.js";
@@ -12,7 +13,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 Plop.prepare(
   {
-    cwd: argv.cwd,
+    cwd: argv.cwd || cwd(),
     preload: argv.preload || [],
     // Use the plopfile in cwd if available, otherwise use the default plopfile
     // In order for `plop` to always pick up the `plopfile.js` despite the CWD, you must use `__dirname`
