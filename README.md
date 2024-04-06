@@ -140,9 +140,9 @@ Because [context switching is expensive](https://www.petrikainulainen.net/softwa
 # Plopfile API
 The plopfile api is the collection of methods that are exposed by the `plop` object. Most of the work is done by [`setGenerator`](#setgenerator) but this section documents the other methods that you may also find useful in your plopfile.
 
-## TypeScript Declarations
+## TypeScript Support
 
-`plop` bundles TypeScript declarations.  Whether or not you write your plopfile in TypeScript, many editors will offer code assistance via these declarations.
+Plop bundles TypeScript declarations and supports TypeScript plopfiles via [NodeJS command line imports](https://nodejs.org/api/cli.html#--importmodule). 
 
 ```javascript
 // plopfile.ts
@@ -152,6 +152,35 @@ export default function (plop: NodePlopAPI) {
   // plop generator code
 };
 ```
+
+Plop can use a native `polopfile.ts` without compiling it ahead of time by using [tsx loaders](https://github.com/privatenumber/tsx?tab=readme-ov-file#nodejs-loader):
+
+```bash
+npm i -D tsx cross-env
+```
+
+**Node.js v20.6 and above**
+
+```json
+// package.json
+"scripts": {
+  "cross-env NODE_OPTIONS='--import tsx' plop --plopfile=plopfile.ts"
+}
+```
+
+**Node.js v20.5.1 and below**
+
+```json
+// package.json
+"scripts": {
+  "cross-env NODE_OPTIONS='--loader tsx' plop --plopfile=plopfile.ts"
+}
+```
+
+
+## JSDoc Support
+
+Whether or not you write your plopfile in TypeScript, many editors will offer code assistance via JSDoc declarations.
 
 ```javascript
 // plopfile.js
