@@ -130,21 +130,13 @@ $ plop component -- --type react
 ### Running a Generator Forcefully
 By default Plop actions keep your files safe by failing when things look fishy. The most obvious example of this is not allowing an [`add`](#add) action to overwrite a file that already exists. Plop actions individually support the `force` property but you can also use the `--force` flag when running Plop from the terminal. Using the `--force` flag will tell every action to run forcefully. With great power...🕷
 
-## Why Generators?
-Because when you create your boilerplate separate from your code, you naturally put more time and thought into it.
+### Using TypeScript plopfiles
 
-Because saving your team (or yourself) 5-15 minutes when creating every route, component, controller, helper, test, view, etc... [really adds up](https://xkcd.com/1205/).
+Plop bundles TypeScript declarations and supports TypeScript plopfiles via [tsx loaders](https://github.com/privatenumber/tsx?tab=readme-ov-file#nodejs-loader), a feature of [NodeJS command line imports](https://nodejs.org/api/cli.html#--importmodule). 
 
-Because [context switching is expensive](https://www.petrikainulainen.net/software-development/processes/the-cost-of-context-switching/) and saving time is not the only [benefit to automating workflows](https://kentcdodds.com/blog/automation)
+First, make a TypesScript plopfile:
 
-# Plopfile API
-The plopfile api is the collection of methods that are exposed by the `plop` object. Most of the work is done by [`setGenerator`](#setgenerator) but this section documents the other methods that you may also find useful in your plopfile.
-
-## TypeScript Support
-
-Plop bundles TypeScript declarations and supports TypeScript plopfiles via [NodeJS command line imports](https://nodejs.org/api/cli.html#--importmodule). 
-
-```javascript
+```ts
 // plopfile.ts
 import {NodePlopAPI} from 'plop';
 
@@ -153,11 +145,13 @@ export default function (plop: NodePlopAPI) {
 };
 ```
 
-Plop can use a native `polopfile.ts` without compiling it ahead of time by using [tsx loaders](https://github.com/privatenumber/tsx?tab=readme-ov-file#nodejs-loader):
+Next, install [tsx](https://github.com/privatenumber/tsx) and optionally [cross-env](https://www.npmjs.com/package/cross-env):
 
 ```bash
 npm i -D tsx cross-env
 ```
+
+Finally, use `NODE_OPTIONS` to activate the tsx loader. Now Plop can import your `plopfile.ts`:
 
 **Node.js v20.6 and above**
 
@@ -177,6 +171,19 @@ npm i -D tsx cross-env
 }
 ```
 
+## Why Generators?
+Because when you create your boilerplate separate from your code, you naturally put more time and thought into it.
+
+Because saving your team (or yourself) 5-15 minutes when creating every route, component, controller, helper, test, view, etc... [really adds up](https://xkcd.com/1205/).
+
+Because [context switching is expensive](https://www.petrikainulainen.net/software-development/processes/the-cost-of-context-switching/) and saving time is not the only [benefit to automating workflows](https://kentcdodds.com/blog/automation)
+
+# Plopfile API
+The plopfile api is the collection of methods that are exposed by the `plop` object. Most of the work is done by [`setGenerator`](#setgenerator) but this section documents the other methods that you may also find useful in your plopfile.
+
+## TypeScript Support
+
+Plop bundles TypeScript declarations. See [using TypeScript plopfiles](#using-typescript-plopfiles) for more details.
 
 ## JSDoc Support
 
