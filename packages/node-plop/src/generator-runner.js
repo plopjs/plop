@@ -54,7 +54,7 @@ export default function (plopfileApi, flags) {
 
     // if action is a function, run it to get our array of actions
     if (typeof actions === "function") {
-      actions = await actions(data);
+      actions = actions(data);
     }
 
     // if actions are not defined... we cannot proceed.
