@@ -42,6 +42,7 @@ export default function (plopfileApi, flags) {
       onSuccess = noop, // runs after each successful action
       onFailure = noop, // runs after each failed action
       onComment = noop, // runs for each comment line in the actions array
+      onProgress = noop, // runs when custom actions update progress text
     } = hooks;
     const changes = []; // array of changed made by the actions
     const failures = []; // array of actions that failed
@@ -53,7 +54,7 @@ export default function (plopfileApi, flags) {
 
     // if action is a function, run it to get our array of actions
     if (typeof actions === "function") {
-      actions = actions(data);
+      actions = await actions(data);
     }
 
     // if actions are not defined... we cannot proceed.
@@ -77,7 +78,7 @@ export default function (plopfileApi, flags) {
       }
 
       const actionIsFunction = typeof action === "function";
-      const actionCfg = actionIsFunction ? { type: "function" } : action;
+      const actionCfg = actionIsFunction ? { type: "function", onComment, onProgress } : action;
       const actionLogic = actionIsFunction
         ? action
         : actionTypes[actionCfg.type];

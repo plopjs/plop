@@ -127,6 +127,13 @@ function doThePlop(generator, bypassArr) {
     })
     .then((answers) => {
       const noMap = argv["show-type-names"] || argv.t;
+      const onProgress = (msg) => {
+        if(argv.progress) {
+          progressSpinner.text = msg
+        } else {
+          console.log(msg)
+        }
+      }
       const onComment = (msg) => {
         progressSpinner.info(msg);
         progressSpinner.start();
@@ -160,7 +167,7 @@ function doThePlop(generator, bypassArr) {
       };
       progressSpinner.start();
       return generator
-        .runActions(answers, { onSuccess, onFailure, onComment })
+        .runActions(answers, { onSuccess, onFailure, onComment, onProgress })
         .then(() => {
           progressSpinner.stop();
           if (failedActions) process.exit(1);

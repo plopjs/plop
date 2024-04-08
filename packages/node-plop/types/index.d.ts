@@ -119,6 +119,7 @@ interface PlopActionHooksChanges {
 }
 
 interface PlopActionHooks {
+  onProgress?: (msg: string) => void;
   onComment?: (msg: string) => void;
   onSuccess?: (change: PlopActionHooksChanges) => void;
   onFailure?: (failure: PlopActionHooksFailures) => void;
@@ -192,9 +193,25 @@ export interface CustomActionConfig<TypeString extends string>
   [key: string]: any;
 }
 
+ export interface CustomActionConfigMaterialized<TypeString extends string> extends CustomActionConfig<TypeString> {
+ /**
+  * Output a comment
+  * @param msg 
+  * @returns 
+  */
+  onComment: (msg: string)=>void
+
+  /**
+   * Output a progess update on the same line as the active spinner
+   * @param msg 
+   * @returns 
+   */
+  onProgress: (msg: string)=>void
+}
+
 export type CustomActionFunction = (
   answers: Answers,
-  config: CustomActionConfig<string>,
+  config: CustomActionConfigMaterialized<string>,
   plopfileApi: NodePlopAPI,
 ) => Promise<string> | string;
 
