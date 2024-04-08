@@ -128,7 +128,7 @@ function doThePlop(generator, bypassArr) {
     .then((answers) => {
       const noMap = argv["show-type-names"] || argv.t;
       const onProgress = (msg) => {
-        if(argv.progress) {
+        if(argv.progress!==false) {
           progressSpinner.text = msg
         } else {
           console.log(msg)
