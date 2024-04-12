@@ -70,10 +70,10 @@ function handleArgFlags(env) {
     }
 
     // handle request for initializing a new plopfile
-    if (argv.init || argv.i) {
+    if (argv.init || argv.i || argv[`init-ts`]) {
       const force = argv.force === true || argv.f === true || false;
       try {
-        out.createInitPlopfile(force);
+        out.createInitPlopfile(force, argv[`init-ts`]);
         process.exit(0);
       } catch (err) {
         console.error(chalk.red("[PLOP] ") + err.message);

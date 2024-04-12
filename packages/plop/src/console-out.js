@@ -62,6 +62,7 @@ function displayHelpScreen() {
       "  -t, --show-type-names  " +
         chalk.dim("Show type names instead of abbreviations"),
       "  -i, --init             " + chalk.dim("Generate a basic plopfile.js"),
+      "      --init-ts          " + chalk.dim("Generate a basic plopfile.ts"),
       "  -v, --version          " + chalk.dim("Print current version"),
       "  -f, --force            " + chalk.dim("Run the generator forcefully"),
       "",
@@ -89,7 +90,7 @@ function displayHelpScreen() {
   );
 }
 
-function createInitPlopfile(force = false) {
+function createInitPlopfile(force = false, useTypescript = false) {
   var initString =
     "export default function (plop) {\n\n" +
     "\tplop.setGenerator('basics', {\n" +
@@ -99,15 +100,24 @@ function createInitPlopfile(force = false) {
     "\t});\n\n" +
     "};";
 
-  if (fs.existsSync(process.cwd() + "/plopfile.js") && force === false) {
-    throw Error('"plopfile.js" already exists at this location.');
+  if (useTypescript) {
+      initString = "import type { NodePlopAPI } from 'plop'\n" +
+      "\n" +
+      "export default function (plop: NodePlopAPI) {\n" +
+      "\n" +
+      "}\n" +
+      "\n";
   }
 
-  if (fs.existsSync(process.cwd() + "/plopfile.cjs") && force === false) {
-    throw Error('"plopfile.cjs" already exists at this location.');
-  }
+  [`js`, `cjs`, `ts`, `cts`, `mts`].forEach(ext => {
+    const name = `plopfile.${ext}`;
+    if (fs.existsSync(process.cwd() + `/${name}`) && force === false) {
+      throw Error(`"${name}" already exists at this location.`);
+    }
+  });
 
-  fs.writeFileSync(process.cwd() + "/plopfile.js", initString);
+  const outExt = useTypescript ? `ts` : `js`;
+  fs.writeFileSync(process.cwd() + `/plopfile.${outExt}`, initString);
 }
 
 const typeDisplay = {
