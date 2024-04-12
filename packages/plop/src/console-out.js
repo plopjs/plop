@@ -101,7 +101,8 @@ function createInitPlopfile(force = false, useTypescript = false) {
     "};";
 
   if (useTypescript) {
-      initString = "import type { NodePlopAPI } from 'plop'\n" +
+    initString =
+      "import type { NodePlopAPI } from 'plop'\n" +
       "\n" +
       "export default function (plop: NodePlopAPI) {\n" +
       "\n" +
