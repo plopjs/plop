@@ -3,10 +3,10 @@ import nodePlop from "../../src/index.js";
 import { setupMockPath } from "../helpers/path.js";
 const { clean, mockPath } = setupMockPath(import.meta.url);
 
+const plopfilePath = path.join(mockPath, "plopfile.js");
+
 describe("load-assets-from-plopfile", function () {
   afterEach(clean);
-
-  const plopfilePath = path.join(mockPath, "plopfile.js");
 
   /////
   // test the various ways to import all or part of a plopfile

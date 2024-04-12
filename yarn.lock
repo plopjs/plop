@@ -5033,6 +5033,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jiti@npm:^1.21.0":
+  version: 1.21.0
+  resolution: "jiti@npm:1.21.0"
+  bin:
+    jiti: bin/jiti.js
+  checksum: 005a0239e50381b5c9919f59dbab86128367bd64872f3376dbbde54b6523f41bd134bf22909e2a509e38fd87e1c22125ca255b9b6b53e7df0fedd23f737334cc
+  languageName: node
+  linkType: hard
+
 "js-tokens@npm:^3.0.2":
   version: 3.0.2
   resolution: "js-tokens@npm:3.0.2"
@@ -5887,6 +5896,7 @@ __metadata:
     handlebars: "npm:^4.7.8"
     inquirer: "npm:^9.2.12"
     isbinaryfile: "npm:^5.0.0"
+    jiti: "npm:^1.21.0"
     lodash.get: "npm:^4.4.2"
     mkdirp: "npm:^3.0.1"
     plop-pack-fancy-comments: "npm:^0.2.1"

@@ -7,9 +7,9 @@ import resolve from "resolve";
 
 import bakedInHelpers from "./baked-in-helpers.js";
 import generatorRunner from "./generator-runner.js";
+import tryRequire from "./try-require.js";
 
 import { createRequire } from "node:module";
-import { pathToFileURL } from "url";
 const require = createRequire(import.meta.url);
 
 async function nodePlop(plopfilePath = "", plopCfg = {}) {
@@ -262,7 +262,9 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
     loadPackageJson();
 
     const joinedPath = path.join(plopfilePath, plopFileName);
-    const plopFileExport = await import(pathToFileURL(joinedPath).href);
+
+    const plopFileExport = tryRequire(joinedPath, plopfilePath, null);
+
     const plop =
       typeof plopFileExport === "function"
         ? plopFileExport
