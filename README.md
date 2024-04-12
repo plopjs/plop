@@ -130,6 +130,47 @@ $ plop component -- --type react
 ### Running a Generator Forcefully
 By default Plop actions keep your files safe by failing when things look fishy. The most obvious example of this is not allowing an [`add`](#add) action to overwrite a file that already exists. Plop actions individually support the `force` property but you can also use the `--force` flag when running Plop from the terminal. Using the `--force` flag will tell every action to run forcefully. With great power...🕷
 
+### Using TypeScript plopfiles
+
+Plop bundles TypeScript declarations and supports TypeScript plopfiles via [tsx loaders](https://github.com/privatenumber/tsx?tab=readme-ov-file#nodejs-loader), a feature of [NodeJS command line imports](https://nodejs.org/api/cli.html#--importmodule). 
+
+First, make a TypesScript plopfile:
+
+```ts
+// plopfile.ts
+import {NodePlopAPI} from 'plop';
+
+export default function (plop: NodePlopAPI) {
+  // plop generator code
+};
+```
+
+Next, install [tsx](https://github.com/privatenumber/tsx) and optionally [cross-env](https://www.npmjs.com/package/cross-env):
+
+```bash
+npm i -D tsx cross-env
+```
+
+Finally, use `NODE_OPTIONS` to activate the tsx loader. Now Plop can import your `plopfile.ts`:
+
+**Node.js v20.6 and above**
+
+```json
+// package.json
+"scripts": {
+  "cross-env NODE_OPTIONS='--import tsx' plop --plopfile=plopfile.ts"
+}
+```
+
+**Node.js v20.5.1 and below**
+
+```json
+// package.json
+"scripts": {
+  "cross-env NODE_OPTIONS='--loader tsx' plop --plopfile=plopfile.ts"
+}
+```
+
 ## Why Generators?
 Because when you create your boilerplate separate from your code, you naturally put more time and thought into it.
 
@@ -140,18 +181,13 @@ Because [context switching is expensive](https://www.petrikainulainen.net/softwa
 # Plopfile API
 The plopfile api is the collection of methods that are exposed by the `plop` object. Most of the work is done by [`setGenerator`](#setgenerator) but this section documents the other methods that you may also find useful in your plopfile.
 
-## TypeScript Declarations
+## TypeScript Support
 
-`plop` bundles TypeScript declarations.  Whether or not you write your plopfile in TypeScript, many editors will offer code assistance via these declarations.
+Plop bundles TypeScript declarations. See [using TypeScript plopfiles](#using-typescript-plopfiles) for more details.
 
-```javascript
-// plopfile.ts
-import {NodePlopAPI} from 'plop';
+## JSDoc Support
 
-export default function (plop: NodePlopAPI) {
-  // plop generator code
-};
-```
+Whether or not you write your plopfile in TypeScript, many editors will offer code assistance via JSDoc declarations.
 
 ```javascript
 // plopfile.js
