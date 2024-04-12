@@ -263,12 +263,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
 
     const joinedPath = path.join(plopfilePath, plopFileName);
 
-    const plopFileExport = tryRequire(joinedPath, plopfilePath);
-
-    const plop =
-      typeof plopFileExport === "function"
-        ? plopFileExport
-        : plopFileExport.default;
+    const plop = tryRequire(joinedPath, plopfilePath);
 
     await plop(plopfileApi, plopCfg);
   } else {
