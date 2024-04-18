@@ -20,6 +20,14 @@ describe("load-assets-from-plopfile", function () {
     expect(plop.getPartialList().length).toBe(0);
   });
 
+  test("plop.load should preserve descriptions of generators", async function () {
+    const plop = await nodePlop();
+    await plop.load(plopfilePath);
+
+    expect(plop.getGeneratorList()[1].description).toBe(plop.getGenerator("generator2").description);
+    expect(plop.getGeneratorList()[1].description).toBe("this is a skeleton plopfile");
+  });
+
   test("plop.load should be able to include a subset of generators", async function () {
     const plop = await nodePlop();
     await plop.load(plopfilePath, {}, { generators: ["generator1"] });
