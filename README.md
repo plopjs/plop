@@ -134,7 +134,7 @@ By default Plop actions keep your files safe by failing when things look fishy. 
 
 Plop bundles TypeScript declarations and supports TypeScript plopfiles via [tsx loaders](https://github.com/privatenumber/tsx?tab=readme-ov-file#nodejs-loader), a feature of [NodeJS command line imports](https://nodejs.org/api/cli.html#--importmodule). 
 
-First, make a TypesScript plopfile:
+First, make a TypesScript plopfile using `plop --init-ts` or by hand:
 
 ```ts
 // plopfile.ts
