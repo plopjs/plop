@@ -18,11 +18,11 @@ function getBypassAndGenerator(plop, passArgsBeforeDashes) {
   const { plopArgV, eoaArg } = passArgsBeforeDashes
     ? { plopArgV: argv }
     : eoaIndex === -1
-    ? { plopArgV: [] }
-    : {
-        plopArgV: minimist(args.slice(eoaIndex + 1, args.length)),
-        eoaArg: args[eoaIndex + 1],
-      };
+      ? { plopArgV: [] }
+      : {
+          plopArgV: minimist(args.slice(eoaIndex + 1, args.length)),
+          eoaArg: args[eoaIndex + 1],
+        };
 
   // locate the generator name based on input and take the rest of the
   // user's input as prompt bypass data to be passed into the generator
@@ -70,10 +70,10 @@ function handleArgFlags(env) {
     }
 
     // handle request for initializing a new plopfile
-    if (argv.init || argv.i) {
+    if (argv.init || argv.i || argv[`init-ts`]) {
       const force = argv.force === true || argv.f === true || false;
       try {
-        out.createInitPlopfile(force);
+        out.createInitPlopfile(force, !!argv[`init-ts`]);
         process.exit(0);
       } catch (err) {
         console.error(chalk.red("[PLOP] ") + err.message);
