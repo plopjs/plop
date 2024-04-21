@@ -31,6 +31,9 @@ generator.runPrompts(["test"]).then((answers) => {
   const onComment = (): void => {
     console.log("Start");
   };
+  const onProgress = (): void => {
+    // console.log("Progress");
+  };
   const onSuccess = (): void => {
     console.log("This worked!");
   };
@@ -38,7 +41,7 @@ generator.runPrompts(["test"]).then((answers) => {
     console.log("Failed");
   };
   return generator
-    .runActions(answers, { onSuccess, onFailure, onComment })
+    .runActions(answers, { onSuccess, onFailure, onComment, onProgress })
     .then(() => {
       console.log("Done");
     });
@@ -346,6 +349,9 @@ _ = async () => {
             const errMsg = fail.error || fail.message;
           },
           onComment: (msg) => {
+            console.log(msg);
+          },
+          onProgress: (msg) => {
             console.log(msg);
           },
         })

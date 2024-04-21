@@ -55,7 +55,7 @@ describe("lifecycle-hooks", function () {
     expect(onFailure.called).toBe(0);
   });
 
-  test("Lifecycle hook test (onComment)", async function () {
+  test("Lifecycle hook test (onComment/onProgress)", async function () {
     const plop = await nodePlop();
     const onSuccess = () => onSuccess.called++;
     onSuccess.called = 0;
@@ -63,13 +63,24 @@ describe("lifecycle-hooks", function () {
     onFailure.called = 0;
     const onComment = () => onComment.called++;
     onComment.called = 0;
+    const onProgress = () => onProgress.called++;
+    onProgress.called = 0;
 
     await plop
-      .setGenerator("", { actions: ["yes", () => "yes", errAction, "yes"] })
-      .runActions({}, { onSuccess, onFailure, onComment });
+      .setGenerator("", { actions: [
+        "yes", 
+        () => "yes", 
+        (_, { onProgress } )=>{
+          onProgress(`progress`)
+          return "yes"
+        }, 
+        errAction, "yes"]
+       })
+      .runActions({}, { onSuccess, onFailure, onComment, onProgress });
 
-    expect(onSuccess.called).toBe(1);
+    expect(onSuccess.called).toBe(2);
     expect(onFailure.called).toBe(1);
     expect(onComment.called).toBe(1);
+    expect(onProgress.called).toBe(1);
   });
 });
