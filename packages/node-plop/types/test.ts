@@ -32,7 +32,7 @@ generator.runPrompts(["test"]).then((answers) => {
     console.log("Start");
   };
   const onProgress = (): void => {
-    console.log("Progress");
+    // console.log("Progress");
   };
   const onSuccess = (): void => {
     console.log("This worked!");
@@ -353,7 +353,7 @@ _ = async () => {
           },
           onProgress: (msg) => {
             console.log(msg);
-          }
+          },
         })
         .then(() => {
           console.log("Test");
