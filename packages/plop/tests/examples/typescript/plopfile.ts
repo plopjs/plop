@@ -7,7 +7,7 @@ module.exports = function (plop: NodePlopAPI) {
       {
         type: "input",
         name: "name",
-        message: "What is your name?",
+        message: "What is your Typescript name?",
         validate: function (value) {
           if (/.+/.test(value)) {
             return true;
