@@ -11,6 +11,7 @@ Options:
   -h, --help             Show this help display
   -t, --show-type-names  Show type names instead of abbreviations
   -i, --init             Generate a basic plopfile.js
+      --init-ts          Generate a basic plopfile.ts
   -v, --version          Print current version
   -f, --force            Run the generator forcefully
 
