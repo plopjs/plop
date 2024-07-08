@@ -16,5 +16,5 @@ test("support typescript out of the box", async () => {
     cwd: resolve(__dirname, "./examples/typescript"),
   });
 
-  expect(await findByText("What is your name?")).toBeInTheConsole();
+  expect(await findByText("What is your Typescript name?")).toBeInTheConsole();
 });
