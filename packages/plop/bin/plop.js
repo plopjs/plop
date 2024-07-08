@@ -12,6 +12,9 @@ Plop.prepare(
     completion: argv.completion,
   },
   function (env) {
-    Plop.execute(env, run);
+    Plop.execute(env, (env, argv) => run(env, argv).catch( err => {
+      console.error(chalk.red("[ERROR]"), err.message);
+      process.exit(1);
+    }));
   },
 );

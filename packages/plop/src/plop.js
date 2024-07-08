@@ -60,7 +60,7 @@ async function run(env, _, passArgsBeforeDashes) {
       chalk.red("[PLOP] ") + "Something went wrong with reading your plop file",
       e,
     );
-    return;
+    throw e;
   }
   const generators = plop.getGeneratorList();
   const generatorNames = generators.map((v) => v.name);
@@ -73,44 +73,33 @@ async function run(env, _, passArgsBeforeDashes) {
   const runGeneratorByName = (name) => {
     const generator = plop.getGenerator(name);
     const bypassData = combineBypassData(generator, bypassArr, plopArgV);
-    doThePlop(generator, bypassData);
+    return doThePlop(generator, bypassData);
   };
 
   // hmmmm, couldn't identify a generator in the user's input
   if (!generators.length) {
     // no generators?! there's clearly something wrong here
-    console.error(chalk.red("[PLOP] ") + "No generator found in plopfile");
-    process.exit(1);
+    throw new Error("No generator found in plopfile");
   } else if (!generatorName && generators.length === 1) {
     // only one generator in this plopfile... let's assume they
     // want to run that one!
-    runGeneratorByName(generatorNames[0]);
+    await runGeneratorByName(generatorNames[0]);
   } else if (!generatorName && generators.length > 1 && !bypassArr.length) {
     // more than one generator? we'll have to ask the user which
     // one they want to run.
-    out
+    await out
       .chooseOptionFromList(generators, plop.getWelcomeMessage())
       .then(runGeneratorByName)
-      .catch((err) => {
-        console.error(
-          chalk.red("[PLOP] ") +
-            "Something went wrong with selecting a generator",
-          err,
-        );
-      });
   } else if (generatorNames.includes(generatorName)) {
     // we have found the generator, run it!
-    runGeneratorByName(generatorName);
+    await runGeneratorByName(generatorName);
   } else {
     // we just can't make sense of your input... sorry :-(
     const fuzzyGenName = (generatorName + " " + args.join(" ")).trim();
-    console.error(
-      chalk.red("[PLOP] ") +
-        'Could not find a generator for "' +
+    throw new Error('Could not find a generator for "' +
         fuzzyGenName +
         '"',
     );
-    process.exit(1);
   }
   return plop;
 }
@@ -120,7 +109,7 @@ async function run(env, _, passArgsBeforeDashes) {
 //
 function doThePlop(generator, bypassArr) {
   let failedActions = false;
-  generator
+  return generator
     .runPrompts(bypassArr)
     .then(async (answers) => {
       return answers;
@@ -161,15 +150,11 @@ function doThePlop(generator, bypassArr) {
       progressSpinner.start();
       return generator
         .runActions(answers, { onSuccess, onFailure, onComment })
-        .then(() => {
+        .finally(() => {
           progressSpinner.stop();
-          if (failedActions) process.exit(1);
+          if (failedActions) throw new Error(`At least one action has failed.`);
         });
     })
-    .catch(function (err) {
-      console.error(chalk.red("[ERROR]"), err.message);
-      process.exit(1);
-    });
 }
 
 export { Plop, run, progressSpinner };
