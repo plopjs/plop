@@ -38,6 +38,13 @@ export default function (plop) {
         abortOnFail: true,
         globOptions: { dot: true },
       },
+      {
+        type: "addMany",
+        destination: "src/",
+        stripExtensions: ["hbs"],
+        templateFiles: "plop-templates/remove-noextension-hbs/*",
+        abortOnFail: true,
+      },
     ],
   });
 }
