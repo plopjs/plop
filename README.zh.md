@@ -3,8 +3,6 @@
 [![npm](https://img.shields.io/npm/dm/plop.svg)](https://www.npmjs.com/package/plop)
 &nbsp;
 [![npm](https://img.shields.io/npm/v/plop.svg)](https://www.npmjs.com/package/plop)
-&nbsp;
-[![plop on slack](https://img.shields.io/badge/slack-join%20workspace-green)](https://join.slack.com/t/plopjs/shared_invite/zt-ehh69el1-2_DjgZRuMbpC9RnEa4M8cA)
 
 文档版本：plop@3.1.0 - [plop@3.1.0](https://github.com/plopjs/plop/releases/tag/plop%403.1.0)
 
