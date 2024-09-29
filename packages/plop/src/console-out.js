@@ -131,6 +131,7 @@ const typeDisplay = {
   addMany: chalk.green("+!"),
   modify: `${chalk.green("+")}${chalk.red("-")}`,
   append: chalk.green("_+"),
+  prepend: chalk.green("+_"),
   skip: chalk.green("--"),
 };
 const typeMap = (name, noMap) => {
