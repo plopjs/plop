@@ -50,6 +50,7 @@ test("Should handle generator prompt", async () => {
   await userEvent.keyboard("[Enter]");
 
   expect(await findByText("this is a test")).toBeInTheConsole();
+  expect(await findByText("this is a skeleton plopfile")).toBeInTheConsole();
 });
 
 test("Should bypass generator prompt", async () => {
