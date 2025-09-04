@@ -15,10 +15,7 @@ import inquirer, {
 
 type Inquirer = typeof inquirer;
 
-// @types/globby doesn't export types for GlobOptions, so we have to work a little bit to extract them:
-// GlobOptions is the second parameter of the sync function, which can be extracted with the Parameters<T> type
-import { globbySync } from "globby";
-type GlobOptions = Parameters<typeof globbySync>[1];
+import { type GlobOptions } from "tinyglobby";
 import { HelperDelegate as HelperFunction } from "handlebars";
 
 export interface IncludeDefinitionConfig {

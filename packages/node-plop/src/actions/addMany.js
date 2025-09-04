@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { globbySync } from "globby";
+import { globSync } from "tinyglobby";
 import actionInterfaceTest from "./_common-action-interface-check.js";
 import addFile from "./_common-action-add-file.js";
 import { normalizePath } from "./_common-action-utils.js";
@@ -64,7 +64,7 @@ export default async function (data, userConfig, plop) {
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
   globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);
-  return globbySync(
+  return globSync(
     templateFilesGlob,
     Object.assign({ braceExpansion: false }, globOptions),
   )
