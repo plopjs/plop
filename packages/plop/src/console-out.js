@@ -35,7 +35,7 @@ async function chooseOptionFromList(plopList, message) {
         choices: plopList.map(function (p) {
           return {
             name:
-              p.name + chalk.gray(!!p.description ? " - " + p.description : ""),
+              p.name + chalk.gray(p.description ? " - " + p.description : ""),
             value: p.name,
           };
         }),

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 import nodePlop, {
   NodePlopAPI,
   AddManyActionConfig,
@@ -221,7 +221,7 @@ function e(plop: NodePlopAPI) {
     // do something
     doSomething(config.configProp);
     // if something went wrong
-    if (!!doSomething) throw "error message";
+    if (doSomething) throw "error message";
     // otherwise
     return "success status message";
   });
@@ -230,7 +230,7 @@ function e(plop: NodePlopAPI) {
   plop.setActionType("doTheAsyncThing", function (answers, config, plop) {
     // do something
     return new Promise((resolve, reject) => {
-      if (!!answers) {
+      if (answers) {
         resolve("success status message");
       } else {
         reject("error message");
@@ -300,7 +300,7 @@ let _;
 _ = async () => {
   // Code from plop itself
   const plop = await nodePlop("test", {
-    destBasePath: !!inquirer ? "test" : undefined,
+    destBasePath: inquirer ? "test" : undefined,
     force: false,
   });
 
