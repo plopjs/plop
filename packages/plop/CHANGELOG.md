@@ -1,5 +1,14 @@
 # plop
 
+## 4.0.2
+
+### Patch Changes
+
+- Upgrade deps to be more secure
+
+- Updated dependencies []:
+  - node-plop@0.32.1
+
 ## 4.0.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # node-plop
 
+## 0.32.1
+
+### Patch Changes
+
+- Upgrade deps to be more secure
+
 ## 0.32.0
 
 ### Minor Changes
