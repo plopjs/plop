@@ -156,7 +156,7 @@ Finally, use `NODE_OPTIONS` to activate the tsx loader. Now Plop can import your
 ```json
 // package.json
 "scripts": {
-  "cross-env NODE_OPTIONS='--import tsx' plop --plopfile=plopfile.ts"
+  "plop" : "cross-env NODE_OPTIONS='--import tsx' plop --plopfile=plopfile.ts"
 }
 ```
 
@@ -165,7 +165,7 @@ Finally, use `NODE_OPTIONS` to activate the tsx loader. Now Plop can import your
 ```json
 // package.json
 "scripts": {
-  "cross-env NODE_OPTIONS='--loader tsx' plop --plopfile=plopfile.ts"
+  "plop": "cross-env NODE_OPTIONS='--loader tsx' plop --plopfile=plopfile.ts"
 }
 ```
 
