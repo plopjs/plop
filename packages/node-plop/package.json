@@ -51,7 +51,7 @@
     "lodash.get": "^4.4.2",
     "mkdirp": "^3.0.1",
     "resolve": "^1.22.8",
-    "tinyglobby": "^0.2.9",
+    "tinyglobby": "^0.2.14",
     "title-case": "^4.2.0"
   }
 }
