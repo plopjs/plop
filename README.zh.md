@@ -172,7 +172,7 @@ import { NodePlopAPI } from 'plop';
 
 export default function (plop: NodePlopAPI) {
 
-  // plop generator code
+  // plop generator code
 
 };
 ```
@@ -182,13 +182,13 @@ export default function (plop: NodePlopAPI) {
 
 module.exports = function (
 
-  /** @type {import('plop').NodePlopAPI} */
+  /** @type {import('plop').NodePlopAPI} */
 
-  plop
+  plop
 
 ) {
 
-  // plop generator code
+  // plop generator code
 
 };
 ```
@@ -314,7 +314,7 @@ export default function (plop) {
 | **prompts**     | *Array[[InquirerQuestion](https://github.com/SBoudrias/Inquirer.js/#question)]* |        | 需要询问用户的问题          |
 | **actions**     | *Array[[ActionConfig](#interface-actionconfig)]*             |        | 需要执行的操作              |
 
-  >如果你的Action列表有动态需求，你可以查看[使用动态action数组](#using-a-dynamic-actions-array)部分内容。
+  >如果你的Action列表有动态需求，你可以查看[使用动态action数组](#using-a-dynamic-actions-array)部分内容。
 
 ### *接口* `ActionConfig`
 

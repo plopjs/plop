@@ -187,7 +187,9 @@ type TemplateStrOrFile = Template | TemplateFile;
  */
 export interface CustomActionConfig<TypeString extends string>
   extends Omit<ActionConfig, "type"> {
-  type: TypeString extends "addMany" | "modify" | "append" ? never : TypeString;
+  type: TypeString extends "addMany" | "modify" | "append" | "prepend"
+    ? never
+    : TypeString;
 
   [key: string]: any;
 }
@@ -215,6 +217,7 @@ export type ActionType =
   | AddManyActionConfig
   | ModifyActionConfig
   | AppendActionConfig
+  | PrependActionConfig
   | CustomActionFunction;
 
 export interface ActionConfig {
@@ -277,6 +280,16 @@ interface AppendActionConfigBase extends ActionConfig {
 }
 
 export type AppendActionConfig = AppendActionConfigBase & TemplateStrOrFile;
+
+interface PrependActionConfigBase extends ActionConfig {
+  type: "prepend";
+  path: string;
+  pattern: string | RegExp;
+  unique: boolean;
+  separator: string;
+}
+
+export type PrependActionConfig = PrependActionConfigBase & TemplateStrOrFile;
 
 export interface PlopCfg {
   force: boolean;
