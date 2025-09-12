@@ -57,7 +57,7 @@ describe("load-assets-from-plopfile", function () {
           generator1: "gen1",
           generator3: "bob",
         },
-      },
+      }
     );
 
     const gNameList = plop.getGeneratorList().map((g) => g.name);
@@ -79,18 +79,27 @@ describe("load-assets-from-plopfile", function () {
         helpers: true,
         partials: true,
         actionTypes: true,
-      },
+        actionTypeDisplays: true,
+      }
     );
 
     const gNameList = plop.getGeneratorList().map((g) => g.name);
     expect(gNameList.length).toBe(3);
     expect(plop.getHelperList().length).toBe(3);
     expect(plop.getPartialList().length).toBe(3);
-    expect(plop.getActionTypeList().length).toBe(1);
+    expect(plop.getActionTypeList().length).toBe(2);
+    expect(plop.getActionTypeDisplayList().length).toBe(1);
     expect(gNameList.includes("test-generator1")).toBe(true);
     expect(plop.getHelperList().includes("test-helper2")).toBe(true);
     expect(plop.getPartialList().includes("test-partial3")).toBe(true);
     expect(plop.getActionTypeList().includes("test-actionType1")).toBe(true);
+    expect(plop.getActionTypeList().includes("test-actionType2")).toBe(true);
+    expect(plop.getActionTypeDisplayList().includes("test-actionType1")).toBe(
+      false
+    );
+    expect(plop.getActionTypeDisplayList().includes("test-actionType2")).toBe(
+      true
+    );
   });
 
   test("plop.load passes a config option that can be used to include all the plopfile output", async function () {
@@ -101,11 +110,19 @@ describe("load-assets-from-plopfile", function () {
     expect(gNameList.length).toBe(3);
     expect(plop.getHelperList().length).toBe(3);
     expect(plop.getPartialList().length).toBe(3);
-    expect(plop.getActionTypeList().length).toBe(1);
+    expect(plop.getActionTypeList().length).toBe(2);
+    expect(plop.getActionTypeDisplayList().length).toBe(1);
     expect(gNameList.includes("test-generator1")).toBe(true);
     expect(plop.getHelperList().includes("test-helper2")).toBe(true);
     expect(plop.getPartialList().includes("test-partial3")).toBe(true);
     expect(plop.getActionTypeList().includes("test-actionType1")).toBe(true);
+    expect(plop.getActionTypeList().includes("test-actionType2")).toBe(true);
+    expect(plop.getActionTypeDisplayList().includes("test-actionType1")).toBe(
+      false
+    );
+    expect(plop.getActionTypeDisplayList().includes("test-actionType2")).toBe(
+      true
+    );
   });
 
   test("plop.load should import functioning assets", async function () {
@@ -118,12 +135,13 @@ describe("load-assets-from-plopfile", function () {
         helpers: true,
         partials: true,
         actionTypes: true,
-      },
+      }
     );
 
     expect(plop.getHelper("test-helper2")("test")).toBe("helper 2: test");
     expect(plop.getPartial("test-partial3")).toBe("partial 3: {{name}}");
     expect(plop.getActionType("test-actionType1")()).toBe("test");
+    expect(plop.getActionType("test-actionType2")()).toBe("test");
   });
 
   test("plop.load can include only helpers", async function () {

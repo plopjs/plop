@@ -279,6 +279,43 @@ export default function (plop) {
 	});
 };
 ```
+## setActionTypeDisplay
+`setActionTypeDisplay` allows you to change the characters shown on the output of a specific action. For instance, the `add` action's output is prefixed with `++`.
+
+You may need to write a custom action that fetches a file from an API and adds it, and you may want to use the `++` prefix for consistency. This could be done with the following:
+
+``` javascript
+import chalk from 'chalk';
+
+export default function (plop) {
+	// Define your custom action that asynchronously adds a file
+	plop.setActionType('fetchAndAddAsync', function (answers, config, plop) {
+		return new Promise((resolve, reject) => {
+			if (success) {
+				resolve('success status message');
+			} else {
+				reject('error message');
+			}
+		});
+	});
+
+	// Use the same action type as 'add' for consistency
+	plop.setActionTypeDisplay('fetchAndAddAsync', chalk.green('++'));
+};
+```
+
+By default, the following type displays are set:
+
+``` javascript
+const typeDisplay = {
+  function: chalk.yellow("->"),
+  add: chalk.green("++"),
+  addMany: chalk.green("+!"),
+  modify: `${chalk.green("+")}${chalk.red("-")}`,
+  append: chalk.green("_+"),
+  skip: chalk.green("--"),
+};
+```
 
 ## setPrompt
 [Inquirer](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md) provides many types of prompts out of the box, but it also allows developers to build prompt plugins. If you'd like to use a prompt plugin, you can register it with `setPrompt`. For more details see the [Inquirer documentation for registering prompts](https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/README.md#inquirerregisterpromptname-prompt). Also check out the [plop community driven list of custom prompts](https://github.com/plopjs/awesome-plop#inquirer-prompts).
