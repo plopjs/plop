@@ -45,13 +45,13 @@
     "@types/inquirer": "^9.0.9",
     "change-case": "^5.4.4",
     "del": "^8.0.0",
-    "globby": "^14.1.0",
     "handlebars": "^4.7.8",
     "inquirer": "^9.3.7",
     "isbinaryfile": "^5.0.6",
     "lodash.get": "^4.4.2",
     "mkdirp": "^3.0.1",
     "resolve": "^1.22.10",
+    "tinyglobby": "^0.2.15",
     "title-case": "^4.3.2"
   }
 }
