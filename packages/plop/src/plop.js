@@ -6,7 +6,7 @@ import Liftoff from "liftoff";
 import minimist from "minimist";
 import v8flags from "v8flags";
 import interpret from "interpret";
-import chalk from "chalk";
+import picocolors from "picocolors";
 const args = process.argv.slice(2);
 const argv = minimist(args);
 
@@ -57,7 +57,8 @@ async function run(env, _, passArgsBeforeDashes) {
     });
   } catch (e) {
     console.error(
-      chalk.red("[PLOP] ") + "Something went wrong with reading your plop file",
+      picocolors.red("[PLOP] ") +
+        "Something went wrong with reading your plop file",
       e,
     );
     return;
@@ -79,7 +80,7 @@ async function run(env, _, passArgsBeforeDashes) {
   // hmmmm, couldn't identify a generator in the user's input
   if (!generators.length) {
     // no generators?! there's clearly something wrong here
-    console.error(chalk.red("[PLOP] ") + "No generator found in plopfile");
+    console.error(picocolors.red("[PLOP] ") + "No generator found in plopfile");
     process.exit(1);
   } else if (!generatorName && generators.length === 1) {
     // only one generator in this plopfile... let's assume they
@@ -93,7 +94,7 @@ async function run(env, _, passArgsBeforeDashes) {
       .then(runGeneratorByName)
       .catch((err) => {
         console.error(
-          chalk.red("[PLOP] ") +
+          picocolors.red("[PLOP] ") +
             "Something went wrong with selecting a generator",
           err,
         );
@@ -105,7 +106,7 @@ async function run(env, _, passArgsBeforeDashes) {
     // we just can't make sense of your input... sorry :-(
     const fuzzyGenName = (generatorName + " " + args.join(" ")).trim();
     console.error(
-      chalk.red("[PLOP] ") +
+      picocolors.red("[PLOP] ") +
         'Could not find a generator for "' +
         fuzzyGenName +
         '"',
@@ -167,7 +168,7 @@ function doThePlop(generator, bypassArr) {
         });
     })
     .catch(function (err) {
-      console.error(chalk.red("[ERROR]"), err.message);
+      console.error(picocolors.red("[ERROR]"), err.message);
       process.exit(1);
     });
 }

@@ -2013,13 +2013,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^5.6.0":
-  version: 5.6.0
-  resolution: "chalk@npm:5.6.0"
-  checksum: 10/f0e0646a72adbd0f6e73441d3872d7f2f40ba98052924f08a30c10634ec6b1e2cd19cc3c40cc21081dad640e2a1a2749030418571690b89bd7782babf7f89866
-  languageName: node
-  linkType: hard
-
 "change-case@npm:^5.4.4":
   version: 5.4.4
   resolution: "change-case@npm:5.4.4"
@@ -5832,7 +5825,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picocolors@npm:^1.1.0":
+"picocolors@npm:^1.1.0, picocolors@npm:^1.1.1":
   version: 1.1.1
   resolution: "picocolors@npm:1.1.1"
   checksum: 10/e1cf46bf84886c79055fdfa9dcb3e4711ad259949e3565154b004b260cd356c5d54b31a1437ce9782624bf766272fe6b0154f5f0c744fb7af5d454d2b60db045
@@ -5931,7 +5924,6 @@ __metadata:
   resolution: "plop@workspace:packages/plop"
   dependencies:
     "@types/liftoff": "npm:^4.0.3"
-    chalk: "npm:^5.6.0"
     cli-testing-library: "npm:^2.0.2"
     inquirer-directory: "npm:^2.2.0"
     interpret: "npm:^3.1.1"
@@ -5940,6 +5932,7 @@ __metadata:
     node-plop: "npm:^0.32.1"
     nyc: "npm:^15.1.0"
     ora: "npm:^8.2.0"
+    picocolors: "npm:^1.1.1"
     plop-pack-fancy-comments: "npm:^0.2.1"
     queue-microtask: "npm:^1.2.3"
     v8flags: "npm:^4.0.1"
