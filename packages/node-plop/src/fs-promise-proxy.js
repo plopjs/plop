@@ -1,7 +1,6 @@
 import fs from "fs";
-import { mkdirp } from "mkdirp";
 
-export const makeDir = mkdirp;
+export const makeDir = (path) => fs.promises.mkdir(path, { recursive: true });
 export const readdir = fs.promises.readdir;
 export const stat = fs.promises.stat;
 export const chmod = fs.promises.chmod;

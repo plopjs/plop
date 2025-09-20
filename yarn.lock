@@ -5141,15 +5141,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "mkdirp@npm:3.0.1"
-  bin:
-    mkdirp: dist/cjs/src/bin.js
-  checksum: 10/16fd79c28645759505914561e249b9a1f5fe3362279ad95487a4501e4467abeb714fd35b95307326b8fd03f3c7719065ef11a6f97b7285d7888306d1bd2232ba
-  languageName: node
-  linkType: hard
-
 "mlly@npm:^1.2.0, mlly@npm:^1.4.2":
   version: 1.4.2
   resolution: "mlly@npm:1.4.2"
@@ -5262,7 +5253,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-plop@npm:^0.32.0, node-plop@workspace:packages/node-plop":
+"node-plop@npm:^0.32.1, node-plop@workspace:packages/node-plop":
   version: 0.0.0-use.local
   resolution: "node-plop@workspace:packages/node-plop"
   dependencies:
@@ -5277,7 +5268,6 @@ __metadata:
     inquirer: "npm:^9.3.7"
     isbinaryfile: "npm:^5.0.6"
     lodash.get: "npm:^4.4.2"
-    mkdirp: "npm:^3.0.1"
     plop-pack-fancy-comments: "npm:^0.2.1"
     resolve: "npm:^1.22.10"
     title-case: "npm:^4.3.2"
@@ -5947,7 +5937,7 @@ __metadata:
     interpret: "npm:^3.1.1"
     liftoff: "npm:^4.0.0"
     minimist: "npm:^1.2.8"
-    node-plop: "npm:^0.32.0"
+    node-plop: "npm:^0.32.1"
     nyc: "npm:^15.1.0"
     ora: "npm:^8.2.0"
     plop-pack-fancy-comments: "npm:^0.2.1"
