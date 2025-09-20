@@ -13,8 +13,8 @@ jobs:
       CI: true
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
-        node: [ 18, 20 ]
+        os: [ubuntu-latest, windows-latest]
+        node: [18, 20]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v5

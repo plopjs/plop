@@ -36,7 +36,7 @@ async function chooseOptionFromList(plopList, message) {
           return {
             name:
               p.name +
-              picocolors.gray(!!p.description ? " - " + p.description : ""),
+              picocolors.gray(p.description ? " - " + p.description : ""),
             value: p.name,
           };
         }),
