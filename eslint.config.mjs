@@ -24,8 +24,11 @@ export default defineConfig(
     },
   },
   {
-    files: ["**/*.js"],
+    files: ["**/*.js", "**/*.mjs", "**/*.cjs"],
     extends: [tseslint.configs.disableTypeChecked],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
   },
   {
     rules: {
@@ -34,11 +37,13 @@ export default defineConfig(
       "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/no-unused-vars": "off",
       "prefer-const": "off",
+      "no-useless-escape": "off",
+      "no-empty": "off",
       // https://github.com/plopjs/plop/issues/288
       "linebreak-style": ["error", "unix"],
     },
   },
   {
-    ignores: [".yarn"],
+    ignores: [".yarn", "**/instrumented/**/*"],
   },
 );

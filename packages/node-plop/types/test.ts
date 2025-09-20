@@ -1,4 +1,3 @@
- 
 import nodePlop, {
   NodePlopAPI,
   AddManyActionConfig,
