@@ -1,7 +1,7 @@
 // require("cli-testing-library/extend-expect");
 
 import { configure } from "cli-testing-library";
-import "cli-testing-library/extend-expect";
+import "cli-testing-library/vitest";
 
 configure({
   asyncUtilTimeout: 8000,
