@@ -178,21 +178,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.5":
-  version: 7.17.2
-  resolution: "@babel/runtime@npm:7.17.2"
-  dependencies:
-    regenerator-runtime: "npm:^0.13.4"
-  checksum: 10/a59e74f2a5cb4c788145a43e488b735e7cd583bb97fabe52eebbc34a3c4687182647468b2567152cd69927631ffb45f013db9bb04f057c5410f18cf521335140
-  languageName: node
-  linkType: hard
-
-"@babel/runtime@npm:^7.5.5":
-  version: 7.17.9
-  resolution: "@babel/runtime@npm:7.17.9"
-  dependencies:
-    regenerator-runtime: "npm:^0.13.4"
-  checksum: 10/571f476feaf34dd81b94246de69f93a511e02a96e33c27889f150ed0000b068c70e102588a2a9c579d767f35a869663b21b79b36414b64e866e91861a137e7f4
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.5.5":
+  version: 7.28.4
+  resolution: "@babel/runtime@npm:7.28.4"
+  checksum: 10/6c9a70452322ea80b3c9b2a412bcf60771819213a67576c8cec41e88a95bb7bf01fc983754cda35dc19603eef52df22203ccbf7777b9d6316932f9fb77c25163
   languageName: node
   linkType: hard
 
@@ -5016,7 +5005,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-plop@npm:^0.32.1, node-plop@workspace:packages/node-plop":
+"node-plop@npm:^0.32.2, node-plop@workspace:packages/node-plop":
   version: 0.0.0-use.local
   resolution: "node-plop@workspace:packages/node-plop"
   dependencies:
@@ -5599,7 +5588,7 @@ __metadata:
     liftoff: "npm:^5.0.1"
     minimist: "npm:^1.2.8"
     nanospinner: "npm:^1.2.2"
-    node-plop: "npm:^0.32.1"
+    node-plop: "npm:^0.32.2"
     nyc: "npm:^17.1.0"
     picocolors: "npm:^1.1.1"
     plop-pack-fancy-comments: "npm:^0.2.1"
@@ -5773,13 +5762,6 @@ __metadata:
     indent-string: "npm:^5.0.0"
     strip-indent: "npm:^4.0.0"
   checksum: 10/6944e7b1d8f3fd28c2515f5c605b9f7f0ea0f4edddf41890bbbdd4d9ee35abb7540c3b278f03ff827bd278bb6ff4a5bd8692ca406b748c5c1c3ce7355e9fbf8f
-  languageName: node
-  linkType: hard
-
-"regenerator-runtime@npm:^0.13.4":
-  version: 0.13.9
-  resolution: "regenerator-runtime@npm:0.13.9"
-  checksum: 10/efbbcee420cf89b90c634ac4c53e4ac8000c80b4650d6d34560f124185d43b21b824d385ec6147657603a1ec1bed6820fc5dfb78e669f9acc7c1b5d7238b1627
   languageName: node
   linkType: hard
 
