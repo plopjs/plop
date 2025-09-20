@@ -4467,13 +4467,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kind-of@npm:^6.0.2":
-  version: 6.0.3
-  resolution: "kind-of@npm:6.0.3"
-  checksum: 10/5873d303fb36aad875b7538798867da2ae5c9e328d67194b0162a3659a627d22f742fc9c4ae95cd1704132a24b00cae5041fc00c0f6ef937dc17080dc4dbb962
-  languageName: node
-  linkType: hard
-
 "levn@npm:^0.4.1":
   version: 0.4.1
   resolution: "levn@npm:0.4.1"
@@ -4484,19 +4477,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"liftoff@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "liftoff@npm:4.0.0"
+"liftoff@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "liftoff@npm:5.0.1"
   dependencies:
     extend: "npm:^3.0.2"
     findup-sync: "npm:^5.0.0"
     fined: "npm:^2.0.0"
     flagged-respawn: "npm:^2.0.0"
     is-plain-object: "npm:^5.0.0"
-    object.map: "npm:^1.0.1"
     rechoir: "npm:^0.8.0"
     resolve: "npm:^1.20.0"
-  checksum: 10/bb9f467ed4d792ce6b519558a2d7b9ef4ec28c7aa09270981395631d456c031128881c2bd31375c7c9d416abb4fc1263dbf17d9ba46bac9df0e88e04c378c699
+  checksum: 10/52b3fb62bb2c28163a7fb8b04d3dc6958642163ba6a0b45975ff264381e7dcb22defcc8e041af58df872491bc104d5ac49f68fa1c4955bef58cf33c486dc3894
   languageName: node
   linkType: hard
 
@@ -4687,15 +4679,6 @@ __metadata:
     socks-proxy-agent: "npm:^7.0.0"
     ssri: "npm:^10.0.0"
   checksum: 10/b4b442cfaaec81db159f752a5f2e3ee3d7aa682782868fa399200824ec6298502e01bdc456e443dc219bcd5546c8e4471644d54109c8599841dc961d17a805fa
-  languageName: node
-  linkType: hard
-
-"make-iterator@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "make-iterator@npm:1.0.1"
-  dependencies:
-    kind-of: "npm:^6.0.2"
-  checksum: 10/d38afc388f4374b15c0622d4fa4d3e8c3154e3a6ba35b01e9a5179c127d7dd09a91fa571056aa9e041981b39f80bdbab035c05475e56ef675a18bdf550f0cb6a
   languageName: node
   linkType: hard
 
@@ -5199,16 +5182,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.map@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "object.map@npm:1.0.1"
-  dependencies:
-    for-own: "npm:^1.0.0"
-    make-iterator: "npm:^1.0.0"
-  checksum: 10/c2b945a309f789441fae30e4c0772066b45ad03eb1c0f91b8ae117700c975676652b356f61635fe0b21ae021d98f10a04d2f1c6cf30aef14111154e756b162d7
-  languageName: node
-  linkType: hard
-
 "object.pick@npm:^1.3.0":
   version: 1.3.0
   resolution: "object.pick@npm:1.3.0"
@@ -5623,7 +5596,7 @@ __metadata:
     cli-testing-library: "npm:^3.0.1"
     inquirer-directory: "npm:^2.2.0"
     interpret: "npm:^3.1.1"
-    liftoff: "npm:^4.0.0"
+    liftoff: "npm:^5.0.1"
     minimist: "npm:^1.2.8"
     nanospinner: "npm:^1.2.2"
     node-plop: "npm:^0.32.1"
