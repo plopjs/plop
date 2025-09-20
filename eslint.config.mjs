@@ -44,6 +44,11 @@ export default defineConfig(
     },
   },
   {
-    ignores: [".yarn", "**/instrumented/**/*"],
+    ignores: [
+      ".yarn",
+      "**/instrumented/**/*",
+      "**/tests/examples/**/*",
+      "**/plop-templates/**/*",
+    ],
   },
 );
