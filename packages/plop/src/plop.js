@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import ora from "ora";
+import { createSpinner } from "nanospinner";
 import path from "node:path";
 import Liftoff from "liftoff";
 import minimist from "minimist";
@@ -22,12 +22,16 @@ const Plop = new Liftoff({
 });
 
 const isInJest = process.env.NODE_ENV === "test";
-
-const progressSpinner = ora({
+const progressIsEnabled = !isInJest && argv.progress !== false;
+const progressSpinner = createSpinner("", {
   // Default is stderr
   stream: isInJest ? process.stdout : process.stderr,
-  isEnabled: !isInJest && argv.progress !== false,
 });
+const progressSpinnerStart = () => {
+  if (progressIsEnabled) {
+    progressSpinner.start();
+  }
+};
 
 /**
  * The function to pass as the second argument to `Plop.execute`
@@ -130,7 +134,7 @@ function doThePlop(generator, bypassArr) {
       const noMap = argv["show-type-names"] || argv.t;
       const onComment = (msg) => {
         progressSpinner.info(msg);
-        progressSpinner.start();
+        progressSpinnerStart();
       };
       const onSuccess = (change) => {
         let line = "";
@@ -140,8 +144,8 @@ function doThePlop(generator, bypassArr) {
         if (change.path) {
           line += ` ${change.path}`;
         }
-        progressSpinner.succeed(line);
-        progressSpinner.start();
+        progressSpinner.success(line);
+        progressSpinnerStart();
       };
       const onFailure = (fail) => {
         let line = "";
@@ -155,11 +159,11 @@ function doThePlop(generator, bypassArr) {
         if (errMsg) {
           line += ` ${errMsg}`;
         }
-        progressSpinner.fail(line);
+        progressSpinner.error(line);
         failedActions = true;
-        progressSpinner.start();
+        progressSpinnerStart();
       };
-      progressSpinner.start();
+      progressSpinnerStart();
       return generator
         .runActions(answers, { onSuccess, onFailure, onComment })
         .then(() => {
