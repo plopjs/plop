@@ -1,6 +1,6 @@
 {
   "name": "plop",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Micro-generator framework that makes it easy for an entire team to create files with a level of uniformity",
   "main": "./src/plop.js",
   "type": "module",
@@ -46,7 +46,7 @@
     "liftoff": "^5.0.1",
     "minimist": "^1.2.8",
     "nanospinner": "^1.2.2",
-    "node-plop": "^0.32.1",
+    "node-plop": "^0.32.2",
     "picocolors": "^1.1.1",
     "v8flags": "^4.0.1"
   },

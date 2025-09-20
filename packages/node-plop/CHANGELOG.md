@@ -1,5 +1,11 @@
 # node-plop
 
+## 0.32.2
+
+### Patch Changes
+
+- Shrunk bundle size and updated deps
+
 ## 0.32.1
 
 ### Patch Changes

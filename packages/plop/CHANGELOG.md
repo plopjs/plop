@@ -1,5 +1,14 @@
 # plop
 
+## 4.0.3
+
+### Patch Changes
+
+- Shrunk bundle size and updated deps
+
+- Updated dependencies []:
+  - node-plop@0.32.2
+
 ## 4.0.2
 
 ### Patch Changes
