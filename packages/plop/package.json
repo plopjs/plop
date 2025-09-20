@@ -32,12 +32,12 @@
     "postpublish": "node ./scripts/postpublish.js"
   },
   "devDependencies": {
-    "cli-testing-library": "^2.0.2",
+    "cli-testing-library": "^3.0.1",
     "inquirer-directory": "^2.2.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.1.0",
     "plop-pack-fancy-comments": "^0.2.1",
     "queue-microtask": "^1.2.3",
-    "vitest": "^1.1.0"
+    "vitest": "^3.2.4"
   },
   "homepage": "https://plopjs.com",
   "dependencies": {

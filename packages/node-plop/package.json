@@ -39,7 +39,7 @@
     "dtslint": "^4.2.1",
     "plop-pack-fancy-comments": "^0.2.1",
     "typescript": "^5.3.3",
-    "vitest": "^1.1.0"
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "@types/inquirer": "^9.0.9",
