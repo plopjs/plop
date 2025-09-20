@@ -11,7 +11,6 @@ jobs:
   test:
     env:
       CI: true
-      FORCE_COLOR: 1
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
