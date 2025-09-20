@@ -12,8 +12,8 @@ import { createRequire } from "node:module";
 import { pathToFileURL } from "url";
 const require = createRequire(import.meta.url);
 
-const dlvBrackets = (obj, propertyPath) =>
-  dlv(obj, propertyPath.replace("[", ".").replace("]", ""));
+const dlvBrackets = (obj, propertyPath, defaultValue) =>
+  dlv(obj, propertyPath.replace("[", ".").replace("]", ""), defaultValue);
 
 async function nodePlop(plopfilePath = "", plopCfg = {}) {
   let pkgJson = {};
