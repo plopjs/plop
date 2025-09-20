@@ -1,3 +1,3 @@
-import { deleteSync } from "del";
+import { rmSync } from "node:fs";
 
-deleteSync("./lib");
+rmSync("./lib", { recursive: true, force: true });
