@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-import ora from "ora";
+import { createSpinner } from "nanospinner";
 import path from "node:path";
 import Liftoff from "liftoff";
 import minimist from "minimist";
 import v8flags from "v8flags";
 import interpret from "interpret";
-import chalk from "chalk";
+import picocolors from "picocolors";
 const args = process.argv.slice(2);
 const argv = minimist(args);
 
@@ -22,12 +22,16 @@ const Plop = new Liftoff({
 });
 
 const isInJest = process.env.NODE_ENV === "test";
-
-const progressSpinner = ora({
+const progressIsEnabled = !isInJest && argv.progress !== false;
+const progressSpinner = createSpinner("", {
   // Default is stderr
   stream: isInJest ? process.stdout : process.stderr,
-  isEnabled: !isInJest && argv.progress !== false,
 });
+const progressSpinnerStart = () => {
+  if (progressIsEnabled) {
+    progressSpinner.start();
+  }
+};
 
 /**
  * The function to pass as the second argument to `Plop.execute`
@@ -57,7 +61,8 @@ async function run(env, _, passArgsBeforeDashes) {
     });
   } catch (e) {
     console.error(
-      chalk.red("[PLOP] ") + "Something went wrong with reading your plop file",
+      picocolors.red("[PLOP] ") +
+        "Something went wrong with reading your plop file",
       e,
     );
     return;
@@ -79,7 +84,7 @@ async function run(env, _, passArgsBeforeDashes) {
   // hmmmm, couldn't identify a generator in the user's input
   if (!generators.length) {
     // no generators?! there's clearly something wrong here
-    console.error(chalk.red("[PLOP] ") + "No generator found in plopfile");
+    console.error(picocolors.red("[PLOP] ") + "No generator found in plopfile");
     process.exit(1);
   } else if (!generatorName && generators.length === 1) {
     // only one generator in this plopfile... let's assume they
@@ -93,7 +98,7 @@ async function run(env, _, passArgsBeforeDashes) {
       .then(runGeneratorByName)
       .catch((err) => {
         console.error(
-          chalk.red("[PLOP] ") +
+          picocolors.red("[PLOP] ") +
             "Something went wrong with selecting a generator",
           err,
         );
@@ -105,7 +110,7 @@ async function run(env, _, passArgsBeforeDashes) {
     // we just can't make sense of your input... sorry :-(
     const fuzzyGenName = (generatorName + " " + args.join(" ")).trim();
     console.error(
-      chalk.red("[PLOP] ") +
+      picocolors.red("[PLOP] ") +
         'Could not find a generator for "' +
         fuzzyGenName +
         '"',
@@ -129,7 +134,7 @@ function doThePlop(generator, bypassArr) {
       const noMap = argv["show-type-names"] || argv.t;
       const onComment = (msg) => {
         progressSpinner.info(msg);
-        progressSpinner.start();
+        progressSpinnerStart();
       };
       const onSuccess = (change) => {
         let line = "";
@@ -139,8 +144,8 @@ function doThePlop(generator, bypassArr) {
         if (change.path) {
           line += ` ${change.path}`;
         }
-        progressSpinner.succeed(line);
-        progressSpinner.start();
+        progressSpinner.success(line);
+        progressSpinnerStart();
       };
       const onFailure = (fail) => {
         let line = "";
@@ -154,11 +159,11 @@ function doThePlop(generator, bypassArr) {
         if (errMsg) {
           line += ` ${errMsg}`;
         }
-        progressSpinner.fail(line);
+        progressSpinner.error(line);
         failedActions = true;
-        progressSpinner.start();
+        progressSpinnerStart();
       };
-      progressSpinner.start();
+      progressSpinnerStart();
       return generator
         .runActions(answers, { onSuccess, onFailure, onComment })
         .then(() => {
@@ -167,7 +172,7 @@ function doThePlop(generator, bypassArr) {
         });
     })
     .catch(function (err) {
-      console.error(chalk.red("[ERROR]"), err.message);
+      console.error(picocolors.red("[ERROR]"), err.message);
       process.exit(1);
     });
 }

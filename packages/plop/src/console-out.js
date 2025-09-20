@@ -1,9 +1,9 @@
-import chalk from "chalk";
+import picocolors from "picocolors";
 import nodePlop from "node-plop";
 import fs from "node:fs";
 
 const defaultChoosingMessage =
-  chalk.blue("[PLOP]") + " Please choose a generator.";
+  picocolors.blue("[PLOP]") + " Please choose a generator.";
 
 function getHelpMessage(generator) {
   const maxLen = Math.max(
@@ -12,13 +12,13 @@ function getHelpMessage(generator) {
   console.log(
     [
       "",
-      chalk.bold("Options:"),
+      picocolors.bold("Options:"),
       ...generator.prompts.map(
         (prompt) =>
           "  --" +
           prompt.name +
           " ".repeat(maxLen - prompt.name.length + 2) +
-          chalk.dim(prompt.help ? prompt.help : prompt.message),
+          picocolors.dim(prompt.help ? prompt.help : prompt.message),
       ),
     ].join("\n"),
   );
@@ -35,7 +35,8 @@ async function chooseOptionFromList(plopList, message) {
         choices: plopList.map(function (p) {
           return {
             name:
-              p.name + chalk.gray(p.description ? " - " + p.description : ""),
+              p.name +
+              picocolors.gray(p.description ? " - " + p.description : ""),
             value: p.name,
           };
         }),
@@ -49,42 +50,45 @@ function displayHelpScreen() {
   console.log(
     [
       "",
-      chalk.bold("Usage:"),
+      picocolors.bold("Usage:"),
       "  $ plop                 " +
-        chalk.dim("Select from a list of available generators"),
+        picocolors.dim("Select from a list of available generators"),
       "  $ plop <name>          " +
-        chalk.dim("Run a generator registered under that name"),
+        picocolors.dim("Run a generator registered under that name"),
       "  $ plop <name> [input]  " +
-        chalk.dim("Run the generator with input data to bypass prompts"),
+        picocolors.dim("Run the generator with input data to bypass prompts"),
       "",
-      chalk.bold("Options:"),
-      "  -h, --help             " + chalk.dim("Show this help display"),
+      picocolors.bold("Options:"),
+      "  -h, --help             " + picocolors.dim("Show this help display"),
       "  -t, --show-type-names  " +
-        chalk.dim("Show type names instead of abbreviations"),
-      "  -i, --init             " + chalk.dim("Generate a basic plopfile.js"),
-      "      --init-ts          " + chalk.dim("Generate a basic plopfile.ts"),
-      "  -v, --version          " + chalk.dim("Print current version"),
-      "  -f, --force            " + chalk.dim("Run the generator forcefully"),
+        picocolors.dim("Show type names instead of abbreviations"),
+      "  -i, --init             " +
+        picocolors.dim("Generate a basic plopfile.js"),
+      "      --init-ts          " +
+        picocolors.dim("Generate a basic plopfile.ts"),
+      "  -v, --version          " + picocolors.dim("Print current version"),
+      "  -f, --force            " +
+        picocolors.dim("Run the generator forcefully"),
       "",
-      chalk.dim(" ------------------------------------------------------"),
-      chalk.dim("  ⚠  danger waits for those who venture below the line"),
+      picocolors.dim(" ------------------------------------------------------"),
+      picocolors.dim("  ⚠  danger waits for those who venture below the line"),
       "",
-      chalk.dim("  --plopfile             Path to the plopfile"),
-      chalk.dim(
+      picocolors.dim("  --plopfile             Path to the plopfile"),
+      picocolors.dim(
         "  --cwd                  Directory from which relative paths are calculated against while locating the plopfile",
       ),
-      chalk.dim(
+      picocolors.dim(
         "  --preload              String or array of modules to require before running plop",
       ),
-      chalk.dim(
+      picocolors.dim(
         "  --dest                 Output to this directory instead of the plopfile's parent directory",
       ),
-      chalk.dim("  --no-progress          Disable the progress bar"),
+      picocolors.dim("  --no-progress          Disable the progress bar"),
       "",
-      chalk.bold("Examples:"),
-      "  $ " + chalk.blue("plop"),
-      "  $ " + chalk.blue("plop component"),
-      "  $ " + chalk.blue('plop component "name of component"'),
+      picocolors.bold("Examples:"),
+      "  $ " + picocolors.blue("plop"),
+      "  $ " + picocolors.blue("plop component"),
+      "  $ " + picocolors.blue('plop component "name of component"'),
       "",
     ].join("\n"),
   );
@@ -126,15 +130,15 @@ function createInitPlopfile(force = false, useTypescript = false) {
 }
 
 const typeDisplay = {
-  function: chalk.yellow("->"),
-  add: chalk.green("++"),
-  addMany: chalk.green("+!"),
-  modify: `${chalk.green("+")}${chalk.red("-")}`,
-  append: chalk.green("_+"),
-  skip: chalk.green("--"),
+  function: picocolors.yellow("->"),
+  add: picocolors.green("++"),
+  addMany: picocolors.green("+!"),
+  modify: `${picocolors.green("+")}${picocolors.red("-")}`,
+  append: picocolors.green("_+"),
+  skip: picocolors.green("--"),
 };
 const typeMap = (name, noMap) => {
-  const dimType = chalk.dim(name);
+  const dimType = picocolors.dim(name);
   return noMap ? dimType : typeDisplay[name] || dimType;
 };
 

@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
 import handlebars from "handlebars";
-import _get from "lodash.get";
+import dlv from "dlv";
 import resolve from "resolve";
 
 import bakedInHelpers from "./baked-in-helpers.js";
@@ -11,6 +11,9 @@ import generatorRunner from "./generator-runner.js";
 import { createRequire } from "node:module";
 import { pathToFileURL } from "url";
 const require = createRequire(import.meta.url);
+
+const dlvBrackets = (obj, propertyPath, defaultValue) =>
+  dlv(obj, propertyPath.replace("[", ".").replace("]", ""), defaultValue);
 
 async function nodePlop(plopfilePath = "", plopCfg = {}) {
   let pkgJson = {};
@@ -23,7 +26,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
   const actionTypes = {};
   const helpers = Object.assign(
     {
-      pkg: (propertyPath) => _get(pkgJson, propertyPath, ""),
+      pkg: (propertyPath) => dlvBrackets(pkgJson, propertyPath, ""),
     },
     bakedInHelpers,
   );

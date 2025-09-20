@@ -1,5 +1,5 @@
 import path from "path";
-import { deleteAsync } from "del";
+import { rm } from "node:fs/promises";
 import {
   getRenderedTemplate,
   getTransformedTemplate,
@@ -19,7 +19,7 @@ export default async function addFile(data, cfg, plop) {
 
     // if we are forcing and the file already exists, delete the file
     if (force === true && destExists) {
-      await deleteAsync([fileDestPath], { force });
+      await rm(fileDestPath, { force, recursive: true });
       destExists = false;
     }
 

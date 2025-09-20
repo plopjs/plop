@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import picocolors from "picocolors";
 import * as out from "./console-out.js";
 
 export { combineBypassData };
@@ -20,7 +20,7 @@ function combineBypassData(generator, bypassArr, plopArgV) {
   // Check if bypassArr is too long for promptNames
   if (bypassArr.length > promptNames.length) {
     console.error(
-      chalk.red("[PLOP] ") +
+      picocolors.red("[PLOP] ") +
         'Too many bypass arguments passed for "' +
         generator.name +
         '"',
@@ -36,7 +36,7 @@ function combineBypassData(generator, bypassArr, plopArgV) {
     Object.keys(plopArgV).forEach((arg) => {
       if (!promptNames.find((name) => name === arg) && arg !== "_") {
         console.error(
-          chalk.red("[PLOP] ") +
+          picocolors.red("[PLOP] ") +
             '"' +
             arg +
             '"' +
