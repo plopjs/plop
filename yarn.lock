@@ -1301,6 +1301,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/picomatch@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "@types/picomatch@npm:4.0.2"
+  checksum: 10/7b74f860c4c2bf30f7952254717df2dd78441b0add79858dffe7f6a30c9dd6da6c3d7769d2a9f0c499bc5ffe820c629bffc7c5128948febfc2b935800169b1c3
+  languageName: node
+  linkType: hard
+
 "@types/through@npm:*":
   version: 0.0.30
   resolution: "@types/through@npm:0.0.30"
@@ -5002,6 +5009,7 @@ __metadata:
     "@types/inquirer": "npm:^9.0.9"
     "@types/inquirer-autocomplete-prompt": "npm:^3.0.3"
     "@types/node": "npm:^20.19.17"
+    "@types/picomatch": "npm:^4.0.2"
     change-case: "npm:^5.4.4"
     dlv: "npm:^1.1.3"
     dtslint: "npm:^4.2.1"
