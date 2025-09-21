@@ -63,13 +63,16 @@ export default async function (data, userConfig, plop) {
 }
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
-  globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);
-  return globSync(
-    templateFilesGlob,
-    Object.assign({ braceExpansion: false }, globOptions),
-  )
+  const plopfilePath = plop.getPlopfilePath();
+  return globSync(templateFilesGlob, {
+    cwd: plopfilePath,
+    braceExpansion: false,
+    expandDirectories: true,
+    absolute: true,
+    ...globOptions,
+  })
     .filter(isUnder(basePath))
-    .filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
+    .filter(isAbsoluteOrRelativeFileTo(plopfilePath));
 }
 function isAbsoluteOrRelativeFileTo(relativePath) {
   const isFile = (file) => fs.existsSync(file) && fs.lstatSync(file).isFile();
