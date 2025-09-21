@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import picocolors from "picocolors";
 import minimist from "minimist";
 import * as out from "./console-out.js";
 import { createRequire } from "node:module";
@@ -76,7 +76,7 @@ function handleArgFlags(env) {
         out.createInitPlopfile(force, !!argv[`init-ts`]);
         process.exit(0);
       } catch (err) {
-        console.error(chalk.red("[PLOP] ") + err.message);
+        console.error(picocolors.red("[PLOP] ") + err.message);
         process.exit(1);
       }
     }
@@ -85,8 +85,8 @@ function handleArgFlags(env) {
     if (argv.version || argv.v) {
       const localVersion = env.modulePackage.version;
       if (localVersion !== globalPkg.version && localVersion != null) {
-        console.log(chalk.yellow("CLI version"), globalPkg.version);
-        console.log(chalk.yellow("Local version"), localVersion);
+        console.log(picocolors.yellow("CLI version"), globalPkg.version);
+        console.log(picocolors.yellow("Local version"), localVersion);
       } else {
         console.log(globalPkg.version);
       }
@@ -96,7 +96,7 @@ function handleArgFlags(env) {
 
   // abort if there's no plopfile found
   if (env.configPath == null) {
-    console.error(chalk.red("[PLOP] ") + "No plopfile found");
+    console.error(picocolors.red("[PLOP] ") + "No plopfile found");
     out.displayHelpScreen();
     process.exit(1);
   }

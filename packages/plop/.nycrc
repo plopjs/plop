@@ -1,12 +1,5 @@
 {
-	"all": true,
-	"reporter": [
-		"text",
-		"text-summary",
-		"lcov"
-	],
-	"include": [
-		"bin/**/*.js",
-		"src/**/*.js"
-	]
+  "all": true,
+  "reporter": ["text", "text-summary", "lcov"],
+  "include": ["bin/**/*.js", "src/**/*.js"]
 }

@@ -1,6 +1,6 @@
 import path from "path";
 import { normalizePath } from "../../src/actions/_common-action-utils.js";
-import { deleteAsync } from "del";
+import { rm } from "node:fs/promises";
 import * as fspp from "../../src/fs-promise-proxy.js";
 import { fileURLToPath } from "node:url";
 
@@ -14,12 +14,12 @@ export function setupMockPath(importMetaUrl) {
 
   async function clean() {
     // remove the src folder
-    await deleteAsync([normalizePath(testSrcPath)], { force: true });
+    await rm(normalizePath(testSrcPath), { force: true, recursive: true });
 
     try {
       const mockIsEmpty = (await fspp.readdir(mockPath)).length === 0;
       if (mockIsEmpty) {
-        await deleteAsync([mockPath], { force: true });
+        await rm(mockPath, { force: true, recursive: true });
       }
     } catch (err) {
       // there was no mock directory to remove

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/require-await */
 import nodePlop, {
   NodePlopAPI,
   AddManyActionConfig,
@@ -8,7 +8,7 @@ import nodePlop, {
   ModifyActionConfig,
   AppendActionConfig,
 } from "./index";
-import inquirer from "inquirer";
+import inquirer, { Answers } from "inquirer";
 import prompt from "inquirer-autocomplete-prompt";
 
 const plop = await nodePlop("./file", {
@@ -25,9 +25,10 @@ const generator = plop.getGenerator(names[0]);
 plop.getWelcomeMessage();
 
 // @ts-expect-error "Undefined method on plop"
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 plop.test();
 
-generator.runPrompts(["test"]).then((answers) => {
+void generator.runPrompts(["test"]).then((answers: Answers) => {
   const onComment = (): void => {
     console.log("Start");
   };
@@ -53,7 +54,7 @@ plop.setGenerator("test", {
       message(): string {
         return "test name";
       },
-      validate(value): true | string {
+      validate(value: string): true | string {
         if (/.+/.test(value)) {
           return true;
         }
@@ -93,7 +94,7 @@ plop.setGenerator("test-dynamic-actions-only", {
       message(): string {
         return "test name";
       },
-      validate(value): true | string {
+      validate(value: string): true | string {
         if (/.+/.test(value)) {
           return true;
         }
@@ -202,12 +203,12 @@ function b(plop: NodePlopAPI) {
 }
 
 function c(plop: NodePlopAPI) {
-  plop.setHelper("upperCase", function (text) {
+  plop.setHelper("upperCase", function (text: string) {
     return text.toUpperCase();
   });
 
   // or in es6/es2015
-  plop.setHelper("upperCase", (txt) => txt.toUpperCase());
+  plop.setHelper("upperCase", (txt: string) => txt.toUpperCase());
 }
 
 function d(plop: NodePlopAPI) {
@@ -221,7 +222,11 @@ function e(plop: NodePlopAPI) {
     // do something
     doSomething(config.configProp);
     // if something went wrong
-    if (!!doSomething) throw "error message";
+    // @ts-expect-error "throw string"
+    if (doSomething) {
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
+      throw "error message";
+    }
     // otherwise
     return "success status message";
   });
@@ -230,9 +235,10 @@ function e(plop: NodePlopAPI) {
   plop.setActionType("doTheAsyncThing", function (answers, config, plop) {
     // do something
     return new Promise((resolve, reject) => {
-      if (!!answers) {
+      if (answers) {
         resolve("success status message");
       } else {
+        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
         reject("error message");
       }
     });
@@ -300,7 +306,7 @@ let _;
 _ = async () => {
   // Code from plop itself
   const plop = await nodePlop("test", {
-    destBasePath: !!inquirer ? "test" : undefined,
+    destBasePath: inquirer ? "test" : undefined,
     force: false,
   });
 
@@ -321,9 +327,10 @@ _ = async () => {
   generator
     .runPrompts(["a"])
     .then(async (answers) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return answers;
     })
-    .then((answers) => {
+    .then((answers: Answers) => {
       return generator
         .runActions(answers, {
           onSuccess: (change) => {

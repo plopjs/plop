@@ -51,7 +51,7 @@ export interface NodePlopAPI {
 
   setHelper(name: string, fn: HelperFunction): void;
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   getHelper(name: string): Function;
 
   getHelperList(): string[];
@@ -99,7 +99,7 @@ export interface NodePlopAPI {
   /**
    * @deprecated Use "setHelper" instead. This will be removed in the next major release
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   addHelper(name: string, fn: Function): void;
 }
 
@@ -219,7 +219,7 @@ export interface ActionConfig {
   force?: boolean;
   data?: object;
   abortOnFail?: boolean;
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   skip?: Function;
 }
 

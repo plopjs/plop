@@ -1,15 +1,16 @@
 For each change made (anything not marked as a "chore"), run the following command:
+
 ```
 yarn changeset add
 ```
 
 This will allow you to do the following:
 
-1) Select impacted packages
-2) Add a related message
-3) Notify what type of package bump is required (major, minor, patch)
+1. Select impacted packages
+2. Add a related message
+3. Notify what type of package bump is required (major, minor, patch)
 
--------
+---
 
 # Releasing
 
