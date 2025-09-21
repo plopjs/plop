@@ -44,14 +44,16 @@ export default async function (data, userConfig, plop) {
   );
 
   const filesAdded = [];
+  const plopFilePath = path.resolve(plop.getPlopfilePath());
+  const absBasePath = path.resolve(plopFilePath, cfg.base || "");
   for (let templateFile of templateFiles) {
-    const absTemplatePath = path.resolve(plop.getPlopfilePath(), templateFile);
+    const relativeTemplatePath = path.relative(absBasePath, templateFile);
     const fileCfg = Object.assign({}, cfg, {
       path: stripExtensions(
         cfg.stripExtensions,
-        resolvePath(cfg.destination, templateFile, cfg.base),
+        resolvePath(cfg.destination, relativeTemplatePath, cfg.base),
       ),
-      templateFile: absTemplatePath,
+      templateFile: templateFile,
     });
     const addedPath = await addFile(data, fileCfg, plop);
     filesAdded.push(addedPath);
@@ -63,24 +65,24 @@ export default async function (data, userConfig, plop) {
 }
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
-  const plopfilePath = plop.getPlopfilePath();
+  const absPlopfilePath = path.resolve(plop.getPlopfilePath());
+  const absBasePath = path.resolve(absPlopfilePath, basePath || "");
   return globSync(templateFilesGlob, {
-    cwd: plopfilePath,
+    cwd: absPlopfilePath,
     braceExpansion: false,
     expandDirectories: true,
     absolute: true,
     ...globOptions,
   })
-    .filter(isUnder(basePath))
-    .filter(isAbsoluteOrRelativeFileTo(plopfilePath));
+    .filter(isUnder(absBasePath))
+    .filter(isAbsoluteOrRelativeFileTo(absPlopfilePath));
 }
-function isAbsoluteOrRelativeFileTo(relativePath) {
-  const isFile = (file) => fs.existsSync(file) && fs.lstatSync(file).isFile();
-  return (file) => isFile(file) || isFile(path.join(relativePath, file));
+function isAbsoluteOrRelativeFileTo(basePath) {
+  return (file) => fs.existsSync(file) && fs.lstatSync(file).isFile();
 }
 
 function isUnder(basePath = "") {
-  return (path) => path.startsWith(basePath);
+  return (file) => file.startsWith(basePath);
 }
 
 function resolvePath(destination, file, rootPath) {
