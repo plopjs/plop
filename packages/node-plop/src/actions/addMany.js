@@ -82,7 +82,8 @@ function isAbsoluteOrRelativeFileTo(basePath) {
 }
 
 function isUnder(basePath = "") {
-  return (file) => file.startsWith(basePath);
+  const normalizedBasePath = basePath.replace(/\\/g, "/");
+  return (file) => file.startsWith(normalizedBasePath);
 }
 
 function resolvePath(destination, file, rootPath) {
