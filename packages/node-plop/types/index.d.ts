@@ -215,7 +215,8 @@ export type ActionType =
   | AddManyActionConfig
   | ModifyActionConfig
   | AppendActionConfig
-  | CustomActionFunction;
+  | CustomActionFunction
+  | CustomActionConfig<string>;
 
 export interface ActionConfig {
   type: string;
