@@ -1,5 +1,13 @@
 # node-plop
 
+## 0.32.3
+
+### Patch Changes
+
+- Fix uppercase and lowercase helpers
+
+- Replace globby with tinyglobby
+
 ## 0.32.2
 
 ### Patch Changes

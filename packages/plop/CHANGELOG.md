@@ -1,5 +1,16 @@
 # plop
 
+## 4.0.4
+
+### Patch Changes
+
+- Fix uppercase and lowercase helpers
+
+- Replace globby with tinyglobby
+
+- Updated dependencies []:
+  - node-plop@0.32.3
+
 ## 4.0.3
 
 ### Patch Changes
