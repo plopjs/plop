@@ -15,6 +15,9 @@ export default function (plop, config = {}) {
     actions: [{ type: "add", path: "src/{{name}}.txt" }],
   };
   plop.setGenerator(`${cfg.prefix}generator1`, generatorObject);
-  plop.setGenerator(`${cfg.prefix}generator2`, generatorObject);
+  plop.setGenerator(`${cfg.prefix}generator2`, {
+    ...generatorObject,
+    description: "this is a skeleton plopfile",
+  });
   plop.setGenerator(`${cfg.prefix}generator3`, generatorObject);
 }

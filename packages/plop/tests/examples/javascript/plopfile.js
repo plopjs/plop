@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import inquirerDirectory from "inquirer-directory";
 
-export default function (plop) {
+export default async function (plop) {
   // starting prompt can be customized to display what you want
   // plop.setWelcomeMessage('[CUSTOM]'.yellow + ' What can I do for you?');
 
@@ -35,6 +35,9 @@ export default function (plop) {
     commentStart: "",
     commentEnd: "",
   });
+
+  // load generators from another plopfile in the project
+  await plop.load("./extra-generators.plopfile.js");
 
   const delayLog = (msg) => (answers) =>
     new Promise((resolve) => {
