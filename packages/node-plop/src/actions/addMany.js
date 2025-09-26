@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { globbySync } from "globby";
+import { globSync } from "tinyglobby";
 import actionInterfaceTest from "./_common-action-interface-check.js";
 import addFile from "./_common-action-add-file.js";
 import { normalizePath } from "./_common-action-utils.js";
@@ -44,14 +44,16 @@ export default async function (data, userConfig, plop) {
   );
 
   const filesAdded = [];
+  const plopFilePath = path.resolve(plop.getPlopfilePath());
+  const absBasePath = path.resolve(plopFilePath, cfg.base || "");
   for (let templateFile of templateFiles) {
-    const absTemplatePath = path.resolve(plop.getPlopfilePath(), templateFile);
+    const relativeTemplatePath = path.relative(absBasePath, templateFile);
     const fileCfg = Object.assign({}, cfg, {
       path: stripExtensions(
         cfg.stripExtensions,
-        resolvePath(cfg.destination, templateFile, cfg.base),
+        resolvePath(cfg.destination, relativeTemplatePath, cfg.base),
       ),
-      templateFile: absTemplatePath,
+      templateFile: templateFile,
     });
     const addedPath = await addFile(data, fileCfg, plop);
     filesAdded.push(addedPath);
@@ -63,21 +65,25 @@ export default async function (data, userConfig, plop) {
 }
 
 function resolveTemplateFiles(templateFilesGlob, basePath, globOptions, plop) {
-  globOptions = Object.assign({ cwd: plop.getPlopfilePath() }, globOptions);
-  return globbySync(
-    templateFilesGlob,
-    Object.assign({ braceExpansion: false }, globOptions),
-  )
-    .filter(isUnder(basePath))
-    .filter(isAbsoluteOrRelativeFileTo(plop.getPlopfilePath()));
+  const absPlopfilePath = path.resolve(plop.getPlopfilePath());
+  const absBasePath = path.resolve(absPlopfilePath, basePath || "");
+  return globSync(templateFilesGlob, {
+    cwd: absPlopfilePath,
+    braceExpansion: false,
+    expandDirectories: true,
+    absolute: true,
+    ...globOptions,
+  })
+    .filter(isUnder(absBasePath))
+    .filter(isAbsoluteOrRelativeFileTo(absPlopfilePath));
 }
-function isAbsoluteOrRelativeFileTo(relativePath) {
-  const isFile = (file) => fs.existsSync(file) && fs.lstatSync(file).isFile();
-  return (file) => isFile(file) || isFile(path.join(relativePath, file));
+function isAbsoluteOrRelativeFileTo(basePath) {
+  return (file) => fs.existsSync(file) && fs.lstatSync(file).isFile();
 }
 
 function isUnder(basePath = "") {
-  return (path) => path.startsWith(basePath);
+  const normalizedBasePath = basePath.replace(/\\/g, "/");
+  return (file) => file.startsWith(normalizedBasePath);
 }
 
 function resolvePath(destination, file, rootPath) {
