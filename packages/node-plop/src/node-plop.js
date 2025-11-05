@@ -24,11 +24,12 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
   const generators = {};
   const partials = {};
   const actionTypes = {};
+  const actionTypeDisplays = {};
   const helpers = Object.assign(
     {
       pkg: (propertyPath) => dlvBrackets(pkgJson, propertyPath, ""),
     },
-    bakedInHelpers,
+    bakedInHelpers
   );
   const baseHelpers = Object.keys(helpers);
 
@@ -42,16 +43,19 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
   const setPartial = (name, str) => {
     partials[name] = str;
   };
+  const setActionTypeDisplay = (name, typeDisplay) => {
+    actionTypeDisplays[name] = typeDisplay;
+  };
   const setActionType = (name, fn) => {
     actionTypes[name] = fn;
   };
 
   function renderString(template, data) {
     Object.keys(helpers).forEach((h) =>
-      handlebars.registerHelper(h, helpers[h]),
+      handlebars.registerHelper(h, helpers[h])
     );
     Object.keys(partials).forEach((p) =>
-      handlebars.registerPartial(p, partials[p]),
+      handlebars.registerPartial(p, partials[p])
     );
     return handlebars.compile(template)(data);
   }
@@ -60,6 +64,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
   const getHelper = (name) => helpers[name];
   const getPartial = (name) => partials[name];
   const getActionType = (name) => actionTypes[name];
+  const getActionTypeDisplay = (name) => actionTypeDisplays[name];
   const getGenerator = (name) => generators[name];
   function setGenerator(name = "", config = {}) {
     // if no name is provided, use a default
@@ -78,6 +83,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
     Object.keys(helpers).filter((h) => !baseHelpers.includes(h));
   const getPartialList = () => Object.keys(partials);
   const getActionTypeList = () => Object.keys(actionTypes);
+  const getActionTypeDisplayList = () => Object.keys(actionTypeDisplays);
   function getGeneratorList() {
     return Object.keys(generators).map(function (name) {
       const { description } = generators[name];
@@ -106,7 +112,7 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
       {
         destBasePath: getDestBasePath(),
       },
-      loadCfg,
+      loadCfg
     );
 
     await Promise.all(
@@ -121,8 +127,9 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
             helpers: false,
             partials: false,
             actionTypes: false,
+            actionTypeDisplays: false,
           },
-          includeCfg,
+          includeCfg
         );
 
         const genNameList = proxy.getGeneratorList().map((g) => g.name);
@@ -130,27 +137,33 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
           genNameList,
           includeCfg === true || include.generators,
           setGenerator,
-          (proxyName) => ({ proxyName, proxy }),
+          (proxyName) => ({ proxyName, proxy })
         );
         loadAsset(
           proxy.getPartialList(),
           includeCfg === true || include.partials,
           setPartial,
-          proxy.getPartial,
+          proxy.getPartial
         );
         loadAsset(
           proxy.getHelperList(),
           includeCfg === true || include.helpers,
           setHelper,
-          proxy.getHelper,
+          proxy.getHelper
         );
         loadAsset(
           proxy.getActionTypeList(),
           includeCfg === true || include.actionTypes,
           setActionType,
-          proxy.getActionType,
+          proxy.getActionType
         );
-      }),
+        loadAsset(
+          proxy.getActionTypeDisplayList(),
+          includeCfg === true || include.actionTypeDisplays,
+          setActionTypeDisplay,
+          proxy.getActionTypeDisplay
+        );
+      })
     );
   }
 
@@ -205,6 +218,9 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
     setActionType,
     getActionType,
     getActionTypeList,
+    setActionTypeDisplay,
+    getActionTypeDisplay,
+    getActionTypeDisplayList,
 
     // path context methods
     setPlopfilePath,
