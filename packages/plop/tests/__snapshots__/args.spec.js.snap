@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`should show help on -h flag 1`] = `
+"
+[1mUsage:[22m
+  $ plop                 [2mSelect from a list of available generators[22m
+  $ plop <name>          [2mRun a generator registered under that name[22m
+  $ plop <name> [input]  [2mRun the generator with input data to bypass prompts[22m
+
+[1mOptions:[22m
+  -h, --help             [2mShow this help display[22m
+  -t, --show-type-names  [2mShow type names instead of abbreviations[22m
+  -i, --init             [2mGenerate a basic plopfile.js[22m
+      --init-ts          [2mGenerate a basic plopfile.ts[22m
+  -v, --version          [2mPrint current version[22m
+  -f, --force            [2mRun the generator forcefully[22m
+
+[2m ------------------------------------------------------[22m
+[2m  ⚠  danger waits for those who venture below the line[22m
+
+[2m  --plopfile             Path to the plopfile[22m
+[2m  --cwd                  Directory from which relative paths are calculated against while locating the plopfile[22m
+[2m  --preload              String or array of modules to require before running plop[22m
+[2m  --dest                 Output to this directory instead of the plopfile's parent directory[22m
+[2m  --no-progress          Disable the progress bar[22m
+
+[1mExamples:[22m
+  $ [34mplop[39m
+  $ [34mplop component[39m
+  $ [34mplop component "name of component"[39m
+"
+`;

@@ -3,12 +3,10 @@
 import { createSpinner } from "nanospinner";
 import path from "node:path";
 import Liftoff from "liftoff";
-import minimist from "minimist";
 import v8flags from "v8flags";
 import interpret from "interpret";
 import picocolors from "picocolors";
-const args = process.argv.slice(2);
-const argv = minimist(args);
+import { argv, args } from "./args.js";
 
 import nodePlop from "node-plop";
 import * as out from "./console-out.js";
