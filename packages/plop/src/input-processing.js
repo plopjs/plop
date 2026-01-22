@@ -1,11 +1,9 @@
 import picocolors from "picocolors";
-import minimist from "minimist";
 import * as out from "./console-out.js";
 import { createRequire } from "node:module";
+import { argv, args, parseArgsAfter } from "./args.js";
 const require = createRequire(import.meta.url);
 const globalPkg = require("../package.json");
-const args = process.argv.slice(2);
-const argv = minimist(args);
 
 /**
  * Parses the user input to identify the generator to run and any bypass data
@@ -20,7 +18,7 @@ function getBypassAndGenerator(plop, passArgsBeforeDashes) {
     : eoaIndex === -1
       ? { plopArgV: [] }
       : {
-          plopArgV: minimist(args.slice(eoaIndex + 1, args.length)),
+          plopArgV: parseArgsAfter(eoaIndex + 1),
           eoaArg: args[eoaIndex + 1],
         };
 

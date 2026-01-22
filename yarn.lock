@@ -4737,7 +4737,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimist@npm:^1.2.5, minimist@npm:^1.2.8":
+"minimist@npm:^1.2.5":
   version: 1.2.8
   resolution: "minimist@npm:1.2.8"
   checksum: 10/908491b6cc15a6c440ba5b22780a0ba89b9810e1aea684e253e43c4e3b8d56ec1dcdd7ea96dde119c29df59c936cde16062159eae4225c691e19c70b432b6e6f
@@ -4973,7 +4973,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-plop@npm:^0.32.2, node-plop@workspace:packages/node-plop":
+"node-plop@npm:^0.32.3, node-plop@workspace:packages/node-plop":
   version: 0.0.0-use.local
   resolution: "node-plop@workspace:packages/node-plop"
   dependencies:
@@ -5548,9 +5548,8 @@ __metadata:
     inquirer-directory: "npm:^2.2.0"
     interpret: "npm:^3.1.1"
     liftoff: "npm:^5.0.1"
-    minimist: "npm:^1.2.8"
     nanospinner: "npm:^1.2.2"
-    node-plop: "npm:^0.32.2"
+    node-plop: "npm:^0.32.3"
     nyc: "npm:^17.1.0"
     picocolors: "npm:^1.1.1"
     plop-pack-fancy-comments: "npm:^0.2.1"
