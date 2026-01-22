@@ -103,6 +103,8 @@ async function nodePlop(plopfilePath = "", plopCfg = {}) {
       targets = [targets];
     }
     const config = Object.assign(
+      {}, // forces shallow copy of plopCfg
+      plopCfg,
       {
         destBasePath: getDestBasePath(),
       },
