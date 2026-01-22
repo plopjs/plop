@@ -150,6 +150,32 @@ By default Plop actions keep your files safe by failing when things look fishy. 
 
 ### Using TypeScript plopfiles
 
+#### Node.js v22.18+**
+
+Modern Node.js supports TypeScript files [out-of-the-box](https://nodejs.org/docs/latest/api/typescript.html). No extra setup or CLI flags are required to use a TypeScript plopfile. 
+
+First, make a TypesScript plopfile using `plop --init-ts` or by hand:
+
+```ts
+// plopfile.ts
+import { NodePlopAPI } from "plop";
+
+export default function (plop: NodePlopAPI) {
+  // plop generator code
+}
+```
+
+Second, add `plop` to `scripts` in `package.json`:
+
+```json
+// package.json
+"scripts": {
+  "plop" : "plop"
+}
+```
+
+#### Older Node.js Versions**
+
 Plop bundles TypeScript declarations and supports TypeScript plopfiles via [tsx loaders](https://github.com/privatenumber/tsx?tab=readme-ov-file#nodejs-loader), a feature of [NodeJS command line imports](https://nodejs.org/api/cli.html#--importmodule).
 
 First, make a TypesScript plopfile using `plop --init-ts` or by hand:

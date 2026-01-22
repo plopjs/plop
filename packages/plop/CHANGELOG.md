@@ -1,5 +1,15 @@
 # plop
 
+## 4.0.5
+
+### Patch Changes
+
+- [#487](https://github.com/plopjs/plop/pull/487) [`25e7e17`](https://github.com/plopjs/plop/commit/25e7e1704728f632ac25ccdfacdd22f637fa1243) Thanks [@bjnewman](https://github.com/bjnewman)! - Replace minimist with native Node.js util.parseArgs
+
+  This removes the minimist dependency in favor of the built-in util.parseArgs API available in Node.js 18.3+. Since plop already requires Node >=18, this is a safe change that reduces the dependency footprint.
+
+  The new args.js module provides a minimist-compatible interface, including handling of positional arguments after `--` for generator bypass data.
+
 ## 4.0.4
 
 ### Patch Changes
