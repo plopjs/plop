@@ -71,6 +71,10 @@ async function run(env, _, passArgsBeforeDashes) {
     plop,
     passArgsBeforeDashes,
   );
+  const actionTypeDisplays = plop.getActionTypeDisplayList();
+  actionTypeDisplays.forEach((type) => {
+    out.addToTypeDisplay(type, plop.getActionTypeDisplay(type));
+  });
 
   // look up a generator and run it with calculated bypass data
   const runGeneratorByName = (name) => {

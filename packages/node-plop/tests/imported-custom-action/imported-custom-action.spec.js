@@ -62,4 +62,24 @@ describe("imported-custom-action", function () {
       true,
     );
   });
+
+  test("imported custom action can define a custom type display string", async function () {
+    const plop = await nodePlop();
+    const testFilePath = path.resolve(testSrcPath, "test.txt");
+    plop.setActionType("custom-del", customAction);
+    plop.setActionTypeDisplay("custom-del", "><");
+
+    // add the file
+    const addTestFile = { type: "add", path: testFilePath };
+    // remove the file
+    const deleteTestFile = { type: "custom-del", path: testFilePath };
+
+    const generator = plop.setGenerator("", {
+      actions: [addTestFile, deleteTestFile],
+    });
+
+    expect(typeof plop.getActionType("custom-del")).toBe("function");
+    expect(typeof plop.getActionTypeDisplay("custom-del")).toBe("string");
+    expect(plop.getActionTypeDisplay("custom-del")).toBe("><");
+  });
 });

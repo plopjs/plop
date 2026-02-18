@@ -10,6 +10,8 @@ export default function (plop, config = {}) {
   plop.setPartial(`${cfg.prefix}partial3`, "partial 3: {{name}}");
 
   plop.setActionType(`${cfg.prefix}actionType1`, () => "test");
+  plop.setActionType(`${cfg.prefix}actionType2`, () => "test");
+  plop.setActionTypeDisplay(`${cfg.prefix}actionType2`, "><");
 
   const generatorObject = {
     actions: [{ type: "add", path: "src/{{name}}.txt" }],

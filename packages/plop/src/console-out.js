@@ -137,6 +137,11 @@ const typeDisplay = {
   append: picocolors.green("_+"),
   skip: picocolors.green("--"),
 };
+
+const addToTypeDisplay = (name, characters) => {
+  typeDisplay[name] = characters;
+};
+
 const typeMap = (name, noMap) => {
   const dimType = picocolors.dim(name);
   return noMap ? dimType : typeDisplay[name] || dimType;
@@ -146,6 +151,7 @@ export {
   chooseOptionFromList,
   displayHelpScreen,
   createInitPlopfile,
+  addToTypeDisplay,
   typeMap,
   getHelpMessage,
 };
