@@ -106,11 +106,11 @@ function dropFileRootFolder(file) {
 function stripExtensions(shouldStrip, fileName) {
   const maybeFile = path.parse(fileName);
 
-  if (
-    Array.isArray(shouldStrip) &&
-    !shouldStrip.map((item) => `.${item}`).includes(maybeFile.ext)
-  )
-    return fileName;
+  if (Array.isArray(shouldStrip)) {
+    return shouldStrip.map((item) => `.${item}`).includes(maybeFile.ext)
+      ? path.join(maybeFile.dir, maybeFile.name)
+      : fileName;
+  }
 
   return path.parse(maybeFile.name).ext !== "" || maybeFile.name.startsWith(".")
     ? path.join(maybeFile.dir, maybeFile.name)
