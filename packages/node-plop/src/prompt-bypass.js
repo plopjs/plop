@@ -56,8 +56,13 @@ const flag = {
 
 // generic list bypass function. used for all types of lists.
 // accepts value, index, or key as matching criteria
-const listTypeBypass = (v, prompt) => {
-  const choice = prompt.choices.find((c, idx) => choiceMatchesValue(c, idx, v));
+const listTypeBypass = (v, prompt, answers) => {
+  let choicesArray = prompt.choices;
+  if (typeof prompt.choices === 'function') {
+    choicesArray = prompt.choices(answers);
+  }
+
+  const choice = choicesArray.find((c, idx) => choiceMatchesValue(c, idx, v));
   if (choice != null) {
     return getChoiceValue(choice);
   }
@@ -167,7 +172,7 @@ export default async function (prompts, bypassArr, plop) {
       // get the real answer data out of the bypass function and attach it
       // to the answer data object
       const bypassIsFunc = typeof bypass === "function";
-      const value = bypassIsFunc ? bypass.call(null, val, p) : val;
+      const value = bypassIsFunc ? bypass.call(null, val, p, answers) : val;
 
       // if inquirer prompt has a filter function - call it
       const answer = p.filter ? p.filter(value, answers) : value;
