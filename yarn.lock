@@ -2526,13 +2526,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dlv@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "dlv@npm:1.1.3"
-  checksum: 10/836459ec6b50e43e9ed388a5fc28954be99e3481af3fa4b5d82a600762eb65ef8faacd454097ed7fc2f8a60aea2800d65a4cece5cd0d81ab82b2031f3f759e6e
-  languageName: node
-  linkType: hard
-
 "dotenv@npm:^8.1.0":
   version: 8.6.0
   resolution: "dotenv@npm:8.6.0"
@@ -4914,7 +4907,6 @@ __metadata:
     "@types/node": "npm:^24.1.0"
     "@types/picomatch": "npm:^4.0.2"
     change-case: "npm:^5.4.4"
-    dlv: "npm:^1.1.3"
     dtslint: "npm:^4.2.1"
     handlebars: "npm:^4.7.8"
     inquirer: "npm:^9.3.8"
