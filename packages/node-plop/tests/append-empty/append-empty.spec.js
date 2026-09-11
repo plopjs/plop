@@ -26,4 +26,14 @@ describe("append-empty", function () {
 
     expect(content).toBe("Marco\nPolo");
   });
+
+  test("preserves $` in existing file contents", async function () {
+    await makeList.runActions({ listName: "dollar" });
+    const filePath = path.resolve(testSrcPath, "dollar.txt");
+    fs.writeFileSync(filePath, "$`$`");
+    await appendToList.runActions({ listName: "dollar", name: "Marco" });
+    const content = fs.readFileSync(filePath).toString();
+
+    expect(content).toBe("$`$`\nMarco");
+  });
 });

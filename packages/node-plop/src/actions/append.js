@@ -24,7 +24,8 @@ const doAppend = async function (data, cfg, plop, fileData) {
       new RegExp(separator + stringToAppend, "g"),
       "",
     );
-    fileData = fileData.replace(lastPart, lastPartWithoutDuplicates);
+    // function replacer: keep "$`" / "$&" / "$'" in file contents literal
+    fileData = fileData.replace(lastPart, () => lastPartWithoutDuplicates);
   }
 
   // add the appended string to the end of the "fileData" if "pattern"
@@ -37,7 +38,10 @@ const doAppend = async function (data, cfg, plop, fileData) {
     return fileData + stringToAppend;
   }
 
-  return fileData.replace(cfg.pattern, "$&" + separator + stringToAppend);
+  return fileData.replace(
+    cfg.pattern,
+    (match) => match + separator + stringToAppend,
+  );
 };
 
 export default async function (data, cfg, plop) {

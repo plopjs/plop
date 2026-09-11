@@ -127,4 +127,23 @@ describe("append", function () {
     // there's a plop at the top
     expect((content.match(/Plop/g) || []).length).toBe(3);
   });
+
+  test("preserves $` in appended template when using a pattern", async function () {
+    await makeList.runActions({ listName: "dollar-template" });
+    const filePath = path.resolve(testSrcPath, "dollar-template.txt");
+    plop.setGenerator("append-dollar-template", {
+      actions: [
+        {
+          type: "append",
+          path: filePath,
+          pattern: "-- APPEND ITEMS HERE --",
+          template: "$`$`",
+        },
+      ],
+    });
+    await plop.getGenerator("append-dollar-template").runActions({});
+    const content = fs.readFileSync(filePath).toString();
+
+    expect(content).toContain("-- APPEND ITEMS HERE --\n$`$`");
+  });
 });
