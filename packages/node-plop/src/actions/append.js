@@ -20,10 +20,9 @@ const doAppend = async function (data, cfg, plop, fileData) {
     // only remove after "pattern", so that we remove not too much accidentally
     const parts = fileData.split(cfg.pattern);
     const lastPart = parts[parts.length - 1];
-    const lastPartWithoutDuplicates = lastPart.replace(
-      new RegExp(separator + stringToAppend, "g"),
-      "",
-    );
+    const lastPartWithoutDuplicates = lastPart
+      .split(separator + stringToAppend)
+      .join("");
     fileData = fileData.replace(lastPart, lastPartWithoutDuplicates);
   }
 
