@@ -72,6 +72,67 @@ describe("append", function () {
     expect((content.match(/Polo2/g) || []).length).toBe(1);
   });
 
+  test.each([
+    {
+      name: "square brackets in the template",
+      template: '"list": [ "element-list" ];',
+      otherEntry: '"other": [];',
+    },
+    {
+      name: "a dot in the template",
+      template: "item.js",
+      otherEntry: "itemXjs",
+    },
+    {
+      name: "parentheses in the template",
+      template: "call()",
+      otherEntry: "call",
+    },
+    {
+      name: "a square bracket separator",
+      template: "entry",
+      otherEntry: "other",
+      separator: "[",
+    },
+  ])(
+    "filters literal duplicates with $name",
+    async ({ template, otherEntry, separator = "\n" }) => {
+      await makeList.runActions({ listName: "literal" });
+      const filePath = path.resolve(testSrcPath, "literal.txt");
+      const prefix = `${separator}${template}\n-- APPEND ITEMS HERE --`;
+      fs.writeFileSync(
+        filePath,
+        prefix +
+          separator +
+          otherEntry +
+          separator +
+          template +
+          separator +
+          template,
+      );
+
+      const generator = plop.setGenerator("append-literal", {
+        actions: [
+          {
+            type: "append",
+            path: "src/literal.txt",
+            pattern: /-- APPEND ITEMS HERE --/,
+            template,
+            separator,
+          },
+        ],
+      });
+
+      for (let run = 0; run < 2; run++) {
+        const result = await generator.runActions({});
+        expect(result.failures).toEqual([]);
+        expect(fs.readFileSync(filePath, "utf8")).toBe(
+          prefix + separator + template + separator + otherEntry,
+        );
+      }
+    },
+  );
+
   test("Check if duplicates are kept, if allowed", async function () {
     await makeList.runActions({ listName: "list3" });
     await appendToList.runActions({
